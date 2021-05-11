@@ -13,8 +13,6 @@ const canvas = document.getElementById("canvas");
 // Detect if developer mode is enabled
 const isDev = (window.location.href.indexOf('#dev') > -1) ? true : false;
 
-const scene = new Scene(canvas);
-
 function resizeCanvas() {
     canvas.style.width = '100%';
     canvas.style.height= '100%';
@@ -23,8 +21,6 @@ function resizeCanvas() {
     canvas.height = canvas.offsetHeight;
     
     scene.onWindowResize();
-
-    console.log(canvas.width)
 }
 
 function bindEventListeners() {
@@ -41,5 +37,8 @@ function render() {
 
 bindEventListeners();
 render();
+
+const scene = new Scene(canvas);
+
 scene.helpers();
 scene.setStarted(true);

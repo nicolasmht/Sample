@@ -23,8 +23,6 @@ function resizeCanvas() {
     canvas.height = canvas.offsetHeight;
     
     scene.onWindowResize();
-
-    console.log(canvas.width)
 }
 
 function bindEventListeners() {
@@ -42,4 +40,3 @@ function render() {
 bindEventListeners();
 render();
 scene.helpers();
-scene.setStarted(true);

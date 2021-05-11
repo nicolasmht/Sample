@@ -15,6 +15,8 @@ const isDev = (window.location.href.indexOf('#dev') > -1) ? true : false;
 
 const scene = new Scene(canvas);
 
+scene.setStarted(true);
+
 function resizeCanvas() {
     canvas.style.width = '100%';
     canvas.style.height= '100%';
@@ -23,13 +25,11 @@ function resizeCanvas() {
     canvas.height = canvas.offsetHeight;
     
     scene.onWindowResize();
-
-    console.log(canvas.width)
 }
 
 function bindEventListeners() {
     window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    // resizeCanvas();
     
     window.addEventListener('mousemove', scene.onMouseMove);
 }
@@ -42,4 +42,3 @@ function render() {
 bindEventListeners();
 render();
 scene.helpers();
-scene.setStarted(true);

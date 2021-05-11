@@ -25,7 +25,7 @@ function Scene(canvas, started = false) {
     }
     
     const scene = buildScene();
-    let renderer = buildRender(screenDimensions);
+    const renderer = buildRender(screenDimensions);
     const camera = buildCamera(screenDimensions);
     const components = createComponents(scene);
 
@@ -109,8 +109,6 @@ function Scene(canvas, started = false) {
 
         screenDimensions.width = width;
         screenDimensions.height = height;
-
-        renderer = buildRender(screenDimensions);
     }
 
     this.onMouseMove = function(event) {

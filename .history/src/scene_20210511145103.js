@@ -25,7 +25,7 @@ function Scene(canvas, started = false) {
     }
     
     const scene = buildScene();
-    let renderer = buildRender(screenDimensions);
+    const renderer = buildRender(screenDimensions);
     const camera = buildCamera(screenDimensions);
     const components = createComponents(scene);
 
@@ -45,7 +45,6 @@ function Scene(canvas, started = false) {
     }
 
     function buildRender({ width, height }) {
-        console.log(width)
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         renderer.setPixelRatio(DPR);
@@ -61,7 +60,7 @@ function Scene(canvas, started = false) {
         const nearPlane = 1;
         const farPlane = 100; 
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-        camera.position.set(0,0,25);
+        camera.position.set(0,10,25);
         camera.lookAt(new THREE.Vector2(0, 0));
         
         return camera;
@@ -110,7 +109,7 @@ function Scene(canvas, started = false) {
         screenDimensions.width = width;
         screenDimensions.height = height;
 
-        renderer = buildRender(screenDimensions);
+
     }
 
     this.onMouseMove = function(event) {

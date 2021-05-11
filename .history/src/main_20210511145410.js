@@ -15,16 +15,18 @@ const isDev = (window.location.href.indexOf('#dev') > -1) ? true : false;
 
 const scene = new Scene(canvas);
 
+scene.setStarted(true);
+
 function resizeCanvas() {
-    canvas.style.width = '100%';
-    canvas.style.height= '100%';
+    canvas.style.width = '100vw';
+    canvas.style.height= '100vh';
+
+    console.log(canvas.offsetWidth)
     
     canvas.width  = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     
     scene.onWindowResize();
-
-    console.log(canvas.width)
 }
 
 function bindEventListeners() {
@@ -42,4 +44,3 @@ function render() {
 bindEventListeners();
 render();
 scene.helpers();
-scene.setStarted(true);
