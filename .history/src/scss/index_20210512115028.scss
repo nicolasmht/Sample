@@ -1,0 +1,17 @@
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    background-color: transparent;
+}
+
+#canvas {
+    width: 100vw;
+    height: 100vh;
+}
+.hola {
+    position: absolute;
+    height: 200vh;
+    background: red;
+}

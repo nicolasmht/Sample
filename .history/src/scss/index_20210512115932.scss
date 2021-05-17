@@ -1,0 +1,21 @@
+html, body {
+    width: 100vw;
+    height: 100vh;
+    // overflow: hidden;
+    margin: 0;
+    background-color: transparent;
+}
+
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
+}
+.hola {
+    position: absolute;
+    width: 100%;
+    background: red;
+}
