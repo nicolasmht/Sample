@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import Anime from 'animejs';
-import * as dat from 'dat.gui';
 
 // Packages
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { InteractionManager } from "three.interactive";
+import * as dat from 'dat.gui';
+import VirtualScroll from 'virtual-scroll';
 
 // Utils
 import getNDCCoordinates from './utils/mouse';
@@ -12,6 +14,7 @@ import getNDCCoordinates from './utils/mouse';
 import scrollTimeline from './components/scrollTimeline.js';
 import tearCanvas from './components/tearCanvas.js';
 import daftPunk from './components/daftPunk.js';
+import LaboComponent from './components/Labo';
 
 function Scene(canvas, started = false) {
 
@@ -29,6 +32,20 @@ function Scene(canvas, started = false) {
     const scene = buildScene();
     let renderer = buildRender(screenDimensions);
     const camera = buildCamera(screenDimensions);
+
+    const interactionManager = new InteractionManager(
+        renderer,
+        camera,
+        renderer.domElement
+    );
+
+    let Y = 0;
+    let lastEventY = 0;
+    const scroller = new VirtualScroll({
+        mouseMultiplier: 1
+    });
+
+    // Init all components
     const components = createComponents(scene);
 
     // const controls = new OrbitControls(camera, renderer.domElement);
@@ -60,7 +77,7 @@ function Scene(canvas, started = false) {
         
         const aspectRatio = width / height;
         const fieldOfView = 60;
-        const nearPlane = 1;
+        const nearPlane = 0.01;
         const farPlane = 100; 
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
         camera.position.set(0,0,-50);
@@ -75,7 +92,8 @@ function Scene(canvas, started = false) {
             // Inserts all components here
             // new scrollTimeline(scene, camera),
             // new tearCanvas(scene, camera)
-            new daftPunk(scene, camera)
+            new daftPunk(scene, camera),
+            // new LaboComponent(scene, camera, interactionManager),
         ];
 
         return components;
@@ -105,7 +123,7 @@ function Scene(canvas, started = false) {
 
         components.forEach(components => components.helpers(gui));
 
-        const gridHelper = new THREE.GridHelper( 10, 10 );
+        const gridHelper = new THREE.GridHelper(10, 25);
         scene.add( gridHelper );
     }
 
@@ -126,16 +144,28 @@ function Scene(canvas, started = false) {
      * Interactions
     */
     window.addEventListener('keyup', (e) => {
-
+        components.forEach(component => component.keyup(e));
     });
-
-    function changeFloor(event) {
-		
-	}
     
     window.addEventListener('keyup', (e) => {
         
-    })
+    });
+
+    scroller.on(event => {
+        if (event.y < lastEventY) {
+            Y++;
+        } else {
+            Y = Y > 0 ? Y - 1 : 0;
+        }
+
+        lastEventY = event.y;
+
+        components.forEach(component => component.wheel(Y * 0.025));
+
+        // Mutliply Y value
+        // tlCamera.progress(Y * 0.025);
+
+    });
 }
 
 export default Scene;
