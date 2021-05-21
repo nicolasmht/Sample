@@ -10,6 +10,8 @@ import getNDCCoordinates from './utils/mouse';
 
 // Components
 import scrollTimeline from './components/scrollTimeline.js';
+import tearCanvas from './components/tearCanvas.js';
+import daftPunk from './components/daftPunk.js';
 
 function Scene(canvas, started = false) {
 
@@ -71,7 +73,9 @@ function Scene(canvas, started = false) {
     function createComponents(scene) {
         const components = [
             // Inserts all components here
-            new scrollTimeline(scene)
+            // new scrollTimeline(scene, camera),
+            // new tearCanvas(scene, camera)
+            new daftPunk(scene, camera)
         ];
 
         return components;

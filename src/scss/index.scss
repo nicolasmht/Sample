@@ -13,6 +13,9 @@ html, body {
     width: 100vw;
     height: 100vh;
     z-index: 9;
+    // height: 10px !important;
+    // width: 10px !important;
+    // overflow: hidden;
 }
 .container {
     position: absolute;
@@ -20,6 +23,8 @@ html, body {
     height: 500vh;
     background: rgb(236,0,245);
     background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+    // background-image: url('../images/Back.png');
+    background-size: cover;
 }
 
 .box {
@@ -40,3 +45,19 @@ html, body {
     height:30px;
     background-color:red;
   }
+
+
+//Video with transparent back START
+#c2 {
+    background-image: url('../images/Back.png');
+    background-repeat: no-repeat;
+}
+
+#canvas {
+    height: 300px;
+    width: 400px;
+}
+#video {
+    height: 200px;
+    width: 200px;
+}
