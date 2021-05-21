@@ -52,22 +52,16 @@ function DaftPunk(scene, camera) {
                 dragProgress -= e.movementX/100;
                 pyramidB.rotation.y = dragProgress;
                 slide = pyramidB.rotation.y - base;
-                console.log(slide);
+                // console.log(slide);
             }
         });
         document.addEventListener('mouseup', () => {
             let multiplicateur = Math.floor(slide)
             console.log(multiplicateur);
             let timelineTape = new TimelineMax({})
-            .to(pyramidB.rotation, 1, {y: base + ((Math.PI/2)*multiplicateur)}, 0)
-            if(slide > base + (Math.PI/2)) { //slide est une incrementation
-                console.log('hey')
-       
-                
-                console.log(pyramidB.rotation.y)
-            } else {
-                // console.log('clear')
-            }
+            .to(pyramidB.rotation, 1, {y: base + ((Math.PI/2) * multiplicateur )}, 0)
+            dragProgress = pyramidB.rotation.y
+
             mouseDown = false
         });
     }
