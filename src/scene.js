@@ -106,10 +106,10 @@ function Scene(canvas, started = false) {
     function createComponents(scene) {
         const components = [
             // Inserts all components here
-            // new scrollTimeline(scene, camera),
+            new scrollTimeline(scene, camera),
             // new tearCanvas(scene, camera)
             // new daftPunk(scene, camera),
-            new LaboComponent(scene, camera, interactionManager),
+            // new LaboComponent(scene, camera, interactionManager),
         ];
 
         return components;
@@ -177,10 +177,6 @@ function Scene(canvas, started = false) {
         lastEventY = event.y;
 
         components.forEach(component => component.wheel(Y * 0.025));
-
-        // Mutliply Y value
-        // tlCamera.progress(Y * 0.025);
-
     });
 }
 

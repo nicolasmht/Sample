@@ -113,7 +113,7 @@ function ScrollTimeline(scene, camera) {
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
         window.addEventListener("mousewheel", (e) => {
-            
+            console.log('here')
             let documentHeight = document.querySelector('.container').offsetHeight;
             let windowHeight = window.innerHeight;
 
@@ -125,14 +125,17 @@ function ScrollTimeline(scene, camera) {
             let progress = timelineTape.progress();
             progress += (proxyTween.progress() - progress) * 0.05;
             timelineTape.progress(progress);
-    
-          });
+        });
     }
 
     this.update = function(time) {
     }
 
     this.helpers = (gui) => {
+    }
+
+    this.wheel = (e) => {
+
     }
 }
 
