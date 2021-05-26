@@ -55,9 +55,12 @@ function Scene(canvas, started = false) {
 
     function buildScene() {
         const scene = new THREE.Scene();
-        
-        const light = new THREE.AmbientLight( 0xeeeeee );
-        scene.add( light );
+
+        const skyColor = 0xB1E1FF;  // light blue
+        const groundColor = 0xff0000;  // brownish orange
+        const intensity = 1;
+        const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        scene.add(light);
         
         return scene;
     }
@@ -65,7 +68,7 @@ function Scene(canvas, started = false) {
     function buildRender({ width, height }) {
         console.log(width)
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
-        renderer.setClearColor( 0xffffff, 0 )
+        renderer.setClearColor(0x808080);
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         renderer.setPixelRatio(DPR);
         renderer.setSize(width, height);
@@ -92,8 +95,8 @@ function Scene(canvas, started = false) {
             // Inserts all components here
             // new scrollTimeline(scene, camera),
             // new tearCanvas(scene, camera)
-            new daftPunk(scene, camera),
-            // new LaboComponent(scene, camera, interactionManager),
+            // new daftPunk(scene, camera),
+            new LaboComponent(scene, camera, interactionManager),
         ];
 
         return components;

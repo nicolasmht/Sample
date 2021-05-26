@@ -1,16 +1,44 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Anime from 'animejs/lib/anime.es.js';
 
 // Packages
 import { TimelineMax, Power4, TweenLite, EaseInOut } from 'gsap';
 
-// Textures
-// import FacadeTexture from '../textures/facade.png';
-
-// Audios
-// import CityAudio from '../audios/city.mp3';
+// Gltf
+import LaboGltf from '../objects/labo.gltf';
 
 function LaboComponent(scene, camera, interactionManager) {
+
+    const loader = new GLTFLoader();
+    let labo = new THREE.Object3D();
+
+    loader.load( LaboGltf, ( gltf ) => {
+            labo = gltf.scene;
+            labo.name = "labo"
+
+            labo.traverse( (child) => {
+                // console.log(child)
+                // child.material = new THREE.MeshToonMaterial({color:0xff0, side:THREE.DoubleSide, gradientMap: "threeTone"});
+                if(child.material) child.material.metalness = 0;
+            });
+
+            labo.position.set(0, 0, -0.5);
+            labo.rotateY(Math.PI);
+            labo.scale.set(0.02, 0.02, 0.02);
+
+            scene.add(labo)
+            // labo.position.y = -15
+
+            console.log(labo);
+        },
+        ( xhr ) => {
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        ( error ) => {
+            console.log('An error happened', error);
+        }
+    );
 
     // Set camera
     camera.position.x = 3;
@@ -23,7 +51,7 @@ function LaboComponent(scene, camera, interactionManager) {
     const material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
     const cube = new THREE.Mesh( geometry, material );
     cube.position.set(0, 2, 0);
-    scene.add(cube);
+    // scene.add(cube);
 
     // Add tapes test
     const geometryTest = new THREE.BoxGeometry(0.25, 0.25, 0.1);
@@ -43,17 +71,25 @@ function LaboComponent(scene, camera, interactionManager) {
 
     objs.forEach(o => {
         o.addEventListener("click", (event) => {
+
+            event.stopPropagation();
+
             TweenLite.to(camera.position, 1, {
                 x: event.target.position.x,
                 y: event.target.position.y,
                 z: -2.25,
                 ease: EaseInOut,
                 onUpdate: () => {
-                    // camera.lookAt(camera.target);
+                    
                 },
                 onStart: () => {
+                    // camera.lookAt(event.target.position);
                     
-                }
+                },
+                onComplete: () => {
+                    // camera.lookAt(event.target.position);
+                },
+                
             });
         });
 
