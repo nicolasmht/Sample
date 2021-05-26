@@ -62,6 +62,10 @@ function TearCanvas(scene, camera) {
 
     this.helpers = (gui) => {
     }
+
+    this.wheel = function(Y) {
+        
+    }
 }
 
 export default TearCanvas;

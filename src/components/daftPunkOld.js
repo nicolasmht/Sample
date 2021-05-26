@@ -72,6 +72,10 @@ function DaftPunkOld(scene, camera) {
 
     this.helpers = (gui) => {
     }
+
+    this.wheel = function(Y) {
+        
+    }
 }
 
 export default DaftPunkOld;

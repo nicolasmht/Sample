@@ -18,8 +18,8 @@ function DaftPunk(scene, camera) {
 
             pyramid.traverse( (child) => {
                 // console.log(child)
-                child.material = new THREE.MeshToonMaterial({color:0xff0, side:THREE.DoubleSide, gradientMap: "threeTone"});
-             } )
+                // child.material = new THREE.MeshToonMaterial({color:0xff0, side:THREE.DoubleSide, gradientMap: "fiveTone"});
+            });
 
             scene.add(pyramid)
             pyramid.position.y = -15
@@ -130,6 +130,10 @@ function DaftPunk(scene, camera) {
     }
 
     this.helpers = (gui) => {
+    }
+
+    this.wheel = function(Y) {
+        
     }
 }
 

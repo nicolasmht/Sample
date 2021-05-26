@@ -40,7 +40,7 @@ function ScrollTimeline(scene, camera) {
             console.log(tape);
 
             reScale(tape)
-            initTimeline()
+            initTimeline();
         },
         ( xhr ) => {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -61,7 +61,6 @@ function ScrollTimeline(scene, camera) {
     }
 
     function initTimeline() {
-
         let tapeGroup = tape.getObjectByName('Tape_obj')
         let storage = tape.getObjectByName('Storage')
         let caseObj = tape.getObjectByName('Case')
@@ -109,11 +108,13 @@ function ScrollTimeline(scene, camera) {
         .to(tapeObj.rotation, 1, {x:0,y:0,z:0}, 3) //rotation cassette droite
         .to(tapeGroup.position, 1, {x:-10,y:0.75,z:0}, 4) //rotation cassette sur elle meme
 
+        console.log('here')
+
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
-        window.addEventListener("mousewheel", (e) => {
-            console.log('here')
+        document.addEventListener("mousewheel", (e) => {
+            
             let documentHeight = document.querySelector('.container').offsetHeight;
             let windowHeight = window.innerHeight;
 
@@ -134,8 +135,8 @@ function ScrollTimeline(scene, camera) {
     this.helpers = (gui) => {
     }
 
-    this.wheel = (e) => {
-
+    this.wheel = function(Y) {
+        
     }
 }
 

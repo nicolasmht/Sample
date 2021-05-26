@@ -56,6 +56,10 @@ function TearImg(scene, camera) {
 
     this.helpers = (gui) => {
     }
+
+    this.wheel = function(Y) {
+        
+    }
 }
 
 export default TearImg;

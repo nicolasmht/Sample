@@ -106,9 +106,9 @@ function Scene(canvas, started = false) {
     function createComponents(scene) {
         const components = [
             // Inserts all components here
-            new scrollTimeline(scene, camera),
-            // new tearCanvas(scene, camera)
-            // new daftPunk(scene, camera),
+            // new scrollTimeline(scene, camera),
+            // new tearCanvas(scene, camera),
+            new daftPunk(scene, camera),
             // new LaboComponent(scene, camera, interactionManager),
         ];
 

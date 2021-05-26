@@ -31,6 +31,10 @@ function FacadeComponent(scene) {
         
     }
 
+    this.wheel = function(Y) {
+        
+    }
+
 }
 
 export default FacadeComponent;
