@@ -58,15 +58,22 @@ function Scene(canvas, started = false) {
 
         const skyColor = 0xB1E1FF;  // light blue
         const groundColor = 0xff0000;  // brownish orange
-        const intensity = 1;
+        const intensity = 0.05;
         const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
-        scene.add(light);
+        // scene.add(light);
 
-        let pointLight = new THREE.PointLight( 0x0ae0ff, 0, 2 );
-        pointLight.position.set( 0, 0, 0 );
-        let pointLightHelper = new THREE.PointLightHelper( pointLight, 2 );
-        scene.add( pointLight );
-        scene.add( pointLightHelper );
+        const target = new THREE.Object3D();
+        target.position.set(0, 2.5, 0);
+
+        const directionalLightLeft = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLightLeft.position.set(5, 5, -5);
+        directionalLightLeft.target = target;
+
+        const directionalLightRight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLightRight.position.set(-5, 5, -5);
+        directionalLightRight.target = target;
+
+        scene.add(directionalLightLeft.target, directionalLightRight);
         
         return scene;
     }
@@ -100,9 +107,9 @@ function Scene(canvas, started = false) {
         const components = [
             // Inserts all components here
             // new scrollTimeline(scene, camera),
-            // new tearCanvas(scene, camera)
-            // new daftPunk(scene, camera),
-            new LaboComponent(scene, camera, interactionManager),
+            // new tearCanvas(scene, camera),
+            new daftPunk(scene, camera),
+            // new LaboComponent(scene, camera, interactionManager),
         ];
 
         return components;
