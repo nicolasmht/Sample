@@ -61,6 +61,12 @@ function Scene(canvas, started = false) {
         const intensity = 1;
         const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
         scene.add(light);
+
+        let pointLight = new THREE.PointLight( 0x0ae0ff, 0, 2 );
+        pointLight.position.set( 0, 0, 0 );
+        let pointLightHelper = new THREE.PointLightHelper( pointLight, 2 );
+        scene.add( pointLight );
+        scene.add( pointLightHelper );
         
         return scene;
     }
