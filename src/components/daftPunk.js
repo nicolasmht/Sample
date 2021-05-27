@@ -13,6 +13,8 @@ import sound2 from '../audios/RFL.mp3';
 
 function DaftPunk(scene, camera, interactionManager) {
 
+        camera.position.set(0, 0, 50);
+
         let soundA = new Howl({src: [sound1]});
         let soundB = new Howl({src: [sound2]});
     
@@ -37,8 +39,6 @@ function DaftPunk(scene, camera, interactionManager) {
 
             console.log(pyramid);
             initInteraction();
-
-
         },
         ( xhr ) => {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -251,6 +251,10 @@ function DaftPunk(scene, camera, interactionManager) {
 
     this.wheel = function(Y) {
         
+    }
+
+    this.keyup = function(e) {
+       
     }
 }
 

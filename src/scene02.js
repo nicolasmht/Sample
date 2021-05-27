@@ -16,7 +16,7 @@ import tearCanvas from './components/tearCanvas.js';
 import daftPunk from './components/daftPunk.js';
 import LaboComponent from './components/Labo';
 
-function Scene(canvas, started = false, scene02) {
+function Scene(canvas, started = false) {
 
     const clock = new THREE.Clock();
     
@@ -52,8 +52,6 @@ function Scene(canvas, started = false, scene02) {
     // controls.enableDamping = true;
     // controls.dampingFactor = 0.25;
     // controls.enableZoom = false;
-
-    console.log(scene02)
 
     function buildScene() {
         const scene = new THREE.Scene();
@@ -106,9 +104,9 @@ function Scene(canvas, started = false, scene02) {
         const components = [
             // Inserts all components here
             // new tearCanvas(scene, camera),
-            // new daftPunk(scene, camera, interactionManager),
+            new daftPunk(scene, camera, interactionManager),
             // new scrollTimeline(scene, camera),
-            new LaboComponent(scene, camera, interactionManager),
+            // new LaboComponent(scene, camera, interactionManager),
         ];
 
         return components;
@@ -177,6 +175,7 @@ function Scene(canvas, started = false, scene02) {
         components.forEach(component => component.wheel(Y * 0.025));
     });
 
+    this.getScene = () => scene;
 }
 
 export default Scene;

@@ -17,6 +17,8 @@ function ScrollTimeline(scene, camera) {
         const loader = new GLTFLoader();
         let tape = new THREE.Object3D();
 
+        
+
         loader.load( TapeModel, ( gltf ) => {
             tape = gltf.scene;
             tape.name = "Storage_group"
@@ -33,31 +35,34 @@ function ScrollTimeline(scene, camera) {
                         child.position.x = -10
                     break;
                 }
-             } )
-            scene.add(tape)
-            tape.position.y = -8.75
+            });
 
-            console.log(tape);
+            tape.scale.set(0.01, 0.01, 0.01);
+            tape.position.set(-2.5, 2.38, -1.45);
+            tape.rotateY(Math.PI);
 
-            reScale(tape)
+            scene.add(tape);
+
+            // reScale(tape);
+
             initTimeline();
         },
         ( xhr ) => {
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
         },
         ( error ) => {
-            console.log( 'An error happened' );
+            console.log('An error happened');
         }
     )
 
     function reScale(tape) {
-        let currentBox3 = new THREE.Box3().setFromObject(tape)
-
-        const width = Math.abs(currentBox3.min.x - currentBox3.max.x)
-        const height = Math.abs(currentBox3.min.y - currentBox3.max.y)
+        let currentBox3 = new THREE.Box3().setFromObject(tape);
+        const width = Math.abs(currentBox3.min.x - currentBox3.max.x);
+        const height = Math.abs(currentBox3.min.y - currentBox3.max.y);
         const size = getPerspectiveSize(camera, camera.position.z); //Camera coord
+
         let reScale = (size.width / (Math.abs(currentBox3.max.x) + Math.abs(currentBox3.min.x))) * .78;
-        tape.scale.set(reScale, reScale, reScale)
+        // tape.scale.set(reScale, reScale, reScale);
     }
 
     function initTimeline() {
@@ -108,8 +113,6 @@ function ScrollTimeline(scene, camera) {
         .to(tapeObj.rotation, 1, {x:0,y:0,z:0}, 3) //rotation cassette droite
         .to(tapeGroup.position, 1, {x:-10,y:0.75,z:0}, 4) //rotation cassette sur elle meme
 
-        console.log('here')
-
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
@@ -136,8 +139,9 @@ function ScrollTimeline(scene, camera) {
     }
 
     this.wheel = function(Y) {
-        
     }
+
+    this.keyup = function(e) {}
 }
 
 export default ScrollTimeline;

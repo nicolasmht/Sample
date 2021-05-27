@@ -1,22 +1,23 @@
 html, body {
     width: 100vw;
     height: 100vh;
-    max-width: 100%;
     margin: 0;
+    overflow: hidden;
     background-color: transparent;
 }
 
-#canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+#canvas,
+#canvas-02 {   
+    position: absolute;
+    top: 0; left: 0;
     z-index: 9;
-    // height: 10px !important;
-    // width: 10px !important;
-    // overflow: hidden;
+    transition: opacity 3s;
 }
+
+#canvas-02 {
+    z-index: 8;
+}
+
 .container {
     position: absolute;
     width: 100%;

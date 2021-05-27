@@ -19,22 +19,17 @@ function LaboComponent(scene, camera, interactionManager) {
             labo.name = "labo"
 
             labo.traverse( (child) => {
-                // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({color:0xff0, side:THREE.DoubleSide, gradientMap: "threeTone"});
                 if(child.material) child.material.metalness = 0;
             });
 
-            labo.position.set(0, 0, -0.5);
-            // labo.rotateY(Math.PI);
-            labo.scale.set(0.02, 0.02, 0.02);
+            labo.position.set(0, 0, 0);
+            labo.scale.set(0.025, 0.025, 0.025);
+            labo.rotateY(Math.PI);
 
-            scene.add(labo)
-            // labo.position.y = -15
-
-            console.log(labo);
+            scene.add(labo);
         },
         ( xhr ) => {
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
         },
         ( error ) => {
             console.log('An error happened', error);
@@ -42,10 +37,11 @@ function LaboComponent(scene, camera, interactionManager) {
     );
 
     // Set camera
-    camera.position.x = 3;
-    camera.position.y = 3.5;
-    camera.position.z = -0.8;
-    // camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.position.x = -2.5;
+    camera.position.y = 2.45;
+    camera.position.z = -1.25;
+
+    // camera.position.z = -5;
 
     // Add labo
     const geometry = new THREE.BoxGeometry(10, 4, 0.1);
@@ -54,21 +50,15 @@ function LaboComponent(scene, camera, interactionManager) {
     cube.position.set(0, 2, 0);
     // scene.add(cube);
 
-    // Add tapes test
-    const geometryTest = new THREE.BoxGeometry(0.25, 0.25, 0.1);
-    const materialTest = new THREE.MeshBasicMaterial( {color: 0xff0000} );
-    const tapeTest = new THREE.Mesh( geometryTest, materialTest );
-    tapeTest.position.set(camera.position.x - 0.25/2 , camera.position.y, 0);
-    scene.add(tapeTest);
-
     // Objects
-    const geos = [...Array(4).keys()].map(() => new THREE.BoxGeometry(1, 1, 0.1));
-    const mats = [...Array(4).keys()].map(() => new THREE.MeshBasicMaterial( {color: 0x0000ff} ));
+    const geos = [...Array(4).keys()].map(() => new THREE.SphereGeometry(0.05, 0.05, 0.05));
+    const mats = [...Array(4).keys()].map(() => new THREE.MeshBasicMaterial({color: 0x0000ff}));
     const objs = [...Array(4).keys()].map((i) => new THREE.Mesh( geos[i], mats[i] ));
     
-    objs[0].position.set(2, 2, -0.5);
-    objs[1].position.set(-2, 2, -0.5);
-    objs[2].position.set(1, 2, -0.5);
+    // Keys position
+    objs[0].position.set(-0.25, 3.45, -1.8);
+    objs[1].position.set(-0.70, 2.8, -1.8);
+    objs[2].position.set(1.25, 2.8, -1.8);
 
     objs.forEach(o => {
         o.addEventListener("click", (event) => {
@@ -78,7 +68,7 @@ function LaboComponent(scene, camera, interactionManager) {
             TweenLite.to(camera.position, 1, {
                 x: event.target.position.x,
                 y: event.target.position.y,
-                z: -2.25,
+                z: event.target.position.z + 1,
                 ease: EaseInOut,
                 onUpdate: () => {
                     
@@ -89,6 +79,8 @@ function LaboComponent(scene, camera, interactionManager) {
                 },
                 onComplete: () => {
                     // camera.lookAt(event.target.position);
+                    // document.querySelector('#canvas').style.top = '150px';
+                    document.querySelector('#canvas').style.opacity = 0;
                 },
                 
             });
@@ -97,15 +89,19 @@ function LaboComponent(scene, camera, interactionManager) {
         interactionManager.add(o);
     });
 
+    // Add all key in scene
     [...Array(4).keys()].map((i) => scene.add(objs[i]));
 
     // Move camera
     let tlCamera = new TimelineMax({ paused: true })
-        .to(camera.position, { x: 0, y: 2, z: -6 });
+        .to(camera.position, { x: 0, y: 3, z: 4 });
 
     this.wheel = function(Y) {
+        console.log(Y)
+        if (Y < 2) return;
+
         // Mutliply Y value
-        tlCamera.progress(Y);
+        tlCamera.progress(Y - 2);
     }
 
     this.update = function(time) {
@@ -116,8 +112,8 @@ function LaboComponent(scene, camera, interactionManager) {
         if (e.key === 'Enter') {
             TweenLite.to(camera.position, 1, {
                 x: 0,
-                y: 2,
-                z: -6,
+                y: 3,
+                z: 4,
                 ease: EaseInOut
             });
         }
