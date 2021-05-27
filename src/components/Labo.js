@@ -6,7 +6,8 @@ import Anime from 'animejs/lib/anime.es.js';
 import { TimelineMax, Power4, TweenLite, EaseInOut } from 'gsap';
 
 // Gltf
-import LaboGltf from '../objects/labo.gltf';
+// import LaboGltf from '../objects/labo.gltf';
+import LaboGltf from '../objects/Cabinet_Objets_04.gltf';
 
 function LaboComponent(scene, camera, interactionManager) {
 
@@ -24,7 +25,7 @@ function LaboComponent(scene, camera, interactionManager) {
             });
 
             labo.position.set(0, 0, -0.5);
-            labo.rotateY(Math.PI);
+            // labo.rotateY(Math.PI);
             labo.scale.set(0.02, 0.02, 0.02);
 
             scene.add(labo)

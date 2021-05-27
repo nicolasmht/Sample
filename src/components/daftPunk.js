@@ -1,13 +1,24 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
+import {Howl, Howler} from 'howler';
 
 // Object
 // import daftPunkModel from '../objects/daftPunk.glb';
 import daftPunkModel from '../objects/focus_daft-punk_02.gltf';
-import threeTone from '../images/toon.png';
+import threeT from '../textures/threeTone.png';
+import fiveT from '../textures/fiveToneR.jpg';
+import sound1 from '../audios/tundra-beats.mp3';
+import sound2 from '../audios/RFL.mp3';
 
-function DaftPunk(scene, camera) {
+function DaftPunk(scene, camera, interactionManager) {
+
+        let soundA = new Howl({src: [sound1]});
+        let soundB = new Howl({src: [sound2]});
+    
+        const threeTone = new THREE.TextureLoader().load(fiveT)
+        threeTone.minFilter = THREE.NearestFilter;
+        threeTone.magFilter = THREE.NearestFilter;
 
         const loader = new GLTFLoader();
         let pyramid = new THREE.Object3D();
@@ -18,14 +29,15 @@ function DaftPunk(scene, camera) {
 
             pyramid.traverse( (child) => {
                 // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({color:0xff0, side:THREE.DoubleSide, gradientMap: "fiveTone"});
+                // child.material = new THREE.MeshToonMaterial({color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone});
             });
 
             scene.add(pyramid)
             pyramid.position.y = -15
 
             console.log(pyramid);
-            initInteraction()
+            initInteraction();
+
 
         },
         ( xhr ) => {
@@ -41,10 +53,10 @@ function DaftPunk(scene, camera) {
         let pyramidB = pyramid.getObjectByName('bas')
         let pyramidT = pyramid.getObjectByName('haut')
         let pyramidModel = pyramid.getObjectByName('Pyramid')
-        let pyramidB1 = pyramid.getObjectByName('Pyramid_bas')
-        let pyramidB2 = pyramid.getObjectByName('Pyramid_bas1')
-        let pyramidB3 = pyramid.getObjectByName('Pyramid_bas_1')
-        let pyramidB4 = pyramid.getObjectByName('Pyramid_bas2')
+        let pyramidB1 = pyramid.getObjectByName('Pyramid_bas')//green
+        let pyramidB2 = pyramid.getObjectByName('Pyramid_bas1')//pink
+        let pyramidB3 = pyramid.getObjectByName('Pyramid_bas_1')//yel
+        let pyramidB4 = pyramid.getObjectByName('Pyramid_bas2')//blue
         let pyramidBT = pyramid.getObjectByName('Pyramid_Top')
         let baseRotationBot = pyramidB.rotation.y;
         let baseRotationTop = pyramidT.rotation.y;
@@ -57,10 +69,114 @@ function DaftPunk(scene, camera) {
         let mouseDown = false
         let dragProgress = baseRotationBot;
 
-        //RAYCAST HERE
-        //if(raycastResult == pyramidB) targetPyramid = pyramidB
-        //if(raycastResult == pyramidT) targetPyramid = pyramidT
+        // //OUTLINE GLOBAL
+        // let pyramidModelOutline = pyramidModel.clone()
+        // pyramidModelOutline.traverse( (child) => {
+        //     child.material = new THREE.MeshBasicMaterial({color:0x000000, side:THREE.DoubleSide, wireframe: true});
+        // });
+        // // pyramidModelOutline.position.y = 1 
+        // // pyramidModelOutline.position.x = 0 
+        // // pyramidModelOutline.position.z = 2 
+        // pyramidModelOutline.position.y = 1
+        // pyramidModelOutline.position.x = 0 
+        // pyramidModelOutline.position.z = 0 
+        // pyramidModelOutline.scale.multiplyScalar(1.01);
+        // scene.add(pyramidModelOutline)
+
+        // //TEST WIREFRAME
+        // const wireframe = new THREE.WireframeGeometry( pyramid );
+
+        // const line = new THREE.LineSegments( wireframe );
+        // line.material.depthTest = false;
+        // line.material.opacity = 1;
+        // line.material.transparent = true;
+        
+        // scene.add( line );
+
+        // //OUTLINE SEPARATE
+        // let pyramidModelOutline = pyramidModel.clone()
+        // pyramidModelOutline.traverse( (child) => {
+        //     child.material = new THREE.MeshBasicMaterial({color:0x000000, side:THREE.DoubleSide});
+        // });
+        // // pyramidModelOutline.position.y = 1 
+        // // pyramidModelOutline.position.x = 0 
+        // // pyramidModelOutline.position.z = 2 
+        // // pyramidModelOutline.scale.multiplyScalar(1.1);
+        // // scene.add(pyramidModelOutline)
+
+        // let pyramidBOutline = pyramidModelOutline.getObjectByName('bas')
+        // let pyramidTOutline = pyramidModelOutline.getObjectByName('haut')
+
+        // let pyramidsB = new THREE.Group()
+        // pyramidsB.add(pyramidBOutline)
+        // pyramidsB.add(pyramidB)
+
+        // pyramidBOutline.position.y = -0.5
+        // pyramidBOutline.position.x = 0
+        // pyramidBOutline.position.z = 1.5
+        // pyramidBOutline.scale.multiplyScalar(1.1);
+
+        // let pyramidsT = new THREE.Group()
+        // pyramidsT.add(pyramidTOutline)
+        // pyramidsT.add(pyramidT)
+
+        // pyramidTOutline.position.y = 0
+        // pyramidTOutline.position.x = 0
+        // pyramidTOutline.position.z = 1.5
+        // pyramidTOutline.scale.multiplyScalar(1.1);
+
+        // scene.add(pyramidsB, pyramidsT)
+                
+        //RAYCAST BOT FACE FOR SOUND
+        let faceTarget;
+        let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
+        interactionManager.add(pyramidB1);
+        interactionManager.add(pyramidB2);
+        interactionManager.add(pyramidB3);
+        interactionManager.add(pyramidB4);
+
+        botArray.forEach(e => {
+            e.addEventListener('mouseover',(t)=> {
+                t.stopPropagation()
+                faceTarget = t.target.name
+                setTimeout(()=> {
+                    soundA.stop()
+                    soundB.stop()
+                    switch (faceTarget) {
+                        case 'Pyramid_bas': //green
+                                soundA.play();
+                            break;
+                        case 'Pyramid_bas2': //blue
+                                soundB.play();
+                            break;
+                        default:
+                            break;
+                    }
+                },500)
+            })
+        });
+
+        //RAYCAST TOP OR BOTTOM TARGET
         let targetPyramid = pyramidB
+        let modelArray = [pyramidB,pyramidT];
+        interactionManager.add(pyramidB);
+        interactionManager.add(pyramidT);
+        modelArray.forEach(e => {
+            e.addEventListener('mousedown',(t)=> {
+                t.stopPropagation()
+                switch (t.target.name) {
+                    case 'bas':
+                        targetPyramid = pyramidB
+                        break;
+                    case 'haut':
+                        targetPyramid = pyramidT
+                        break;
+                    default:
+                        break;
+                }
+            })
+        })
+
 
         document.addEventListener('mousedown', () => {
             drag = false
@@ -127,6 +243,7 @@ function DaftPunk(scene, camera) {
     }
 
     this.update = function(time) {
+        interactionManager.update();
     }
 
     this.helpers = (gui) => {

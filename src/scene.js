@@ -108,8 +108,8 @@ function Scene(canvas, started = false) {
             // Inserts all components here
             // new scrollTimeline(scene, camera),
             // new tearCanvas(scene, camera),
-            new daftPunk(scene, camera),
-            // new LaboComponent(scene, camera, interactionManager),
+            // new daftPunk(scene, camera, interactionManager),
+            new LaboComponent(scene, camera, interactionManager),
         ];
 
         return components;
