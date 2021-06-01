@@ -17,7 +17,7 @@ function ScrollTimeline(scene, camera) {
         const loader = new GLTFLoader();
         let tape = new THREE.Object3D();
 
-        
+        let scrollY = 0;
 
         loader.load( TapeModel, ( gltf ) => {
             tape = gltf.scene;
@@ -113,22 +113,23 @@ function ScrollTimeline(scene, camera) {
         .to(tapeObj.rotation, 1, {x:0,y:0,z:0}, 3) //rotation cassette droite
         .to(tapeGroup.position, 1, {x:-10,y:0.75,z:0}, 4) //rotation cassette sur elle meme
 
-        let proxyTween = TweenLite.to({}, 1, {paused: true});
+        let proxyTween = TweenLite.to({}, 1, { paused: true });
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
         document.addEventListener("mousewheel", (e) => {
             
-            let documentHeight = document.querySelector('.container').offsetHeight;
-            let windowHeight = window.innerHeight;
+            // let documentHeight = document.querySelector('.container').offsetHeight;
+            // let windowHeight = window.innerHeight;
 
-            let scrollTop = window.pageYOffset;
-            let scrollPercent = Math.max(scrollTop / (documentHeight - windowHeight),0);
+            // let scrollTop = window.pageYOffset;
+            // let scrollPercent = Math.max(scrollTop / (documentHeight - windowHeight), 0);
 
-            proxyTween.progress(scrollPercent).pause();
+            proxyTween.progress(scrollY).pause();
     
             let progress = timelineTape.progress();
             progress += (proxyTween.progress() - progress) * 0.05;
             timelineTape.progress(progress);
+
         });
     }
 
@@ -139,7 +140,10 @@ function ScrollTimeline(scene, camera) {
     }
 
     this.wheel = function(Y) {
+        scrollY = Y;
     }
+
+    this.mousemove = function(event) {}
 
     this.keyup = function(e) {}
 }

@@ -266,7 +266,18 @@ function LaboComponent(scene, camera, interactionManager) {
 
     // Move camera
     let tlCamera = new TimelineMax({ paused: true })
-        .to(camera.position, { x: -0.5, y: 3.3, z: 3 });
+        .to(camera.position, { x: -0.5, y: 3.3, z: 3, onComplete: () => {
+            new TimelineMax()
+            .to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut })
+            .to(aznavourPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(britneyPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(daftPunkPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(gainsbourgPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(memoPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(poloPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(renaudPin.material, 0.45, { opacity: 1, ease: EaseInOut })
+            .to(retourPin.material, 0.45, { opacity: 1, ease: EaseInOut });
+        }});
 
     this.wheel = function(Y) {
         if (Y < 2) return;
