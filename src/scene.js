@@ -53,7 +53,19 @@ function Scene(canvas, started = false, scene02) {
     // controls.dampingFactor = 0.25;
     // controls.enableZoom = false;
 
-    console.log(scene02)
+    /*
+     * LIGHTS
+     */
+    const light = new THREE.DirectionalLight(0xFFFFFF, 1);
+    light.position.set(10, 7, 5);
+    light.castShadow = true;
+
+    light.shadow.camera.near = 0.1;       // default
+    light.shadow.camera.far = 350      // default
+    light.shadow.mapSize.width = 256;  // default
+    light.shadow.mapSize.height = 256;
+
+    scene.add(light);
 
     function buildScene() {
         const scene = new THREE.Scene();
@@ -62,20 +74,27 @@ function Scene(canvas, started = false, scene02) {
         const groundColor = 0xff0000;  // brownish orange
         const intensity = 0.05;
         const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
-        // scene.add(light);
+        scene.add(light);
 
         const target = new THREE.Object3D();
-        target.position.set(0, 2.5, 0);
+        target.position.set(0, 0, 0);
 
-        const directionalLightLeft = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLightLeft.position.set(5, 5, 5);
-        directionalLightLeft.target = target;
+        // const directionalLightLeft = new THREE.DirectionalLight(0xFFFFFF, 1);
+        // const helper = new THREE.DirectionalLightHelper(directionalLightLeft, 5);
+        // directionalLightLeft.position.set(10, 7, 5);
+        // directionalLightLeft.target = target;
 
-        const directionalLightRight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLightRight.position.set(-5, 5, 5);
-        directionalLightRight.target = target;
+        // directionalLightLeft.castShadow = true;
 
-        scene.add(directionalLightLeft.target, directionalLightRight);
+        
+        // const directionalLightRight = new THREE.DirectionalLight(0xffffff, 1);
+        // directionalLightRight.position.set(-5, 5, 5);
+        // directionalLightRight.target = target;
+
+        // directionalLightLeft.castShadow = true;
+        
+        // scene.add(directionalLightLeft, helper);
+        // scene.add(directionalLightLeft.target, directionalLightRight);
         
         return scene;
     }
@@ -83,6 +102,12 @@ function Scene(canvas, started = false, scene02) {
     function buildRender({ width, height }) {
         console.log(width)
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
+
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
+        renderer.gammaOutput = true;
+
         renderer.setClearColor(0x808080);
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         renderer.setPixelRatio(DPR);
@@ -134,8 +159,22 @@ function Scene(canvas, started = false, scene02) {
 
     this.helpers = function() {
 
-        const gui = new dat.GUI();
+        const gui = new dat.GUI({ autoPlace: false });
+        document.querySelector('.gui').appendChild(gui.domElement);
         components.forEach(components => components.helpers(gui));
+
+        const lightGUI = gui.addFolder('Light');
+        lightGUI.add(light.position, 'x');
+        lightGUI.add(light.position, 'y');
+        lightGUI.add(light.position, 'z');
+        lightGUI.add(light, 'intensity');
+
+        lightGUI.add({ 'Shadow quality': 512 }, 'Shadow quality', [512, 1024, 2048, 4096, 8192]).onChange(value => {
+            light.shadow.mapSize.width = value;
+            light.shadow.mapSize.height = value;
+            light.shadow.map.dispose();
+            light.shadow.map = null;
+        });
 
         const gridHelper = new THREE.GridHelper(10, 25);
         scene.add(gridHelper);
@@ -151,7 +190,7 @@ function Scene(canvas, started = false, scene02) {
     }
 
     this.onMouseMove = function(event) {
-        
+        components.forEach(component => component.mousemove(event));
     }
 
     /*

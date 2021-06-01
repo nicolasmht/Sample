@@ -7,16 +7,15 @@ import Scene02 from './scene02';
 
 import Stats from 'stats-js';
 const stats = new Stats();
-document.body.appendChild(stats.dom);
+// document.body.appendChild(stats.dom);
 
 // Detect if developer mode is enabled
 const isDev = (window.location.href.indexOf('#dev') > -1) ? true : false;
 
-
 /*
 * SCENE 02
 */
-const canvas02 = document.getElementById("canvas-02");
+const canvas02 = document.querySelector(".canvas-02");
 const scene02 = new Scene02(canvas02);
 function resizeCanvas02() {
     canvas02.width = canvas02.style.width = window.innerWidth;
@@ -39,7 +38,7 @@ function render02() {
 bindEventListeners();
 render02();
 
-scene02.helpers();
+// scene02.helpers();
 scene02.setStarted(true);
 
 

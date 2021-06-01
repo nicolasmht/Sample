@@ -7,15 +7,112 @@ html, body {
 }
 
 #canvas,
-#canvas-02 {   
+.canvas-02 {   
     position: absolute;
     top: 0; left: 0;
-    z-index: 9;
+    z-index: 1;
     transition: opacity 3s;
 }
 
-#canvas-02 {
-    z-index: 8;
+.container-focus {
+    position: absolute;
+    transform: translateX(100vw);
+    transition: all 3s;
+    z-index: 2;
+
+    &.full{
+        transform: translateX(0)!important;
+    }
+
+    .canvas-02 {}
+    
+    .back-labo{
+        position: absolute;
+        top: 2.5vh; left: 2.5vw;
+        width: 3vw;
+        height: 3vw;
+        background-image: url(../images/back-labo.png);
+        background-size: contain;
+        background-position: center center;
+        cursor: pointer;
+        z-index: 3;
+    }
+}
+
+.container-infos{
+    position: fixed;
+    top: 0; bottom: 0; right: 0;
+    width: 30vw;
+    padding: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(../images/background.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: repeat;
+    z-index: 999;
+
+    transform: translateX(100%);
+    transition: all 3s;
+
+    &.visible {
+        transition: all 0.3s;
+        transform: translateX(0);
+    }
+
+    &.full {
+        transition: all 3s;
+        transform: translateX(-100vw);
+    }
+
+    .title-infos{
+        margin: 0;
+        margin-bottom: 2.5vh;
+        font-size: 4vw;
+    }
+
+    .subTitle-infos{
+        margin: 0;
+        margin-bottom: 3vh;
+        font-size: 2vw;
+    }
+
+    .description-infos{
+        margin-bottom: 10vh;
+        text-align: left;
+        font-size: 1.2vw;
+        line-height: 2vw;
+    }
+
+    .btn-infos {
+        padding: 1vw 5vw;
+        background-color: #000000;
+        border: none;
+        border-radius: 3vw;
+        color: #fff;
+        font-size: 1.6vw;
+        cursor: pointer;
+    }
+
+    .close-infos{
+        position: absolute;
+        top: 2.5vh;
+        right: 2.5vw;
+        width: 2vw;
+        height: 2vw;
+        background-image: url(../images/close.png);
+        background-position: center center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+}
+
+.gui{
+    position: absolute;
+    right: 0;
+    z-index: 999;
 }
 
 .container {
