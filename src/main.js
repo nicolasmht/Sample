@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import * as THREE from 'three';
 import Events from 'events';
 const events = new Events();

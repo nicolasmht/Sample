@@ -10,7 +10,7 @@ import getNDCCoordinates from '../utils/mouse';
 
 // Gltf
 // import LaboGltf from '../objects/labo.gltf';
-import LaboGltf from '../objects/Cabinet_Objets_05.gltf';
+import LaboGltf from '../objects/Cabinet_Objets_light.gltf';
 
 // Pin
 import Aznavour from '../textures/Labo/Aznavour.png';
@@ -22,6 +22,8 @@ import Polo from '../textures/Labo/Polo.png';
 import Renaud from '../textures/Labo/Renaud.png';
 import Retour from '../textures/Labo/Retour.png';
 
+import TextureGravure from '../textures/textures_gravure/03.png';
+
 function LaboComponent(scene, camera, interactionManager) {
 
     const mouse = new THREE.Vector2();
@@ -31,31 +33,40 @@ function LaboComponent(scene, camera, interactionManager) {
     const loader = new GLTFLoader();
     let labo = new THREE.Object3D();
 
-    loader.load( LaboGltf, ( gltf ) => {
-            labo = gltf.scene;
-            labo.name = "labo"
+    const texture = new THREE.TextureLoader().load(TextureGravure);
 
-            labo.traverse( (child) => {
-                if(child.material) {
-                    // child.material.metalness = 0;
-                    child.material = new THREE.MeshPhysicalMaterial({
-                        color: 0xE5C2B8,
-                        metalness: 0,
-                        roughness: 1,
-                        clearcoat: 1.0,
-                        clearcoatRoughness: 0.5,
-                        reflectivity: 0.5,
-                    });
-                }
+    loader.load(LaboGltf, ( gltf ) => {
+        labo = gltf.scene;
+        labo.name = "labo"
 
-                if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; }
-            });
+        labo.traverse( (child) => {
+            if(child.material) {
+                // child.material.metalness = 0;
+                // child.material = new THREE.MeshPhysicalMaterial({
+                //     color: 0xE5C2B8,
+                //     metalness: 0,
+                //     roughness: 1,
+                //     clearcoat: 1.0,
+                //     clearcoatRoughness: 0.5,
+                //     reflectivity: 0.5,
+                // });
+                child.material = new THREE.MeshToonMaterial({
+                    color: 0xE5C2B8,
+                    // emissive: 1,
+                    // map: texture,
+                    // alphaMap: texture
+                    // emissiveIntensity: 3
+                });
+            }
 
-            labo.position.set(0, 0, 0);
-            labo.scale.set(0.025, 0.025, 0.025);
-            labo.rotateY(Math.PI);
+            if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; }
+        });
 
-            scene.add(labo);
+        labo.position.set(0, 0, 0);
+        labo.scale.set(0.025, 0.025, 0.025);
+        labo.rotateY(Math.PI);
+
+        scene.add(labo);
         },
         ( xhr ) => {
             // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
