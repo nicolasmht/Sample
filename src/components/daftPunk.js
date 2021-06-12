@@ -16,9 +16,9 @@ function DaftPunk(scene, camera, interactionManager) {
         let soundA = new Howl({src: [sound1]});
         let soundB = new Howl({src: [sound2]});
     
-        const threeTone = new THREE.TextureLoader().load(fiveT)
-        threeTone.minFilter = THREE.NearestFilter;
-        threeTone.magFilter = THREE.NearestFilter;
+        const fiveTone = new THREE.TextureLoader().load(fiveT)
+        fiveTone.minFilter = THREE.NearestFilter;
+        fiveTone.magFilter = THREE.NearestFilter;
 
         const loader = new GLTFLoader();
         let pyramid = new THREE.Object3D();
@@ -29,7 +29,7 @@ function DaftPunk(scene, camera, interactionManager) {
 
             pyramid.traverse( (child) => {
                 // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone});
+                // child.material = new THREE.MeshToonMaterial({color:0x0000ff, side:THREE.DoubleSide, gradientMap: fiveTone});
             });
 
             scene.add(pyramid)

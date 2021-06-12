@@ -8,6 +8,8 @@ import { TimelineMax, Power4, TweenLite, EaseInOut } from 'gsap';
 // Gltf
 // import LaboGltf from '../objects/labo.gltf';
 import LaboGltf from '../objects/Cabinet_Objets_04.gltf';
+import threeT from '../textures/threeTone.png';
+import fiveT from '../textures/fiveToneR.jpg';
 
 function LaboComponent(scene, camera, interactionManager) {
 
@@ -15,14 +17,36 @@ function LaboComponent(scene, camera, interactionManager) {
     let labo = new THREE.Object3D();
 
     loader.load( LaboGltf, ( gltf ) => {
+
+            let r, g, b;
             labo = gltf.scene;
             labo.name = "labo"
 
+            const fiveTone = new THREE.TextureLoader().load(fiveT)
+            fiveTone.minFilter = THREE.NearestFilter;
+            fiveTone.magFilter = THREE.NearestFilter;
+
+
             labo.traverse( (child) => {
-                // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({color:0xff0, side:THREE.DoubleSide, gradientMap: "threeTone"});
-                if(child.material) child.material.metalness = 0;
+                //GET OLD COLOR AND USE IT WITH TOON MATERIAL
+                if(child.material) {
+                    r = child.material.color.r
+                    g = child.material.color.g
+                    b = child.material.color.b
+                    if(child.name != 'plante') {
+                        child.material = new THREE.MeshToonMaterial({side:THREE.DoubleSide, gradientMap: fiveTone,});
+                        child.material.color.setRGB(r, g, b)
+                    }
+                }
             });
+
+            //CABINET TEST COLORATION
+            let cabinet = labo.getObjectByName('cabinet')
+            cabinet.traverse( (child) => {
+                child.material = new THREE.MeshToonMaterial({color: 0xa87b32,side:THREE.DoubleSide, gradientMap: fiveTone});
+            });
+
+
 
             labo.position.set(0, 0, -0.5);
             // labo.rotateY(Math.PI);
@@ -63,7 +87,7 @@ function LaboComponent(scene, camera, interactionManager) {
 
     // Objects
     const geos = [...Array(4).keys()].map(() => new THREE.BoxGeometry(1, 1, 0.1));
-    const mats = [...Array(4).keys()].map(() => new THREE.MeshBasicMaterial( {color: 0x0000ff} ));
+    const mats = [...Array(4).keys()].map(() => new THREE.MeshBasicMaterial( {color: 0x0000ff, transparent:true, opacity:.1}));
     const objs = [...Array(4).keys()].map((i) => new THREE.Mesh( geos[i], mats[i] ));
     
     objs[0].position.set(2, 2, -0.5);

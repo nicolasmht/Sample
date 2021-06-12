@@ -8,6 +8,7 @@ import getPerspectiveSize from '../utils/getPerspectiveSize';
 // Textures
 import TapeTexture from '../textures/tape_texture.png';
 import TapeTexture2 from '../textures/tape2.png';
+import Orange from '../textures/orange.jpeg';
 
 // Object
 import TapeModel from '../objects/AudioTape/TapeCaseLast2.glb';
@@ -66,25 +67,52 @@ function ScrollTimeline(scene, camera) {
         let caseObj = tape.getObjectByName('Case')
         let tapeObj = tape.getObjectByName('Tape')
         let caseT = tape.getObjectByName('Case_t')
-        const textureLoader = new THREE.TextureLoader()
+        let sticker = tape.getObjectByName('Tape_elem_2')
+        let centre = tape.getObjectByName('Tape_elem_4')
+        let wheels = tape.getObjectByName('Tape_elem_1')
 
+        // wheels.material.transparent = true;
+        // wheels.material.opacity = 0;
         
+        const textureLoader = new THREE.TextureLoader()
+        
+        let vertShader = `
+        varying vec2 vUv;
+        
+        void main() {
+            vUv = uv;
+            
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+        }
+        `
+        let fragShader = ` 
+        uniform sampler2D texture1;
+        uniform sampler2D texture2;
+        uniform float progress;
+        
+        varying vec2 vUv;
+        
+        void main() {
+            gl_FragColor = vec4( mix( texture2D(texture1, vUv).xyz, texture2D(texture2, vUv).xyz, progress ), 1. );
+        }
+        `
+        let uniforms = {
+            texture1: { value: textureLoader.load(TapeTexture) },
+            texture2: { value: textureLoader.load(TapeTexture2) },
+            progress:  { value: 0 }
+        };
+        
+        sticker.material = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: vertShader,
+            fragmentShader: fragShader,
+        });
+        
+        centre.material.transparent = true;
+        centre.material.opacity = 0;
+
         //TIMELINE
         let timelineTape = new TimelineMax({ paused: true })
-        // .to(tapeGroup.position, 2, {x: 2,y: -13},0)
-        // .to(caseT.rotation, 2, {y: 2},0)
-        // .to(tapeGroup.rotation, 2, {x: 8, y:7}, 0)
-        // .to(tapeGroup.rotation, 2, {x: 1.5, y:0, z: 1.5}, 1)
-        // .to(tapeGroup.rotation, 5, {z: 20}, 2)
-        // .add(()=> {
-        //     let texture = textureLoader.load(TapeTexture);
-        //     tapeObj.children[0].material.map =texture;
-        // },2)
-        // .add(()=> {
-        //     let texture2 = textureLoader.load(TapeTexture2);
-        //     tapeObj.children[0].material.map= texture2;
-        // },2)
-        // .to(tapeObj.position, 8, {x: 8},2)
         
         .to(tapeGroup.position, 1, {z: -8}, 0) //decalage cassette
         .to(tapeGroup.position, 1, {z: -14}, 0.35) //decalage cassette
@@ -96,6 +124,13 @@ function ScrollTimeline(scene, camera) {
         .to(tapeGroup.rotation, 1, {y:4.75}, 1.5) //rotation cassette sur elle meme
         .to(caseT.rotation, 1, {y: 2},1.5) //ouverture case
         .to(caseObj.position, 1, {x: -12},1.75) //eloignement case
+
+            .to(uniforms.progress, 1, {value: 0},1.75) //fade to texture1
+            .to(uniforms.progress, 1, {value: 1},1.75) //fade to texture2
+            .add(()=> { uniforms.texture1.value = textureLoader.load(TapeTexture) },2.75)// keep texture1
+            .add(()=> { uniforms.texture1.value = textureLoader.load(Orange) },2.75)// change texture1
+            .to(uniforms.progress, 1, {value: 0},2.75) //fade to texture1
+
         .to(tapeObj.rotation, .5, {x:-1.2,y:3.5,z:0.15}, 2) //rotation cassette droite
         .to(storage.position, 0, {y: -30}, 2) //etagere tp bot
         //Put back
@@ -107,8 +142,6 @@ function ScrollTimeline(scene, camera) {
         .to(caseObj.position, 1, {x:0,y:0,z:0},3) //eloignement case
         .to(tapeObj.rotation, 1, {x:0,y:0,z:0}, 3) //rotation cassette droite
         .to(tapeGroup.position, 1, {x:-10,y:0.75,z:0}, 4) //rotation cassette sur elle meme
-
-        console.log('here')
 
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 

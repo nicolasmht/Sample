@@ -7,6 +7,17 @@ import { InteractionManager } from "three.interactive";
 import * as dat from 'dat.gui';
 import VirtualScroll from 'virtual-scroll';
 
+// Post process
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
+import {ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass';
+import {OutlinePass} from 'three/examples/jsm/postprocessing/OutlinePass';
+import {CopyShader} from 'three/examples/jsm/shaders/CopyShader'
+
+import 'three/examples/jsm/shaders/DotScreenShader'
+import 'three/examples/jsm/shaders/LuminosityHighPassShader';
+import 'three/examples/jsm/postprocessing/UnrealBloomPass';
+
 // Utils
 import getNDCCoordinates from './utils/mouse';
 
@@ -28,10 +39,11 @@ function Scene(canvas, started = false) {
         width: canvas.width,
         height: canvas.height
     }
-    
     const scene = buildScene();
-    let renderer = buildRender(screenDimensions);
     const camera = buildCamera(screenDimensions);
+    let renderer = buildRender(screenDimensions);
+    let composer, outlinePass;
+    let outlined = false;
 
     const interactionManager = new InteractionManager(
         renderer,
@@ -78,7 +90,7 @@ function Scene(canvas, started = false) {
         return scene;
     }
 
-    function buildRender({ width, height }) {
+    function buildRender({width, height }) {
         console.log(width)
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
         renderer.setClearColor(0x808080);
@@ -86,6 +98,29 @@ function Scene(canvas, started = false) {
         renderer.setPixelRatio(DPR);
         renderer.setSize(width, height);
 
+        // //POST PROC
+        // let renderScene = new RenderPass( scene, camera );
+        // composer = new EffectComposer( renderer );
+        // composer.setSize( window.innerWidth, window.innerHeight );
+        // composer.addPass( renderScene );
+
+        //     //OUTLINE
+        //     outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), scene, camera, []);
+        //     composer.addPass(outlinePass);
+        //     outlinePass.edgeStrength = 100;
+        //     outlinePass.edgeThickness = 1;
+        //     outlinePass.visibleEdgeColor.setRGB(1, 1, 1);
+        //     outlinePass.hiddenEdgeColor.set('#ffffff');
+            
+        //     //TO GET BLACK OUTLINE
+        //     outlinePass.overlayMaterial.blending = THREE.SubtractiveBlending
+        //     // outlinePass.selectedObjects = [scene.getObjectByName('cabinet')];
+        
+        // //Add to fixe
+        // let copyPass = new ShaderPass(THREE.CopyShader);
+        // copyPass.renderToScreen = true;
+        // composer.addPass(copyPass)
+        console.log('Calling twice');
         return renderer;
     }
 
@@ -106,18 +141,24 @@ function Scene(canvas, started = false) {
     function createComponents(scene) {
         const components = [
             // Inserts all components here
-            // new scrollTimeline(scene, camera),
+            new scrollTimeline(scene, camera),
             // new tearCanvas(scene, camera),
             // new daftPunk(scene, camera, interactionManager),
-            new LaboComponent(scene, camera, interactionManager),
+            // new LaboComponent(scene, camera, interactionManager),
         ];
-
+    
         return components;
     }
 
     this.update = function() {
 
         if (!started) return;
+        
+        //GET CABINET
+        if (outlined == false && scene.getObjectByName('cabinet') != undefined) {
+            console.log(scene.getObjectByName('cabinet'));
+            outlined = true
+        } 
 
         const deltaTime = clock.getDelta();
         const elapsedTime = clock.getElapsedTime();
