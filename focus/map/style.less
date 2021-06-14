@@ -1,0 +1,51 @@
+html,
+body {
+    margin: 0;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    #map {
+        width: 4000px;
+        height: 4000px;
+        transition: all 300ms ease-in-out;
+    }
+
+    section {
+        position: absolute;
+
+        div {
+            transition: 300ms;
+        }
+
+        div:first-of-type {
+            width: 400px;
+            height: 300px;
+            background-color: blue;
+            position: absolute;
+        }
+
+        div:last-of-type {
+            width: 400px;
+            height: 300px;
+            background-color: purple;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    }
+
+    #maurice {
+        left: 50%;
+        margin-left: -50px;
+        top: 50%;
+        margin-top: -50px;
+    }
+
+    #caimans {
+        left: 90%;
+        top: 60%;
+        margin-top: -50px;
+    }
+}

@@ -1,0 +1,51 @@
+html,
+body {
+  margin: 0;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+html #map,
+body #map {
+  width: 4000px;
+  height: 4000px;
+  transition: all 300ms ease-in-out;
+}
+html section,
+body section {
+  position: absolute;
+}
+html section div,
+body section div {
+  transition: 300ms;
+}
+html section div:first-of-type,
+body section div:first-of-type {
+  width: 400px;
+  height: 300px;
+  background-color: blue;
+  position: absolute;
+}
+html section div:last-of-type,
+body section div:last-of-type {
+  width: 400px;
+  height: 300px;
+  background-color: purple;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+html #maurice,
+body #maurice {
+  left: 50%;
+  margin-left: -50px;
+  top: 50%;
+  margin-top: -50px;
+}
+html #caimans,
+body #caimans {
+  left: 90%;
+  top: 60%;
+  margin-top: -50px;
+}

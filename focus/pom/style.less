@@ -1,0 +1,301 @@
+html,
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  position: relative;
+
+  // Cursor
+  #cursor {
+    position: fixed;
+    z-index: 100000;
+    background-image: url('./img/cursors/cursor.png');
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    transition: 400ms ease-in-out;
+    transition-property: width, height, background-image, transform;
+    transform-origin: center;
+
+    &.drag {
+      width: 66px;
+      height: 64px;
+      background-image: url('./img/cursors/drag.png');
+      transform: rotate(-25deg);
+    }
+  }
+
+ 
+
+  #disque {
+    position: fixed;
+    width: 260px;
+    height: 260px;
+    background-image: url('./img/Disque.png');
+    z-index: 100000;
+    background-size: contain;
+    background-repeat: no-repeat;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%) rotateZ(0deg);
+    transform-origin: center;
+
+
+    h3 {
+      margin: 0;
+      position: absolute;
+      color: white;
+      top: 65px;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+
+    }
+
+    h4 {
+      margin: 0;
+      position: absolute;
+      color: black;
+      top: 110px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+
+    }
+  }
+
+  #background {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, rgb(108, 40, 106) 0%, rgb(0, 18, 244) 100%);
+    mix-blend-mode: overlay;
+    z-index: 50000;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .button-cabinet {
+
+    position: fixed;
+    bottom: 40px;
+    right: 60px;
+    width: 174px;
+    height: 174px;
+    border: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    background-image: url('./img/icon-back.png');
+    background-repeat: no-repeat;
+    background-size: 200px 200px;
+    z-index: 10;
+
+    &:hover {
+      transform: scale(.5);
+
+    }
+
+  }
+
+  // .back {
+  //   position: fixed;
+  //   bottom: 70px;
+  //   right: 70px;
+  //   width: 174px;
+  //   height: 174px;
+  //   border: 50%;
+  //   border-radius: 50%;
+  //   cursor: pointer;
+  //   clip-path: circle(100%);
+  //   transition: clip-path .7s;
+  //   transform-origin: center;
+  //   padding: 4px;
+  //   background-image: url('./img/icon-back.png');
+  //   background-repeat: no-repeat;
+  //   background-position: center;
+  //   z-index: 90000;
+
+  //   &:hover {
+  //     clip-path: circle(34px at center);
+  //   }
+  // }
+
+
+
+
+  #layer-1 {
+    width: 100%;
+    height: 100%;
+    background-image: url('./img/05.png');
+    margin: 0;
+    position: fixed;
+    z-index: 1;
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+  }
+
+  #layer-2 {
+    width: 120%;
+    height: 120%;
+    background-image: url('./img/02.png');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+
+    .pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background-color: white;
+      cursor: pointer;
+      pointer-events: all;
+
+      &#sirene {
+        top: 50vh;
+        left: 43vw;
+      }
+
+      &#poisson {
+        top: 50vh;
+        left: 43vw;
+      }
+
+      &#papillon {
+        top: 68vh;
+        left: 53vw;
+      }
+
+      &#carnivore {
+        top: 50vh;
+        left: 43vw;
+      }
+
+      &#main {
+        top: 50vh;
+        left: 93vw;
+      }
+    }
+  }
+
+  #layer-3 {
+    width: 105%;
+    height: 105%;
+    background-image: url('./img/01.png');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+
+    .pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background-color: white;
+      cursor: pointer;
+      pointer-events: all;
+
+      &#papillon {
+        top: 68vh;
+        left: 60vw;
+      }
+
+      &#carnivore {
+        top: 48vh;
+        left: 6vw;
+      }
+    }
+  }
+
+  #layer-4 {
+    width: 100%;
+    height: 100%;
+    background-image: url('./img/03.png');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+  }
+}
+
+#sun {
+  position: fixed;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  transform: translateX(-50%);
+  background-image: url('./img/04_Soleil.png');
+  background-position: center;
+  background-size: cover;
+  box-sizing: border-box;
+  cursor: pointer;
+  z-index: 2;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url('./img/04_Halo.png');
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 300px;
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+@-webkit-keyframes rotating
+
+/* Safari and Chrome */
+  {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

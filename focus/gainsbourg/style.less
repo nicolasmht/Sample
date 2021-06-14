@@ -1,0 +1,107 @@
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    body {
+        background-image: url(./img/background.jpeg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+    }
+
+    #background-cover {
+
+        background-image: url(./img/background-cover.png);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 1000;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        pointer-events: none;
+
+    }
+
+    img {
+        max-width: 25%;
+        cursor: move;
+        position: absolute;
+        transition: box-shadow 300ms;
+        z-index: 2;
+        transform-origin: center;
+
+        &.draggable {
+            &:hover {
+                filter: drop-shadow(0 0 0.75rem rgba(255,0,0,0.75));
+            }
+        }
+
+        &.stamp {
+            max-width: 10%;
+            z-index: 1;
+
+            &.aram {
+                width: 7%;
+                bottom: 10vw;
+                left: 10vw;
+            }
+
+            &.chopin {
+                top: 42vh;
+                right: 25vw;
+                width: 6%;
+            }
+        }
+
+        &.clopes {
+            width: 160px;
+            transform: rotate(36.67deg);
+            top: -40px;
+            left: 20%;
+        }
+
+        &.dvorak {
+            width: 80px;
+            top: 5%;
+            left: 22%;
+        }
+
+        &.charlotte {
+            width: 10%;
+            bottom: 20vw;
+            left: 10vw;
+        }
+
+        &.lemon {
+            width: 33%;
+            top: 39vh;
+            right: 14vw;
+            transform-origin: center;
+            transform: rotate(30deg);
+        }
+
+        &.jtm{
+            transform: rotate(66.39deg);
+            bottom: 0vh;
+            left: 40vh;
+        } 
+
+        &.polska {
+            bottom: 3vh;
+            left: 54vh;
+            width: 6%;
+        }
+
+        &.charlotte,
+        &.aram {
+            bottom: 0%;
+            left: 10%;
+        }
+
+        
+    }
+}
