@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import Anime from 'animejs';
 
 // Packages
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { InteractionManager } from "three.interactive";
 import * as dat from 'dat.gui';
 import VirtualScroll from 'virtual-scroll';
@@ -15,6 +15,7 @@ import scrollTimeline from './components/scrollTimeline.js';
 import tearCanvas from './components/tearCanvas.js';
 import daftPunk from './components/daftPunk.js';
 import LaboComponent from './components/Labo';
+import RenaudComponent from './components/Renaud';
 
 function Scene(canvas, started = false) {
 
@@ -79,7 +80,6 @@ function Scene(canvas, started = false) {
     }
 
     function buildRender({ width, height }) {
-        console.log(width)
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
         renderer.setClearColor(0x808080);
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
@@ -104,7 +104,7 @@ function Scene(canvas, started = false) {
         const components = [
             // Inserts all components here
             // new tearCanvas(scene, camera),
-            new daftPunk(scene, camera, interactionManager),
+            // new daftPunk(scene, camera, interactionManager),
             // new scrollTimeline(scene, camera),
             // new LaboComponent(scene, camera, interactionManager),
         ];

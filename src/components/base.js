@@ -1,40 +1,17 @@
 import * as THREE from 'three';
 
-// Textures
-// import FacadeTexture from '../textures/facade.png';
+function Component(scene) {
 
-// Audios
-// import CityAudio from '../audios/city.mp3';
+    this.update = function(time) {}
 
-function FacadeComponent(scene) {
+    this.helpers = (gui) => {}
 
-    const facadeSpriteMaterial = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load(FacadeTexture) });
-    const facadeSprite = new THREE.Sprite(facadeSpriteMaterial);
+    this.wheel = function(Y) {}
 
-    facadeSprite.scale.set(4.5, 4.5 / 0.95, 1);
-    facadeSprite.position.z = 0.1;
+    this.keyup = function(e) {}
 
-    scene.add(facadeSprite);
-
-    // Audio
-    var sound = new Howl({
-        src: CityAudio,
-        volume: 1,
-        loop: true,
-    }).play();
-
-    this.update = function(time) {
-        
-    }
-
-    this.helpers = (gui) => {
-        
-    }
-
-    this.wheel = function(Y) {
-        
-    }
+    this.mousemove = function(e) {}
 
 }
 
-export default FacadeComponent;
+export default Component;

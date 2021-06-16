@@ -1,0 +1,152 @@
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+#canvas,
+.canvas-02 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: opacity 3s;
+}
+
+.container-focus {
+  position: absolute;
+  transform: translateX(100vw);
+  transition: all 3s;
+  z-index: 2;
+}
+.container-focus.full {
+  transform: translateX(0) !important;
+}
+.container-focus .back-labo {
+  position: absolute;
+  top: 2.5vh;
+  left: 2.5vw;
+  width: 3vw;
+  height: 3vw;
+  background-image: url(/back-labo.7774f8e2.png);
+  background-size: contain;
+  background-position: center center;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.container-infos {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 30vw;
+  padding: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url(/background.0063873b.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: all 3s;
+}
+.container-infos.visible {
+  transition: all 0.3s;
+  transform: translateX(0);
+}
+.container-infos.full {
+  transition: all 3s;
+  transform: translateX(-100vw);
+}
+.container-infos .title-infos {
+  margin: 0;
+  margin-bottom: 2.5vh;
+  font-size: 4vw;
+}
+.container-infos .subTitle-infos {
+  margin: 0;
+  margin-bottom: 3vh;
+  font-size: 2vw;
+}
+.container-infos .description-infos {
+  margin-bottom: 10vh;
+  text-align: left;
+  font-size: 1.2vw;
+  line-height: 2vw;
+}
+.container-infos .btn-infos {
+  padding: 1vw 5vw;
+  background-color: #000000;
+  border: none;
+  border-radius: 3vw;
+  color: #fff;
+  font-size: 1.6vw;
+  cursor: pointer;
+}
+.container-infos .close-infos {
+  position: absolute;
+  top: 2.5vh;
+  right: 2.5vw;
+  width: 2vw;
+  height: 2vw;
+  background-image: url(/close.46897bca.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.gui {
+  position: absolute;
+  right: 0;
+  z-index: 999;
+}
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 500vh;
+  background-size: cover;
+}
+
+.box {
+  display: block;
+  position: absolute;
+  top: 300px;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-color: blue;
+}
+
+.box2 {
+  display: block;
+  position: absolute;
+  top: 330px;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+}
+
+#c2 {
+  background-image: url("/Back.b0181914.png");
+  background-repeat: no-repeat;
+}
+
+#canvas {
+  height: 300px;
+  width: 400px;
+}
+
+#video {
+  height: 200px;
+  width: 200px;
+}
+
+/*# sourceMappingURL=/scss.6b84482b.css.map */

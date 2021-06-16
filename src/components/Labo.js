@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Anime from 'animejs/lib/anime.es.js';
 
 // Packages
 import { TimelineMax, Power4, TweenLite, EaseInOut, EaseOut } from 'gsap';
@@ -10,7 +9,7 @@ import getNDCCoordinates from '../utils/mouse';
 
 // Gltf
 // import LaboGltf from '../objects/labo.gltf';
-import LaboGltf from '../objects/Cabinet_Objets_light.gltf';
+import LaboGltf from '../objects/Cabinet_Objets_light.glb';
 
 // Pin
 import Aznavour from '../textures/Labo/Aznavour.png';
@@ -22,9 +21,17 @@ import Polo from '../textures/Labo/Polo.png';
 import Renaud from '../textures/Labo/Renaud.png';
 import Retour from '../textures/Labo/Retour.png';
 
-import TextureGravure from '../textures/textures_gravure/03.png';
+import TextureGravure from '../textures/textures_gravure/brush.png';
+import fiveT from '../textures/FiveToneR.jpg';
 
-function LaboComponent(scene, camera, interactionManager) {
+import RenaudComponent from './Renaud';
+import GainsbourgComponent from './Gainsbourg';
+import AznavourComponent from './Aznavour';
+import MemoryComponent from './Memory';
+import PoloComponent from './Polo';
+import DaftPunkComponent from './daftPunk';
+
+function LaboComponent(scene, camera, renderer, interactionManager) {
 
     const mouse = new THREE.Vector2();
     const target = new THREE.Vector2();
@@ -35,45 +42,57 @@ function LaboComponent(scene, camera, interactionManager) {
 
     const texture = new THREE.TextureLoader().load(TextureGravure);
 
-    loader.load(LaboGltf, ( gltf ) => {
+    loader.load( LaboGltf, ( gltf ) => {
+
+        let r, g, b;
         labo = gltf.scene;
         labo.name = "labo"
 
-        labo.traverse( (child) => {
-            if(child.material) {
-                // child.material.metalness = 0;
-                // child.material = new THREE.MeshPhysicalMaterial({
-                //     color: 0xE5C2B8,
-                //     metalness: 0,
-                //     roughness: 1,
-                //     clearcoat: 1.0,
-                //     clearcoatRoughness: 0.5,
-                //     reflectivity: 0.5,
-                // });
-                child.material = new THREE.MeshToonMaterial({
-                    color: 0xE5C2B8,
-                    // emissive: 1,
-                    // map: texture,
-                    // alphaMap: texture
-                    // emissiveIntensity: 3
-                });
-            }
+        const fiveTone = new THREE.TextureLoader().load(fiveT)
+        fiveTone.minFilter = THREE.NearestFilter;
+        fiveTone.magFilter = THREE.NearestFilter;
 
-            if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; }
+
+        labo.traverse( (child) => {
+            //GET OLD COLOR AND USE IT WITH TOON MATERIAL
+            if(child.material) {
+                r = child.material.color.r
+                g = child.material.color.g
+                b = child.material.color.b
+
+                if (child.name != 'plante') {
+                    child.material = new THREE.MeshToonMaterial({
+                        side:THREE.DoubleSide,
+                        gradientMap: fiveTone,
+                        bumpMap: texture,
+                        
+                    });
+
+                    child.material.color.setRGB(r, g, b)
+                }
+
+                console.log(child.name)
+            }
         });
 
-        labo.position.set(0, 0, 0);
-        labo.scale.set(0.025, 0.025, 0.025);
+        //CABINET TEST COLORATION
+        // let cabinet = labo.getObjectByName('cabinet')
+        // cabinet.traverse( (child) => {
+        //     child.material = new THREE.MeshToonMaterial({color: 0xa87b32,side:THREE.DoubleSide, gradientMap: fiveTone});
+        // });
+
+        labo.position.set(0, 0, -0.5);
         labo.rotateY(Math.PI);
+        labo.scale.set(0.02, 0.02, 0.02);
 
         scene.add(labo);
-        },
-        ( xhr ) => {
-            // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        },
-        ( error ) => {
-            console.log('An error happened', error);
-        }
+    },
+    ( xhr ) => {
+        // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    },
+    ( error ) => {
+        console.log('An error happened', error);
+    }
     );
 
     // Set camera
@@ -97,31 +116,66 @@ function LaboComponent(scene, camera, interactionManager) {
 
     const infos = document.querySelector('.container-infos');
     const containerFocus = document.querySelector('.container-focus');
+    const discover = document.querySelector('.btn-infos');
 
     // Close info
-    document.querySelector('.close-infos').addEventListener('click', function() {
-        infos.classList.remove('visible');
-        infos.classList.remove('full');
-        containerFocus.classList.remove('full');
-        TweenLite.to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut });
-    });
+    const onInfoClose = (callback) => {
+        document.querySelector('.close-infos').addEventListener('click', function() {
+            infos.classList.remove('visible');
+            infos.classList.remove('full');
+            containerFocus.classList.remove('full');
+            TweenLite.to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut });
 
-    // Close focus
-    document.querySelector('.back-labo').addEventListener('click', function() {
-        infos.classList.remove('visible');
-        infos.classList.remove('full');
-        containerFocus.classList.remove('full');
-        TweenLite.to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut });
-    });
+            callback();
+        });
+    }
 
-    function onClick (target, item) {
+    const onDiscover = (callback) => {
+        // Reset all scenes
+        document.querySelector('.focus-renaud').style.display = 'none';
+        document.querySelector('.focus-gainsbourg').style.display = 'none';
+        document.querySelector('.focus-aznavour').style.display = 'none';
+        document.querySelector('.focus-memory').style.display = 'none';
+        document.querySelector('.focus-polo').style.display = 'none';
+        document.querySelector('.focus-daftpunk').style.display = 'none';
+
+        discover.addEventListener('click', () => {
+            infos.classList.add('full');
+            document.querySelector('.container-focus').classList.add('full');
+            callback();
+        }, {
+            once: true,
+        });
+    }
+
+    const onClose = (callback) => {
+        discover.addEventListener('click', callback, false);
+        document.querySelector('.back-labo').addEventListener('click', function() {
+            infos.classList.remove('visible');
+            infos.classList.remove('full');
+            containerFocus.classList.remove('full');
+            TweenLite.to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut });
+
+            callback();
+        });
+    }
+
+    // FOCUS
+    const renaudFocus = new RenaudComponent(scene, camera);
+    const gainsbourgFocus = new GainsbourgComponent(scene, camera);
+    const anavourFocus = new AznavourComponent(scene, camera);
+    const memoryFocus = new MemoryComponent(scene);
+    const poloFocus = new PoloComponent(scene);
+    const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
+    
+    function onClick (target, item, callback) {
 
         // Assign content to info container
         document.querySelector('.title-infos').innerText = item.title;
         document.querySelector('.subTitle-infos').innerText = item.subTitle;
         document.querySelector('.description-infos').innerText = item.description;
 
-        TweenLite.to(camera.position, 5, {
+        const animate = TweenLite.to(camera.position, 5, {
             x: target.position.x,
             y: target.position.y,
             z: target.position.z + 1.5,
@@ -133,13 +187,15 @@ function LaboComponent(scene, camera, interactionManager) {
             },
             onStart: () => {
                 // camera.lookAt(event.target.position);
-                
             },
-            onComplete: () => {
-                infos.classList.add('full');
-                document.querySelector('.container-focus').classList.add('full');
-            },
+            onComplete: callback()
         });
+
+        onInfoClose(() => {
+            animate.kill();
+            renaudFocus.stop();
+            memoryFocus.stop();
+        })
     }
 
     /*
@@ -154,6 +210,11 @@ function LaboComponent(scene, camera, interactionManager) {
             title: 'Aznavour',
             subTitle: 'Aznavour sous-titre',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-aznavour').style.display = 'block';
+                onClose(() => {});
+            })
         });
     });
 
@@ -188,6 +249,14 @@ function LaboComponent(scene, camera, interactionManager) {
             title: 'DaftPunk',
             subTitle: 'DaftPunk sous-titre',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-daftpunk').style.display = 'block';
+                daftFocus.start();
+                onClose(() => {
+                    daftFocus.stop();
+                });
+            })
         });
     });
 
@@ -205,6 +274,11 @@ function LaboComponent(scene, camera, interactionManager) {
             title: 'Gainsbourg',
             subTitle: 'Gainsbourg sous-titre',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-gainsbourg').style.display = 'block';
+                onClose(() => {});
+            })
         });
     });
 
@@ -222,6 +296,14 @@ function LaboComponent(scene, camera, interactionManager) {
             title: 'Memo',
             subTitle: 'Memo sous-titre',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-memory').style.display = 'block';
+                memoryFocus.start();
+                onClose(() => {
+                    memoryFocus.stop();
+                });
+            })
         });
     });
 
@@ -239,6 +321,11 @@ function LaboComponent(scene, camera, interactionManager) {
             title: 'Polo et Pan',
             subTitle: 'Polo et Pan sous-titre',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-polo').style.display = 'block';
+                onClose(() => {});
+            })
         });
     });
 
@@ -255,14 +342,23 @@ function LaboComponent(scene, camera, interactionManager) {
         onClick(event.target, {
             title: 'Renaud',
             subTitle: 'Renaud sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.',
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-renaud').style.display = 'block';
+                renaudFocus.start();
+                console.log(renaudFocus);
+                onClose(() => {
+                    renaudFocus.stop();
+                });
+            })
         });
     });
 
     interactionManager.add(renaudPin);
 
     /*
-     * Renaud
+     * Retour
      */
 
     const retourPin = CreateSrpite(Retour);

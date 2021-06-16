@@ -16,13 +16,17 @@ import scrollTimeline from './components/scrollTimeline.js';
 import tearCanvas from './components/tearCanvas.js';
 import daftPunk from './components/daftPunk.js';
 import LaboComponent from './components/Labo';
+import KaleidoscopeComponent from './components/Kaleidoscope';
+import RenaudComponent from './components/Renaud';
 
 import NoiseEffect from './noiseEffect';
-import CartoonEffect from './cartoonEffect';
+import OutlineEffect from './outlineEffect';
 
 import TextureGravure from './textures/textures_gravure/00.png';
 
-function Scene(canvas, started = false, scene02) {
+import KaleidoShader from './components/KaleidoShader';
+
+function Scene(canvas, started = false) {
 
     const clock = new THREE.Clock();
     
@@ -53,6 +57,34 @@ function Scene(canvas, started = false, scene02) {
         mouseMultiplier: 1
     });
 
+    /*
+     * POST PROCESSING
+     */
+
+    let noise = { value: 0.05 };
+    const noiseFolder = gui.addFolder('Noise');
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.setSize(window.innerWidth, window.innerHeight);
+
+    composer.addPass(new RenderPass(scene, camera));
+    composer.setSize(window.innerWidth, window.innerHeight);
+
+    // NOISE
+    const noiseEffect = new NoiseEffect({
+        noise: noise.value
+    });
+
+    composer.addPass(new EffectPass(camera, noiseEffect));
+
+    noiseFolder.add(noise, "value").onChange(function(v) {
+        noiseEffect.uniforms.get('noise').value = v;
+    });
+
+    const outlineEffect = new OutlineEffect();
+    composer.addPass(new EffectPass(camera, outlineEffect));
+
     // Init all components
     const components = createComponents(scene);
 
@@ -75,46 +107,29 @@ function Scene(canvas, started = false, scene02) {
 
     scene.add(light);
 
-    /*
-     * POST PROCESSING
-     */
+    // composer.addPass(new EffectPass(camera, new KaleidoShader()));
 
-    let noise = { value: 0.25 };
-    const noiseFolder = gui.addFolder('Noise');
 
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const noiseEffect = new NoiseEffect({
-        noise: noise.value
-    });
 
-    composer.addPass(new EffectPass(camera, noiseEffect));
+    // let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
+    //     // t.encoding = THREE.sRGBEncoding;
+    //     t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    // });
 
-    let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
-        // t.encoding = THREE.sRGBEncoding;
-        t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    });
-
-    const textureEffect = new TextureEffect({
-        blendFunction: BlendFunction.EXCLUSION,
-        texture: textureLoader,
-        aspectCorrection: true,
-        uvTransform: true,
-        alpha: 0
-    });
-
-    composer.addPass(new EffectPass(camera, textureEffect));
+    // const textureEffect = new TextureEffect({
+    //     blendFunction: BlendFunction.EXCLUSION,
+    //     texture: textureLoader,
+    //     aspectCorrection: true,
+    //     uvTransform: true,
+    //     alpha: 0
+    // });
+    // composer.addPass(new EffectPass(camera, textureEffect));
 
     // composer.addPass(new EffectPass(camera, new DepthEffect({
     //     blendFunction: BlendFunction.NORMAL,
     //     inverted: true
     // })));
-    composer.setSize(window.innerWidth, window.innerHeight);
-
-    noiseFolder.add(noise, "value").onChange(function(v) {
-        noiseEffect.uniforms.get('noise').value = v;
-    });
-
+    
 
     function buildScene() {
         const scene = new THREE.Scene();
@@ -178,8 +193,10 @@ function Scene(canvas, started = false, scene02) {
             // Inserts all components here
             // new tearCanvas(scene, camera),
             // new daftPunk(scene, camera, interactionManager),
-            new scrollTimeline(scene, camera),
-            new LaboComponent(scene, camera, interactionManager),
+
+            // new scrollTimeline(scene, camera),
+            new LaboComponent(scene, camera, renderer, interactionManager),
+            // new KaleidoscopeComponent(scene, camera, composer)
         ];
 
         return components;

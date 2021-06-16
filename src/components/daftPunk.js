@@ -11,21 +11,31 @@ import fiveT from '../textures/fiveToneR.jpg';
 import sound1 from '../audios/tundra-beats.mp3';
 import sound2 from '../audios/RFL.mp3';
 
-function DaftPunk(scene, camera, interactionManager) {
+function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
-        camera.position.set(0, 0, 50);
-
-        let soundA = new Howl({src: [sound1]});
-        let soundB = new Howl({src: [sound2]});
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
+    camera.position.z = 9;
     
-        const threeTone = new THREE.TextureLoader().load(fiveT)
-        threeTone.minFilter = THREE.NearestFilter;
-        threeTone.magFilter = THREE.NearestFilter;
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xEEF2FF, 1);
+    document.querySelector('.focus-daftpunk').appendChild(renderer.domElement);
 
-        const loader = new GLTFLoader();
-        let pyramid = new THREE.Object3D();
+    camera.position.set(0, 0, 50);
 
-        loader.load( daftPunkModel, ( gltf ) => {
+    let soundA = new Howl({src: [sound1]});
+    let soundB = new Howl({src: [sound2]});
+
+    const threeTone = new THREE.TextureLoader().load(fiveT)
+    threeTone.minFilter = THREE.NearestFilter;
+    threeTone.magFilter = THREE.NearestFilter;
+
+    const loader = new GLTFLoader();
+    let pyramid = new THREE.Object3D();
+
+    loader.load( daftPunkModel, ( gltf ) => {
             pyramid = gltf.scene;
             pyramid.name = "Storage_group"
 
@@ -37,7 +47,6 @@ function DaftPunk(scene, camera, interactionManager) {
             scene.add(pyramid)
             pyramid.position.y = -15
 
-            console.log(pyramid);
             initInteraction();
         },
         ( xhr ) => {
@@ -240,6 +249,21 @@ function DaftPunk(scene, camera, interactionManager) {
                 },1)
             mouseDown = false
         });
+    }
+
+    let idAnimation = null;
+
+    var render = function () {
+        idAnimation = requestAnimationFrame(render);
+        renderer.render(scene, camera);
+    }
+
+    this.start = function() {
+        render();
+    }
+
+    this.stop = function() {
+        window.cancelAnimationFrame(idAnimation);
     }
 
     this.update = function(time) {
