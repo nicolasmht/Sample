@@ -21,7 +21,7 @@ import Polo from '../textures/Labo/Polo.png';
 import Renaud from '../textures/Labo/Renaud.png';
 import Retour from '../textures/Labo/Retour.png';
 
-import TextureGravure from '../textures/textures_gravure/brush.png';
+import TextureGravure from '../textures/textures_gravure/illu.png';
 import fiveT from '../textures/FiveToneR.jpg';
 
 import RenaudComponent from './Renaud';
@@ -30,6 +30,7 @@ import AznavourComponent from './Aznavour';
 import MemoryComponent from './Memory';
 import PoloComponent from './Polo';
 import DaftPunkComponent from './daftPunk';
+import KaleidoscopeComponent from './Kaleidoscope';
 
 function LaboComponent(scene, camera, renderer, interactionManager) {
 
@@ -41,6 +42,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     let labo = new THREE.Object3D();
 
     const texture = new THREE.TextureLoader().load(TextureGravure);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.magFilter = THREE.CubeUVReflectionMapping;
 
     loader.load( LaboGltf, ( gltf ) => {
 
@@ -49,9 +53,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         labo.name = "labo"
 
         const fiveTone = new THREE.TextureLoader().load(fiveT)
-        fiveTone.minFilter = THREE.NearestFilter;
-        fiveTone.magFilter = THREE.NearestFilter;
-
 
         labo.traverse( (child) => {
             //GET OLD COLOR AND USE IT WITH TOON MATERIAL
@@ -64,14 +65,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     child.material = new THREE.MeshToonMaterial({
                         side:THREE.DoubleSide,
                         gradientMap: fiveTone,
-                        bumpMap: texture,
-                        
                     });
 
-                    child.material.color.setRGB(r, g, b)
+                    child.material.color.setRGB(r, g, b);
                 }
 
-                console.log(child.name)
+                if (child.name == 'arche1_1') {
+                    child.material = new THREE.MeshToonMaterial({
+                        side:THREE.DoubleSide,
+                        gradientMap: fiveTone,
+                        map: texture,
+                    });
+
+                    child.material.color.setRGB(r, g, b);
+                }
             }
         });
 
@@ -138,6 +145,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelector('.focus-memory').style.display = 'none';
         document.querySelector('.focus-polo').style.display = 'none';
         document.querySelector('.focus-daftpunk').style.display = 'none';
+        document.querySelector('.focus-kaleidoscope').style.display = 'none';
 
         discover.addEventListener('click', () => {
             infos.classList.add('full');
@@ -167,6 +175,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const memoryFocus = new MemoryComponent(scene);
     const poloFocus = new PoloComponent(scene);
     const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
+    const kaleidoscopeFocus = new KaleidoscopeComponent(scene, camera);
     
     function onClick (target, item, callback) {
 
@@ -208,8 +217,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     aznavourPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Aznavour',
-            subTitle: 'Aznavour sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'Music has no boarders',
+            description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
         }, () => {
             onDiscover(() => {
                 document.querySelector('.focus-aznavour').style.display = 'block';
@@ -230,8 +239,16 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     britneyPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Britney',
-            subTitle: 'Britney sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'From Bollywood to Hollywood',
+            description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
+        }, () => {
+            onDiscover(() => {
+                document.querySelector('.focus-kaleidoscope').style.display = 'block';
+                
+                onClose(() => {
+
+                });
+            })
         });
     });
 
@@ -247,8 +264,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     daftPunkPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'DaftPunk',
-            subTitle: 'DaftPunk sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'French touch zooooone',
+            description: 'Flash back on the iconic french touch duo! It’s time to challenge yourself, how much do you you know about them two? Will you be able to link their influences to their songs...?'
         }, () => {
             onDiscover(() => {
                 document.querySelector('.focus-daftpunk').style.display = 'block';
@@ -272,8 +289,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     gainsbourgPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Gainsbourg',
-            subTitle: 'Gainsbourg sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'A hint of classic behind an iconoclast spirit',
+            description: 'Well known for his music, his romances but also because of his scandalous spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a classical music lover?'
         }, () => {
             onDiscover(() => {
                 document.querySelector('.focus-gainsbourg').style.display = 'block';
@@ -294,8 +311,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     memoPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Memo',
-            subTitle: 'Memo sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'Play around with some nice ex-samples',
+            description: 'Weeeeeeell, are you now a great sample tracker? Try to match those card by two then! It works juste like a memory, really intuitivly, we promise!'
         }, () => {
             onDiscover(() => {
                 document.querySelector('.focus-memory').style.display = 'block';
@@ -319,8 +336,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     poloPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Polo et Pan',
-            subTitle: 'Polo et Pan sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'From tropics to hits!',
+            description: 'Let go of the stress, we take you on a trip to explore Polo & Pan’s inspirations. To give you a little preview: a bresilian lullaby might get in your way.'
         }, () => {
             onDiscover(() => {
                 document.querySelector('.focus-polo').style.display = 'block';
@@ -341,8 +358,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     renaudPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Renaud',
-            subTitle: 'Renaud sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.',
+            subTitle: 'Melody under muscles',
+            description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba! The rapper has proved it a few times... Take a look!',
         }, () => {
             onDiscover(() => {
                 document.querySelector('.focus-renaud').style.display = 'block';

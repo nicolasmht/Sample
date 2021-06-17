@@ -268,6 +268,9 @@ function Component(sceneMain) {
         sncf.stop();
         ketchup.stop();
         sugar.stop();
+
+        data.forEach(item => item.sound.stop());
+
         soundPlayed.stop();
     }
 
