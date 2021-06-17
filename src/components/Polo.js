@@ -93,7 +93,7 @@ function Component(scene) {
     tl.to(background, 4,{opacity: 1}, 0);
 
     // Create all sounds
-    let sireneSound = {path: NanaSample, title: 'Nana', date: '2016', artist: 'Polo & Pan', start: 0};
+    let sireneSound = {path: './polo/sounds/sirene/Nana_Sample.mp3', title: 'Nana', date: '2016', artist: 'Polo & Pan', start: 0};
     let sireneSample = {path: OsTincoasCordeiroNanaOriginal, title: 'Cordeiro De Nanã', date: '1977', artist: 'Os Tincoãs'};
     createSound(document.querySelector('#sirene'), sireneSound, sireneSample);
 
@@ -107,7 +107,7 @@ function Component(scene) {
 
     let carnivoreSound = {path: AniCouniOriginal, title: 'Ani Kuni', date: '2021', artist: 'Polo & Pan'};
     let carnivoreSample = {path: AniKuniSample, title: 'Ani Kuni', date: '?', artist: 'Traditional Folk'};
-    createSound(document.querySelector('#carnivore'), mainSound, mainSample);
+    createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
 
     // Vinyle player
     let discRotation = 0;
