@@ -245,7 +245,7 @@ function Component(sceneMain) {
             let tuto = document.querySelector('.tuto.memory').classList.add('hide');
         }, 4000)
 
-        window.addEventListener('mousedown', onMouseDown, false);
+        document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
         render();
     }
 
