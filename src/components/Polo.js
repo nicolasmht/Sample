@@ -1,7 +1,6 @@
-import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
-import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
+// import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
 import OsTincoasCordeiroNanaOriginal from '../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3';
 import ZumZumOriginal from '../audios/focus/polo/papillon/Zum-Zum_Original.mp3';
 import ZoomzoomSample from '../audios/focus/polo/papillon/Zoom-zoom-Sample.mp3';

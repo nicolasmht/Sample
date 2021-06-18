@@ -240,6 +240,11 @@ function Component(sceneMain) {
     }
 
     this.start = function() {
+
+        setTimeout(() => {
+            let tuto = document.querySelector('.tuto.memory').classList.add('hide');
+        }, 4000)
+
         window.addEventListener('mousedown', onMouseDown, false);
         render();
     }
