@@ -85,11 +85,11 @@ function Component(scene) {
 
     // Timeline for the colors effects
     var tl = new TimelineMax({paused: true});
-    tl.to(layer_1.style, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
-    tl.to(layer_2.style, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
-    tl.to(layer_3.style, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
-    tl.to(layer_4.style, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
-    tl.to(sun, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
+    tl.to(layer_1, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
+    tl.to(layer_2, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
+    tl.to(layer_3, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
+    tl.to(layer_4, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
+    tl.to(sun.style, 4, {filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'}, 0);
     tl.to(background, 4,{opacity: 1}, 0);
 
     // Create all sounds
