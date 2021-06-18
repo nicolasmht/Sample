@@ -99224,8 +99224,12 @@ module.exports = "/Polo.44068aad.png";
 module.exports = "/Renaud.d34f3b2c.png";
 },{}],"textures/Labo/Retour.png":[function(require,module,exports) {
 module.exports = "/Retour.f571a565.png";
-},{}],"textures/textures_gravure/illu.png":[function(require,module,exports) {
-module.exports = "/illu.8e005876.png";
+},{}],"textures/scratch-01.png":[function(require,module,exports) {
+module.exports = "/scratch-01.ff2f70cc.png";
+},{}],"textures/scratch-02.png":[function(require,module,exports) {
+module.exports = "/scratch-02.a1a548c1.png";
+},{}],"textures/scratch-03.png":[function(require,module,exports) {
+module.exports = "/scratch-03.dbed141c.png";
 },{}],"textures/FiveToneR.jpg":[function(require,module,exports) {
 module.exports = "/FiveToneR.bd0f7381.jpg";
 },{}],"components/Renaud.js":[function(require,module,exports) {
@@ -99678,6 +99682,10 @@ function Component(scene) {
     result += parseInt("".concat(timecode[2]).concat(timecode[3])) * 1000;
     return result;
   }
+
+  this.start = function () {};
+
+  this.stop = function () {};
 
   this.update = function (time) {};
 
@@ -100598,8 +100606,10 @@ var DragDrop = /*#__PURE__*/function () {
 
 exports.DragDrop = DragDrop;
 ;
-},{}],"images/focus/kaleidoscope/Fleur_04.png":[function(require,module,exports) {
-module.exports = "/Fleur_04.9e63f9f2.png";
+},{}],"images/focus/kaleidoscope/Bollywood.png":[function(require,module,exports) {
+module.exports = "/Bollywood.0d0fae15.png";
+},{}],"images/focus/kaleidoscope/Britney.png":[function(require,module,exports) {
+module.exports = "/Britney.9a60b423.png";
 },{}],"components/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
@@ -100612,7 +100622,9 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
-var _Fleur_ = _interopRequireDefault(require("../images/focus/kaleidoscope/Fleur_04.png"));
+var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
+
+var _Britney = _interopRequireDefault(require("../images/focus/kaleidoscope/Britney.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -100636,8 +100648,8 @@ function KaleidoscopeComponent(scene) {
     return kaleidoscope2.draw();
   };
 
-  image.src = _Fleur_.default;
-  image2.src = _Fleur_.default;
+  image.src = _Britney.default;
+  image2.src = _Bollywood.default;
   var kaleidoscope = new _Kaleidoscope.Kaleidoscope({
     image: image,
     slices: 20 // zoom: 0.1
@@ -100757,7 +100769,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Fleur_04.png":"images/focus/kaleidoscope/Fleur_04.png"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100791,7 +100803,11 @@ var _Renaud = _interopRequireDefault(require("../textures/Labo/Renaud.png"));
 
 var _Retour = _interopRequireDefault(require("../textures/Labo/Retour.png"));
 
-var _illu = _interopRequireDefault(require("../textures/textures_gravure/illu.png"));
+var _scratch = _interopRequireDefault(require("../textures/scratch-01.png"));
+
+var _scratch2 = _interopRequireDefault(require("../textures/scratch-02.png"));
+
+var _scratch3 = _interopRequireDefault(require("../textures/scratch-03.png"));
 
 var _FiveToneR = _interopRequireDefault(require("../textures/FiveToneR.jpg"));
 
@@ -100826,10 +100842,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
   var loader = new _GLTFLoader.GLTFLoader();
   var labo = new THREE.Object3D();
-  var texture = new THREE.TextureLoader().load(_illu.default);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.magFilter = THREE.CubeUVReflectionMapping;
+  var texture01 = new THREE.TextureLoader().load(_scratch.default);
+  var texture02 = new THREE.TextureLoader().load(_scratch2.default);
+  var texture03 = new THREE.TextureLoader().load(_scratch3.default);
+  texture01.wrapS = THREE.RepeatWrapping;
+  texture01.wrapT = THREE.RepeatWrapping;
+  texture01.minFilter = THREE.LinearMipMapLinearFilter;
+  texture01.magFilter = THREE.LinearFilter;
+  texture01.magFilter = THREE.CubeUVReflectionMapping;
   loader.load(_Cabinet_Objets_.default, function (gltf) {
     var mat;
     labo = gltf.scene;
@@ -100845,8 +100865,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             child.material = new THREE.MeshToonMaterial({
               side: THREE.DoubleSide,
               gradientMap: fiveTone,
-              opacity: 0.1
+              normalMap: texture02,
+              displacementMap: texture02,
+              bumpMap: texture02,
+              map: texture02
             });
+
+            if (child.name == 'wall') {
+              child.material.map = null;
+            }
+
+            if (child.name == 'desk_tiroirs001' || child.name == 'desk_tiroirs002' || child.name == 'desk_tiroirs003' || child.name == 'desk_tiroirs004' || child.name == 'desk_tiroirs005' || child.name == 'desk_tiroirs006' || child.name == 'desk_tiroirs009') {
+              child.material.map = texture03;
+            }
+
             child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
           }
         }
@@ -101070,6 +101102,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       onDiscover(function () {
         reset();
         document.querySelector('.focus-gainsbourg').style.display = 'block';
+        gainsbourgFocus.start();
         onClose(function () {});
       });
     });
@@ -101293,7 +101326,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/textures_gravure/illu.png":"textures/textures_gravure/illu.png","../textures/FiveToneR.jpg":"textures/FiveToneR.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/FiveToneR.jpg":"textures/FiveToneR.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101424,8 +101457,8 @@ var OutlineEffect = /*#__PURE__*/function (_Effect) {
 }(_postprocessing.Effect);
 
 exports.default = OutlineEffect;
-},{"three":"../node_modules/three/build/three.module.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js"}],"textures/textures_gravure/00.png":[function(require,module,exports) {
-module.exports = "/00.5e7517f9.png";
+},{"three":"../node_modules/three/build/three.module.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js"}],"textures/scratch.png":[function(require,module,exports) {
+module.exports = "/scratch.fb68acfd.png";
 },{}],"components/KaleidoShader.js":[function(require,module,exports) {
 "use strict";
 
@@ -101532,7 +101565,7 @@ var _noiseEffect = _interopRequireDefault(require("./noiseEffect"));
 
 var _outlineEffect = _interopRequireDefault(require("./outlineEffect"));
 
-var _ = _interopRequireDefault(require("./textures/textures_gravure/00.png"));
+var _scratch = _interopRequireDefault(require("./textures/scratch.png"));
 
 var _KaleidoShader = _interopRequireDefault(require("./components/KaleidoShader"));
 
@@ -101613,22 +101646,18 @@ function Scene(canvas) {
 
   light.shadow.mapSize.height = 256;
   scene.add(light); // composer.addPass(new EffectPass(camera, new KaleidoShader()));
-  // let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
-  //     // t.encoding = THREE.sRGBEncoding;
-  //     t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  // });
-  // const textureEffect = new TextureEffect({
-  //     blendFunction: BlendFunction.EXCLUSION,
-  //     texture: textureLoader,
-  //     aspectCorrection: true,
-  //     uvTransform: true,
-  //     alpha: 0
-  // });
-  // composer.addPass(new EffectPass(camera, textureEffect));
-  // composer.addPass(new EffectPass(camera, new DepthEffect({
-  //     blendFunction: BlendFunction.NORMAL,
-  //     inverted: true
-  // })));
+
+  var textureLoader = new THREE.TextureLoader().load(_scratch.default, function (t) {
+    // t.encoding = THREE.sRGBEncoding;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  });
+  var textureEffect = new _postprocessing.TextureEffect({
+    blendFunction: _postprocessing.BlendFunction.EXCLUSION,
+    texture: textureLoader,
+    aspectCorrection: true,
+    uvTransform: true,
+    alpha: 0
+  }); // composer.addPass(new EffectPass(camera, textureEffect));
 
   function buildScene() {
     var scene = new THREE.Scene();
@@ -101771,7 +101800,7 @@ function Scene(canvas) {
 
 var _default = Scene;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","animejs":"../node_modules/animejs/lib/anime.es.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","virtual-scroll":"../node_modules/virtual-scroll/lib/virtualscroll.js","./utils/mouse":"utils/mouse.js","./components/scrollTimeline.js":"components/scrollTimeline.js","./components/tearCanvas.js":"components/tearCanvas.js","./components/daftPunk.js":"components/daftPunk.js","./components/Labo":"components/Labo.js","./components/Kaleidoscope":"components/Kaleidoscope.js","./components/Renaud":"components/Renaud.js","./noiseEffect":"noiseEffect.js","./outlineEffect":"outlineEffect.js","./textures/textures_gravure/00.png":"textures/textures_gravure/00.png","./components/KaleidoShader":"components/KaleidoShader.js"}],"../node_modules/stats-js/build/stats.min.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","animejs":"../node_modules/animejs/lib/anime.es.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","virtual-scroll":"../node_modules/virtual-scroll/lib/virtualscroll.js","./utils/mouse":"utils/mouse.js","./components/scrollTimeline.js":"components/scrollTimeline.js","./components/tearCanvas.js":"components/tearCanvas.js","./components/daftPunk.js":"components/daftPunk.js","./components/Labo":"components/Labo.js","./components/Kaleidoscope":"components/Kaleidoscope.js","./components/Renaud":"components/Renaud.js","./noiseEffect":"noiseEffect.js","./outlineEffect":"outlineEffect.js","./textures/scratch.png":"textures/scratch.png","./components/KaleidoShader":"components/KaleidoShader.js"}],"../node_modules/stats-js/build/stats.min.js":[function(require,module,exports) {
 var define;
 !function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.Stats=t()}(this,function(){"use strict";var c=function(){var n=0,l=document.createElement("div");function e(e){return l.appendChild(e.dom),e}function t(e){for(var t=0;t<l.children.length;t++)l.children[t].style.display=t===e?"block":"none";n=e}l.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000",l.addEventListener("click",function(e){e.preventDefault(),t(++n%l.children.length)},!1);var i=(performance||Date).now(),a=i,o=0,f=e(new c.Panel("FPS","#0ff","#002")),r=e(new c.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var d=e(new c.Panel("MB","#f08","#201"));return t(0),{REVISION:16,dom:l,addPanel:e,showPanel:t,begin:function(){i=(performance||Date).now()},end:function(){o++;var e=(performance||Date).now();if(r.update(e-i,200),a+1e3<=e&&(f.update(1e3*o/(e-a),100),a=e,o=0,d)){var t=performance.memory;d.update(t.usedJSHeapSize/1048576,t.jsHeapSizeLimit/1048576)}return e},update:function(){i=this.end()},domElement:l,setMode:t}};return c.Panel=function(n,l,i){var a=1/0,o=0,f=Math.round,r=f(window.devicePixelRatio||1),d=80*r,e=48*r,c=3*r,p=2*r,u=3*r,s=15*r,m=74*r,h=30*r,y=document.createElement("canvas");y.width=d,y.height=e,y.style.cssText="width:80px;height:48px";var v=y.getContext("2d");return v.font="bold "+9*r+"px Helvetica,Arial,sans-serif",v.textBaseline="top",v.fillStyle=i,v.fillRect(0,0,d,e),v.fillStyle=l,v.fillText(n,c,p),v.fillRect(u,s,m,h),v.fillStyle=i,v.globalAlpha=.9,v.fillRect(u,s,m,h),{dom:y,update:function(e,t){a=Math.min(a,e),o=Math.max(o,e),v.fillStyle=i,v.globalAlpha=1,v.fillRect(0,0,d,s),v.fillStyle=l,v.fillText(f(e)+" "+n+" ("+f(a)+"-"+f(o)+")",c,p),v.drawImage(y,u+r,s,m-r,h,u,s,m-r,h),v.fillRect(u+m-r,s,r,h),v.fillStyle=i,v.globalAlpha=.9,v.fillRect(u+m-r,s,r,f((1-e/t)*h))}}},c});
 
@@ -101860,7 +101889,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65005" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53496" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
