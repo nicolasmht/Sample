@@ -14,6 +14,25 @@ import Dvorak from '../audios/focus/gainsbourg/dvorak.mp3';
 
 function Component(scene) {
 
+    let canvas = document.getElementById('mask');
+    var ctx = canvas.getContext('2d');
+
+    // Create a radial gradient
+    // The inner circle is at x=110, y=90, with radius=30
+    // The outer circle is at x=100, y=100, with radius=70
+    var gradient = ctx.createRadialGradient(210,60,10, 200,70,50);
+
+    // Add three color stops
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(.9, 'rgba(0, 0, 0, .3)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, .6)');
+
+    console.log(gradient);
+
+    // Set the fill style and draw a rectangle
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, window.innerWidth , window.innerWidth * (window.innerWidth / window.innerHeight));
+
     // Définition des éléments draggables
     var draggableElements = document.getElementsByClassName("draggable");
 
