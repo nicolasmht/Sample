@@ -157,7 +157,6 @@ html, body {
 .tuto {
   width: 100vw;
   height: 100vh;
-  background-color: #00000021;
   position: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -485,7 +484,7 @@ html, body {
     background-repeat: no-repeat;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 50%) rotateZ(0deg);
+    transform: translate(-50%, 50%) rotate(0deg);
     transform-origin: center;
 
 
