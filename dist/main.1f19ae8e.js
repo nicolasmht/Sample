@@ -101171,6 +101171,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
         if (child.name != 'plante') {
           if (child.name == 'cloche1' || child.name == 'verre' || child.name == 'cloche' || child.name == 'cordes' || child.name == 'cloche_1') {} else {
+            // texture02.rotation = Math.random() * 360 * (Math.PI/180);
+            // console.log(texture02.rotation)
             child.material = new THREE.MeshToonMaterial({
               side: THREE.DoubleSide,
               gradientMap: fiveTone,
@@ -102200,7 +102202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53713" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51846" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

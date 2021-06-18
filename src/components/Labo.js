@@ -77,6 +77,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                         
                     } else {
 
+                        // texture02.rotation = Math.random() * 360 * (Math.PI/180);
+
+                        // console.log(texture02.rotation)
+
                         child.material = new THREE.MeshToonMaterial({
                             side: THREE.DoubleSide,
                             gradientMap: fiveTone,
