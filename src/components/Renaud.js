@@ -107,11 +107,21 @@ function Component(scene, camera) {
     this.mousemove = function(e) {}
 
     this.start = function() {
+
+        setTimeout(() => {
+            document.querySelector('.tuto.renaud').classList.add('hide');
+        }, 4000);
+
         renaud.play();
         booba.play();
     }
 
     this.stop = function() {
+
+        setTimeout(() => {
+            document.querySelector('.tuto.renaud').classList.remove('hide');
+        }, 4000);
+
         renaud.stop();
         booba.stop();
     }

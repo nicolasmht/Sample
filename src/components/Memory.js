@@ -250,6 +250,12 @@ function Component(sceneMain) {
     }
 
     this.stop = function() {
+
+       
+        setTimeout(() => {
+            let tuto = document.querySelector('.tuto.memory').classList.remove('hide');
+        }, 3000);
+
         window.cancelAnimationFrame(idAnimation);
         // window.removeEventListener('mousedown');
         soundPlayed.stop();
