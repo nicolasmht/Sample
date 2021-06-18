@@ -1,14 +1,50 @@
+@font-face {
+    font-family: "biotif";
+    src: url("../fonts/biotif/Biotif-Regular.ttf");
+}
+@font-face {
+    font-family: "biotif-b";
+    src: url("../fonts/biotif/Biotif-Black.ttf");
+}
+@font-face {
+    font-family: "biotif-l";
+    src: url("../fonts/biotif/Biotif-LightItalic.ttf");
+}
+
 html, body {
     width: 100vw;
     height: 100vh;
     margin: 0;
-    overflow: hidden;
+    // overflow: hidden;
+    overflow-x: hidden;
     background-color: transparent;
     cursor: default;
 }
 
+////    COLOR    ////
+.kaki {
+    color: #8C945B;
+}
+.orange {
+    color: #D46D43;
+}
+.purple {
+    color: #75609A;
+}
+.green {
+    color: #18BF6F;
+}
+.prune {
+    color: #4F4A87;
+}
+.cyan {
+    color: #31A5D1;
+}
+
+
 #canvas {   
-  position: absolute;
+//   position: absolute;
+  position: fixed;
   top: 0; left: 0;
   z-index: 1;
   transition: opacity 3s;
@@ -124,15 +160,15 @@ html, body {
     z-index: 999;
 }
 
-.container {
-    position: absolute;
-    width: 100%;
-    // height: 500vh;
-    // background: rgb(236,0,245);
-    // background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
-    // background-image: url('../images/Back.png');
-    background-size: cover;
-}
+// .container {
+//     position: absolute;
+//     width: 100%;
+//     // height: 500vh;
+//     // background: rgb(236,0,245);
+//     // background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+//     // background-image: url('../images/Back.png');
+//     background-size: cover;
+// }
 
 .box {
     display: block;
@@ -645,4 +681,270 @@ html, body {
     -o-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+
+////    TIMELINE    ////
+
+// body::after {
+//     content: "";
+//     height: 2px;
+//     position: fixed;
+//     top: calc(50% - 1px);
+//     left: 0;
+//     right: 0;
+//     background: red;
+//     z-index: 10;
+// }
+
+.bounce {
+    animation: bounce 1s ease-in-out forwards;
+}
+
+@keyframes bounce {
+    0% {transform: scaleY(1.15);}
+    20% {transform: scaleY(0.85);}
+    40% {transform: scaleY(1.1);}
+    60% {transform: scaleY(0.95);}
+    80% {transform: scaleY(1);}
+    100% {transform: scaleY(1);}
+}
+.container {
+    position: absolute;
+    width: 100%;
+    // height: 500vh;
+    background: rgb(236,0,245);
+    background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+    background-image: url('../images/timeline_background.png');
+    background-size: 100%;
+    background-attachment: fixed;
+    padding-top: 250vh;
+    padding-bottom: 250vh;
+    .cont_slider {
+        position: fixed;
+        top: 40%;
+        right: 60px;
+        height: 200px;
+        width: 20px;
+        background-image: url('../images/Ligne.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        .slider {
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            overflow: visible;
+            position: relative;
+            &::after {
+                content: '';
+                position: absolute;
+                width: 80px;
+                height: 40px;
+                background-image: url('../images/Player.png');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                top: 0;
+                left: -20px;
+            }
+        }
+        .txt_slider {
+            position: absolute;
+            width: 120px;
+            right: -50px;
+            text-align: center;
+            transition: .5s opacity ease-out;
+            p {
+                margin: 0;
+                font-size: 14px;
+                &.date {
+                    font-size: 12px;
+                }
+                &.artist {
+                    font-family: 'biotif-b';
+                }
+                &.title {
+                    font-family: 'biotif-l';
+                }
+            }
+            &-top {
+                top: -90px;
+            }
+            &-bot {
+                top: 220px;
+            }
+        }
+    }
+
+    h1 {
+        font-family: 'bely-display';
+        font-size: 50px;
+    }
+    p {
+        font-family: 'biotif';
+        font-size: 16px;
+    }
+    .cta {
+        font-family: 'bely-display';
+        font-size: 18px;
+        position: relative;
+        cursor: pointer;
+        width: 100px;
+        &::before {
+            content: "";
+            position: absolute;
+            width: 85px;
+            background: url('../images/Underline.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            bottom: -9px;
+            height: 10px;
+        }
+    }
+    &_artist {
+        display: flex;
+        padding: 30px;
+        margin-bottom: 700px;
+        &-left {
+            width: 55%;
+            position: relative;
+            img {
+                position: absolute;
+            }
+            .ps {
+                &-1 {
+                    top: 20%;
+                }
+                &-2 {
+                    left: 40%;
+                }
+                &-3 {
+                    left: 30%;
+                    top: -50%;
+                }
+            }
+            .beat {
+                &-1 {
+                    left: 10%;
+                    bottom: -50%;
+                }
+                &-2 {
+                    top: -30%;
+                }
+            }
+            .ab {
+                &-1 {
+                    bottom: -60%;
+                }
+                &-2 {
+                    top: -50%;
+                    left: 50%;
+                }
+            }
+            .jm {
+                &-1 {
+                    right: 25%;
+                    top: 25%;
+                }
+                &-2 {
+                    right: 0%;
+                }
+                &-3 {
+                    right: -60%;
+                    top: -75%;
+                }
+            }
+            .sp {
+                &-1 {
+                    bottom: -100%;
+                }
+                &-2 {
+                    right: 15%;
+                    top: -70%;
+                }
+                &-3 {
+                    right: -50%;
+                    top: -100%;
+                }
+            }
+            .conf {
+                &-1 {
+                    left: 20%;
+                    top: 20%;
+                }
+                &-2 {
+                    top: -60%;
+                    left: 20%;
+                }
+                &-3 {
+                    right: -60%;
+                    top: -100%;
+                }
+            }
+        }
+        &-right {
+            width: 35%;
+            position: relative;
+        }
+        &-panel {
+            background: red;
+            height: 100vh;
+            width: 250px;
+            padding: 40px;
+            padding-right: 100px;
+            position: fixed;
+            top: 0;
+            right: -390px;
+            background: url('../images/background-more.png');
+            background-size: contain;
+            color: white;
+            overflow-y: scroll;
+            transition: .25s transform ease-out;
+            z-index: 9;
+            .cross {
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                background: url('../images/cross.png');
+                background-size: contain;
+                height: 45px;
+                width: 45px;
+                cursor: pointer;
+                opacity: 0;
+                pointer-events: none;
+                transition: .25s;
+                &-visible {
+                    opacity: 1;
+                    pointer-events: initial;
+                }
+            }
+            .title {
+                font-family: 'bely-display';
+                font-size: 40px;
+            }
+            .desc {
+                line-height: 25px;
+                font-size: 15px;
+                padding-right: 20px;
+            }
+            &-1 {
+                background-color: #8C945B;
+            }
+            &-2 {
+                background-color: #D87850;
+            }
+            &-3 {
+                background-color: #75609A;
+            }
+            &-4 {
+                background-color: #6BAD8E;
+            }
+            &-6 {
+                background-color: #43C6FE;
+            }
+        }
+    }
 }

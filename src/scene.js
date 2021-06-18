@@ -94,6 +94,7 @@ function Scene(canvas, started = false) {
     // controls.enableZoom = false;
 
     /*
+
      * LIGHTS
      */
     const light = new THREE.DirectionalLight(0xFFFFFF, 1);
@@ -168,7 +169,7 @@ function Scene(canvas, started = false) {
 
         renderer.gammaOutput = true;
 
-        // renderer.setClearColor(0x808080);
+        renderer.setClearColor(0x808088,0);
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         // renderer.setPixelRatio(DPR);
         renderer.setPixelRatio(1);
@@ -194,8 +195,8 @@ function Scene(canvas, started = false) {
             // new tearCanvas(scene, camera),
             // new daftPunk(scene, camera, interactionManager),
 
-            // new scrollTimeline(scene, camera),
-            new LaboComponent(scene, camera, renderer, interactionManager),
+            new scrollTimeline(scene, camera),
+            // new LaboComponent(scene, camera, renderer, interactionManager),
             // new KaleidoscopeComponent(scene, camera, composer)
         ];
 
@@ -275,7 +276,7 @@ function Scene(canvas, started = false) {
 
         lastEventY = event.y;
 
-        components.forEach(component => component.wheel(Y * 0.01));
+        components.forEach(component => component.wheel(Y * 0.01, event.y));
     });
 
 }
