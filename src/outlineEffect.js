@@ -44,7 +44,7 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
 
     // outputColor = vec4(vec3(1., 0., 0.), 1.);
     // outputColor = inputColor;
-    outputColor = vec4(texture2D(inputBuffer, uv).rgb + vec3(-1. * G), 1);
+    outputColor = vec4(texture2D(inputBuffer, uv).rgb + vec3(-1. * G), inputColor.a);
 }
 `;
 
