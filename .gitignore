@@ -61,7 +61,10 @@ typings/
 .env
 
 # Parcel related files
-dist/
+# dist/
 .cache/
 build/
+.history
+
 .DS_Store
+*/.DS_Store
