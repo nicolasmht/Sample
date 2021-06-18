@@ -32,6 +32,8 @@
     "virtual-scroll": "^2.1.1"
   },
   "staticFiles": {
-    "staticPath": ["src/assets"]
- }
+    "staticPath": [
+      "src/assets"
+    ]
+  }
 }
