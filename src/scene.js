@@ -22,7 +22,7 @@ import RenaudComponent from './components/Renaud';
 import NoiseEffect from './noiseEffect';
 import OutlineEffect from './outlineEffect';
 
-import TextureGravure from './textures/textures_gravure/00.png';
+import TextureGravure from './textures/scratch.png';
 
 import KaleidoShader from './components/KaleidoShader';
 
@@ -94,6 +94,7 @@ function Scene(canvas, started = false) {
     // controls.enableZoom = false;
 
     /*
+
      * LIGHTS
      */
     const light = new THREE.DirectionalLight(0xFFFFFF, 1);
@@ -109,27 +110,19 @@ function Scene(canvas, started = false) {
 
     // composer.addPass(new EffectPass(camera, new KaleidoShader()));
 
+    let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
+        // t.encoding = THREE.sRGBEncoding;
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    });
 
-
-    // let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
-    //     // t.encoding = THREE.sRGBEncoding;
-    //     t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    // });
-
-    // const textureEffect = new TextureEffect({
-    //     blendFunction: BlendFunction.EXCLUSION,
-    //     texture: textureLoader,
-    //     aspectCorrection: true,
-    //     uvTransform: true,
-    //     alpha: 0
-    // });
+    const textureEffect = new TextureEffect({
+        blendFunction: BlendFunction.EXCLUSION,
+        texture: textureLoader,
+        aspectCorrection: true,
+        uvTransform: true,
+        alpha: 0
+    });
     // composer.addPass(new EffectPass(camera, textureEffect));
-
-    // composer.addPass(new EffectPass(camera, new DepthEffect({
-    //     blendFunction: BlendFunction.NORMAL,
-    //     inverted: true
-    // })));
-    
 
     function buildScene() {
         const scene = new THREE.Scene();
@@ -168,7 +161,10 @@ function Scene(canvas, started = false) {
 
         renderer.gammaOutput = true;
 
-        renderer.setClearColor(0xDAAD9F);
+
+        renderer.setClearColor(0x808088,0);
+        // renderer.setClearColor(0xDAAD9F);
+
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
         renderer.setPixelRatio(DPR);
         // renderer.setPixelRatio(1);
@@ -194,8 +190,9 @@ function Scene(canvas, started = false) {
             // new tearCanvas(scene, camera),
             // new daftPunk(scene, camera, interactionManager),
 
-            new scrollTimeline(scene, camera),
+            // new scrollTimeline(scene, camera),
             new LaboComponent(scene, camera, renderer, interactionManager),
+
             // new KaleidoscopeComponent(scene, camera, composer)
         ];
 
@@ -275,7 +272,7 @@ function Scene(canvas, started = false) {
 
         lastEventY = event.y;
 
-        components.forEach(component => component.wheel(Y * 0.01));
+        components.forEach(component => component.wheel(Y * 0.01, event.y));
     });
 
 }

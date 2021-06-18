@@ -6,8 +6,8 @@ import * as THREE from 'three';
 // Audios
 import { Kaleidoscope, DragDrop } from '../utils/Kaleidoscope';
 
-import IMG from '../images/focus/kaleidoscope/Fleur_04.png';
-import IMG2 from '../images/focus/kaleidoscope/Fleur_04.png';
+import IMG from '../images/focus/kaleidoscope/Bollywood.png';
+import IMG2 from '../images/focus/kaleidoscope/Britney.png';
 
 function KaleidoscopeComponent(scene) {
 
