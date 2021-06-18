@@ -1,0 +1,621 @@
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background-color: transparent;
+  cursor: default;
+  font-family: "bely";
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: opacity 3s;
+}
+
+.container-focus {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  transform: translateX(100vw);
+  transition: all 3s;
+  z-index: 2;
+  overflow: hidden;
+}
+.container-focus.full {
+  transform: translateX(0) !important;
+}
+.container-focus .back-labo {
+  position: absolute;
+  top: 2.5vh;
+  left: 2.5vw;
+  width: 3vw;
+  height: 3vw;
+  background-image: url(/back-labo.7774f8e2.png);
+  background-size: contain;
+  background-position: center center;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.container-infos {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 25vw;
+  padding: 5vh 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url(/background.0063873b.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: all 3s;
+}
+.container-infos.visible {
+  transition: all 0.3s;
+  transform: translateX(0);
+}
+.container-infos.full {
+  transition: all 3s;
+  transform: translateX(-100vw);
+}
+.container-infos .title-infos {
+  margin: 0;
+  margin-bottom: 2.5vh;
+  font-size: 4vw;
+}
+.container-infos .subTitle-infos {
+  margin: 0;
+  margin-bottom: 3vh;
+  font-size: 2vw;
+  text-align: center;
+}
+.container-infos .description-infos {
+  margin-bottom: 10vh;
+  text-align: left;
+  font-size: 1.2vw;
+  line-height: 2vw;
+}
+.container-infos .btn-infos {
+  width: 12vw;
+  height: 8vh;
+  background-image: url(/CTA_Discover.cfead27a.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  color: #fff;
+  font-size: 1.6vw;
+  cursor: pointer;
+}
+.container-infos .close-infos {
+  position: absolute;
+  top: 2.5vh;
+  right: 2.5vw;
+  width: 3vw;
+  height: 3vw;
+  background-image: url(/close.46897bca.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.gui {
+  position: absolute;
+  right: 0;
+  z-index: 999;
+}
+
+.container {
+  position: absolute;
+  width: 100%;
+  background-size: cover;
+}
+
+.box {
+  display: block;
+  position: absolute;
+  top: 300px;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-color: blue;
+}
+
+.box2 {
+  display: block;
+  position: absolute;
+  top: 330px;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+}
+
+.tuto {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000021;
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  transition: 400ms;
+  z-index: 10000;
+  pointer-events: none;
+}
+.tuto.hide {
+  transform: scale(0.2);
+  opacity: 0;
+}
+.tuto.memory {
+  background-image: url("/memory.9f352a79.png");
+}
+.tuto.renaud {
+  background-image: url("/renaud.d5cd29ce.png");
+}
+.tuto.polo {
+  background-image: url("/polo.93e13b0a.png");
+}
+.tuto.gainsbourg {
+  background-image: url("/gainsbourg.f1494bf7.png");
+}
+
+.focus-renaud {
+  width: 100vw;
+  height: 100vh;
+  -o-object-fit: contain;
+  object-fit: contain;
+  background-image: url("/background.fd6cf431.png");
+  background-position: center;
+  background-size: cover;
+  display: none;
+}
+.focus-renaud #video {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+}
+.focus-renaud #video img {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.focus-renaud > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: fixed;
+  opacity: 0;
+  -webkit-animation-name: shake;
+  -webkit-animation-duration: 0.8s;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    -webkit-transform: translate(2px, 1px) rotate(0deg);
+  }
+  10% {
+    -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    -webkit-transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    -webkit-transform: translate(0px, 2px) rotate(0deg);
+  }
+  40% {
+    -webkit-transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    -webkit-transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    -webkit-transform: translate(2px, 1px) rotate(-1deg);
+  }
+  80% {
+    -webkit-transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    -webkit-transform: translate(2px, 2px) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+.focus-gainsbourg {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/background.605da404.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: none;
+}
+.focus-gainsbourg img {
+  max-width: 25%;
+  cursor: move;
+  position: absolute;
+  transition: transform 300ms;
+  z-index: 2;
+  transform-origin: center;
+}
+.focus-gainsbourg img.draggable:hover {
+  transform: scale(1.1);
+}
+.focus-gainsbourg img.stamp {
+  max-width: 10%;
+  z-index: 1;
+}
+.focus-gainsbourg img.aram {
+  width: 7%;
+  bottom: 10vw;
+  left: 10vw;
+}
+.focus-gainsbourg img.chopin {
+  top: 42vh;
+  right: 25vw;
+  width: 6%;
+}
+.focus-gainsbourg img.clopes {
+  width: 160px;
+  transform: rotate(36.67deg);
+  top: -40px;
+  left: 20%;
+}
+.focus-gainsbourg img.clopes:hover {
+  transform: rotate(36.67deg) scale(1.1) !important;
+}
+.focus-gainsbourg img.dvorak {
+  width: 80px;
+  top: 5%;
+  left: 22%;
+}
+.focus-gainsbourg img.charlotte {
+  width: 10%;
+  bottom: 20vw;
+  left: 10vw;
+}
+.focus-gainsbourg img.lemon {
+  width: 33%;
+  top: 39vh;
+  right: 14vw;
+  transform-origin: center;
+  transform: rotate(30deg);
+}
+.focus-gainsbourg img.lemon:hover {
+  transform: rotate(30deg) scale(1.1) !important;
+}
+.focus-gainsbourg img.jtm {
+  transform: rotate(66.39deg);
+  bottom: 0vh;
+  left: 40vh;
+}
+.focus-gainsbourg img.jtm:hover {
+  transform: rotate(66.39deg) scale(1.1) !important;
+}
+.focus-gainsbourg img.polska {
+  bottom: 3vh;
+  left: 54vh;
+  width: 6%;
+}
+.focus-gainsbourg img.charlotte, .focus-gainsbourg img.aram {
+  bottom: 0%;
+  left: 10%;
+}
+.focus-gainsbourg #background-cover {
+  background-image: url("/background-cover.014080d0.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1000;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  pointer-events: none;
+}
+.focus-gainsbourg #mask {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1100;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  pointer-events: none;
+}
+
+.focus-aznavour {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  display: none;
+}
+.focus-aznavour::-webkit-scrollbar {
+  display: none;
+}
+.focus-aznavour #map {
+  width: 4000px;
+  height: 4000px;
+  transition: all 300ms ease-in-out;
+}
+.focus-aznavour section {
+  position: absolute;
+}
+.focus-aznavour section .section {
+  transition: 300ms;
+}
+.focus-aznavour section .section:first-of-type {
+  width: 400px;
+  height: 300px;
+  background-color: blue;
+  position: absolute;
+}
+.focus-aznavour section .section:last-of-type {
+  width: 400px;
+  height: 300px;
+  background-color: purple;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.focus-aznavour #maurice {
+  left: 50%;
+  margin-left: -50px;
+  top: 50%;
+  margin-top: -50px;
+}
+.focus-aznavour #caimans {
+  left: 90%;
+  top: 60%;
+  margin-top: -50px;
+}
+
+.focus-memory {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+
+.focus-polo {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  display: none;
+}
+.focus-polo #cursor {
+  position: fixed;
+  z-index: 100000;
+  background-image: url("/cursor.098de7c6.png");
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+.focus-polo #cursor.drag {
+  width: 66px;
+  height: 64px;
+  background-image: url("/drag.3edde612.png");
+  transform: rotate(-25deg);
+}
+.focus-polo #disque {
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  background-image: url("/Disque.b130b3f0.png");
+  z-index: 100000;
+  background-size: contain;
+  background-repeat: no-repeat;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%) rotateZ(0deg);
+  transform-origin: center;
+}
+.focus-polo #disque h3 {
+  margin: 0;
+  position: absolute;
+  color: white;
+  top: 65px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.focus-polo #disque h4 {
+  margin: 0;
+  position: absolute;
+  color: black;
+  top: 110px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+.focus-polo #background {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, #6c286a 0%, #0012f4 100%);
+  mix-blend-mode: overlay;
+  z-index: 50000;
+  pointer-events: none;
+  opacity: 0;
+}
+.focus-polo #layer-1 {
+  width: 100%;
+  height: 100%;
+  background-image: url("/05.54b95d9c.png");
+  margin: 0;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  transition: filter 0.8s ease-in-out;
+  pointer-events: none;
+}
+.focus-polo #layer-2 {
+  width: 120%;
+  height: 120%;
+  background-image: url("/02.b31dc7e1.png");
+  background-position: center;
+  background-size: cover;
+  position: fixed;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: filter 0.8s ease-in-out;
+  pointer-events: none;
+}
+.focus-polo #layer-2 .pin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  cursor: pointer;
+  pointer-events: all;
+}
+.focus-polo #layer-2 .pin#sirene {
+  top: 50vh;
+  left: 43vw;
+}
+.focus-polo #layer-2 .pin#poisson {
+  top: 50vh;
+  left: 43vw;
+}
+.focus-polo #layer-2 .pin#papillon {
+  top: 68vh;
+  left: 53vw;
+}
+.focus-polo #layer-2 .pin#carnivore {
+  top: 50vh;
+  left: 43vw;
+}
+.focus-polo #layer-2 .pin#main {
+  top: 50vh;
+  left: 93vw;
+}
+.focus-polo #layer-3 {
+  width: 105%;
+  height: 105%;
+  background-image: url("/01.461b1eca.png");
+  background-position: center;
+  background-size: cover;
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: filter 0.8s ease-in-out;
+  pointer-events: none;
+}
+.focus-polo #layer-3 .pin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  cursor: pointer;
+  pointer-events: all;
+}
+.focus-polo #layer-3 .pin#papillon {
+  top: 68vh;
+  left: 60vw;
+}
+.focus-polo #layer-3 .pin#carnivore {
+  top: 48vh;
+  left: 6vw;
+}
+.focus-polo #layer-4 {
+  width: 100%;
+  height: 100%;
+  background-image: url("/03.0215e571.png");
+  background-position: center;
+  background-size: cover;
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: filter 0.8s ease-in-out;
+  pointer-events: none;
+}
+
+#sun {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  transform: translateX(-50%);
+  background-image: url("/04_Soleil.a218272f.png");
+  background-position: center;
+  background-size: cover;
+  box-sizing: border-box;
+  cursor: pointer;
+  z-index: 2;
+}
+#sun::after {
+  content: "";
+  position: absolute;
+  background-image: url("/04_Halo.7e2567fc.png");
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.focus-daftpunk {
+  display: none;
+}
+
+.focus-kaleidoscope {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+}
+.focus-kaleidoscope canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/*# sourceMappingURL=/scss.6b84482b.css.map */

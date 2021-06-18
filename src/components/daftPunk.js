@@ -14,7 +14,7 @@ import sound2 from '../audios/RFL.mp3';
 function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
     camera.position.z = 9;
     
     var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -23,10 +23,15 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     renderer.setClearColor(0xEEF2FF, 1);
     document.querySelector('.focus-daftpunk').appendChild(renderer.domElement);
 
-    camera.position.set(0, 0, 50);
+    camera.position.set(0, 15, 40);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    let soundA = new Howl({src: [sound1]});
-    let soundB = new Howl({src: [sound2]});
+    // LIGHT
+    const light = new THREE.AmbientLight({ color: 0x404040, intensity: 2 });
+    scene.add(light);
+
+    let soundA = new Howl({ src: [sound1] });
+    let soundB = new Howl({ src: [sound2] });
 
     const threeTone = new THREE.TextureLoader().load(fiveT)
     threeTone.minFilter = THREE.NearestFilter;
@@ -41,11 +46,11 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
             pyramid.traverse( (child) => {
                 // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone});
+                // child.material = new THREE.MeshToonMaterial({ color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone });
             });
 
             scene.add(pyramid)
-            pyramid.position.y = -15
+            pyramid.position.y = -10;
 
             initInteraction();
         },
@@ -271,6 +276,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     }
 
     this.helpers = (gui) => {
+        const folder = gui.addFolder("DaftPunk");
+        folder.add(camera.position, "x");
+        folder.add(camera.position, "y");
+        folder.add(camera.position, "z");
+
+        folder.add(light, 'intensity');
     }
 
     this.wheel = function(Y) {

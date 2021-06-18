@@ -7,8 +7,8 @@ export class Kaleidoscope {
         this.options = options1;
         this.defaults = {
             offsetRotation: 0.0,
-            offsetScale: 1.0,
-            offsetX: 0.0,
+            offsetScale: 1.5,
+            offsetX: 0,
             offsetY: 0.0,
             radius: 360,
             slices: 3,

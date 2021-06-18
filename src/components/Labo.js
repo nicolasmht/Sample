@@ -9,7 +9,7 @@ import getNDCCoordinates from '../utils/mouse';
 
 // Gltf
 // import LaboGltf from '../objects/labo.gltf';
-import LaboGltf from '../objects/Cabinet_Objets_light.glb';
+import LaboGltf from '../objects/Cabinet_Objets_09.gltf';
 
 // Pin
 import Aznavour from '../textures/Labo/Aznavour.png';
@@ -21,7 +21,7 @@ import Polo from '../textures/Labo/Polo.png';
 import Renaud from '../textures/Labo/Renaud.png';
 import Retour from '../textures/Labo/Retour.png';
 
-import TextureGravure from '../textures/textures_gravure/brush.png';
+import TextureGravure from '../textures/textures_gravure/illu.png';
 import fiveT from '../textures/FiveToneR.jpg';
 
 import RenaudComponent from './Renaud';
@@ -30,6 +30,7 @@ import AznavourComponent from './Aznavour';
 import MemoryComponent from './Memory';
 import PoloComponent from './Polo';
 import DaftPunkComponent from './daftPunk';
+import KaleidoscopeComponent from './Kaleidoscope';
 
 function LaboComponent(scene, camera, renderer, interactionManager) {
 
@@ -41,37 +42,42 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     let labo = new THREE.Object3D();
 
     const texture = new THREE.TextureLoader().load(TextureGravure);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.magFilter = THREE.CubeUVReflectionMapping;
 
     loader.load( LaboGltf, ( gltf ) => {
 
-        let r, g, b;
+        let mat;
         labo = gltf.scene;
         labo.name = "labo"
 
         const fiveTone = new THREE.TextureLoader().load(fiveT)
-        fiveTone.minFilter = THREE.NearestFilter;
-        fiveTone.magFilter = THREE.NearestFilter;
-
 
         labo.traverse( (child) => {
             //GET OLD COLOR AND USE IT WITH TOON MATERIAL
             if(child.material) {
-                r = child.material.color.r
-                g = child.material.color.g
-                b = child.material.color.b
+                mat = child.material;
 
                 if (child.name != 'plante') {
-                    child.material = new THREE.MeshToonMaterial({
-                        side:THREE.DoubleSide,
-                        gradientMap: fiveTone,
-                        bumpMap: texture,
+                    if (
+                        child.name == 'cloche1' ||
+                        child.name == 'verre' ||
+                        child.name == 'cloche' ||
+                        child.name == 'cordes' ||
+                        child.name == 'cloche_1'
+                    ) {
                         
-                    });
+                    } else {
+                        child.material = new THREE.MeshToonMaterial({
+                            side:THREE.DoubleSide,
+                            gradientMap: fiveTone,
+                            opacity: 0.1
+                        });
 
-                    child.material.color.setRGB(r, g, b)
+                        child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
+                    }
                 }
-
-                console.log(child.name)
             }
         });
 
@@ -81,7 +87,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         //     child.material = new THREE.MeshToonMaterial({color: 0xa87b32,side:THREE.DoubleSide, gradientMap: fiveTone});
         // });
 
-        labo.position.set(0, 0, -0.5);
+        // labo.position.set(0, 0, -0.5);
         labo.rotateY(Math.PI);
         labo.scale.set(0.02, 0.02, 0.02);
 
@@ -121,16 +127,19 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     // Close info
     const onInfoClose = (callback) => {
         document.querySelector('.close-infos').addEventListener('click', function() {
+
+            reset();
+            
             infos.classList.remove('visible');
             infos.classList.remove('full');
             containerFocus.classList.remove('full');
-            TweenLite.to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut });
+            TweenLite.to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseInOut });
 
             callback();
         });
     }
 
-    const onDiscover = (callback) => {
+    function reset() {
         // Reset all scenes
         document.querySelector('.focus-renaud').style.display = 'none';
         document.querySelector('.focus-gainsbourg').style.display = 'none';
@@ -138,7 +147,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelector('.focus-memory').style.display = 'none';
         document.querySelector('.focus-polo').style.display = 'none';
         document.querySelector('.focus-daftpunk').style.display = 'none';
+        document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    }
 
+    const onDiscover = (callback) => {
+        reset();
         discover.addEventListener('click', () => {
             infos.classList.add('full');
             document.querySelector('.container-focus').classList.add('full');
@@ -149,12 +162,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }
 
     const onClose = (callback) => {
+
+        // reset();
+
         discover.addEventListener('click', callback, false);
         document.querySelector('.back-labo').addEventListener('click', function() {
             infos.classList.remove('visible');
             infos.classList.remove('full');
             containerFocus.classList.remove('full');
-            TweenLite.to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut });
+            TweenLite.to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseInOut });
 
             callback();
         });
@@ -167,8 +183,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const memoryFocus = new MemoryComponent(scene);
     const poloFocus = new PoloComponent(scene);
     const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
+    const kaleidoscopeFocus = new KaleidoscopeComponent(scene, camera);
     
     function onClick (target, item, callback) {
+
+        // reset();
 
         // Assign content to info container
         document.querySelector('.title-infos').innerText = item.title;
@@ -202,16 +221,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Aznavour
      */
     const aznavourPin = CreateSrpite(Aznavour);
-    aznavourPin.position.set(-0.2, 2.7, -1.5);
+    aznavourPin.position.set(-0.15, 2.1, -1.1);
     scene.add(aznavourPin);
     
     aznavourPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Aznavour',
-            subTitle: 'Aznavour sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'Music has no boarders',
+            description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-aznavour').style.display = 'block';
                 onClose(() => {});
             })
@@ -224,14 +244,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Britney
      */
     const britneyPin = CreateSrpite(Britney);
-    britneyPin.position.set(-2.9, 3.9, -1.5);
+    britneyPin.position.set(-2.3, 3.2, -1.2);
     scene.add(britneyPin);
 
     britneyPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Britney',
-            subTitle: 'Britney sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'From Bollywood to Hollywood',
+            description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
+        }, () => {
+            onDiscover(() => {
+                reset();
+                document.querySelector('.focus-kaleidoscope').style.display = 'block';
+                onClose(() => {});
+            })
         });
     });
 
@@ -241,16 +267,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * DaftPunk
      */
     const daftPunkPin = CreateSrpite(DaftPunk);
-    daftPunkPin.position.set(1.2, 2.9, -1.5);
+    daftPunkPin.position.set(0.9, 2.5, -1);
     scene.add(daftPunkPin);
 
     daftPunkPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'DaftPunk',
-            subTitle: 'DaftPunk sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'French touch zooooone',
+            description: 'Flash back on the iconic french touch duo! It’s time to challenge yourself, how much do you you know about them two? Will you be able to link their influences to their songs...?'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-daftpunk').style.display = 'block';
                 daftFocus.start();
                 onClose(() => {
@@ -266,17 +293,21 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Gainsbourg
      */
     const gainsbourgPin = CreateSrpite(Gainsbourg);
-    gainsbourgPin.position.set(-0.6, 4, -1.5);
+    gainsbourgPin.position.set(-0.49, 3.3, -1.5);
     scene.add(gainsbourgPin);
 
     gainsbourgPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Gainsbourg',
-            subTitle: 'Gainsbourg sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'A hint of classic behind an iconoclast spirit',
+            description: 'Well known for his music, his romances but also because of his scandalous spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a classical music lover?'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-gainsbourg').style.display = 'block';
+
+                gainsbourgFocus.start();
+
                 onClose(() => {});
             })
         });
@@ -288,16 +319,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Memo
      */
     const memoPin = CreateSrpite(Memo);
-    memoPin.position.set(-0.5, 2.1, -0.4);
+    memoPin.position.set(-0.37, 1.7, -0.4);
     scene.add(memoPin);
 
     memoPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Memo',
-            subTitle: 'Memo sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'Play around with some nice ex-samples',
+            description: 'Weeeeeeell, are you now a great sample tracker? Try to match those card by two then! It works juste like a memory, really intuitivly, we promise!'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-memory').style.display = 'block';
                 memoryFocus.start();
                 onClose(() => {
@@ -313,16 +345,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Polo
      */
     const poloPin = CreateSrpite(Polo);
-    poloPin.position.set(1, 3.9, -1.5);
+    poloPin.position.set(0.8, 3.6, -1);
     scene.add(poloPin);
 
     poloPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Polo et Pan',
-            subTitle: 'Polo et Pan sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.'
+            subTitle: 'From tropics to hits!',
+            description: 'Let go of the stress, we take you on a trip to explore Polo & Pan’s inspirations. To give you a little preview: a bresilian lullaby might get in your way.'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-polo').style.display = 'block';
                 onClose(() => {});
             })
@@ -335,16 +368,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Renaud
      */
     const renaudPin = CreateSrpite(Renaud);
-    renaudPin.position.set(1.8, 2.4, -1.1);
+    renaudPin.position.set(-1.45, 1.9, -0.9);
     scene.add(renaudPin);
 
     renaudPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Renaud',
-            subTitle: 'Renaud sous-titre',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab illo magnam necessitatibus sunt voluptatum neque.',
+            subTitle: 'Melody under muscles',
+            description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba! The rapper has proved it a few times... Take a look!',
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-renaud').style.display = 'block';
                 renaudFocus.start();
                 console.log(renaudFocus);
@@ -362,7 +396,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      */
 
     const retourPin = CreateSrpite(Retour);
-    retourPin.position.set(-1.8, 3.1, -1.2);
+    retourPin.position.set(-1.5, 2.55, -1.2);
     scene.add(retourPin);
 
     retourPin.addEventListener("click", (event) => {
@@ -373,17 +407,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     // Move camera
     let tlCamera = new TimelineMax({ paused: true })
-        .to(camera.position, { x: -0.5, y: 3.3, z: 3, onComplete: () => {
+        .to(camera.position, { x: 0, y: 2.7, z: 2.5, onComplete: () => {
             new TimelineMax()
-            .to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut })
-            .to(aznavourPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(britneyPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(daftPunkPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(gainsbourgPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(memoPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(poloPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(renaudPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(retourPin.material, 0.45, { opacity: 1, ease: EaseInOut });
+            .to(camera.position, 1, { x: 0, y: 2.7, z: 1.2, ease: EaseInOut })
+            .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(memoPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(poloPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+            .to(retourPin.material, 0.25, { opacity: 1, ease: EaseInOut });
         }});
 
     this.wheel = function(Y) {
@@ -409,15 +443,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     this.keyup = function(e) {
         if (e.key === 'Enter') {
             new TimelineMax()
-            .to(camera.position, 1, { x: 0, y: 3, z: 4, ease: EaseInOut })
-            .to(aznavourPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(britneyPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(daftPunkPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(gainsbourgPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(memoPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(poloPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(renaudPin.material, 0.45, { opacity: 1, ease: EaseInOut })
-            .to(retourPin.material, 0.45, { opacity: 1, ease: EaseInOut });
+            .to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
+            .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(memoPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(poloPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(retourPin.material, 0.25, { opacity: 1, ease: EaseOut });
         }
     }
 
