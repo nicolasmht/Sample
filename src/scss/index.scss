@@ -153,6 +153,37 @@ html, body {
     background-color:red;
 }
 
+
+// Tutorials
+.tuto {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000021;
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  transition: 400ms;
+  z-index: 10000;
+
+  &.hide {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  
+  &.memory {
+    background-image: url('../../dist/tutorials/memory.png');
+  }
+
+  &.renaud {
+    background-image: url('../../dist/tutorials/renaud.png');
+  }
+
+  &.polo {
+    background-image: url('../../dist/tutorials/polo.png');
+  }
+}
+
 .focus-renaud {
     width: 100vw;
     height: 100vh;
