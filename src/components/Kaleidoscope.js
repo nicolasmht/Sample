@@ -6,8 +6,8 @@ import * as THREE from 'three';
 // Audios
 import { Kaleidoscope, DragDrop } from '../utils/Kaleidoscope';
 
-import IMG from '../images/focus/kaleidoscope/B_01.png';
-import IMG2 from '../images/focus/kaleidoscope/Lotus_01@2x.png';
+import IMG from '../images/focus/kaleidoscope/Fleur_04.png';
+import IMG2 from '../images/focus/kaleidoscope/Fleur_04.png';
 
 function KaleidoscopeComponent(scene) {
 
@@ -34,8 +34,8 @@ function KaleidoscopeComponent(scene) {
 
     let kaleidoscope2 = new Kaleidoscope({
         image: image2,
-        slices: 4,
-        zoom: 0.4
+        slices: 20,
+        // zoom: 0.6
     });
 
     kaleidoscope.domElement.style.position = "absolute";

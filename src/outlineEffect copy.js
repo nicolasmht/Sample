@@ -5,6 +5,10 @@ const fragment = `
 uniform sampler2D tDiffuse;
 uniform vec2 resolution;
 
+vec3 blendDarken(vec3 base, vec3 blend, float opacity) {
+	return (blendDarken(base, blend) * opacity + base * (1.0 - opacity));
+}
+
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
 
     vec2 texel = vec2( 1.0 / resolution.x, 1.0 / resolution.y );
@@ -47,6 +51,20 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
     outputColor = vec4(texture2D(inputBuffer, uv).rgb + vec3(-1. * G), 1);
 }
 `;
+
+function getFBO(w, h, options = {}) {
+    const fbo = new WebGLRenderTarget(w, h, {
+      wrapS: options.wrapS || ClampToEdgeWrapping,
+      wrapT: options.wrapT || ClampToEdgeWrapping,
+      minFilter: options.minFilter || LinearFilter,
+      magFilter: options.magFilter || LinearFilter,
+      format: options.format || RGBAFormat,
+      type: options.type || UnsignedByteType,
+      stencilBuffer: options.stencilBuffer || false,
+      depthBuffer: options.depthBuffer || true,
+    });
+    return fbo;
+}
 
 export default class OutlineEffect extends Effect {
     constructor({ blendFunction = BlendFunction.NORMAL } = {}) {

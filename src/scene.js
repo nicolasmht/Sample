@@ -168,10 +168,10 @@ function Scene(canvas, started = false) {
 
         renderer.gammaOutput = true;
 
-        // renderer.setClearColor(0x808080);
+        renderer.setClearColor(0xDAAD9F);
         const DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
-        // renderer.setPixelRatio(DPR);
-        renderer.setPixelRatio(1);
+        renderer.setPixelRatio(DPR);
+        // renderer.setPixelRatio(1);
         renderer.setSize(width, height);
         
         return renderer;
