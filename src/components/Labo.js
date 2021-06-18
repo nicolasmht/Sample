@@ -231,6 +231,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-aznavour').style.display = 'block';
                 onClose(() => {});
             })
@@ -253,11 +254,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-kaleidoscope').style.display = 'block';
-                
-                onClose(() => {
-
-                });
+                onClose(() => {});
             })
         });
     });
@@ -278,6 +277,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Flash back on the iconic french touch duo! It’s time to challenge yourself, how much do you you know about them two? Will you be able to link their influences to their songs...?'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-daftpunk').style.display = 'block';
                 daftFocus.start();
                 onClose(() => {
@@ -303,7 +303,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Well known for his music, his romances but also because of his scandalous spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a classical music lover?'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-gainsbourg').style.display = 'block';
+
+                gainsbourgFocus.start();
+
                 onClose(() => {});
             })
         });
@@ -325,6 +329,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Weeeeeeell, are you now a great sample tracker? Try to match those card by two then! It works juste like a memory, really intuitivly, we promise!'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-memory').style.display = 'block';
                 memoryFocus.start();
                 onClose(() => {
@@ -350,6 +355,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Let go of the stress, we take you on a trip to explore Polo & Pan’s inspirations. To give you a little preview: a bresilian lullaby might get in your way.'
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-polo').style.display = 'block';
                 onClose(() => {});
             })
@@ -372,6 +378,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba! The rapper has proved it a few times... Take a look!',
         }, () => {
             onDiscover(() => {
+                reset();
                 document.querySelector('.focus-renaud').style.display = 'block';
                 renaudFocus.start();
                 console.log(renaudFocus);

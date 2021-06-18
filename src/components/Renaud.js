@@ -1,10 +1,6 @@
 import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
-// Sound
-import Booba from '../audios/focus/renaud/booba.mp3';
-import Renaud from '../audios/focus/renaud/renaud.mp3';
-
 function Component(scene, camera) {
 
     // Video
@@ -12,12 +8,12 @@ function Component(scene, camera) {
 
     // Sounds
     let booba = new Howl({
-        src: [Booba],
+        src: ['./renaud/sounds/booba.mp3'],
         volume: 0
     });
 
     let renaud = new Howl({
-        src: [Renaud],
+        src: ['./renaud/sounds/renaud.mp3'],
     });
 
     // Timeline
@@ -93,7 +89,7 @@ function Component(scene, camera) {
     function createVideo(nb){
         for(let i = 0; i < nb; i++) {
             let img = document.createElement('img');
-            img.src = `./video/renaud${i < 10 ? '00' + i : '0' + i}.png`
+            img.src = `./renaud/video/renaud${i < 10 ? '00' + i : '0' + i}.png`
             videoContainer.appendChild(img);
         }
     }

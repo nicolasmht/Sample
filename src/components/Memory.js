@@ -2,16 +2,6 @@ import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
 import CardVerso from '../images/focus/memory/card-verso.jpeg';
-import AsapRocky from '../audios/focus/memory/1_AsapRocky.mp3';
-import SteveJobs from '../audios/focus/memory/1_SteveJobs.mp3';
-import DavidBowie from '../audios/focus/memory/2_DavidBowie.mp3';
-import LanaDelRey from '../audios/focus/memory/2_LanaDelRey.mp3';
-import Fanfare from '../audios/focus/memory/3_Fanfare.mp3';
-import Queen from '../audios/focus/memory/3_Queen.mp3';
-import DavidGilmour from '../audios/focus/memory/4_DavidGilmour.mp3';
-import SNCF from '../audios/focus/memory/4_SNCF.mp3';
-import LasKetchup from '../audios/focus/memory/5_LasKetchup.mp3';
-import TheSugarHill from '../audios/focus/memory/5_TheSugarHill.mp3';
 
 function Component(sceneMain) {
 
@@ -35,70 +25,70 @@ function Component(sceneMain) {
     let geometry = new THREE.PlaneGeometry(8, 12, 32);
 
     var asap = new Howl({
-        src: [AsapRocky],
+        src: ['./memory/sounds/1_AsapRocky.mp3'],
         sprite: {
             sample: [19000, 15000]
         }
     });
 
     var steve = new Howl({
-        src: [SteveJobs],
+        src: ['./memory/sounds/1_SteveJobs.mp3'],
         sprite: {
             sample: [0, 15000]
         }
     });
 
     var bowie = new Howl({
-        src: [DavidBowie],
+        src: ['./memory/sounds/2_DavidBowie.mp3'],
         sprite: {
             sample: [17000, 15000]
         }
     });
 
     var lana = new Howl({
-        src: [LanaDelRey],
+        src: ['./memory/sounds/2_LanaDelRey.mp3'],
         sprite: {
             sample: [206000, 15000]
         }
     });
 
     var fanfare = new Howl({
-        src: [Fanfare],
+        src: ['./memory/sounds/3_Fanfare.mp3'],
         sprite: {
             sample: [128000, 15000]
         }
     });
 
     var queen = new Howl({
-        src: [Queen],
+        src: ['./memory/sounds/3_Queen.mp3'],
         sprite: {
             sample: [25000, 15000]
         }
     });
 
     var david = new Howl({
-        src: [DavidGilmour],
+        src: ['./memory/sounds/4_DavidGilmour.mp3'],
         sprite: {
             sample: [4000, 15000]
         }
     });
 
     var sncf = new Howl({
-        src: [SNCF],
+        src: ['./memory/sounds/4_SNCF.mp3'],
         sprite: {
             sample: [0, 15000]
         }
     });
 
     var ketchup = new Howl({
-        src: [LasKetchup],
+        src: ['./memory/sounds/5_LasKetchup.mp3'],
         sprite: {
             sample: [36000, 15000]
         }
     });
 
     var sugar = new Howl({
-        src: [TheSugarHill],
+        src: ['./memory/sounds/5_TheSugarHill.mp3'],
         sprite: {
             sample: [34000, 15000]
         }
@@ -145,7 +135,7 @@ function Component(sceneMain) {
     
         let materialRecto = new THREE.MeshBasicMaterial({
             side: THREE.BackSide,
-            map: loader.load(`memory/card-recto-${item.id}.jpeg`),
+            map: loader.load(`/memory/card-recto-${item.id}.jpeg`),
         });
     
         materialRecto.map.wrapS = THREE.RepeatWrapping;
@@ -257,20 +247,6 @@ function Component(sceneMain) {
     this.stop = function() {
         window.cancelAnimationFrame(idAnimation);
         // window.removeEventListener('mousedown');
-
-        asap.stop();
-        steve.stop();
-        bowie.stop();
-        lana.stop();
-        fanfare.stop();
-        queen.stop();
-        david.stop();
-        sncf.stop();
-        ketchup.stop();
-        sugar.stop();
-
-        data.forEach(item => item.sound.stop());
-
         soundPlayed.stop();
     }
 
