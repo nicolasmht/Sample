@@ -247,7 +247,6 @@ function Component(sceneMain) {
     this.stop = function() {
         window.cancelAnimationFrame(idAnimation);
         // window.removeEventListener('mousedown');
-
         soundPlayed.stop();
     }
 
