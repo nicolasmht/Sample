@@ -240,22 +240,11 @@ function Component(sceneMain) {
     }
 
     this.start = function() {
-
-        setTimeout(() => {
-            let tuto = document.querySelector('.tuto.memory').classList.add('hide');
-        }, 4000)
-
-        document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
+        window.addEventListener('mousedown', onMouseDown, false);
         render();
     }
 
     this.stop = function() {
-
-       
-        setTimeout(() => {
-            let tuto = document.querySelector('.tuto.memory').classList.remove('hide');
-        }, 3000);
-
         window.cancelAnimationFrame(idAnimation);
         // window.removeEventListener('mousedown');
         soundPlayed.stop();

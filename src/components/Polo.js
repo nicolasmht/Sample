@@ -1,6 +1,7 @@
+import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
-// import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
+import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
 import OsTincoasCordeiroNanaOriginal from '../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3';
 import ZumZumOriginal from '../audios/focus/polo/papillon/Zum-Zum_Original.mp3';
 import ZoomzoomSample from '../audios/focus/polo/papillon/Zoom-zoom-Sample.mp3';
@@ -122,7 +123,7 @@ function Component(scene) {
 
         let disc = document.querySelector('#disque');
         //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
-        TweenLite.fromTo(disc, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
+        TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
             time++;
             if(time > 25 && !nameChange) {
             nameChange = true;

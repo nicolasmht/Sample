@@ -99679,6 +99679,10 @@ function Component(scene) {
     return result;
   }
 
+  this.start = function () {};
+
+  this.stop = function () {};
+
   this.update = function (time) {};
 
   this.helpers = function (gui) {};
@@ -101070,6 +101074,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       onDiscover(function () {
         reset();
         document.querySelector('.focus-gainsbourg').style.display = 'block';
+        gainsbourgFocus.start();
         onClose(function () {});
       });
     });
@@ -101860,7 +101865,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65005" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53209" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
