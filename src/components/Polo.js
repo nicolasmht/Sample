@@ -1,4 +1,4 @@
-import { TimelineMax, TweenLite, gsap} from 'gsap';
+import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
 // import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
 import OsTincoasCordeiroNanaOriginal from '../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3';
@@ -121,9 +121,8 @@ function Component(scene) {
         let nameChange = false;
 
         let disc = document.querySelector('#disque');
-        console.log(disc);
         //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
-        gsap.to(disc, { duration: 1.5, transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
+        TweenLite.fromTo(disc, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
             time++;
             if(time > 25 && !nameChange) {
             nameChange = true;
