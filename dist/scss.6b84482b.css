@@ -52,7 +52,7 @@ html, body {
 }
 
 .container-focus {
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   transform: translateX(100vw);
@@ -149,7 +149,7 @@ html, body {
 }
 
 .gui {
-  position: absolute;
+  position: fixed;
   right: 0;
   z-index: 999;
 }
@@ -629,14 +629,12 @@ html, body {
 }
 .container {
   position: absolute;
-  width: 100%;
-  background: #ec00f5;
-  background: linear-gradient(0deg, #ec00f5 20%, #17bdc2 100%);
-  background-image: url("/timeline_background.69c654b4.png");
+  width: 100vw;
   background-size: 100%;
   background-attachment: fixed;
   padding-top: 250vh;
   padding-bottom: 250vh;
+  z-index: 999;
 }
 .container .cont_slider {
   position: fixed;

@@ -47,9 +47,9 @@ function ScrollTimeline(scene, camera) {
         let isNotPlaying = false;
 
          // Set camera
-        camera.position.x = -2.5;
-        camera.position.y = 2.45;
-        camera.position.z = -1.25;
+        // camera.position.x = -2.5;
+        // camera.position.y = 2.45;
+        // camera.position.z = -1.25;
 
         document.querySelector('#canvas').style.pointerEvents = 'none'
 
@@ -78,8 +78,10 @@ function ScrollTimeline(scene, camera) {
             tape.rotateY(Math.PI);
 
             scene.add(tape);
-            console.log(tape.position.y);
-            tape.position.y = 2.41
+
+            // tape.position.x = 2.41;
+            // tape.position.y = 2.41;
+            // tape.position.z = -2.41;
 
             // reScale(tape);
 
@@ -296,6 +298,7 @@ function ScrollTimeline(scene, camera) {
     function switchSoundText(dateT, artistT, titleT, dateB, artistB, titleB) {
         document.querySelector('.txt_slider-top').style.opacity = 0
         document.querySelector('.txt_slider-bot').style.opacity = 0
+
         setTimeout(()=> {
             document.querySelector('.txt_slider-top').style.opacity = 1
             document.querySelector('.txt_slider-bot').style.opacity = 1

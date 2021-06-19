@@ -95412,10 +95412,10 @@ function ScrollTimeline(scene, camera) {
   var initialPose = 0;
   var isBack = false;
   var isNotPlaying = false; // Set camera
+  // camera.position.x = -2.5;
+  // camera.position.y = 2.45;
+  // camera.position.z = -1.25;
 
-  camera.position.x = -2.5;
-  camera.position.y = 2.45;
-  camera.position.z = -1.25;
   document.querySelector('#canvas').style.pointerEvents = 'none'; // let scrollY = 0;
 
   loader.load(_case_closedM.default, function (gltf) {
@@ -95442,9 +95442,10 @@ function ScrollTimeline(scene, camera) {
     tape.scale.set(0.01, 0.01, 0.01);
     tape.position.set(-2.5, 2.38, -1.45);
     tape.rotateY(Math.PI);
-    scene.add(tape);
-    console.log(tape.position.y);
-    tape.position.y = 2.41; // reScale(tape);
+    scene.add(tape); // tape.position.x = 2.41;
+    // tape.position.y = 2.41;
+    // tape.position.z = -2.41;
+    // reScale(tape);
 
     initTimeline();
     initSlider();
@@ -99175,6 +99176,8 @@ var _gsap = require("gsap");
 
 var _howler = require("howler");
 
+var _postprocessing = require("postprocessing");
+
 var _focus_daftPunk_ = _interopRequireDefault(require("../objects/focus_daft-punk_02.gltf"));
 
 var _focus_daftPunk_pyramid = _interopRequireDefault(require("../objects/focus_daft-punk_pyramid.gltf"));
@@ -99208,7 +99211,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
   renderer.setClearColor(0xEEF2FF, 1);
   document.querySelector('.focus-daftpunk').appendChild(renderer.domElement);
   camera.position.set(0, 15, 40);
-  camera.lookAt(new THREE.Vector3(0, 0, 0)); // LIGHT
+  camera.lookAt(new THREE.Vector3(0, 0, 0)); // POST PROCESSING
+
+  var composer = new _postprocessing.EffectComposer(renderer);
+  composer.addPass(new _postprocessing.RenderPass(scene, camera));
+  composer.setSize(window.innerWidth, window.innerHeight);
+  composer.addPass(new _postprocessing.EffectPass(camera, new _postprocessing.BloomEffect())); // LIGHT
 
   var light = new THREE.AmbientLight({
     color: 0x404040,
@@ -99502,10 +99510,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     });
   }
 
+  var clock = new THREE.Clock();
   var idAnimation = null;
 
   var render = function render() {
     idAnimation = requestAnimationFrame(render);
+    composer.render(clock.getDelta());
     renderer.render(scene, camera);
   };
 
@@ -99536,7 +99546,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","../objects/focus_daft-punk_02.gltf":"objects/focus_daft-punk_02.gltf","../objects/focus_daft-punk_pyramid.gltf":"objects/focus_daft-punk_pyramid.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/threeTone.png":"textures/threeTone.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../objects/focus_daft-punk_02.gltf":"objects/focus_daft-punk_02.gltf","../objects/focus_daft-punk_pyramid.gltf":"objects/focus_daft-punk_pyramid.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/threeTone.png":"textures/threeTone.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
 module.exports = "/Cabinet_Objets_09.8f82d2fb.gltf";
 },{}],"textures/Labo/Aznavour.png":[function(require,module,exports) {
 module.exports = "/Aznavour.8961d268.png";
@@ -99554,12 +99564,18 @@ module.exports = "/Polo.44068aad.png";
 module.exports = "/Renaud.d34f3b2c.png";
 },{}],"textures/Labo/Retour.png":[function(require,module,exports) {
 module.exports = "/Retour.f571a565.png";
+},{}],"textures/Labo/Pin_Cab_Inactif.png":[function(require,module,exports) {
+module.exports = "/Pin_Cab_Inactif.e19f7005.png";
+},{}],"textures/Labo/Pin_Cab_Hover.png":[function(require,module,exports) {
+module.exports = "/Pin_Cab_Hover.1515ec2b.png";
 },{}],"textures/scratch-01.png":[function(require,module,exports) {
 module.exports = "/scratch-01.ff2f70cc.png";
 },{}],"textures/scratch-02.png":[function(require,module,exports) {
 module.exports = "/scratch-02.a1a548c1.png";
 },{}],"textures/scratch-03.png":[function(require,module,exports) {
 module.exports = "/scratch-03.dbed141c.png";
+},{}],"textures/textures_gravure/test02.png":[function(require,module,exports) {
+module.exports = "/test02.82d0f8a7.png";
 },{}],"components/Renaud.js":[function(require,module,exports) {
 "use strict";
 
@@ -99588,7 +99604,7 @@ function Component(scene, camera) {
     src: ['./renaud/sounds/renaud.mp3']
   }); // Timeline
 
-  var imgs = document.querySelectorAll("img");
+  var imgs = document.querySelectorAll(".focus-renaud img");
   var timeline = new _gsap.TimelineMax({
     paused: true
   });
@@ -101131,11 +101147,17 @@ var _Renaud = _interopRequireDefault(require("../textures/Labo/Renaud.png"));
 
 var _Retour = _interopRequireDefault(require("../textures/Labo/Retour.png"));
 
+var _Pin_Cab_Inactif = _interopRequireDefault(require("../textures/Labo/Pin_Cab_Inactif.png"));
+
+var _Pin_Cab_Hover = _interopRequireDefault(require("../textures/Labo/Pin_Cab_Hover.png"));
+
 var _scratch = _interopRequireDefault(require("../textures/scratch-01.png"));
 
 var _scratch2 = _interopRequireDefault(require("../textures/scratch-02.png"));
 
 var _scratch3 = _interopRequireDefault(require("../textures/scratch-03.png"));
+
+var _test = _interopRequireDefault(require("../textures/textures_gravure/test02.png"));
 
 var _fivetoner = _interopRequireDefault(require("../textures/fivetoner.jpg"));
 
@@ -101171,7 +101193,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var loader = new _GLTFLoader.GLTFLoader();
   var labo = new THREE.Object3D();
   var texture01 = new THREE.TextureLoader().load(_scratch.default);
-  var texture02 = new THREE.TextureLoader().load(_scratch2.default);
+  var texture02 = new THREE.TextureLoader().load(_test.default);
   var texture03 = new THREE.TextureLoader().load(_scratch3.default);
   texture01.wrapS = THREE.RepeatWrapping;
   texture01.wrapT = THREE.RepeatWrapping;
@@ -101195,9 +101217,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             child.material = new THREE.MeshToonMaterial({
               side: THREE.DoubleSide,
               gradientMap: fiveTone,
-              normalMap: texture02,
-              displacementMap: texture02,
-              bumpMap: texture02,
+              // normalMap: texture02,
+              // displacementMap: texture02,
+              // bumpMap: texture02,
               map: texture02
             });
 
@@ -101228,7 +101250,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     console.log('An error happened', error);
   }); // Set camera
 
-  camera.position.x = -2.5;
+  camera.position.x = -5;
   camera.position.y = 2.45;
   camera.position.z = -1.25; // Add labo
 
@@ -101240,13 +101262,53 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   cube.position.set(0, 2, 0); // scene.add(cube);
   // Add pin for click
 
-  function CreateSrpite(file) {
-    var map = new THREE.TextureLoader().load(file);
+  function CreateSrpite(file, x, y, z) {
+    var mapInactif = new THREE.TextureLoader().load(_Pin_Cab_Inactif.default);
     var materialPin = new THREE.SpriteMaterial({
-      map: map,
+      map: mapInactif,
       opacity: 0
     });
-    return new THREE.Sprite(materialPin);
+    var sprite = new THREE.Sprite(materialPin);
+    var mapHover = new THREE.TextureLoader().load(_Pin_Cab_Hover.default);
+    var materialPinHover = new THREE.SpriteMaterial({
+      map: mapHover,
+      opacity: 0
+    });
+    var spriteHover = new THREE.Sprite(materialPinHover);
+    sprite.position.set(x, y, z);
+    spriteHover.position.set(x, y, z);
+    sprite.scale.set(0.25, 0.25, 0.25);
+    spriteHover.scale.set(0.25, 0.25, 0.25);
+    scene.add(sprite);
+    scene.add(spriteHover);
+    sprite.addEventListener("mouseover", function (event) {
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+
+      document.body.style.cursor = "pointer";
+    });
+    sprite.addEventListener("mouseout", function (event) {
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+
+      document.body.style.cursor = "default";
+    });
+    interactionManager.add(sprite);
+    return sprite;
   }
 
   var infos = document.querySelector('.container-infos');
@@ -101354,30 +101416,26 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    */
 
 
-  var aznavourPin = CreateSrpite(_Aznavour.default);
-  aznavourPin.position.set(-0.15, 2.1, -1.1);
-  scene.add(aznavourPin);
-  aznavourPin.addEventListener("click", function (event) {
-    onClick(event.target, {
-      title: 'Aznavour',
-      subTitle: 'Music has no boarders',
-      description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
-    }, function () {
-      onDiscover(function () {
-        reset();
-        document.querySelector('.focus-aznavour').style.display = 'block';
-        onClose(function () {});
-      });
-    });
-  });
+  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, -0.15, 2.1, -1.1); // aznavourPin.addEventListener("click", (event) => {
+  //     onClick(event.target, {
+  //         title: 'Aznavour',
+  //         subTitle: 'Music has no boarders',
+  //         description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
+  //     }, () => {
+  //         onDiscover(() => {
+  //             reset();
+  //             document.querySelector('.focus-aznavour').style.display = 'block';
+  //             onClose(() => {});
+  //         })
+  //     });
+  // });
+
   interactionManager.add(aznavourPin);
   /*
    * Britney
    */
 
-  var britneyPin = CreateSrpite(_Britney.default);
-  britneyPin.position.set(-2.3, 3.2, -1.2);
-  scene.add(britneyPin);
+  var britneyPin = CreateSrpite(_Britney.default, -2.3, 3.2, -1.2);
   britneyPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Britney',
@@ -101396,9 +101454,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * DaftPunk
    */
 
-  var daftPunkPin = CreateSrpite(_DaftPunk.default);
-  daftPunkPin.position.set(0.9, 2.5, -1);
-  scene.add(daftPunkPin);
+  var daftPunkPin = CreateSrpite(_DaftPunk.default, 0.9, 2.5, -1);
   daftPunkPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'DaftPunk',
@@ -101420,9 +101476,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Gainsbourg
    */
 
-  var gainsbourgPin = CreateSrpite(_Gainsbourg.default);
-  gainsbourgPin.position.set(-0.49, 3.3, -1.5);
-  scene.add(gainsbourgPin);
+  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.49, 3.3, -1.5);
   gainsbourgPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Gainsbourg',
@@ -101442,9 +101496,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Memo
    */
 
-  var memoPin = CreateSrpite(_Memo.default);
-  memoPin.position.set(-0.37, 1.7, -0.4);
-  scene.add(memoPin);
+  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.7, -0.4);
   memoPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Memo',
@@ -101466,9 +101518,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Polo
    */
 
-  var poloPin = CreateSrpite(_Polo.default);
-  poloPin.position.set(0.8, 3.6, -1);
-  scene.add(poloPin);
+  var poloPin = CreateSrpite(_Polo.default, 0.8, 3.6, -1);
   poloPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Polo et Pan',
@@ -101487,9 +101537,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Renaud
    */
 
-  var renaudPin = CreateSrpite(_Renaud.default);
-  renaudPin.position.set(-1.45, 1.9, -0.9);
-  scene.add(renaudPin);
+  var renaudPin = CreateSrpite(_Renaud.default, -1.45, 1.9, -0.9);
   renaudPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Renaud',
@@ -101512,9 +101560,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Retour
    */
 
-  var retourPin = CreateSrpite(_Retour.default);
-  retourPin.position.set(-1.5, 2.55, -1.2);
-  scene.add(retourPin);
+  var retourPin = CreateSrpite(_Retour.default, -1.5, 2.55, -1.2);
   retourPin.addEventListener("click", function (event) {
     console.log("Retour");
   });
@@ -101559,11 +101605,48 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       });
     }
   });
+  var started = false;
+  window.addEventListener('scroll', function (event) {
+    var bodyHeight = document.documentElement.scrollHeight;
+
+    if (window.scrollY > bodyHeight - window.screen.height && !started) {
+      new _gsap.TimelineMax().to(camera.position, 1, {
+        x: 0,
+        y: 2.7,
+        z: 2.5,
+        ease: _gsap.EaseOut
+      }).to(aznavourPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(britneyPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(daftPunkPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(gainsbourgPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(memoPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(poloPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(renaudPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      }).to(retourPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseOut
+      });
+      started = true;
+    }
+  });
 
   this.wheel = function (Y) {
     if (Y < 2) return; // Mutliply Y value
-
-    tlCamera.progress(Y - 2);
+    // tlCamera.progress(Y - 2);
   };
 
   this.update = function (time) {
@@ -101571,6 +101654,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     target.y = (1 - mouse.y) * 0.00005;
     camera.rotation.x += 0.1 * (target.y - camera.rotation.x);
     camera.rotation.y += 0.1 * (target.x - camera.rotation.y);
+    interactionManager.update();
   };
 
   this.mousemove = function (event) {
@@ -101656,7 +101740,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101787,8 +101871,8 @@ var OutlineEffect = /*#__PURE__*/function (_Effect) {
 }(_postprocessing.Effect);
 
 exports.default = OutlineEffect;
-},{"three":"../node_modules/three/build/three.module.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js"}],"textures/scratch.png":[function(require,module,exports) {
-module.exports = "/scratch.fb68acfd.png";
+},{"three":"../node_modules/three/build/three.module.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js"}],"textures/textures_gravure/test.png":[function(require,module,exports) {
+module.exports = "/test.2795b160.png";
 },{}],"components/KaleidoShader.js":[function(require,module,exports) {
 "use strict";
 
@@ -101895,7 +101979,7 @@ var _noiseEffect = _interopRequireDefault(require("./noiseEffect"));
 
 var _outlineEffect = _interopRequireDefault(require("./outlineEffect"));
 
-var _scratch = _interopRequireDefault(require("./textures/scratch.png"));
+var _test = _interopRequireDefault(require("./textures/textures_gravure/test.png"));
 
 var _KaleidoShader = _interopRequireDefault(require("./components/KaleidoShader"));
 
@@ -101942,8 +102026,6 @@ function Scene(canvas) {
   var noiseFolder = gui.addFolder('Noise');
   var composer = new _postprocessing.EffectComposer(renderer);
   composer.addPass(new _postprocessing.RenderPass(scene, camera));
-  composer.setSize(window.innerWidth, window.innerHeight);
-  composer.addPass(new _postprocessing.RenderPass(scene, camera));
   composer.setSize(window.innerWidth, window.innerHeight); // NOISE
 
   var noiseEffect = new _noiseEffect.default({
@@ -101977,7 +102059,7 @@ function Scene(canvas) {
   light.shadow.mapSize.height = 256;
   scene.add(light); // composer.addPass(new EffectPass(camera, new KaleidoShader()));
 
-  var textureLoader = new THREE.TextureLoader().load(_scratch.default, function (t) {
+  var textureLoader = new THREE.TextureLoader().load(_test.default, function (t) {
     // t.encoding = THREE.sRGBEncoding;
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
   });
@@ -101987,7 +102069,8 @@ function Scene(canvas) {
     aspectCorrection: true,
     uvTransform: true,
     alpha: 0
-  }); // composer.addPass(new EffectPass(camera, textureEffect));
+  });
+  composer.addPass(new _postprocessing.EffectPass(camera, textureEffect));
 
   function buildScene() {
     var scene = new THREE.Scene();
@@ -102132,7 +102215,7 @@ function Scene(canvas) {
 
 var _default = Scene;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","animejs":"../node_modules/animejs/lib/anime.es.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","virtual-scroll":"../node_modules/virtual-scroll/lib/virtualscroll.js","./utils/mouse":"utils/mouse.js","./components/scrollTimeline.js":"components/scrollTimeline.js","./components/tearCanvas.js":"components/tearCanvas.js","./components/daftPunk.js":"components/daftPunk.js","./components/Labo":"components/Labo.js","./components/Kaleidoscope":"components/Kaleidoscope.js","./components/Renaud":"components/Renaud.js","./noiseEffect":"noiseEffect.js","./outlineEffect":"outlineEffect.js","./textures/scratch.png":"textures/scratch.png","./components/KaleidoShader":"components/KaleidoShader.js"}],"../node_modules/stats-js/build/stats.min.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","animejs":"../node_modules/animejs/lib/anime.es.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","virtual-scroll":"../node_modules/virtual-scroll/lib/virtualscroll.js","./utils/mouse":"utils/mouse.js","./components/scrollTimeline.js":"components/scrollTimeline.js","./components/tearCanvas.js":"components/tearCanvas.js","./components/daftPunk.js":"components/daftPunk.js","./components/Labo":"components/Labo.js","./components/Kaleidoscope":"components/Kaleidoscope.js","./components/Renaud":"components/Renaud.js","./noiseEffect":"noiseEffect.js","./outlineEffect":"outlineEffect.js","./textures/textures_gravure/test.png":"textures/textures_gravure/test.png","./components/KaleidoShader":"components/KaleidoShader.js"}],"../node_modules/stats-js/build/stats.min.js":[function(require,module,exports) {
 var define;
 !function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.Stats=t()}(this,function(){"use strict";var c=function(){var n=0,l=document.createElement("div");function e(e){return l.appendChild(e.dom),e}function t(e){for(var t=0;t<l.children.length;t++)l.children[t].style.display=t===e?"block":"none";n=e}l.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000",l.addEventListener("click",function(e){e.preventDefault(),t(++n%l.children.length)},!1);var i=(performance||Date).now(),a=i,o=0,f=e(new c.Panel("FPS","#0ff","#002")),r=e(new c.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var d=e(new c.Panel("MB","#f08","#201"));return t(0),{REVISION:16,dom:l,addPanel:e,showPanel:t,begin:function(){i=(performance||Date).now()},end:function(){o++;var e=(performance||Date).now();if(r.update(e-i,200),a+1e3<=e&&(f.update(1e3*o/(e-a),100),a=e,o=0,d)){var t=performance.memory;d.update(t.usedJSHeapSize/1048576,t.jsHeapSizeLimit/1048576)}return e},update:function(){i=this.end()},domElement:l,setMode:t}};return c.Panel=function(n,l,i){var a=1/0,o=0,f=Math.round,r=f(window.devicePixelRatio||1),d=80*r,e=48*r,c=3*r,p=2*r,u=3*r,s=15*r,m=74*r,h=30*r,y=document.createElement("canvas");y.width=d,y.height=e,y.style.cssText="width:80px;height:48px";var v=y.getContext("2d");return v.font="bold "+9*r+"px Helvetica,Arial,sans-serif",v.textBaseline="top",v.fillStyle=i,v.fillRect(0,0,d,e),v.fillStyle=l,v.fillText(n,c,p),v.fillRect(u,s,m,h),v.fillStyle=i,v.globalAlpha=.9,v.fillRect(u,s,m,h),{dom:y,update:function(e,t){a=Math.min(a,e),o=Math.max(o,e),v.fillStyle=i,v.globalAlpha=1,v.fillRect(0,0,d,s),v.fillStyle=l,v.fillText(f(e)+" "+n+" ("+f(a)+"-"+f(o)+")",c,p),v.drawImage(y,u+r,s,m-r,h,u,s,m-r,h),v.fillRect(u+m-r,s,r,h),v.fillStyle=i,v.globalAlpha=.9,v.fillRect(u+m-r,s,r,f((1-e/t)*h))}}},c});
 
@@ -102221,7 +102304,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53599" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50927" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
