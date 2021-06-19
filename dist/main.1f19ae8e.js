@@ -99822,8 +99822,7 @@ function Component(scene) {
 
   gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
   gradient.addColorStop(.9, 'rgba(0, 0, 0, .3)');
-  gradient.addColorStop(1, 'rgba(0, 0, 0, .6)');
-  console.log(gradient); // Set the fill style and draw a rectangle
+  gradient.addColorStop(1, 'rgba(0, 0, 0, .6)'); // Set the fill style and draw a rectangle
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, window.innerWidth, window.innerWidth * (window.innerWidth / window.innerHeight)); // Définition des éléments draggables
@@ -102304,7 +102303,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "50927" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62403" + '/');
+>>>>>>> 03f22dd128267f3b66a6cced6be7d3c4bf670434
 
   ws.onmessage = function (event) {
     checkedAssets = {};
