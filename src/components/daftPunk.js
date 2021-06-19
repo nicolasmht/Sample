@@ -4,10 +4,11 @@ import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 import {Howl, Howler} from 'howler';
 
 // Object
-// import daftPunkModel from '../objects/daftPunk.glb';
 import daftPunkModel from '../objects/focus_daft-punk_02.gltf';
+import daftPunkPyramid from '../objects/focus_daft-punk_pyramid.gltf';
+import daftPunkCadrillage from '../objects/focus_daft-punk_cadrillage.gltf';
 import threeT from '../textures/threeTone.png';
-import fiveT from '../textures/fiveToneR.jpg';
+import fiveT from '../textures/fivetoner.jpg';
 import sound1 from '../audios/tundra-beats.mp3';
 import sound2 from '../audios/RFL.mp3';
 
@@ -39,6 +40,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
     const loader = new GLTFLoader();
     let pyramid = new THREE.Object3D();
+    let cadrillage = new THREE.Object3D();
 
     loader.load( daftPunkModel, ( gltf ) => {
             pyramid = gltf.scene;
@@ -53,6 +55,26 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
             pyramid.position.y = -10;
 
             initInteraction();
+        },
+        ( xhr ) => {
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        ( error ) => {
+            console.log( 'An error happened' );
+        }
+    );
+
+    loader.load( daftPunkCadrillage, ( gltf ) => {
+            cadrillage = gltf.scene;
+            cadrillage.name = "Cadrillage"
+
+            cadrillage.traverse( (child) => {
+                // console.log(child)
+                // child.material = new THREE.MeshToonMaterial({ color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone });
+            });
+
+            scene.add(cadrillage);
+            cadrillage.position.y = -5;
         },
         ( xhr ) => {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );

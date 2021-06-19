@@ -135,7 +135,7 @@ function Component(sceneMain) {
     
         let materialRecto = new THREE.MeshBasicMaterial({
             side: THREE.BackSide,
-            map: loader.load(`/memory/card-recto-${item.id}.jpeg`),
+            map: loader.load(`./memory/card-recto-${item.id}.jpeg`),
         });
     
         materialRecto.map.wrapS = THREE.RepeatWrapping;

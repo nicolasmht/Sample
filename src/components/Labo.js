@@ -24,7 +24,7 @@ import Retour from '../textures/Labo/Retour.png';
 import TextureGravure01 from '../textures/scratch-01.png';
 import TextureGravure02 from '../textures/scratch-02.png';
 import TextureGravure03 from '../textures/scratch-03.png';
-import fiveT from '../textures/FiveToneR.jpg';
+import fiveT from '../textures/fivetoner.jpg';
 
 import RenaudComponent from './Renaud';
 import GainsbourgComponent from './Gainsbourg';
