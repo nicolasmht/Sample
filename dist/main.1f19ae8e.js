@@ -100629,30 +100629,37 @@ function Component(scene) {
 
   function turnTheDisc(sound) {
     // Animate the vinyle
-    last = discRotation;
-    discRotation += 360;
-    var time = 0;
-    var nameChange = false;
+    // last = discRotation;
+    // discRotation += 360;
+    // let time = 0;
+    // let nameChange = false;
+    console.log('test');
     var disc = document.querySelector('#disque'); //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
+    // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
+    //     time++;
+    //     if(time > 25 && !nameChange) {
+    //     nameChange = true;
+    //     // Edit the title of vinyle
+    //     let title = document.querySelector('#soundTitle');
+    //     title.innerText = sound.title;
+    //     // Edit the date of the vinyle
+    //     let date = document.querySelector('#soundDate');
+    //     date.innerText = sound.date;
+    //     }
+    // }});
 
-    _gsap.TweenLite.fromTo(disc.style, 1.5, {
-      transform: "translate(-50%, 50%) rotate(".concat(last, "deg)")
-    }, {
-      transform: "translate(-50%, 50%) rotate(".concat(discRotation, "deg)"),
-      onUpdate: function onUpdate() {
-        time++;
+    disc.classList.add('rotate');
+    setTimeout(function () {
+      // Edit the title of vinyle
+      var title = document.querySelector('#soundTitle');
+      title.innerText = sound.title; // Edit the date of the vinyle
 
-        if (time > 25 && !nameChange) {
-          nameChange = true; // Edit the title of vinyle
-
-          var title = document.querySelector('#soundTitle');
-          title.innerText = sound.title; // Edit the date of the vinyle
-
-          var date = document.querySelector('#soundDate');
-          date.innerText = sound.date;
-        }
-      }
-    });
+      var date = document.querySelector('#soundDate');
+      date.innerText = sound.date;
+    }, 1000);
+    setTimeout(function () {
+      disc.classList.remove('rotate');
+    }, 2000);
   } // Cursor animation
 
 
@@ -102317,7 +102324,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49291" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50546" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
