@@ -286,12 +286,13 @@ html, body {
     max-width: 25%;
     cursor: move;
     position: absolute;
-    transition: box-shadow 300ms;
+    transition: transform 300ms;
     z-index: 2;
     transform-origin: center;
 
     &.draggable:hover{
-      filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
+      transform: scale(1.1);
+      //filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
     }
   
     &.stamp{
