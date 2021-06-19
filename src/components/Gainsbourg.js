@@ -27,8 +27,6 @@ function Component(scene) {
     gradient.addColorStop(.9, 'rgba(0, 0, 0, .3)');
     gradient.addColorStop(1, 'rgba(0, 0, 0, .6)');
 
-    console.log(gradient);
-
     // Set the fill style and draw a rectangle
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, window.innerWidth , window.innerWidth * (window.innerWidth / window.innerHeight));
