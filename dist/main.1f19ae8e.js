@@ -101306,6 +101306,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
       document.body.style.cursor = "default";
     });
+    sprite.addEventListener("click", function (event) {
+      console.log('click');
+    });
     interactionManager.add(sprite);
     return sprite;
   }
@@ -101415,20 +101418,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    */
 
 
-  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, -0.15, 2.1, -1.1); // aznavourPin.addEventListener("click", (event) => {
-  //     onClick(event.target, {
-  //         title: 'Aznavour',
-  //         subTitle: 'Music has no boarders',
-  //         description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
-  //     }, () => {
-  //         onDiscover(() => {
-  //             reset();
-  //             document.querySelector('.focus-aznavour').style.display = 'block';
-  //             onClose(() => {});
-  //         })
-  //     });
-  // });
-
+  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, -0.15, 2.1, -1.1);
+  aznavourPin.addEventListener("click", function (event) {
+    onClick(event.target, {
+      title: 'Aznavour',
+      subTitle: 'Music has no boarders',
+      description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
+    }, function () {
+      onDiscover(function () {
+        reset();
+        document.querySelector('.focus-aznavour').style.display = 'block';
+        onClose(function () {});
+      });
+    });
+  });
   interactionManager.add(aznavourPin);
   /*
    * Britney
@@ -101436,6 +101439,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var britneyPin = CreateSrpite(_Britney.default, -2.3, 3.2, -1.2);
   britneyPin.addEventListener("click", function (event) {
+    console.log('okokok');
     onClick(event.target, {
       title: 'Britney',
       subTitle: 'From Bollywood to Hollywood',
@@ -101447,8 +101451,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         onClose(function () {});
       });
     });
-  });
-  interactionManager.add(britneyPin);
+  }); // interactionManager.add(britneyPin);
+
   /*
    * DaftPunk
    */
@@ -101639,6 +101643,16 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         opacity: 1,
         ease: _gsap.EaseOut
       });
+      document.querySelector('.container').style.display = 'none';
+
+      _gsap.TweenLite.to(document.querySelector('.container').style, 0.4, {
+        opacity: 0,
+        ease: _gsap.EaseInOut,
+        onComplete: function onComplete() {
+          document.querySelector('.container').style.display = 'none';
+        }
+      });
+
       started = true;
     }
   });
@@ -102303,11 +102317,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50927" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62403" + '/');
->>>>>>> 03f22dd128267f3b66a6cced6be7d3c4bf670434
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49291" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

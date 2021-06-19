@@ -181,6 +181,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             document.body.style.cursor = "default";
         });
 
+        sprite.addEventListener("click", (event) => {
+            console.log('click')
+        });
+
         interactionManager.add(sprite);
 
         return sprite;
@@ -287,20 +291,19 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Aznavour
      */
     const aznavourPin = CreateSrpite(PinInactif, -0.15, 2.1, -1.1);
-    
-    // aznavourPin.addEventListener("click", (event) => {
-    //     onClick(event.target, {
-    //         title: 'Aznavour',
-    //         subTitle: 'Music has no boarders',
-    //         description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
-    //     }, () => {
-    //         onDiscover(() => {
-    //             reset();
-    //             document.querySelector('.focus-aznavour').style.display = 'block';
-    //             onClose(() => {});
-    //         })
-    //     });
-    // });
+    aznavourPin.addEventListener("click", (event) => {
+        onClick(event.target, {
+            title: 'Aznavour',
+            subTitle: 'Music has no boarders',
+            description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
+        }, () => {
+            onDiscover(() => {
+                reset();
+                document.querySelector('.focus-aznavour').style.display = 'block';
+                onClose(() => {});
+            })
+        });
+    });
 
     interactionManager.add(aznavourPin);
 
@@ -310,6 +313,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const britneyPin = CreateSrpite(Britney, -2.3, 3.2, -1.2);
 
     britneyPin.addEventListener("click", (event) => {
+        console.log('okokok')
         onClick(event.target, {
             title: 'Britney',
             subTitle: 'From Bollywood to Hollywood',
@@ -323,7 +327,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         });
     });
 
-    interactionManager.add(britneyPin);
+    // interactionManager.add(britneyPin);
 
     /*
      * DaftPunk
@@ -486,6 +490,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             .to(poloPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(retourPin.material, 0.25, { opacity: 1, ease: EaseOut });
+
+            document.querySelector('.container').style.display = 'none';
+
+            TweenLite.to(document.querySelector('.container').style, 0.4, {
+                opacity: 0, ease: EaseInOut,
+                onComplete: () => {
+                    document.querySelector('.container').style.display = 'none';
+                }
+            });
 
             started = true;
         }

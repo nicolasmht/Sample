@@ -132,24 +132,26 @@ html, body {
     }
 
     .btn-infos {
-        padding: 1vw 5vw;
-        background-color: #000000;
-        border: none;
-        border-radius: 3vw;
-        color: #fff;
-        font-size: 1.6vw;
+        width: 13vw;
+        height: 5vw;
+        // background-color: #000000;
+        background-image: url(../images/CTA_Discover.png);
+        background-size: contain;
+        background-repeat: no-repeat;
         cursor: pointer;
+        border: none;
     }
 
     .close-infos{
         position: absolute;
         top: 2.5vh;
         right: 2.5vw;
-        width: 2vw;
-        height: 2vw;
+        width: 4vw;
+        height: 4vw;
         background-image: url(../images/close.png);
         background-position: center center;
         background-repeat: no-repeat;
+        background-size: contain;
         cursor: pointer;
     }
 }
