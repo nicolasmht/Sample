@@ -95366,8 +95366,8 @@ module.exports = "/tape_texture.c9de8db8.png";
 module.exports = "/tape2.81e511ca.png";
 },{}],"textures/orange.jpeg":[function(require,module,exports) {
 module.exports = "/orange.706887b8.jpeg";
-},{}],"objects/AudioTape/case_closed-m.glb":[function(require,module,exports) {
-module.exports = "/case_closed-m.b4bfe317.glb";
+},{}],"objects/AudioTape/case_closed-m.gltf":[function(require,module,exports) {
+module.exports = "/case_closed-m.700d9d7d.gltf";
 },{}],"audios/timeline/sound01.mp3":[function(require,module,exports) {
 module.exports = "/sound01.f8cb01c0.mp3";
 },{}],"audios/timeline/sound02.mp3":[function(require,module,exports) {
@@ -95392,16 +95392,18 @@ module.exports = "/sound10.a82aadb8.mp3";
 module.exports = "/sound11.31d31a48.mp3";
 },{}],"audios/timeline/sound12.mp3":[function(require,module,exports) {
 module.exports = "/sound12.c019b238.mp3";
-},{}],"textures/blue.png":[function(require,module,exports) {
-module.exports = "/blue.95ea86a4.png";
-},{}],"textures/cyani.png":[function(require,module,exports) {
-module.exports = "/cyani.fd3ae7e2.png";
-},{}],"textures/prune.png":[function(require,module,exports) {
-module.exports = "/prune.d9ce89ea.png";
-},{}],"textures/purple.jpeg":[function(require,module,exports) {
-module.exports = "/purple.f7d9fcab.jpeg";
-},{}],"textures/green.png":[function(require,module,exports) {
-module.exports = "/green.f0b0c1d8.png";
+},{}],"textures/tape/case01.png":[function(require,module,exports) {
+module.exports = "/case01.34154f79.png";
+},{}],"textures/tape/case02.png":[function(require,module,exports) {
+module.exports = "/case02.8da15503.png";
+},{}],"textures/tape/case03.png":[function(require,module,exports) {
+module.exports = "/case03.3e22b746.png";
+},{}],"textures/tape/case04.png":[function(require,module,exports) {
+module.exports = "/case04.ea6c3a0f.png";
+},{}],"textures/tape/case05.png":[function(require,module,exports) {
+module.exports = "/case05.f92b9ef3.png";
+},{}],"textures/tape/case06.png":[function(require,module,exports) {
+module.exports = "/case06.df167de8.png";
 },{}],"components/scrollTimeline.js":[function(require,module,exports) {
 "use strict";
 
@@ -95424,7 +95426,7 @@ var _tape = _interopRequireDefault(require("../textures/tape2.png"));
 
 var _orange = _interopRequireDefault(require("../textures/orange.jpeg"));
 
-var _case_closedM = _interopRequireDefault(require("../objects/AudioTape/case_closed-m.glb"));
+var _case_closedM = _interopRequireDefault(require("../objects/AudioTape/case_closed-m.gltf"));
 
 var _sound = _interopRequireDefault(require("../audios/timeline/sound01.mp3"));
 
@@ -95450,15 +95452,17 @@ var _sound11 = _interopRequireDefault(require("../audios/timeline/sound11.mp3"))
 
 var _sound12 = _interopRequireDefault(require("../audios/timeline/sound12.mp3"));
 
-var _blue = _interopRequireDefault(require("../textures/blue.png"));
+var _case = _interopRequireDefault(require("../textures/tape/case01.png"));
 
-var _cyani = _interopRequireDefault(require("../textures/cyani.png"));
+var _case2 = _interopRequireDefault(require("../textures/tape/case02.png"));
 
-var _prune = _interopRequireDefault(require("../textures/prune.png"));
+var _case3 = _interopRequireDefault(require("../textures/tape/case03.png"));
 
-var _purple = _interopRequireDefault(require("../textures/purple.jpeg"));
+var _case4 = _interopRequireDefault(require("../textures/tape/case04.png"));
 
-var _green = _interopRequireDefault(require("../textures/green.png"));
+var _case5 = _interopRequireDefault(require("../textures/tape/case05.png"));
+
+var _case6 = _interopRequireDefault(require("../textures/tape/case06.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -95470,7 +95474,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Textures
 // Object
 // import TapeModel from '../objects/AudioTape/TapeCaseLast2.glb';
-// import TapeModel from '../objects/AudioTape/case_closed-m_02.gltf';
+// import TapeModel from '../objects/AudioTape/case_closed-m.glb';
 function ScrollTimeline(scene, camera) {
   var loader = new _GLTFLoader.GLTFLoader();
   var tape = new THREE.Object3D();
@@ -95499,24 +95503,73 @@ function ScrollTimeline(scene, camera) {
 
       switch (modelPart) {
         case 'Storage':
-          child.material = new THREE.MeshNormalMaterial({
-            color: 0xff0,
-            side: THREE.DoubleSide
-          });
+          // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
           break;
 
         case 'Tape_obj':
           // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
           // child.position.x = -10
           break;
+
+        case 'Wheel_left':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Wheel_right':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Tape-black_plastic':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xD2D4BC,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'case':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xD2D4BC,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Case_b_Case_b_elem':
+          //Grey case
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0x111111,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Case_t_Case_t_elem':
+          //Grey case
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0x111111,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
       }
     });
-    tape.scale.set(0.01, 0.01, 0.01);
-    tape.position.set(-2.5, 2.38, -1.45);
+    tape.scale.set(0.01125, 0.012, 0.012);
+    tape.position.set(-2.5115, 2.37, -1.45);
     tape.rotateY(Math.PI);
     scene.add(tape);
-    console.log(tape.position.y);
-    tape.position.y = 2.41; // reScale(tape);
+    console.log(tape.position.y); // tape.position.y = 2.41
+    // reScale(tape);
 
     initTimeline();
     initSlider();
@@ -95565,14 +95618,34 @@ function ScrollTimeline(scene, camera) {
   }
 
   function initTimeline() {
-    var tapeGroup = tape.getObjectByName('Tape_obj');
-    var storage = tape.getObjectByName('Storage');
-    var caseObj = tape.getObjectByName('Case');
+    var tapeGroup = tape.getObjectByName('case_tape'); //Tape_obj
+
+    var storage = tape.getObjectByName('shelves'); //Storage
+
+    var facade = tape.getObjectByName('flat_tapes');
+    var caseObj = tape.getObjectByName('case');
     var tapeObj = tape.getObjectByName('Tape');
-    var caseT = tape.getObjectByName('Case_t');
-    var sticker = tape.getObjectByName('Tape_elem_2');
-    var centre = tape.getObjectByName('Tape_elem_4');
-    var wheels = tape.getObjectByName('Tape_elem_1'); // let tapeGroup = tape.getObjectByName('Tape_obj')
+    var bobine = tape.getObjectByName('Tape-Mat1');
+    var plastic = tape.getObjectByName('Tape-black_plastic');
+    var caseT = tape.getObjectByName('Case_t_Case_t_elem'); //Case_t
+
+    var caseB = tape.getObjectByName('Case_b_Case_b_elem'); //Case_t
+
+    var sticker = tape.getObjectByName('Tape-sticker'); //Tape_elem_2
+
+    var centre = tape.getObjectByName('Tape-glass'); //Tape_elem_4
+    // let wheels = tape.getObjectByName('Tape_elem_1')
+
+    var wheelsL = tape.getObjectByName('Wheel_left');
+    var wheelsR = tape.getObjectByName('Wheel_right');
+    tapeGroup.position.z = -0.4; // wheelsL.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
+    // wheelsR.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
+    //Base color
+    // plastic.material = new THREE.MeshBasicMaterial({color:0xD2D4BC, transparent: true, opacity: .9, side:THREE.DoubleSide});
+    // caseObj.material = new THREE.MeshBasicMaterial({color:0xD2D4BC, transparent: true, opacity: .9, side:THREE.DoubleSide});
+    // caseB.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
+    // caseT.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
+    // let tapeGroup = tape.getObjectByName('Tape_obj')
     // let storage = tape.getObjectByName('Storage')
     // let caseObj = tape.getObjectByName('Case')
     // let tapeObj = tape.getObjectByName('Tape')
@@ -95588,10 +95661,10 @@ function ScrollTimeline(scene, camera) {
     var fragShader = " \n        uniform sampler2D texture1;\n        uniform sampler2D texture2;\n        uniform float progress;\n        \n        varying vec2 vUv;\n        \n        void main() {\n            gl_FragColor = vec4( mix( texture2D(texture1, vUv).xyz, texture2D(texture2, vUv).xyz, progress ), 1. );\n        }\n        ";
     var uniforms = {
       texture1: {
-        value: textureLoader.load(_blue.default)
+        value: textureLoader.load(_case.default)
       },
       texture2: {
-        value: textureLoader.load(_cyani.default)
+        value: textureLoader.load(_case2.default)
       },
       progress: {
         value: 0
@@ -95613,7 +95686,7 @@ function ScrollTimeline(scene, camera) {
       z: -8
     }, 0) //decalage cassette
     .to(tapeGroup.position, 1, {
-      z: -14
+      z: -25
     }, 0.35) //decalage cassette
     .to(tapeGroup.position, 1, {
       y: 1
@@ -95623,25 +95696,44 @@ function ScrollTimeline(scene, camera) {
       y: 1
     }, 0.5) //bascule cassette
     .to(storage.position, 1, {
-      y: 20
-    }, .75) //etagere disapear
+      y: 40
+    }, .65) //etagere disapear
+    .to(facade.position, 1, {
+      y: 48.804056167602539
+    }, .65) //etagere disapear
     .to(tapeGroup.position, 1, {
-      x: 0,
+      x: 10,
+      y: 10,
       z: 0
-    }, 1) //decalage cassette
+    }, .75) //decalage cassette position page
     .to(tapeGroup.rotation, 1, {
       x: -3,
       y: 2
     }, 1) //rotation cassette
     .to(tapeGroup.rotation, 1, {
       y: 4.75
-    }, 1.5) //rotation cassette sur elle meme
-    .to(caseT.rotation, 1, {
+    }, 1.25) //rotation cassette sur elle meme
+    .to(caseT.rotation, .5, {
       y: 2
-    }, 1.5) //ouverture case
+    }, 1) //ouverture case
+    .to(caseObj.position, .5, {
+      x: -2,
+      z: -2
+    }, 1) //eloignement case
     .to(caseObj.position, 1, {
       x: -12
-    }, 1.75) //eloignement case
+    }, 1.25) //eloignement case
+    .to(caseT.material, .5, {
+      opacity: 0
+    }, 1.25) //degage case opacity
+    .to(caseB.material, .5, {
+      opacity: 0
+    }, 1.25) //degage case opacity
+    // .to(tapeGroup.rotation, 2, {y:-1.75}, 2.5) //rotation cassette sur elle meme
+    .to(tapeGroup.rotation, 4, {
+      y: -4.75,
+      x: 4
+    }, 2) //rotation cassette sur elle meme
     // //Bounce txt
     // .add(()=> { if(document.querySelector('.bounce')){document.querySelector('.kaki').classList.remove('bounce')} },1) //remove bounce
     // .add(()=> { document.querySelector('.kaki').classList.add('bounce') },1.3) //add bounce
@@ -95652,15 +95744,27 @@ function ScrollTimeline(scene, camera) {
       z: 0.15
     }, 2) //rotation cassette droite
     .to(storage.position, 0, {
+      y: -38.804056167602539
+    }, 2) //etagere tp bot
+    .to(facade.position, 0, {
       y: -30
     }, 2) //etagere tp bot
     //Put back
+    .to(caseT.material, .5, {
+      opacity: .9
+    }, 5) //degage case opacity
+    .to(caseB.material, .5, {
+      opacity: .9
+    }, 5) //degage case opacity
     .to(storage.position, 1, {
-      y: -5.8
+      y: 0
+    }, 5.25) //etagere appear bot
+    .to(facade.position, 1, {
+      y: 8.804056167602539
     }, 5.25) //etagere appear bot
     .to(tapeGroup.position, 1, {
-      x: -10,
-      y: 0.75,
+      x: 8.560792922973633,
+      y: 8.795806884765625,
       z: -13
     }, 5) //rotation cassette sur elle meme
     .to(tapeGroup.rotation, 1, {
@@ -95689,9 +95793,9 @@ function ScrollTimeline(scene, camera) {
       z: 0
     }, 5) //rotation cassette droite
     .to(tapeGroup.position, 1, {
-      x: -10,
-      y: 0.75,
-      z: 0
+      x: 8.560792922973633,
+      y: 8.795806884765625,
+      z: -0.4
     }, 6) //rotation cassette sur elle meme
     //PLAY SOUND AND CHANGE TEXTURE
     .add(function () {
@@ -95710,6 +95814,16 @@ function ScrollTimeline(scene, camera) {
       isNotPlaying = true;
       isBack = true;
     }, 1.75) // STEP 2 passage texture 2
+    .to(plastic.material.color, .25, {
+      r: 210 / 255,
+      g: 212 / 255,
+      b: 188 / 255
+    }, 1.75) //color 1
+    .to(plastic.material.color, .25, {
+      r: 244 / 255,
+      g: 220 / 255,
+      b: 181 / 255
+    }, 1.75) //color 2
     .to(uniforms.progress, .25, {
       value: 0
     }, 1.5) //fade to textureA
@@ -95717,24 +95831,34 @@ function ScrollTimeline(scene, camera) {
       value: 1
     }, 1.5) //fade to textureB
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_blue.default);
+      uniforms.texture1.value = textureLoader.load(_case.default);
     }, 1.75) //blue
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_cyani.default);
+      uniforms.texture2.value = textureLoader.load(_case2.default);
     }, 1.75) //cyan
     .add(function () {
       console.log('Step 3 t:2.35');
       switchSound(_sound5.default, _sound6.default);
       switchSoundText('1969', 'The Winstons', 'Amen Brother', '2011', 'Nicky Minaj', 'Save Me');
     }, 2.35) // STEP 3 passage texture 1
+    .to(plastic.material.color, .25, {
+      r: 244 / 255,
+      g: 220 / 255,
+      b: 181 / 255
+    }, 2.35) //color 2
+    .to(plastic.material.color, .25, {
+      r: 195 / 255,
+      g: 191 / 255,
+      b: 215 / 255
+    }, 2.35) //color 3
     .to(uniforms.progress, .25, {
       value: 1
     }, 2.1) //fade to textureC
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_cyani.default);
+      uniforms.texture2.value = textureLoader.load(_case2.default);
     }, 2.35) //cyan
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_prune.default);
+      uniforms.texture1.value = textureLoader.load(_case3.default);
     }, 2.35) //prune
     .to(uniforms.progress, .25, {
       value: 0
@@ -95744,45 +95868,75 @@ function ScrollTimeline(scene, camera) {
       switchSound(_sound7.default, _sound8.default);
       switchSoundText('1984', 'Jean Michel Jarre', 'Zoolook', '1978', 'Jean Michel Jarre', 'Equinox');
     }, 3.15) // STEP 4 passage texture 2
+    .to(plastic.material.color, .25, {
+      r: 195 / 255,
+      g: 191 / 255,
+      b: 215 / 255
+    }, 3.3) //color 3
+    .to(plastic.material.color, .25, {
+      r: 200 / 255,
+      g: 209 / 255,
+      b: 208 / 255
+    }, 3.3) //color 4
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_cyani.default);
+      uniforms.texture2.value = textureLoader.load(_case2.default);
     }, 2.9) //cyan
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_orange.default);
+      uniforms.texture2.value = textureLoader.load(_case4.default);
     }, 2.9) //orange
     .to(uniforms.progress, .25, {
       value: 1
     }, 3.15) //fade to texture2
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_prune.default);
+      uniforms.texture1.value = textureLoader.load(_case3.default);
     }, 3.3) //prune
     .add(function () {
       console.log('Step 5 t:3.85');
       switchSound(_sound9.default, _sound10.default);
       switchSoundText('1989', 'Ice Cube', 'Interview about SP-1200', '1997', 'DJ Muggs of Cypress Hill', 'Rhyme & Reason" documentary');
     }, 3.85) // STEP 5
+    .to(plastic.material.color, .25, {
+      r: 200 / 255,
+      g: 209 / 255,
+      b: 208 / 255
+    }, 4) //color 4
+    .to(plastic.material.color, .25, {
+      r: 213 / 255,
+      g: 200 / 255,
+      b: 218 / 255
+    }, 4) //color 5
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_orange.default);
+      uniforms.texture2.value = textureLoader.load(_case4.default);
     }, 3.6) //keep orange
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_purple.default);
+      uniforms.texture1.value = textureLoader.load(_case5.default);
     }, 3.6) //change purple
     .to(uniforms.progress, .25, {
       value: 0
     }, 3.85) //fade to texture1
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_orange.default);
+      uniforms.texture2.value = textureLoader.load(_case4.default);
     }, 4) //keep orange
     .add(function () {
       console.log('Step 6 t:4.65');
       switchSound(_sound11.default, _sound12.default);
       switchSoundText('1997', 'The Verve', 'Bitter Sweet Symphony', '1965', 'The Rolling Stones', 'The Last Time');
     }, 4.65) // STEP 6
+    .to(plastic.material.color, .25, {
+      r: 213 / 255,
+      g: 200 / 255,
+      b: 218 / 255
+    }, 4.65) //color 5
+    .to(plastic.material.color, .25, {
+      r: 190 / 255,
+      g: 219 / 255,
+      b: 219 / 255
+    }, 4.65) //color 6
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_purple.default);
+      uniforms.texture1.value = textureLoader.load(_case5.default);
     }, 4.65) //keep purple
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_green.default);
+      uniforms.texture2.value = textureLoader.load(_case6.default);
     }, 4.65) //change green
     .to(uniforms.progress, .25, {
       value: 1
@@ -95808,6 +95962,8 @@ function ScrollTimeline(scene, camera) {
       var progress = timelineTape.progress();
       progress += (proxyTween.progress() - progress) * 0.05;
       timelineTape.progress(progress);
+      wheelsL.rotation.x += 0.025;
+      wheelsR.rotation.x += 0.025;
     });
   }
 
@@ -95915,7 +96071,7 @@ function ScrollTimeline(scene, camera) {
 
 var _default = ScrollTimeline;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/getPerspectiveSize":"utils/getPerspectiveSize.js","../textures/tape_texture.png":"textures/tape_texture.png","../textures/tape2.png":"textures/tape2.png","../textures/orange.jpeg":"textures/orange.jpeg","../objects/AudioTape/case_closed-m.glb":"objects/AudioTape/case_closed-m.glb","../audios/timeline/sound01.mp3":"audios/timeline/sound01.mp3","../audios/timeline/sound02.mp3":"audios/timeline/sound02.mp3","../audios/timeline/sound03.mp3":"audios/timeline/sound03.mp3","../audios/timeline/sound04.mp3":"audios/timeline/sound04.mp3","../audios/timeline/sound05.mp3":"audios/timeline/sound05.mp3","../audios/timeline/sound06.mp3":"audios/timeline/sound06.mp3","../audios/timeline/sound07.mp3":"audios/timeline/sound07.mp3","../audios/timeline/sound08.mp3":"audios/timeline/sound08.mp3","../audios/timeline/sound09.mp3":"audios/timeline/sound09.mp3","../audios/timeline/sound10.mp3":"audios/timeline/sound10.mp3","../audios/timeline/sound11.mp3":"audios/timeline/sound11.mp3","../audios/timeline/sound12.mp3":"audios/timeline/sound12.mp3","../textures/blue.png":"textures/blue.png","../textures/cyani.png":"textures/cyani.png","../textures/prune.png":"textures/prune.png","../textures/purple.jpeg":"textures/purple.jpeg","../textures/green.png":"textures/green.png"}],"videos/Tear.mp4":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/getPerspectiveSize":"utils/getPerspectiveSize.js","../textures/tape_texture.png":"textures/tape_texture.png","../textures/tape2.png":"textures/tape2.png","../textures/orange.jpeg":"textures/orange.jpeg","../objects/AudioTape/case_closed-m.gltf":"objects/AudioTape/case_closed-m.gltf","../audios/timeline/sound01.mp3":"audios/timeline/sound01.mp3","../audios/timeline/sound02.mp3":"audios/timeline/sound02.mp3","../audios/timeline/sound03.mp3":"audios/timeline/sound03.mp3","../audios/timeline/sound04.mp3":"audios/timeline/sound04.mp3","../audios/timeline/sound05.mp3":"audios/timeline/sound05.mp3","../audios/timeline/sound06.mp3":"audios/timeline/sound06.mp3","../audios/timeline/sound07.mp3":"audios/timeline/sound07.mp3","../audios/timeline/sound08.mp3":"audios/timeline/sound08.mp3","../audios/timeline/sound09.mp3":"audios/timeline/sound09.mp3","../audios/timeline/sound10.mp3":"audios/timeline/sound10.mp3","../audios/timeline/sound11.mp3":"audios/timeline/sound11.mp3","../audios/timeline/sound12.mp3":"audios/timeline/sound12.mp3","../textures/tape/case01.png":"textures/tape/case01.png","../textures/tape/case02.png":"textures/tape/case02.png","../textures/tape/case03.png":"textures/tape/case03.png","../textures/tape/case04.png":"textures/tape/case04.png","../textures/tape/case05.png":"textures/tape/case05.png","../textures/tape/case06.png":"textures/tape/case06.png"}],"videos/Tear.mp4":[function(require,module,exports) {
 module.exports = "/Tear.6d29fc3c.mp4";
 },{}],"components/tearCanvas.js":[function(require,module,exports) {
 "use strict";
@@ -99219,10 +99375,14 @@ var global = arguments[3];
 
 },{}],"objects/focus_daft-punk_02.gltf":[function(require,module,exports) {
 module.exports = "/focus_daft-punk_02.c2673076.gltf";
+},{}],"objects/focus_daft-punk_pyramid.gltf":[function(require,module,exports) {
+module.exports = "/focus_daft-punk_pyramid.89ed363a.gltf";
+},{}],"objects/focus_daft-punk_cadrillage.gltf":[function(require,module,exports) {
+module.exports = "/focus_daft-punk_cadrillage.d46294cf.gltf";
 },{}],"textures/threeTone.png":[function(require,module,exports) {
 module.exports = "/threeTone.263d4e2b.png";
-},{}],"textures/fiveToneR.jpg":[function(require,module,exports) {
-module.exports = "/fiveToneR.edb74a05.jpg";
+},{}],"textures/fivetoner.jpg":[function(require,module,exports) {
+module.exports = "/fivetoner.cf2e630e.jpg";
 },{}],"audios/tundra-beats.mp3":[function(require,module,exports) {
 module.exports = "/tundra-beats.db48805d.mp3";
 },{}],"audios/RFL.mp3":[function(require,module,exports) {
@@ -99245,9 +99405,13 @@ var _howler = require("howler");
 
 var _focus_daftPunk_ = _interopRequireDefault(require("../objects/focus_daft-punk_02.gltf"));
 
+var _focus_daftPunk_pyramid = _interopRequireDefault(require("../objects/focus_daft-punk_pyramid.gltf"));
+
+var _focus_daftPunk_cadrillage = _interopRequireDefault(require("../objects/focus_daft-punk_cadrillage.gltf"));
+
 var _threeTone = _interopRequireDefault(require("../textures/threeTone.png"));
 
-var _fiveToneR = _interopRequireDefault(require("../textures/fiveToneR.jpg"));
+var _fivetoner = _interopRequireDefault(require("../textures/fivetoner.jpg"));
 
 var _tundraBeats = _interopRequireDefault(require("../audios/tundra-beats.mp3"));
 
@@ -99260,7 +99424,6 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // Object
-// import daftPunkModel from '../objects/daftPunk.glb';
 function DaftPunk(sceneMain, cameraMain, interactionManager) {
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
@@ -99286,11 +99449,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
   var soundB = new _howler.Howl({
     src: [_RFL.default]
   });
-  var threeTone = new THREE.TextureLoader().load(_fiveToneR.default);
+  var threeTone = new THREE.TextureLoader().load(_fivetoner.default);
   threeTone.minFilter = THREE.NearestFilter;
   threeTone.magFilter = THREE.NearestFilter;
   var loader = new _GLTFLoader.GLTFLoader();
   var pyramid = new THREE.Object3D();
+  var cadrillage = new THREE.Object3D();
   loader.load(_focus_daftPunk_.default, function (gltf) {
     pyramid = gltf.scene;
     pyramid.name = "Storage_group";
@@ -99300,6 +99464,19 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     scene.add(pyramid);
     pyramid.position.y = -10;
     initInteraction();
+  }, function (xhr) {
+    console.log(xhr.loaded / xhr.total * 100 + '% loaded');
+  }, function (error) {
+    console.log('An error happened');
+  });
+  loader.load(_focus_daftPunk_cadrillage.default, function (gltf) {
+    cadrillage = gltf.scene;
+    cadrillage.name = "Cadrillage";
+    cadrillage.traverse(function (child) {// console.log(child)
+      // child.material = new THREE.MeshToonMaterial({ color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone });
+    });
+    scene.add(cadrillage);
+    cadrillage.position.y = -5;
   }, function (xhr) {
     console.log(xhr.loaded / xhr.total * 100 + '% loaded');
   }, function (error) {
@@ -99587,7 +99764,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","../objects/focus_daft-punk_02.gltf":"objects/focus_daft-punk_02.gltf","../textures/threeTone.png":"textures/threeTone.png","../textures/fiveToneR.jpg":"textures/fiveToneR.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","../objects/focus_daft-punk_02.gltf":"objects/focus_daft-punk_02.gltf","../objects/focus_daft-punk_pyramid.gltf":"objects/focus_daft-punk_pyramid.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/threeTone.png":"textures/threeTone.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
 module.exports = "/Cabinet_Objets_09.8f82d2fb.gltf";
 },{}],"textures/Labo/Aznavour.png":[function(require,module,exports) {
 module.exports = "/Aznavour.8961d268.png";
@@ -99605,10 +99782,12 @@ module.exports = "/Polo.44068aad.png";
 module.exports = "/Renaud.d34f3b2c.png";
 },{}],"textures/Labo/Retour.png":[function(require,module,exports) {
 module.exports = "/Retour.f571a565.png";
-},{}],"textures/textures_gravure/illu.png":[function(require,module,exports) {
-module.exports = "/illu.8e005876.png";
-},{}],"textures/FiveToneR.jpg":[function(require,module,exports) {
-module.exports = "/FiveToneR.bd0f7381.jpg";
+},{}],"textures/scratch-01.png":[function(require,module,exports) {
+module.exports = "/scratch-01.ff2f70cc.png";
+},{}],"textures/scratch-02.png":[function(require,module,exports) {
+module.exports = "/scratch-02.a1a548c1.png";
+},{}],"textures/scratch-03.png":[function(require,module,exports) {
+module.exports = "/scratch-03.dbed141c.png";
 },{}],"components/Renaud.js":[function(require,module,exports) {
 "use strict";
 
@@ -99767,7 +99946,7 @@ function Component(scene, camera) {
   function createVideo(nb) {
     for (var i = 0; i < nb; i++) {
       var img = document.createElement('img');
-      img.src = "./renaud/video/renaud".concat(i < 10 ? '00' + i : '0' + i, ".png");
+      img.src = "./renaud/video/Renaud".concat(i < 10 ? '00' + i : '0' + i, ".png");
       videoContainer.appendChild(img);
     }
   }
@@ -100349,7 +100528,7 @@ function Component(sceneMain) {
     if (positions[random].isRotate) card.rotation.z = Math.PI / 2;
     var materialRecto = new THREE.MeshBasicMaterial({
       side: THREE.BackSide,
-      map: loader.load("/memory/card-recto-".concat(item.id, ".jpeg"))
+      map: loader.load("./memory/card-recto-".concat(item.id, ".jpeg"))
     });
     materialRecto.map.wrapS = THREE.RepeatWrapping;
     materialRecto.map.repeat.x = -1;
@@ -100449,13 +100628,13 @@ function Component(sceneMain) {
   };
 
   this.start = function () {
-    window.addEventListener('mousedown', onMouseDown, false);
+    document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
     render();
   };
 
   this.stop = function () {
-    window.cancelAnimationFrame(idAnimation); // window.removeEventListener('mousedown');
-
+    window.cancelAnimationFrame(idAnimation);
+    document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
     soundPlayed.stop();
   };
 
@@ -100983,8 +101162,10 @@ var DragDrop = /*#__PURE__*/function () {
 
 exports.DragDrop = DragDrop;
 ;
-},{}],"images/focus/kaleidoscope/Fleur_04.png":[function(require,module,exports) {
-module.exports = "/Fleur_04.9e63f9f2.png";
+},{}],"images/focus/kaleidoscope/Bollywood.png":[function(require,module,exports) {
+module.exports = "/Bollywood.0d0fae15.png";
+},{}],"images/focus/kaleidoscope/Britney.png":[function(require,module,exports) {
+module.exports = "/Britney.9a60b423.png";
 },{}],"components/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
@@ -100997,7 +101178,9 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
-var _Fleur_ = _interopRequireDefault(require("../images/focus/kaleidoscope/Fleur_04.png"));
+var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
+
+var _Britney = _interopRequireDefault(require("../images/focus/kaleidoscope/Britney.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -101021,8 +101204,8 @@ function KaleidoscopeComponent(scene) {
     return kaleidoscope2.draw();
   };
 
-  image.src = _Fleur_.default;
-  image2.src = _Fleur_.default;
+  image.src = _Britney.default;
+  image2.src = _Bollywood.default;
   var kaleidoscope = new _Kaleidoscope.Kaleidoscope({
     image: image,
     slices: 20 // zoom: 0.1
@@ -101142,7 +101325,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Fleur_04.png":"images/focus/kaleidoscope/Fleur_04.png"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101176,9 +101359,13 @@ var _Renaud = _interopRequireDefault(require("../textures/Labo/Renaud.png"));
 
 var _Retour = _interopRequireDefault(require("../textures/Labo/Retour.png"));
 
-var _illu = _interopRequireDefault(require("../textures/textures_gravure/illu.png"));
+var _scratch = _interopRequireDefault(require("../textures/scratch-01.png"));
 
-var _FiveToneR = _interopRequireDefault(require("../textures/FiveToneR.jpg"));
+var _scratch2 = _interopRequireDefault(require("../textures/scratch-02.png"));
+
+var _scratch3 = _interopRequireDefault(require("../textures/scratch-03.png"));
+
+var _fivetoner = _interopRequireDefault(require("../textures/fivetoner.jpg"));
 
 var _Renaud2 = _interopRequireDefault(require("./Renaud"));
 
@@ -101211,15 +101398,19 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
   var loader = new _GLTFLoader.GLTFLoader();
   var labo = new THREE.Object3D();
-  var texture = new THREE.TextureLoader().load(_illu.default);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.magFilter = THREE.CubeUVReflectionMapping;
+  var texture01 = new THREE.TextureLoader().load(_scratch.default);
+  var texture02 = new THREE.TextureLoader().load(_scratch2.default);
+  var texture03 = new THREE.TextureLoader().load(_scratch3.default);
+  texture01.wrapS = THREE.RepeatWrapping;
+  texture01.wrapT = THREE.RepeatWrapping;
+  texture01.minFilter = THREE.LinearMipMapLinearFilter;
+  texture01.magFilter = THREE.LinearFilter;
+  texture01.magFilter = THREE.CubeUVReflectionMapping;
   loader.load(_Cabinet_Objets_.default, function (gltf) {
     var mat;
     labo = gltf.scene;
     labo.name = "labo";
-    var fiveTone = new THREE.TextureLoader().load(_FiveToneR.default);
+    var fiveTone = new THREE.TextureLoader().load(_fivetoner.default);
     labo.traverse(function (child) {
       //GET OLD COLOR AND USE IT WITH TOON MATERIAL
       if (child.material) {
@@ -101227,11 +101418,25 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
         if (child.name != 'plante') {
           if (child.name == 'cloche1' || child.name == 'verre' || child.name == 'cloche' || child.name == 'cordes' || child.name == 'cloche_1') {} else {
+            // texture02.rotation = Math.random() * 360 * (Math.PI/180);
+            // console.log(texture02.rotation)
             child.material = new THREE.MeshToonMaterial({
               side: THREE.DoubleSide,
               gradientMap: fiveTone,
-              opacity: 0.1
+              normalMap: texture02,
+              displacementMap: texture02,
+              bumpMap: texture02,
+              map: texture02
             });
+
+            if (child.name == 'wall') {
+              child.material.map = null;
+            }
+
+            if (child.name == 'desk_tiroirs001' || child.name == 'desk_tiroirs002' || child.name == 'desk_tiroirs003' || child.name == 'desk_tiroirs004' || child.name == 'desk_tiroirs005' || child.name == 'desk_tiroirs006' || child.name == 'desk_tiroirs009') {
+              child.material.map = texture03;
+            }
+
             child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
           }
         }
@@ -101679,7 +101884,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/textures_gravure/illu.png":"textures/textures_gravure/illu.png","../textures/FiveToneR.jpg":"textures/FiveToneR.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101810,8 +102015,8 @@ var OutlineEffect = /*#__PURE__*/function (_Effect) {
 }(_postprocessing.Effect);
 
 exports.default = OutlineEffect;
-},{"three":"../node_modules/three/build/three.module.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js"}],"textures/textures_gravure/00.png":[function(require,module,exports) {
-module.exports = "/00.5e7517f9.png";
+},{"three":"../node_modules/three/build/three.module.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js"}],"textures/scratch.png":[function(require,module,exports) {
+module.exports = "/scratch.fb68acfd.png";
 },{}],"components/KaleidoShader.js":[function(require,module,exports) {
 "use strict";
 
@@ -101918,7 +102123,7 @@ var _noiseEffect = _interopRequireDefault(require("./noiseEffect"));
 
 var _outlineEffect = _interopRequireDefault(require("./outlineEffect"));
 
-var _ = _interopRequireDefault(require("./textures/textures_gravure/00.png"));
+var _scratch = _interopRequireDefault(require("./textures/scratch.png"));
 
 var _KaleidoShader = _interopRequireDefault(require("./components/KaleidoShader"));
 
@@ -101999,22 +102204,18 @@ function Scene(canvas) {
 
   light.shadow.mapSize.height = 256;
   scene.add(light); // composer.addPass(new EffectPass(camera, new KaleidoShader()));
-  // let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
-  //     // t.encoding = THREE.sRGBEncoding;
-  //     t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  // });
-  // const textureEffect = new TextureEffect({
-  //     blendFunction: BlendFunction.EXCLUSION,
-  //     texture: textureLoader,
-  //     aspectCorrection: true,
-  //     uvTransform: true,
-  //     alpha: 0
-  // });
-  // composer.addPass(new EffectPass(camera, textureEffect));
-  // composer.addPass(new EffectPass(camera, new DepthEffect({
-  //     blendFunction: BlendFunction.NORMAL,
-  //     inverted: true
-  // })));
+
+  var textureLoader = new THREE.TextureLoader().load(_scratch.default, function (t) {
+    // t.encoding = THREE.sRGBEncoding;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  });
+  var textureEffect = new _postprocessing.TextureEffect({
+    blendFunction: _postprocessing.BlendFunction.EXCLUSION,
+    texture: textureLoader,
+    aspectCorrection: true,
+    uvTransform: true,
+    alpha: 0
+  }); // composer.addPass(new EffectPass(camera, textureEffect));
 
   function buildScene() {
     var scene = new THREE.Scene();
@@ -102159,7 +102360,7 @@ function Scene(canvas) {
 
 var _default = Scene;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","animejs":"../node_modules/animejs/lib/anime.es.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","virtual-scroll":"../node_modules/virtual-scroll/lib/virtualscroll.js","./utils/mouse":"utils/mouse.js","./components/scrollTimeline.js":"components/scrollTimeline.js","./components/tearCanvas.js":"components/tearCanvas.js","./components/daftPunk.js":"components/daftPunk.js","./components/Labo":"components/Labo.js","./components/Kaleidoscope":"components/Kaleidoscope.js","./components/Renaud":"components/Renaud.js","./noiseEffect":"noiseEffect.js","./outlineEffect":"outlineEffect.js","./textures/textures_gravure/00.png":"textures/textures_gravure/00.png","./components/KaleidoShader":"components/KaleidoShader.js"}],"../node_modules/stats-js/build/stats.min.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","animejs":"../node_modules/animejs/lib/anime.es.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","virtual-scroll":"../node_modules/virtual-scroll/lib/virtualscroll.js","./utils/mouse":"utils/mouse.js","./components/scrollTimeline.js":"components/scrollTimeline.js","./components/tearCanvas.js":"components/tearCanvas.js","./components/daftPunk.js":"components/daftPunk.js","./components/Labo":"components/Labo.js","./components/Kaleidoscope":"components/Kaleidoscope.js","./components/Renaud":"components/Renaud.js","./noiseEffect":"noiseEffect.js","./outlineEffect":"outlineEffect.js","./textures/scratch.png":"textures/scratch.png","./components/KaleidoShader":"components/KaleidoShader.js"}],"../node_modules/stats-js/build/stats.min.js":[function(require,module,exports) {
 var define;
 !function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.Stats=t()}(this,function(){"use strict";var c=function(){var n=0,l=document.createElement("div");function e(e){return l.appendChild(e.dom),e}function t(e){for(var t=0;t<l.children.length;t++)l.children[t].style.display=t===e?"block":"none";n=e}l.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000",l.addEventListener("click",function(e){e.preventDefault(),t(++n%l.children.length)},!1);var i=(performance||Date).now(),a=i,o=0,f=e(new c.Panel("FPS","#0ff","#002")),r=e(new c.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var d=e(new c.Panel("MB","#f08","#201"));return t(0),{REVISION:16,dom:l,addPanel:e,showPanel:t,begin:function(){i=(performance||Date).now()},end:function(){o++;var e=(performance||Date).now();if(r.update(e-i,200),a+1e3<=e&&(f.update(1e3*o/(e-a),100),a=e,o=0,d)){var t=performance.memory;d.update(t.usedJSHeapSize/1048576,t.jsHeapSizeLimit/1048576)}return e},update:function(){i=this.end()},domElement:l,setMode:t}};return c.Panel=function(n,l,i){var a=1/0,o=0,f=Math.round,r=f(window.devicePixelRatio||1),d=80*r,e=48*r,c=3*r,p=2*r,u=3*r,s=15*r,m=74*r,h=30*r,y=document.createElement("canvas");y.width=d,y.height=e,y.style.cssText="width:80px;height:48px";var v=y.getContext("2d");return v.font="bold "+9*r+"px Helvetica,Arial,sans-serif",v.textBaseline="top",v.fillStyle=i,v.fillRect(0,0,d,e),v.fillStyle=l,v.fillText(n,c,p),v.fillRect(u,s,m,h),v.fillStyle=i,v.globalAlpha=.9,v.fillRect(u,s,m,h),{dom:y,update:function(e,t){a=Math.min(a,e),o=Math.max(o,e),v.fillStyle=i,v.globalAlpha=1,v.fillRect(0,0,d,s),v.fillStyle=l,v.fillText(f(e)+" "+n+" ("+f(a)+"-"+f(o)+")",c,p),v.drawImage(y,u+r,s,m-r,h,u,s,m-r,h),v.fillRect(u+m-r,s,r,h),v.fillStyle=i,v.globalAlpha=.9,v.fillRect(u+m-r,s,r,f((1-e/t)*h))}}},c});
 
@@ -102248,7 +102449,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64870" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50175" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

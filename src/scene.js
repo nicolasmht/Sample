@@ -22,7 +22,7 @@ import RenaudComponent from './components/Renaud';
 import NoiseEffect from './noiseEffect';
 import OutlineEffect from './outlineEffect';
 
-import TextureGravure from './textures/textures_gravure/00.png';
+import TextureGravure from './textures/scratch.png';
 
 import KaleidoShader from './components/KaleidoShader';
 
@@ -110,27 +110,19 @@ function Scene(canvas, started = false) {
 
     // composer.addPass(new EffectPass(camera, new KaleidoShader()));
 
+    let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
+        // t.encoding = THREE.sRGBEncoding;
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    });
 
-
-    // let  textureLoader = new THREE.TextureLoader().load(TextureGravure, (t) => {
-    //     // t.encoding = THREE.sRGBEncoding;
-    //     t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    // });
-
-    // const textureEffect = new TextureEffect({
-    //     blendFunction: BlendFunction.EXCLUSION,
-    //     texture: textureLoader,
-    //     aspectCorrection: true,
-    //     uvTransform: true,
-    //     alpha: 0
-    // });
+    const textureEffect = new TextureEffect({
+        blendFunction: BlendFunction.EXCLUSION,
+        texture: textureLoader,
+        aspectCorrection: true,
+        uvTransform: true,
+        alpha: 0
+    });
     // composer.addPass(new EffectPass(camera, textureEffect));
-
-    // composer.addPass(new EffectPass(camera, new DepthEffect({
-    //     blendFunction: BlendFunction.NORMAL,
-    //     inverted: true
-    // })));
-    
 
     function buildScene() {
         const scene = new THREE.Scene();
@@ -199,7 +191,6 @@ function Scene(canvas, started = false) {
             // new daftPunk(scene, camera, interactionManager),
 
             new scrollTimeline(scene, camera),
-
             // new LaboComponent(scene, camera, renderer, interactionManager),
 
             // new KaleidoscopeComponent(scene, camera, composer)

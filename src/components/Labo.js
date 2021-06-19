@@ -21,8 +21,10 @@ import Polo from '../textures/Labo/Polo.png';
 import Renaud from '../textures/Labo/Renaud.png';
 import Retour from '../textures/Labo/Retour.png';
 
-import TextureGravure from '../textures/textures_gravure/illu.png';
-import fiveT from '../textures/FiveToneR.jpg';
+import TextureGravure01 from '../textures/scratch-01.png';
+import TextureGravure02 from '../textures/scratch-02.png';
+import TextureGravure03 from '../textures/scratch-03.png';
+import fiveT from '../textures/fivetoner.jpg';
 
 import RenaudComponent from './Renaud';
 import GainsbourgComponent from './Gainsbourg';
@@ -41,10 +43,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const loader = new GLTFLoader();
     let labo = new THREE.Object3D();
 
-    const texture = new THREE.TextureLoader().load(TextureGravure);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.magFilter = THREE.CubeUVReflectionMapping;
+    const texture01 = new THREE.TextureLoader().load(TextureGravure01);
+    const texture02 = new THREE.TextureLoader().load(TextureGravure02);
+    const texture03 = new THREE.TextureLoader().load(TextureGravure03);
+
+    texture01.wrapS = THREE.RepeatWrapping;
+    texture01.wrapT = THREE.RepeatWrapping;
+    texture01.minFilter = THREE.LinearMipMapLinearFilter;
+    texture01.magFilter = THREE.LinearFilter;
+    texture01.magFilter = THREE.CubeUVReflectionMapping;
 
     loader.load( LaboGltf, ( gltf ) => {
 
@@ -69,11 +76,35 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     ) {
                         
                     } else {
+
+                        // texture02.rotation = Math.random() * 360 * (Math.PI/180);
+
+                        // console.log(texture02.rotation)
+
                         child.material = new THREE.MeshToonMaterial({
-                            side:THREE.DoubleSide,
+                            side: THREE.DoubleSide,
                             gradientMap: fiveTone,
-                            opacity: 0.1
+                            normalMap: texture02,
+                            displacementMap: texture02,
+                            bumpMap: texture02,
+                            map: texture02,
                         });
+
+                        if (child.name == 'wall') {
+                            child.material.map = null;
+                        }
+
+                        if (
+                            child.name == 'desk_tiroirs001' ||
+                            child.name == 'desk_tiroirs002' ||
+                            child.name == 'desk_tiroirs003' ||
+                            child.name == 'desk_tiroirs004' ||
+                            child.name == 'desk_tiroirs005' ||
+                            child.name == 'desk_tiroirs006' ||
+                            child.name == 'desk_tiroirs009'
+                        ) {
+                            child.material.map = texture03;
+                        }
 
                         child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
                     }

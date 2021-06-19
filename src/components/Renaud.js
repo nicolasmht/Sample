@@ -89,7 +89,7 @@ function Component(scene, camera) {
     function createVideo(nb){
         for(let i = 0; i < nb; i++) {
             let img = document.createElement('img');
-            img.src = `./renaud/video/renaud${i < 10 ? '00' + i : '0' + i}.png`
+            img.src = `./renaud/video/Renaud${i < 10 ? '00' + i : '0' + i}.png`
             videoContainer.appendChild(img);
         }
     }

@@ -135,7 +135,7 @@ function Component(sceneMain) {
     
         let materialRecto = new THREE.MeshBasicMaterial({
             side: THREE.BackSide,
-            map: loader.load(`/memory/card-recto-${item.id}.jpeg`),
+            map: loader.load(`./memory/card-recto-${item.id}.jpeg`),
         });
     
         materialRecto.map.wrapS = THREE.RepeatWrapping;
@@ -240,13 +240,13 @@ function Component(sceneMain) {
     }
 
     this.start = function() {
-        window.addEventListener('mousedown', onMouseDown, false);
+        document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
         render();
     }
 
     this.stop = function() {
         window.cancelAnimationFrame(idAnimation);
-        // window.removeEventListener('mousedown');
+        document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
         soundPlayed.stop();
     }
 
