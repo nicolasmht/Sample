@@ -101818,7 +101818,6 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Packages
 // Utilis
 // Gltf
-// import LaboGltf from '../objects/labo.gltf';
 // Pin
 function LaboComponent(scene, camera, renderer, interactionManager) {
   var mouse = new THREE.Vector2();
@@ -101973,6 +101972,19 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         ease: _gsap.EaseInOut
       });
     });
+    document.querySelector('.back-labo').addEventListener('click', function (event) {
+      isClick = false;
+
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+    });
     interactionManager.add(sprite);
     return sprite;
   }
@@ -102007,7 +102019,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.focus-memory').style.display = 'none';
     document.querySelector('.focus-polo').style.display = 'none';
     document.querySelector('.focus-daftpunk').style.display = 'none';
-    document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    document.querySelector('.focus-kaleidoscope').style.display = 'none'; // Display tuto
+
+    document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
+      tuto.style.display = 'block';
+      tuto.style.opacity = 1;
+    });
   }
 
   var onDiscover = function onDiscover(callback) {
@@ -102015,7 +102032,18 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     discover.addEventListener('click', function () {
       infos.classList.add('full');
       document.querySelector('.container-focus').classList.add('full');
-      callback();
+      callback(); // Remove tuto
+
+      setTimeout(function () {
+        document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
+          _gsap.TweenLite.to(tuto.style, .6, {
+            opacity: 0,
+            onComplete: function onComplete() {
+              tuto.style.display = 'none';
+            }
+          });
+        });
+      }, 4000);
     }, {
       once: true
     });
@@ -102062,7 +102090,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       z: target.position.z + 1,
       ease: _gsap.EaseOut,
       onUpdate: function onUpdate(e) {
-        if (camera.position.z < 2.25) {
+        if (camera.position.z < 1.8) {
           infos.classList.add('visible');
         }
       },
@@ -102977,11 +103005,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64758" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54834" + '/');
->>>>>>> 1778dd23e6b5473b815e3b96952997c35e5ef399
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54044" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -56,7 +56,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   transform: translateX(100vw);
-  transition: transform 3s;
+  transition: transform 2s;
   z-index: 2;
   overflow: hidden;
 }
@@ -75,11 +75,8 @@ html, body {
   position: absolute;
   top: 2.5vh;
   left: 2.5vw;
-  width: 3vw;
-  height: 3vw;
-  background-image: url(/back-labo.7774f8e2.png);
-  background-size: contain;
-  background-position: center center;
+  width: 4vw;
+  height: 4vw;
   cursor: pointer;
   z-index: 99999;
 }
@@ -89,7 +86,7 @@ html, body {
   top: 0;
   bottom: 0;
   right: 0;
-  width: 30vw;
+  width: 22vw;
   padding: 5vh;
   display: flex;
   justify-content: center;
@@ -101,14 +98,14 @@ html, body {
   background-repeat: repeat;
   z-index: 999;
   transform: translateX(100%);
-  transition: all 3s;
+  transition: all 2s;
 }
 .container-infos.visible {
   transition: all 0.3s;
   transform: translateX(0);
 }
 .container-infos.full {
-  transition: all 3s;
+  transition: all 2s;
   transform: translateX(-100vw);
 }
 .container-infos .title-infos {
@@ -131,9 +128,6 @@ html, body {
 .container-infos .btn-infos {
   width: 13vw;
   height: 5vw;
-  background-image: url(/CTA_Discover.cfead27a.png);
-  background-size: contain;
-  background-repeat: no-repeat;
   cursor: pointer;
   border: none;
 }
@@ -143,10 +137,6 @@ html, body {
   right: 2.5vw;
   width: 4vw;
   height: 4vw;
-  background-image: url(/close.46897bca.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
   cursor: pointer;
 }
 
@@ -663,8 +653,10 @@ html, body {
 .focus-kaleidoscope {
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
   cursor: move;
+  background-image: url(/Fond_1.b3d8f70d.jpg);
+  background-size: cover;
+  background-position: center center;
 }
 .focus-kaleidoscope canvas {
   width: 100%;
@@ -771,7 +763,6 @@ html, body {
 .container p {
   font-family: "biotif-l";
   font-size: 1vw;
-  line-height: 1.6vw;
 }
 .container p b {
   font-family: "biotif-b";
@@ -797,6 +788,9 @@ html, body {
   display: flex;
   padding: 30px;
   margin-bottom: 700px;
+}
+.container_artist p {
+  line-height: 1.6vw;
 }
 .container_artist-left {
   width: 55%;

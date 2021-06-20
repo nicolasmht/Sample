@@ -9,7 +9,6 @@ import { TimelineMax, Power4, TweenLite, EaseInOut, EaseOut } from 'gsap';
 import getNDCCoordinates from '../utils/mouse';
 
 // Gltf
-// import LaboGltf from '../objects/labo.gltf';
 import LaboGltf from '../objects/Cabinet_Objets_09.gltf';
 
 // Pin
@@ -199,6 +198,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
         });
 
+        document.querySelector('.back-labo').addEventListener('click', (event) => {
+            isClick = false;
+            TweenLite.to(sprite.material, 0.6, { opacity: 1, ease: EaseInOut });
+            TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
+        });
+
         interactionManager.add(sprite);
 
         return sprite;
@@ -232,6 +237,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelector('.focus-polo').style.display = 'none';
         document.querySelector('.focus-daftpunk').style.display = 'none';
         document.querySelector('.focus-kaleidoscope').style.display = 'none';
+
+        // Display tuto
+        document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
+            tuto.style.display = 'block';
+            tuto.style.opacity = 1;
+        });
     }
 
     const onDiscover = (callback) => {
@@ -240,6 +251,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             infos.classList.add('full');
             document.querySelector('.container-focus').classList.add('full');
             callback();
+
+            // Remove tuto
+            setTimeout(() => {
+                document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
+                    TweenLite.to(tuto.style, .6, { opacity: 0, onComplete: () => { tuto.style.display = 'none' } });
+                });
+            }, 4000);
         }, {
             once: true,
         });
@@ -284,7 +302,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             z: target.position.z + 1,
             ease: EaseOut,
             onUpdate: (e) => {
-                if (camera.position.z < 2.25) {
+                if (camera.position.z < 1.8) {
                     infos.classList.add('visible');
                 }
             },

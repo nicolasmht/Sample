@@ -55,7 +55,7 @@ html, body {
     width: 100vw;
     height: 100vh;
     transform: translateX(100vw);
-    transition: transform 3s;
+    transition: transform 2s;
     z-index: 2;
     overflow: hidden;
 
@@ -73,12 +73,10 @@ html, body {
     
     .back-labo{
         position: absolute;
-        top: 2.5vh; left: 2.5vw;
-        width: 3vw;
-        height: 3vw;
-        background-image: url(../images/back-labo.png);
-        background-size: contain;
-        background-position: center center;
+        top: 2.5vh;
+        left: 2.5vw;
+        width: 4vw;
+        height: 4vw;
         cursor: pointer;
         z-index: 99999;
     }
@@ -87,7 +85,7 @@ html, body {
 .container-infos{
     position: fixed;
     top: 0; bottom: 0; right: 0;
-    width: 30vw;
+    width: 22vw;
     padding: 5vh;
     display: flex;
     justify-content: center;
@@ -100,7 +98,7 @@ html, body {
     z-index: 999;
 
     transform: translateX(100%);
-    transition: all 3s;
+    transition: all 2s;
 
     &.visible {
         transition: all 0.3s;
@@ -108,7 +106,7 @@ html, body {
     }
 
     &.full {
-        transition: all 3s;
+        transition: all 2s;
         transform: translateX(-100vw);
     }
 
@@ -136,9 +134,9 @@ html, body {
         width: 13vw;
         height: 5vw;
         // background-color: #000000;
-        background-image: url(../images/CTA_Discover.png);
-        background-size: contain;
-        background-repeat: no-repeat;
+        // background-image: url(../images/CTA_Discover.png);
+        // background-size: contain;
+        // background-repeat: no-repeat;
         cursor: pointer;
         border: none;
     }
@@ -149,10 +147,6 @@ html, body {
         right: 2.5vw;
         width: 4vw;
         height: 4vw;
-        background-image: url(../images/close.png);
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: contain;
         cursor: pointer;
     }
 }
@@ -756,8 +750,11 @@ html, body {
 .focus-kaleidoscope {
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
   cursor: move;
+
+  background-image: url(../images/focus/kaleidoscope/Fond_1.jpg);
+  background-size: cover;
+  background-position: center center;
   
   canvas{
     width: 100%;
@@ -868,7 +865,6 @@ html, body {
     p {
         font-family: "biotif-l";
         font-size: 1vw;
-        line-height: 1.6vw;
 
         b{
           font-family: "biotif-b";
@@ -895,6 +891,9 @@ html, body {
         display: flex;
         padding: 30px;
         margin-bottom: 700px;
+        p {
+          line-height: 1.6vw;
+        }
         &-left {
             width: 55%;
             position: relative;
