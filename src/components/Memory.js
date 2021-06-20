@@ -5,6 +5,12 @@ import CardVerso from '../images/focus/memory/card-verso.jpeg';
 
 function Component(sceneMain) {
 
+    let isFinish = false;
+    let nbCardsFound = 0;
+
+    let tutorial = document.querySelector('.focus-memory .tuto');
+    let winScreen = document.querySelector('.focus-memory .win');
+
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
     camera.position.z = 9;
@@ -191,6 +197,13 @@ function Component(sceneMain) {
             if (cardVisible.length == 2 && cardVisible[0].data.same == cardVisible[1].data.id) {
                 cardVisible.forEach((card) => {
                     card.data.valid = true;
+                    nbCardsFound++;
+
+                    if(nbCardsFound === 10 && !isFinish) {
+                        isFinish = true;
+                        winScreen.classList.add('show');
+                    }
+            
                 });
     
                 setTimeout(() => {
@@ -198,6 +211,7 @@ function Component(sceneMain) {
                 }, 1000);
     
             } else if (cardVisible.length == 2 && (cardVisible[0].data.same != cardVisible[1].data.id)) {
+
                 cardVisible.forEach((card) => {
     
                     setTimeout(() => {
@@ -241,7 +255,6 @@ function Component(sceneMain) {
         renderer.render(scene, camera);
     }
 
-    let tutorial = document.querySelector('.focus-memory .tuto');
 
     this.start = function() {
 
@@ -257,6 +270,7 @@ function Component(sceneMain) {
 
         setTimeout(() => {
             tutorial.classList.remove('hide');
+            winScreen.classList.add('show');
         }, 3000 )
 
         window.cancelAnimationFrame(idAnimation);
@@ -264,7 +278,8 @@ function Component(sceneMain) {
         soundPlayed.stop();
     }
 
-    this.update = function(time) {}
+    this.update = function(time) {
+    }
 
     this.helpers = (gui) => {}
 

@@ -183,6 +183,30 @@ html, body {
 }
 
 // Tutorials
+.win {
+
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000021;
+    position: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 300px;
+    transition: 400ms;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+
+    &.show {
+      opacity: 1;
+    }
+
+    &.memory {
+      background-image: url('../../dist/memory/win.png');
+    }
+
+}
+
 .tuto {
   width: 100vw;
   height: 100vh;
