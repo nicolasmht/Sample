@@ -109,16 +109,18 @@ function Component(sceneMain) {
     
     // Create sounds
     const positions = [
-        { x: 0, y: 12.5},
-        { x: 8.5, y: -8},
-        { x: -8.5, y: 7},
-        { x: -8.5, y: -5.5},
-        { x: 0, y: 0},
-        { x: 0, y: -12.5},
-        { x: 2, y: -23, isRotate: true},
-        { x: -8.5, y: -18},
-        { x: 10.5, y: 2.5, isRotate: true},
-        { x:  10.5, y: 11, isRotate: true},
+
+        { x: 4, y: 13},
+        { x: 4, y: 0},
+        { x: 4, y: -13},
+        { x: -5, y: 14},
+        { x: -5, y: 1},
+        { x: -5, y: -12},
+        { x: -14, y: 0},
+        { x: -16, y: 11, isRotate: true},
+        { x: 13, y: 1,},
+        { x:  15, y: -10, isRotate: true},
+    
     ];
     
     // Groupe de cartes
@@ -166,7 +168,7 @@ function Component(sceneMain) {
 
         // Animate the camera before they go in some object in the 3D scene 
         TweenLite.to(camera.position, 1, {z: 27});
-        TweenLite.to(cards.rotation, 1, {z: -.8});
+        TweenLite.to(cards.rotation, 1, {z: .8});
     }
 
     function showCard(object) {

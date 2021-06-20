@@ -100427,37 +100427,36 @@ function Component(sceneMain) {
   }]; // Create sounds
 
   var positions = [{
-    x: 0,
-    y: 12.5
+    x: 4,
+    y: 13
   }, {
-    x: 8.5,
-    y: -8
-  }, {
-    x: -8.5,
-    y: 7
-  }, {
-    x: -8.5,
-    y: -5.5
-  }, {
-    x: 0,
+    x: 4,
     y: 0
   }, {
-    x: 0,
-    y: -12.5
+    x: 4,
+    y: -13
   }, {
-    x: 2,
-    y: -23,
-    isRotate: true
+    x: -5,
+    y: 14
   }, {
-    x: -8.5,
-    y: -18
+    x: -5,
+    y: 1
   }, {
-    x: 10.5,
-    y: 2.5,
-    isRotate: true
+    x: -5,
+    y: -12
   }, {
-    x: 10.5,
+    x: -14,
+    y: 0
+  }, {
+    x: -16,
     y: 11,
+    isRotate: true
+  }, {
+    x: 13,
+    y: 1
+  }, {
+    x: 15,
+    y: -10,
     isRotate: true
   }]; // Groupe de cartes
 
@@ -100497,7 +100496,7 @@ function Component(sceneMain) {
     });
 
     _gsap.TweenLite.to(cards.rotation, 1, {
-      z: -.8
+      z: .8
     });
   }
 
@@ -102514,7 +102513,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54622" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61993" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
