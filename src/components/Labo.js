@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 // Packages
 import { TimelineMax, Power4, TweenLite, EaseInOut, EaseOut } from 'gsap';
@@ -46,7 +47,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const target = new THREE.Vector2();
     const windowHalf = new THREE.Vector2( window.innerWidth / 2, window.innerHeight / 2 );
 
+    // Instantiate a loader
     const loader = new GLTFLoader();
+
+    // Optional: Provide a DRACOLoader instance to decode compressed mesh data
+    // const dracoLoader = new DRACOLoader();
+    // dracoLoader.setDecoderPath(LaboGltf);
+    // loader.setDRACOLoader(dracoLoader);
+
     let labo = new THREE.Object3D();
 
     const texture01 = new THREE.TextureLoader().load(TextureGravure01);
@@ -118,13 +126,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             }
         });
 
-        //CABINET TEST COLORATION
-        // let cabinet = labo.getObjectByName('cabinet')
-        // cabinet.traverse( (child) => {
-        //     child.material = new THREE.MeshToonMaterial({color: 0xa87b32,side:THREE.DoubleSide, gradientMap: fiveTone});
-        // });
-
-        // labo.position.set(0, 0, -0.5);
         labo.rotateY(Math.PI);
         labo.scale.set(0.02, 0.02, 0.02);
 

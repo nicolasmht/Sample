@@ -1,14 +1,14 @@
 @font-face {
-    font-family: "biotif";
-    src: url("../fonts/biotif/Biotif-Regular.ttf");
+  font-family: "biotif";
+  src: url("../fonts/biotif/Biotif-Regular.ttf");
 }
 @font-face {
-    font-family: "biotif-b";
-    src: url("../fonts/biotif/Biotif-Black.ttf");
+  font-family: "biotif-b";
+  src: url("../fonts/biotif/Biotif-Black.ttf");
 }
 @font-face {
-    font-family: "biotif-l";
-    src: url("../fonts/biotif/Biotif-LightItalic.ttf");
+  font-family: "biotif-l";
+  src: url("../fonts/biotif/Biotif-LightItalic.ttf");
 }
 
 html, body {
@@ -80,7 +80,7 @@ html, body {
         background-size: contain;
         background-position: center center;
         cursor: pointer;
-        z-index: 3;
+        z-index: 99999;
     }
 }
 
@@ -209,6 +209,10 @@ html, body {
 
   &.polo {
     background-image: url('../../dist/tutorials/polo.png');
+  }
+
+  &.kaleidoscope {
+    background-image: url('../../dist/tutorials/britney.png');
   }
 }
 
@@ -730,6 +734,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   background-color: #fff;
+  cursor: move;
   
   canvas{
     width: 100%;
@@ -765,9 +770,7 @@ html, body {
 .container {
     position: absolute;
     width: 100vw;
-    // height: 500vh;
-    // background: rgb(130, 113, 131);
-    // background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+    // background-color: #EDE3E1;
     // background-image: url('../images/timeline_background.png');
     background-size: 100%;
     background-attachment: fixed;
@@ -837,18 +840,23 @@ html, body {
 
     h1 {
         font-family: 'bely-display';
-        font-size: 50px;
+        font-size: 2.6vw;
     }
     p {
-        font-family: 'biotif';
-        font-size: 16px;
+        font-family: "biotif-l";
+        font-size: 1vw;
+        line-height: 1.6vw;
+
+        b{
+          font-family: "biotif-b";
+        }
     }
     .cta {
         font-family: 'bely-display';
-        font-size: 18px;
+        font-size: 1.1vw;
         position: relative;
         cursor: pointer;
-        width: 100px;
+        width: auto;
         &::before {
             content: "";
             position: absolute;
@@ -942,7 +950,7 @@ html, body {
             }
         }
         &-right {
-            width: 35%;
+            width: 25vw;
             position: relative;
         }
         &-panel {

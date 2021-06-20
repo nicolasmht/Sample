@@ -81,7 +81,7 @@ html, body {
   background-size: contain;
   background-position: center center;
   cursor: pointer;
-  z-index: 3;
+  z-index: 99999;
 }
 
 .container-infos {
@@ -199,6 +199,9 @@ html, body {
 }
 .tuto.polo {
   background-image: url("/polo.93e13b0a.png");
+}
+.tuto.kaleidoscope {
+  background-image: url("/britney.51db3ead.png");
 }
 
 .focus-renaud {
@@ -642,6 +645,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   background-color: #fff;
+  cursor: move;
 }
 .focus-kaleidoscope canvas {
   width: 100%;
@@ -743,18 +747,22 @@ html, body {
 }
 .container h1 {
   font-family: "bely-display";
-  font-size: 50px;
+  font-size: 2.6vw;
 }
 .container p {
-  font-family: "biotif";
-  font-size: 16px;
+  font-family: "biotif-l";
+  font-size: 1vw;
+  line-height: 1.6vw;
+}
+.container p b {
+  font-family: "biotif-b";
 }
 .container .cta {
   font-family: "bely-display";
-  font-size: 18px;
+  font-size: 1.1vw;
   position: relative;
   cursor: pointer;
-  width: 100px;
+  width: auto;
 }
 .container .cta::before {
   content: "";
@@ -837,7 +845,7 @@ html, body {
   top: -100%;
 }
 .container_artist-right {
-  width: 35%;
+  width: 25vw;
   position: relative;
 }
 .container_artist-panel {
