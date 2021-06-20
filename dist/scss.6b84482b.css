@@ -117,6 +117,7 @@ html, body {
   font-size: 4vw;
 }
 .container-infos .subTitle-infos {
+  text-align: center;
   margin: 0;
   margin-bottom: 3vh;
   font-size: 2vw;

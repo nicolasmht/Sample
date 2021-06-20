@@ -101276,11 +101276,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var spriteHover = new THREE.Sprite(materialPinHover);
     sprite.position.set(x, y, z);
     spriteHover.position.set(x, y, z);
-    sprite.scale.set(0.25, 0.25, 0.25);
-    spriteHover.scale.set(0.25, 0.25, 0.25);
+    sprite.scale.set(0.22, 0.22, 0.22);
+    spriteHover.scale.set(0.22, 0.22, 0.22);
     scene.add(sprite);
     scene.add(spriteHover);
+    var isClick = false;
     sprite.addEventListener("mouseover", function (event) {
+      if (isClick) return;
+
       _gsap.TweenLite.to(sprite.material, 0.6, {
         opacity: 0,
         ease: _gsap.EaseInOut
@@ -101294,6 +101297,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       document.body.style.cursor = "pointer";
     });
     sprite.addEventListener("mouseout", function (event) {
+      if (isClick) return;
+
       _gsap.TweenLite.to(sprite.material, 0.6, {
         opacity: 1,
         ease: _gsap.EaseInOut
@@ -101307,7 +101312,32 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       document.body.style.cursor = "default";
     });
     sprite.addEventListener("click", function (event) {
-      console.log('click');
+      isClick = true;
+
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+
+      document.body.style.cursor = "default";
+    });
+    document.querySelector('.close-infos').addEventListener('click', function (event) {
+      isClick = false;
+
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
     });
     interactionManager.add(sprite);
     return sprite;
@@ -101390,15 +101420,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     // Assign content to info container
     document.querySelector('.title-infos').innerText = item.title;
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
-    document.querySelector('.description-infos').innerText = item.description;
+    document.querySelector('.description-infos').innerHTML = item.description;
 
     var animate = _gsap.TweenLite.to(camera.position, 5, {
       x: target.position.x,
       y: target.position.y,
-      z: target.position.z + 1.5,
+      z: target.position.z + 1,
       ease: _gsap.EaseOut,
       onUpdate: function onUpdate(e) {
-        if (camera.position.z < 3.5) {
+        if (camera.position.z < 2.25) {
           infos.classList.add('visible');
         }
       },
@@ -101409,8 +101439,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     onInfoClose(function () {
       animate.kill();
-      renaudFocus.stop();
-      memoryFocus.stop();
     });
   }
   /*
@@ -101437,9 +101465,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Britney
    */
 
-  var britneyPin = CreateSrpite(_Britney.default, -2.3, 3.2, -1.2);
+  var britneyPin = CreateSrpite(_Britney.default, -1.9, 3.2, -1.2);
   britneyPin.addEventListener("click", function (event) {
-    console.log('okokok');
     onClick(event.target, {
       title: 'Britney',
       subTitle: 'From Bollywood to Hollywood',
@@ -101451,13 +101478,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         onClose(function () {});
       });
     });
-  }); // interactionManager.add(britneyPin);
-
+  });
+  interactionManager.add(britneyPin);
   /*
    * DaftPunk
    */
 
-  var daftPunkPin = CreateSrpite(_DaftPunk.default, 0.9, 2.5, -1);
+  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1, 2.35, -1);
   daftPunkPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'DaftPunk',
@@ -101479,12 +101506,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Gainsbourg
    */
 
-  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.49, 3.3, -1.5);
+  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.39, 3.05, -1.5);
   gainsbourgPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Gainsbourg',
       subTitle: 'A hint of classic behind an iconoclast spirit',
-      description: 'Well known for his music, his romances but also because of his scandalous spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a classical music lover?'
+      description: 'Well known for his music, his romances but also because of his <b>scandalous</b> spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a <b>classical music lover<b/>?'
     }, function () {
       onDiscover(function () {
         reset();
@@ -101499,7 +101526,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Memo
    */
 
-  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.7, -0.4);
+  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.75, -0.4);
   memoPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Memo',
@@ -101521,7 +101548,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Polo
    */
 
-  var poloPin = CreateSrpite(_Polo.default, 0.8, 3.6, -1);
+  var poloPin = CreateSrpite(_Polo.default, 0.65, 3.3, -1);
   poloPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Polo et Pan',
@@ -101540,7 +101567,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Renaud
    */
 
-  var renaudPin = CreateSrpite(_Renaud.default, -1.45, 1.9, -0.9);
+  var renaudPin = CreateSrpite(_Renaud.default, -1.38, 2.1, -0.9);
   renaudPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Renaud',
@@ -101563,7 +101590,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Retour
    */
 
-  var retourPin = CreateSrpite(_Retour.default, -1.5, 2.55, -1.2);
+  var retourPin = CreateSrpite(_Retour.default, -1.2, 2.5, -1.2);
   retourPin.addEventListener("click", function (event) {
     console.log("Retour");
   });
@@ -101707,6 +101734,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         opacity: 1,
         ease: _gsap.EaseOut
       });
+      document.querySelector('.container').style.display = 'none';
     }
   };
 
@@ -102317,7 +102345,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49291" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51201" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
