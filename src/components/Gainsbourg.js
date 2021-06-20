@@ -14,6 +14,7 @@ import Dvorak from '../audios/focus/gainsbourg/dvorak.mp3';
 
 function Component(scene) {
 
+    let tutorial = document.querySelector('.focus-gainsbourg .tuto');
     let canvas = document.getElementById('mask');
     var ctx = canvas.getContext('2d');
 
@@ -220,8 +221,18 @@ function Component(scene) {
       return result;
     }
 
-    this.start = () => {}
-    this.stop = () => {}
+    this.start = () => {
+
+        setTimeout(() => {
+            tutorial.classList.add('hide');
+        }, 3000 );
+    }
+    this.stop = () => {
+
+        setTimeout(() => {
+            tutorial.classList.remove('hide');
+        }, 3000 )
+    }
 
     this.update = function(time) {}
 

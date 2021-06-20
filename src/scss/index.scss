@@ -211,6 +211,7 @@ html, body {
   background-size: 300px;
   transition: 400ms;
   z-index: 10000;
+  pointer-events: none;
 
   &.hide {
     opacity: 0;
@@ -230,6 +231,11 @@ html, body {
 
   &.kaleidoscope {
     background-image: url('../../dist/tutorials/britney.png');
+  }
+
+  &.gainsbourg {
+    background-image: url('../../dist/tutorials/gainsbourg.png');
+    z-index: 10020;
   }
 }
 
@@ -330,12 +336,12 @@ html, body {
     max-width: 25%;
     cursor: move;
     position: absolute;
-    transition: box-shadow 300ms;
+    transition: transform 300ms;
     z-index: 2;
     transform-origin: center;
 
-    &.draggable:hover{
-      filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
+    &.draggable:hover {
+        transform: scale(1.1);
     }
   
     &.stamp{
@@ -360,6 +366,10 @@ html, body {
       transform: rotate(36.67deg);
       top: -40px;
       left: 20%;
+
+      &:hover {
+        transform: rotate(36.67deg) scale(1.1) !important;
+      }
     }
 
     &.dvorak{
@@ -380,12 +390,20 @@ html, body {
       right: 14vw;
       transform-origin: center;
       transform: rotate(30deg);
+
+      &:hover {
+        transform: rotate(30deg) scale(1.1) !important;
+      }
     }
 
     &.jtm{
       transform: rotate(66.39deg);
       bottom: 0vh;
       left: 40vh;
+
+      &:hover {
+        transform: rotate(66.39deg) scale(1.1);
+      }
     }
 
     &.polska{
@@ -487,7 +505,7 @@ html, body {
   #cursor {
     position: fixed;
     z-index: 10000;
-    background-image: url('../images/focus/polo/cursors/cursor.png');
+    background-image: url('../assets/polo/cursors/cursor.png');
     width: 20px;
     height: 20px;
     pointer-events: none;
@@ -589,7 +607,7 @@ html, body {
   #layer-1 {
     width: 100%;
     height: 100%;
-    background-image: url('../images/focus/polo/05.png');
+    background-image: url('../assets/polo/05.png');
     margin: 0;
     position: fixed;
     top: 0;
@@ -601,7 +619,7 @@ html, body {
   #layer-2 {
     width: 120%;
     height: 120%;
-    background-image: url('../images/focus/polo/02.png');
+    background-image: url('../assets/polo/02.png');
     background-position: center;
     background-size: cover;
     position: fixed;
@@ -651,7 +669,7 @@ html, body {
   #layer-3 {
     width: 105%;
     height: 105%;
-    background-image: url('../images/focus/polo/01.png');
+    background-image: url('../assets/polo/01.png');
     background-position: center;
     background-size: cover;
     position: fixed;
@@ -686,7 +704,7 @@ html, body {
   #layer-4 {
     width: 100%;
     height: 100%;
-    background-image: url('../images/focus/polo/03.png');
+    background-image: url('../assets/polo/03.png');
     background-position: center;
     background-size: cover;
     position: fixed;
@@ -706,7 +724,7 @@ html, body {
   width: 250px;
   height: 250px;
   transform: translateX(-50%);
-  background-image: url('../images/focus/polo/04_Soleil.png');
+  background-image: url('../assets/polo/04_Soleil.png');
   background-position: center;
   background-size: cover;
   box-sizing: border-box;
@@ -716,7 +734,7 @@ html, body {
   &::after {
     content: '';
     position: absolute;
-    background-image: url('../images/focus/polo/04_Halo.png');
+    background-image: url('../assets/polo/04_Halo.png');
     background-position: center;
     background-size: cover;
     width: 300px;

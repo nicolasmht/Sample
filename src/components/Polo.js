@@ -164,23 +164,6 @@ function Component(scene) {
     // Cursor animation
     let cursor = document.querySelector('#cursor');
 
-    // When the mouse hover the sun
-    sun.addEventListener('mouseover', () => {
-        cursor.classList.add('drag')
-    });
-
-    // When the mouse leave the sun
-    sun.addEventListener('mouseout', () => {
-        cursor.classList.remove('drag')
-    });
-
-    // Classic cursor
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.pageX - 15 +'px';
-        cursor.style.top = e.pageY - 15 +'px';
-        //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
-    });
-
 
     // Make the sun draggable
     dragElement(sun);
@@ -241,8 +224,6 @@ function Component(scene) {
         pageY.innerText = event.pageY;
     }
 
-    document.addEventListener("mousemove", parallaxEffect, false);
-
     function parallaxEffect(event){
         let positions = {x: event.pageX, y: event.pageY}
         let background = document.querySelector('#layer-2');
@@ -266,6 +247,41 @@ function Component(scene) {
         timecode[0] < 1 ? true : result += (parseInt(timecode[0]) * 60) * 1000;
         result += parseInt(`${timecode[2]}${timecode[3]}`) * 1000;
         return result;
+    }
+
+    this.start = () => {
+
+         // When the mouse hover the sun
+        sun.addEventListener('mouseover', () => {
+            cursor.classList.add('drag')
+        });
+
+        // When the mouse leave the sun
+        sun.addEventListener('mouseout', () => {
+            cursor.classList.remove('drag')
+        });
+
+        // Classic cursor
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.pageX - 15 +'px';
+            cursor.style.top = e.pageY - 15 +'px';
+            //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
+        });
+
+        setTimeout(() => {
+            document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);
+            document.querySelector('.focus-polo .tuto').classList.add('hide');
+        }, 3000);
+
+    };
+
+    this.stop = () => {
+
+        setTimeout(() => {
+            document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);
+            document.querySelector('.focus-polo .tuto').classList.remove('hide');
+        }, 3000);
+
     }
 
     this.update = function(time) {}

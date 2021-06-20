@@ -447,7 +447,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             onDiscover(() => {
                 reset();
                 document.querySelector('.focus-polo').style.display = 'block';
-                onClose(() => {});
+                poloFocus.start();
+                onClose(() => {
+                    poloFocus.stop();
+                });
             })
         });
     });

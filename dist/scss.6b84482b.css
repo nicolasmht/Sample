@@ -196,6 +196,7 @@ html, body {
   background-size: 300px;
   transition: 400ms;
   z-index: 10000;
+  pointer-events: none;
 }
 .tuto.hide {
   opacity: 0;
@@ -211,6 +212,10 @@ html, body {
 }
 .tuto.kaleidoscope {
   background-image: url("/britney.51db3ead.png");
+}
+.tuto.gainsbourg {
+  background-image: url("/gainsbourg.f1494bf7.png");
+  z-index: 10020;
 }
 
 .focus-renaud {
@@ -305,12 +310,12 @@ html, body {
   max-width: 25%;
   cursor: move;
   position: absolute;
-  transition: box-shadow 300ms;
+  transition: transform 300ms;
   z-index: 2;
   transform-origin: center;
 }
 .focus-gainsbourg img.draggable:hover {
-  filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
+  transform: scale(1.1);
 }
 .focus-gainsbourg img.stamp {
   max-width: 10%;
@@ -332,6 +337,9 @@ html, body {
   top: -40px;
   left: 20%;
 }
+.focus-gainsbourg img.clopes:hover {
+  transform: rotate(36.67deg) scale(1.1) !important;
+}
 .focus-gainsbourg img.dvorak {
   width: 80px;
   top: 5%;
@@ -349,10 +357,16 @@ html, body {
   transform-origin: center;
   transform: rotate(30deg);
 }
+.focus-gainsbourg img.lemon:hover {
+  transform: rotate(30deg) scale(1.1) !important;
+}
 .focus-gainsbourg img.jtm {
   transform: rotate(66.39deg);
   bottom: 0vh;
   left: 40vh;
+}
+.focus-gainsbourg img.jtm:hover {
+  transform: rotate(66.39deg) scale(1.1);
 }
 .focus-gainsbourg img.polska {
   bottom: 3vh;
@@ -438,7 +452,7 @@ html, body {
 .focus-polo #cursor {
   position: fixed;
   z-index: 10000;
-  background-image: url("/cursor.098de7c6.png");
+  background-image: url("/cursor.b6c0ac8d.png");
   width: 20px;
   height: 20px;
   pointer-events: none;
@@ -507,7 +521,7 @@ html, body {
 .focus-polo #layer-1 {
   width: 100%;
   height: 100%;
-  background-image: url("/05.54b95d9c.png");
+  background-image: url("/05.44963e58.png");
   margin: 0;
   position: fixed;
   top: 0;
@@ -518,7 +532,7 @@ html, body {
 .focus-polo #layer-2 {
   width: 120%;
   height: 120%;
-  background-image: url("/02.b31dc7e1.png");
+  background-image: url("/02.59942c5d.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -561,7 +575,7 @@ html, body {
 .focus-polo #layer-3 {
   width: 105%;
   height: 105%;
-  background-image: url("/01.461b1eca.png");
+  background-image: url("/01.d7e55cda.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -592,7 +606,7 @@ html, body {
 .focus-polo #layer-4 {
   width: 100%;
   height: 100%;
-  background-image: url("/03.0215e571.png");
+  background-image: url("/03.43e36bc2.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -611,7 +625,7 @@ html, body {
   width: 250px;
   height: 250px;
   transform: translateX(-50%);
-  background-image: url("/04_Soleil.a218272f.png");
+  background-image: url("/04_Soleil.d8d45d4e.png");
   background-position: center;
   background-size: cover;
   box-sizing: border-box;
@@ -621,7 +635,7 @@ html, body {
 #sun::after {
   content: "";
   position: absolute;
-  background-image: url("/04_Halo.7e2567fc.png");
+  background-image: url("/04_Halo.e1cc18db.png");
   background-position: center;
   background-size: cover;
   width: 300px;

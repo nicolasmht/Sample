@@ -100423,6 +100423,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
+  var tutorial = document.querySelector('.focus-gainsbourg .tuto');
   var canvas = document.getElementById('mask');
   var ctx = canvas.getContext('2d'); // Create a radial gradient
   // The inner circle is at x=110, y=90, with radius=30
@@ -100636,9 +100637,17 @@ function Component(scene) {
     return result;
   }
 
-  this.start = function () {};
+  this.start = function () {
+    setTimeout(function () {
+      tutorial.classList.add('hide');
+    }, 3000);
+  };
 
-  this.stop = function () {};
+  this.stop = function () {
+    setTimeout(function () {
+      tutorial.classList.remove('hide');
+    }, 3000);
+  };
 
   this.update = function (time) {};
 
@@ -101289,20 +101298,7 @@ function Component(scene) {
   } // Cursor animation
 
 
-  var cursor = document.querySelector('#cursor'); // When the mouse hover the sun
-
-  sun.addEventListener('mouseover', function () {
-    cursor.classList.add('drag');
-  }); // When the mouse leave the sun
-
-  sun.addEventListener('mouseout', function () {
-    cursor.classList.remove('drag');
-  }); // Classic cursor
-
-  document.addEventListener('mousemove', function (e) {
-    cursor.style.left = e.pageX - 15 + 'px';
-    cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
-  }); // Make the sun draggable
+  var cursor = document.querySelector('#cursor'); // Make the sun draggable
 
   dragElement(sun);
 
@@ -101363,8 +101359,6 @@ function Component(scene) {
     pageY.innerText = event.pageY;
   }
 
-  document.addEventListener("mousemove", parallaxEffect, false);
-
   function parallaxEffect(event) {
     var positions = {
       x: event.pageX,
@@ -101407,6 +101401,33 @@ function Component(scene) {
     result += parseInt("".concat(timecode[2]).concat(timecode[3])) * 1000;
     return result;
   }
+
+  this.start = function () {
+    // When the mouse hover the sun
+    sun.addEventListener('mouseover', function () {
+      cursor.classList.add('drag');
+    }); // When the mouse leave the sun
+
+    sun.addEventListener('mouseout', function () {
+      cursor.classList.remove('drag');
+    }); // Classic cursor
+
+    document.addEventListener('mousemove', function (e) {
+      cursor.style.left = e.pageX - 15 + 'px';
+      cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
+    });
+    setTimeout(function () {
+      document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);
+      document.querySelector('.focus-polo .tuto').classList.add('hide');
+    }, 3000);
+  };
+
+  this.stop = function () {
+    setTimeout(function () {
+      document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);
+      document.querySelector('.focus-polo .tuto').classList.remove('hide');
+    }, 3000);
+  };
 
   this.update = function (time) {};
 
@@ -102220,7 +102241,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       onDiscover(function () {
         reset();
         document.querySelector('.focus-polo').style.display = 'block';
-        onClose(function () {});
+        poloFocus.start();
+        onClose(function () {
+          poloFocus.stop();
+        });
       });
     });
   });
