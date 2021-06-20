@@ -100374,53 +100374,13 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"audios/focus/gainsbourg/Chopin_Prelude.mp3":[function(require,module,exports) {
-module.exports = "/Chopin_Prelude.9fcef88c.mp3";
-},{}],"audios/focus/gainsbourg/jtm.mp3":[function(require,module,exports) {
-module.exports = "/jtm.c71141b9.mp3";
-},{}],"audios/focus/gainsbourg/charlotte.mp3":[function(require,module,exports) {
-module.exports = "/charlotte.15bbec7b.mp3";
-},{}],"audios/focus/gainsbourg/aram.mp3":[function(require,module,exports) {
-module.exports = "/aram.1d4cbd8d.mp3";
-},{}],"audios/focus/gainsbourg/lemon.mp3":[function(require,module,exports) {
-module.exports = "/lemon.2e8235ab.mp3";
-},{}],"audios/focus/gainsbourg/Chopin_Etude.mp3":[function(require,module,exports) {
-module.exports = "/Chopin_Etude.596b17e1.mp3";
-},{}],"audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3":[function(require,module,exports) {
-module.exports = "/Gainsbourg_TheInitials.641ddf16.mp3";
-},{}],"audios/focus/gainsbourg/dvorak.mp3":[function(require,module,exports) {
-module.exports = "/dvorak.df38f911.mp3";
-},{}],"components/Gainsbourg.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"components/Gainsbourg.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var THREE = _interopRequireWildcard(require("three"));
-
-var _Chopin_Prelude = _interopRequireDefault(require("../audios/focus/gainsbourg/Chopin_Prelude.mp3"));
-
-var _jtm = _interopRequireDefault(require("../audios/focus/gainsbourg/jtm.mp3"));
-
-var _charlotte = _interopRequireDefault(require("../audios/focus/gainsbourg/charlotte.mp3"));
-
-var _aram = _interopRequireDefault(require("../audios/focus/gainsbourg/aram.mp3"));
-
-var _lemon = _interopRequireDefault(require("../audios/focus/gainsbourg/lemon.mp3"));
-
-var _Chopin_Etude = _interopRequireDefault(require("../audios/focus/gainsbourg/Chopin_Etude.mp3"));
-
-var _Gainsbourg_TheInitials = _interopRequireDefault(require("../audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3"));
-
-var _dvorak = _interopRequireDefault(require("../audios/focus/gainsbourg/dvorak.mp3"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
   var tutorial = document.querySelector('.focus-gainsbourg .tuto');
@@ -100578,56 +100538,48 @@ function Component(scene) {
 
 
   CreateSound(document.querySelector('.clopes'), document.querySelector('.dvorak'), {
-    path: _Gainsbourg_TheInitials.default,
+    path: '../assets/gainsbourg/sounds/bb.mp3',
     artist: 'Serge Gainsbourg',
     title: 'Initials BB',
-    date: '1968',
-    start: timecodeToMilliseconds('0:27')
+    date: '1968'
   }, {
-    path: _dvorak.default,
+    path: '../assets/gainsbourg/sounds/dvorak.mp3',
     artist: 'Antonín Dvorák',
     title: 'Symphony No. 9, "From the New World"',
-    date: '1893',
-    start: timecodeToMilliseconds('2:08')
+    date: '1893'
   });
   CreateSound(document.querySelector('.lemon'), document.querySelector('.chopin'), {
-    path: _lemon.default,
+    path: '../assets/gainsbourg/sounds/lemon.mp3',
     artist: 'Serge Gainsbourg',
     title: 'Lemon incest',
-    date: '1984',
-    start: timecodeToMilliseconds('0:06')
+    date: '1984'
   }, {
-    path: _Chopin_Etude.default,
+    path: '../assets/gainsbourg/sounds/Chopin_Etude.mp3',
     artist: 'Frédéric Chopin',
     title: 'Étude, Op. 10, No. 3 in E Major',
-    date: '1830',
-    start: timecodeToMilliseconds('0:00')
+    date: '1830'
   });
   CreateSound(document.querySelector('.charlotte'), document.querySelector('.aram'), {
-    path: _charlotte.default,
+    path: '../assets/gainsbourg/sounds/charlotte.mp3',
     artist: 'Serge Gainsbourg',
     title: 'Charlotte for ever',
-    date: '1986',
-    start: timecodeToMilliseconds('0:00')
+    date: '1986'
   }, {
-    path: _aram.default,
+    path: '../assets/gainsbourg/sounds/aram.mp3',
     artist: 'Aram Khatchatourian',
     title: 'Andantino',
-    date: '1947',
-    start: timecodeToMilliseconds('0:00')
+    date: '1947'
   });
   CreateSound(document.querySelector('.jtm'), document.querySelector('.polska'), {
-    path: _jtm.default,
+    path: '../assets/gainsbourg/sounds/jtm.mp3',
     artist: 'Serge Gainsbourg',
     title: "Je t'aime moi non plus",
-    date: '1969',
-    start: timecodeToMilliseconds('0:14')
+    date: '1969'
   }, {
-    path: _Chopin_Prelude.default,
+    path: '../assets/gainsbourg/sounds/Chopin_Prelude.mp3',
     artist: 'Frédéric Chopin',
     title: "Prelude, Op. 28, No. 4 in E Minor",
-    date: '1839',
-    start: timecodeToMilliseconds('0:14')
+    date: '1839'
   }); // Timecode to milliseconds
 
   function timecodeToMilliseconds(timecode) {
@@ -100662,7 +100614,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../audios/focus/gainsbourg/Chopin_Prelude.mp3":"audios/focus/gainsbourg/Chopin_Prelude.mp3","../audios/focus/gainsbourg/jtm.mp3":"audios/focus/gainsbourg/jtm.mp3","../audios/focus/gainsbourg/charlotte.mp3":"audios/focus/gainsbourg/charlotte.mp3","../audios/focus/gainsbourg/aram.mp3":"audios/focus/gainsbourg/aram.mp3","../audios/focus/gainsbourg/lemon.mp3":"audios/focus/gainsbourg/lemon.mp3","../audios/focus/gainsbourg/Chopin_Etude.mp3":"audios/focus/gainsbourg/Chopin_Etude.mp3","../audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3":"audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3","../audios/focus/gainsbourg/dvorak.mp3":"audios/focus/gainsbourg/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
+},{}],"components/Aznavour.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
