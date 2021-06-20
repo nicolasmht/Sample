@@ -1,3 +1,17 @@
+import * as THREE from 'three';
+
+import ChopinPrelude from '../assets/gainsbourg/sounds/Chopin_Prelude.mp3';
+import Jtm from '../assets/gainsbourg/sounds/jtm.mp3';
+
+import Charlotte from '../assets/gainsbourg/sounds/charlotte.mp3';
+import Aram from '../assets/gainsbourg/sounds/aram.mp3';
+
+import Lemon from '../assets/gainsbourg/sounds/lemon.mp3';
+import ChopinEtude from '../assets/gainsbourg/sounds/Chopin_Etude.mp3';
+
+import GainsbourgTheInitials from '../assets/gainsbourg/sounds/bb.mp3';
+import Dvorak from '../assets/gainsbourg/sounds/dvorak.mp3';
+
 function Component(scene) {
 
     let tutorial = document.querySelector('.focus-gainsbourg .tuto');
@@ -172,28 +186,29 @@ function Component(scene) {
     CreateSound(
         document.querySelector('.clopes'),
         document.querySelector('.dvorak'),
-        { path: '../assets/gainsbourg/sounds/bb.mp3', artist: 'Serge Gainsbourg', title: 'Initials BB', date: '1968'},
-        { path: '../assets/gainsbourg/sounds/dvorak.mp3', artist: 'Antonín Dvorák', title: 'Symphony No. 9, "From the New World"', date: '1893'},
+        { path: GainsbourgTheInitials, artist: 'Serge Gainsbourg', title: 'Initials BB', date: '1968'},
+        { path: Dvorak, artist: 'Antonín Dvorák', title: 'Symphony No. 9, "From the New World"', date: '1893'},
     );
 
     CreateSound(
         document.querySelector('.lemon'),
         document.querySelector('.chopin'),
-        {path: '../assets/gainsbourg/sounds/lemon.mp3', artist: 'Serge Gainsbourg', title: 'Lemon incest', date: '1984'},
-        {path: '../assets/gainsbourg/sounds/Chopin_Etude.mp3', artist: 'Frédéric Chopin', title: 'Étude, Op. 10, No. 3 in E Major', date: '1830'},
+        {path: Lemon, artist: 'Serge Gainsbourg', title: 'Lemon incest', date: '1984'},
+        {path: ChopinEtude, artist: 'Frédéric Chopin', title: 'Étude, Op. 10, No. 3 in E Major', date: '1830'},
     );
+
     CreateSound(
         document.querySelector('.charlotte'),
         document.querySelector('.aram'),
-        {path: '../assets/gainsbourg/sounds/charlotte.mp3', artist: 'Serge Gainsbourg', title: 'Charlotte for ever', date: '1986'},
-        {path: '../assets/gainsbourg/sounds/aram.mp3', artist: 'Aram Khatchatourian', title: 'Andantino', date: '1947'}
+        {path: Charlotte, artist: 'Serge Gainsbourg', title: 'Charlotte for ever', date: '1986'},
+        {path: Aram, artist: 'Aram Khatchatourian', title: 'Andantino', date: '1947'}
     );
 
     CreateSound(
         document.querySelector('.jtm'),
         document.querySelector('.polska'),
-        {path: '../assets/gainsbourg/sounds/jtm.mp3', artist: 'Serge Gainsbourg', title: `Je t'aime moi non plus`, date: '1969'},
-        {path: '../assets/gainsbourg/sounds/Chopin_Prelude.mp3', artist: 'Frédéric Chopin', title: `Prelude, Op. 28, No. 4 in E Minor`, date: '1839'}
+        {path: Jtm, artist: 'Serge Gainsbourg', title: `Je t'aime moi non plus`, date: '1969'},
+        {path: ChopinPrelude, artist: 'Frédéric Chopin', title: `Prelude, Op. 28, No. 4 in E Minor`, date: '1839'}
     );
     
     // Timecode to milliseconds

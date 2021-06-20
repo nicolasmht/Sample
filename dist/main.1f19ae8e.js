@@ -100374,13 +100374,53 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"components/Gainsbourg.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+module.exports = "/Chopin_Prelude.9d4786e9.mp3";
+},{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
+module.exports = "/jtm.7f7ef207.mp3";
+},{}],"assets/gainsbourg/sounds/charlotte.mp3":[function(require,module,exports) {
+module.exports = "/charlotte.59b9a105.mp3";
+},{}],"assets/gainsbourg/sounds/aram.mp3":[function(require,module,exports) {
+module.exports = "/aram.4779f777.mp3";
+},{}],"assets/gainsbourg/sounds/lemon.mp3":[function(require,module,exports) {
+module.exports = "/lemon.9fbf3206.mp3";
+},{}],"assets/gainsbourg/sounds/Chopin_Etude.mp3":[function(require,module,exports) {
+module.exports = "/Chopin_Etude.fd6bfa8d.mp3";
+},{}],"assets/gainsbourg/sounds/bb.mp3":[function(require,module,exports) {
+module.exports = "/bb.cbd522f0.mp3";
+},{}],"assets/gainsbourg/sounds/dvorak.mp3":[function(require,module,exports) {
+module.exports = "/dvorak.70462a83.mp3";
+},{}],"components/Gainsbourg.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var THREE = _interopRequireWildcard(require("three"));
+
+var _Chopin_Prelude = _interopRequireDefault(require("../assets/gainsbourg/sounds/Chopin_Prelude.mp3"));
+
+var _jtm = _interopRequireDefault(require("../assets/gainsbourg/sounds/jtm.mp3"));
+
+var _charlotte = _interopRequireDefault(require("../assets/gainsbourg/sounds/charlotte.mp3"));
+
+var _aram = _interopRequireDefault(require("../assets/gainsbourg/sounds/aram.mp3"));
+
+var _lemon = _interopRequireDefault(require("../assets/gainsbourg/sounds/lemon.mp3"));
+
+var _Chopin_Etude = _interopRequireDefault(require("../assets/gainsbourg/sounds/Chopin_Etude.mp3"));
+
+var _bb = _interopRequireDefault(require("../assets/gainsbourg/sounds/bb.mp3"));
+
+var _dvorak = _interopRequireDefault(require("../assets/gainsbourg/sounds/dvorak.mp3"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
   var tutorial = document.querySelector('.focus-gainsbourg .tuto');
@@ -100538,45 +100578,45 @@ function Component(scene) {
 
 
   CreateSound(document.querySelector('.clopes'), document.querySelector('.dvorak'), {
-    path: '../assets/gainsbourg/sounds/bb.mp3',
+    path: _bb.default,
     artist: 'Serge Gainsbourg',
     title: 'Initials BB',
     date: '1968'
   }, {
-    path: '../assets/gainsbourg/sounds/dvorak.mp3',
+    path: _dvorak.default,
     artist: 'Antonín Dvorák',
     title: 'Symphony No. 9, "From the New World"',
     date: '1893'
   });
   CreateSound(document.querySelector('.lemon'), document.querySelector('.chopin'), {
-    path: '../assets/gainsbourg/sounds/lemon.mp3',
+    path: _lemon.default,
     artist: 'Serge Gainsbourg',
     title: 'Lemon incest',
     date: '1984'
   }, {
-    path: '../assets/gainsbourg/sounds/Chopin_Etude.mp3',
+    path: _Chopin_Etude.default,
     artist: 'Frédéric Chopin',
     title: 'Étude, Op. 10, No. 3 in E Major',
     date: '1830'
   });
   CreateSound(document.querySelector('.charlotte'), document.querySelector('.aram'), {
-    path: '../assets/gainsbourg/sounds/charlotte.mp3',
+    path: _charlotte.default,
     artist: 'Serge Gainsbourg',
     title: 'Charlotte for ever',
     date: '1986'
   }, {
-    path: '../assets/gainsbourg/sounds/aram.mp3',
+    path: _aram.default,
     artist: 'Aram Khatchatourian',
     title: 'Andantino',
     date: '1947'
   });
   CreateSound(document.querySelector('.jtm'), document.querySelector('.polska'), {
-    path: '../assets/gainsbourg/sounds/jtm.mp3',
+    path: _jtm.default,
     artist: 'Serge Gainsbourg',
     title: "Je t'aime moi non plus",
     date: '1969'
   }, {
-    path: '../assets/gainsbourg/sounds/Chopin_Prelude.mp3',
+    path: _Chopin_Prelude.default,
     artist: 'Frédéric Chopin',
     title: "Prelude, Op. 28, No. 4 in E Minor",
     date: '1839'
@@ -100614,7 +100654,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{}],"components/Aznavour.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","../assets/gainsbourg/sounds/Chopin_Prelude.mp3":"assets/gainsbourg/sounds/Chopin_Prelude.mp3","../assets/gainsbourg/sounds/jtm.mp3":"assets/gainsbourg/sounds/jtm.mp3","../assets/gainsbourg/sounds/charlotte.mp3":"assets/gainsbourg/sounds/charlotte.mp3","../assets/gainsbourg/sounds/aram.mp3":"assets/gainsbourg/sounds/aram.mp3","../assets/gainsbourg/sounds/lemon.mp3":"assets/gainsbourg/sounds/lemon.mp3","../assets/gainsbourg/sounds/Chopin_Etude.mp3":"assets/gainsbourg/sounds/Chopin_Etude.mp3","../assets/gainsbourg/sounds/bb.mp3":"assets/gainsbourg/sounds/bb.mp3","../assets/gainsbourg/sounds/dvorak.mp3":"assets/gainsbourg/sounds/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
