@@ -249,6 +249,24 @@ html, body {
     background-size: cover;
     display: none;
 
+    .spacebar {
+      position: fixed;
+      bottom: 6%;
+      left: 50%;
+      transform: translate(-50%, 0px);
+      width: 450px;
+      height: 100px;
+      background-image: url('../assets/renaud/hold.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      transition: all 400ms;
+
+      &.holding {
+        background-image: url('../assets/renaud/holding.png');
+      }
+    }
+
     #video {
         position: fixed;
         top: 0;
@@ -272,57 +290,57 @@ html, body {
         position: fixed;
         opacity: 0;
         -webkit-animation-name: shake;
-        -webkit-animation-duration: 0.8s;
+        -webkit-animation-duration: 0.2s;
         -webkit-transform-origin: 50% 50%;
         -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
+        -webkit-animation-timing-function: ease-in;
+
+        &:nth-child(2) {
+          -webkit-animation-name: shake2;
+        }
     }
 }
 
 @-webkit-keyframes shake {
     0% {
-      -webkit-transform: translate(2px, 1px) rotate(0deg);
-    }
-    10% {
-      -webkit-transform: translate(-1px, -2px) rotate(-1deg);
-    }
-    20% {
-      -webkit-transform: translate(-3px, 0px) rotate(1deg);
-    }
-    30% {
-      -webkit-transform: translate(0px, 2px) rotate(0deg);
-    }
-    40% {
-      -webkit-transform: translate(1px, -1px) rotate(1deg);
-    }
-    50% {
-      -webkit-transform: translate(-1px, 2px) rotate(-1deg);
-    }
-    60% {
-      -webkit-transform: translate(-3px, 1px) rotate(0deg);
-    }
-    70% {
-      -webkit-transform: translate(2px, 1px) rotate(-1deg);
-    }
-    80% {
-      -webkit-transform: translate(-1px, -1px) rotate(1deg);
-    }
-    90% {
-      -webkit-transform: translate(2px, 2px) rotate(0deg);
+      -webkit-transform: translate(.7px, .5px);
     }
     100% {
-      -webkit-transform: translate(1px, -2px) rotate(-1deg);
+      -webkit-transform: translate(-.7px, -.5px);
     }
+}
+
+@-webkit-keyframes shake2 {
+  0% {
+    -webkit-transform: translate(.2px, .1px);
+  }
+  100% {
+    -webkit-transform: translate(-1px, -.1px);
+  }
 }
 
 .focus-gainsbourg {
   width: 100vw;
   height: 100vh;
-  background-image: url('../images/focus/gainsbourg/background.jpeg');
+  background-image: url('../assets/gainsbourg/background_1.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: none;
+
+  #lampe {
+
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/gainsbourg/lampe.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10001;
+    pointer-events: none;
+    position: fixed;
+    
+  }
 
   #mask {
     width: 100%;
@@ -420,7 +438,7 @@ html, body {
   }
   
   #background-cover{
-    background-image: url('../images/focus/gainsbourg/background-cover.png');
+    background-image: url('../assets/gainsbourg/background_cover.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
