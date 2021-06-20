@@ -342,12 +342,12 @@ html, body {
     max-width: 25%;
     cursor: move;
     position: absolute;
-    transition: box-shadow 300ms;
+    transition: transform 300ms;
     z-index: 2;
     transform-origin: center;
 
-    &.draggable:hover{
-      filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
+    &.draggable:hover {
+        transform: scale(1.1);
     }
   
     &.stamp{
@@ -372,6 +372,10 @@ html, body {
       transform: rotate(36.67deg);
       top: -40px;
       left: 20%;
+
+      &:hover {
+        transform: rotate(36.67deg) scale(1.1) !important;
+      }
     }
 
     &.dvorak{
@@ -392,12 +396,20 @@ html, body {
       right: 14vw;
       transform-origin: center;
       transform: rotate(30deg);
+
+      &:hover {
+        transform: rotate(30deg) scale(1.1) !important;
+      }
     }
 
     &.jtm{
       transform: rotate(66.39deg);
       bottom: 0vh;
       left: 40vh;
+
+      &:hover {
+        transform: rotate(66.39deg) scale(1.1);
+      }
     }
 
     &.polska{
