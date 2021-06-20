@@ -102105,7 +102105,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
     document.querySelector('.description-infos').innerHTML = item.description;
 
-    var animate = _gsap.TweenLite.to(camera.position, 5, {
+    var animate = _gsap.TweenLite.to(camera.position, 3, {
       x: target.position.x,
       y: target.position.y,
       z: target.position.z + 1,
@@ -102326,33 +102326,37 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var bodyHeight = document.documentElement.scrollHeight;
 
     if (window.scrollY > bodyHeight - window.screen.height && !started) {
+      // Move to position
+      var tape = scene.getObjectByName('Storage_group');
+      tape.position.set(-1.5, 2.45, -2);
+      camera.position.set(-1.5, 2.45, -1.6);
       new _gsap.TimelineMax().to(camera.position, 1, {
         x: 0,
         y: 2.7,
         z: 2.5,
         ease: _gsap.EaseOut
-      }).to(aznavourPin.material, 0.25, {
+      }).to(aznavourPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(britneyPin.material, 0.25, {
+      }).to(britneyPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(daftPunkPin.material, 0.25, {
+      }).to(daftPunkPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(gainsbourgPin.material, 0.25, {
+      }).to(gainsbourgPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(memoPin.material, 0.25, {
+      }).to(memoPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(poloPin.material, 0.25, {
+      }).to(poloPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(renaudPin.material, 0.25, {
+      }).to(renaudPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(retourPin.material, 0.25, {
+      }).to(retourPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
       });

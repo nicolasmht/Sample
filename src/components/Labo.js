@@ -296,7 +296,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelector('.subTitle-infos').innerText = item.subTitle;
         document.querySelector('.description-infos').innerHTML = item.description;
 
-        const animate = TweenLite.to(camera.position, 5, {
+        const animate = TweenLite.to(camera.position, 3, {
             x: target.position.x,
             y: target.position.y,
             z: target.position.z + 1,
@@ -515,16 +515,23 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         const bodyHeight = document.documentElement.scrollHeight;
 
         if (window.scrollY > bodyHeight - window.screen.height && !started) {
+
+            // Move to position
+            const tape = scene.getObjectByName('Storage_group');
+            tape.position.set(-1.5, 2.45, -2);
+
+            camera.position.set(-1.5, 2.45, -1.6);
+
             new TimelineMax()
-            .to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
-            .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(memoPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(poloPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseOut })
-            .to(retourPin.material, 0.25, { opacity: 1, ease: EaseOut });
+                .to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
+                .to(aznavourPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(britneyPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(daftPunkPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(gainsbourgPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(memoPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(poloPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(renaudPin.material, 0.15, { opacity: 1, ease: EaseOut })
+                .to(retourPin.material, 0.15, { opacity: 1, ease: EaseOut });
 
             document.querySelector('.container').style.display = 'none';
 
