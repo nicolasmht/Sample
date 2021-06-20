@@ -93,16 +93,16 @@ function Component(scene) {
     tl.to(background, 4,{opacity: 1}, 0);
 
     // Create all sounds
-    let sireneSound = {path: './polo/sounds/sirene/Nana_Sample.mp3', title: 'Nana', date: '2016', artist: 'Polo & Pan', start: 0};
+    let sireneSound = {path: './polo/sounds/sirene/Nana_Sample.mp3', title: 'Nana', date: '2016', artist: 'Polo & Pan'};
     let sireneSample = {path: OsTincoasCordeiroNanaOriginal, title: 'Cordeiro De Nanã', date: '1977', artist: 'Os Tincoãs'};
     createSound(document.querySelector('#sirene'), sireneSound, sireneSample);
 
     let papillonSound = {path: ZumZumOriginal, title: 'Zoom zoom', date: '2017', artist: 'Polo & Pan'};
-    let papillonSample = {path: ZoomzoomSample, title: 'Zum-Zum', date: '1970', artist: 'Edu Lobo', start: timecodeToMilliseconds('0:02')};
+    let papillonSample = {path: ZoomzoomSample, title: 'Zum-Zum', date: '1970', artist: 'Edu Lobo'};
     createSound(document.querySelector('#papillon'), papillonSound, papillonSample);
 
-    let mainSound = {path: ClairedeluneOriginal, title: 'Pays imaginaire', date: '2017', artist: 'Polo & Pan', start: timecodeToMilliseconds('0:29')};
-    let mainSample = {path: ImaginaireSample, title: 'Clair de lune', date: '1903', artist: 'Claude Debussy', start: 125000};
+    let mainSound = {path: ClairedeluneOriginal, title: 'Pays imaginaire', date: '2017', artist: 'Polo & Pan'};
+    let mainSample = {path: ImaginaireSample, title: 'Clair de lune', date: '1903', artist: 'Claude Debussy'};
     createSound(document.querySelector('#main'), mainSound, mainSample);
 
     let carnivoreSound = {path: AniCouniOriginal, title: 'Ani Kuni', date: '2021', artist: 'Polo & Pan'};

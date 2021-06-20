@@ -101216,8 +101216,6 @@ function Component(scene) {
     path: './polo/sounds/sirene/Nana_Sample.mp3',
     title: 'Nana',
     date: '2016',
-    artist: 'Polo & Pan',
-    start: 0
   };
   var sireneSample = {
     path: _Os_Tincoas_Cordeiro_Nana_Original.default,
@@ -101236,23 +101234,20 @@ function Component(scene) {
     path: _ZoomZoomSample.default,
     title: 'Zum-Zum',
     date: '1970',
-    artist: 'Edu Lobo',
-    start: timecodeToMilliseconds('0:02')
+    artist: 'Edu Lobo'
   };
   createSound(document.querySelector('#papillon'), papillonSound, papillonSample);
   var mainSound = {
     path: _Claire_de_lune_Original.default,
     title: 'Pays imaginaire',
     date: '2017',
-    artist: 'Polo & Pan',
-    start: timecodeToMilliseconds('0:29')
+    artist: 'Polo & Pan'
   };
   var mainSample = {
     path: _Imaginaire_Sample.default,
     title: 'Clair de lune',
     date: '1903',
-    artist: 'Claude Debussy',
-    start: 125000
+    artist: 'Claude Debussy'
   };
   createSound(document.querySelector('#main'), mainSound, mainSample);
   var carnivoreSound = {
@@ -103039,7 +103034,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50678" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58883" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
