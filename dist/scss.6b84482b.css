@@ -188,7 +188,6 @@ html, body {
   z-index: 10000;
 }
 .tuto.hide {
-  transform: scale(0.2);
   opacity: 0;
 }
 .tuto.memory {

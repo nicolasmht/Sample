@@ -100569,12 +100569,20 @@ function Component(sceneMain) {
     renderer.render(scene, camera);
   };
 
+  var tutorial = document.querySelector('.focus-memory .tuto');
+
   this.start = function () {
+    setTimeout(function () {
+      tutorial.classList.add('hide');
+    }, 3000);
     document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
     render();
   };
 
   this.stop = function () {
+    setTimeout(function () {
+      tutorial.classList.remove('hide');
+    }, 3000);
     window.cancelAnimationFrame(idAnimation);
     document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
     soundPlayed.stop();
@@ -102506,7 +102514,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60731" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54622" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

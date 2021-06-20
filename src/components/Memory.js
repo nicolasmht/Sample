@@ -239,12 +239,24 @@ function Component(sceneMain) {
         renderer.render(scene, camera);
     }
 
+    let tutorial = document.querySelector('.focus-memory .tuto');
+
     this.start = function() {
+
+        setTimeout(() => {
+            tutorial.classList.add('hide');
+        }, 3000 )
+
         document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
         render();
     }
 
     this.stop = function() {
+
+        setTimeout(() => {
+            tutorial.classList.remove('hide');
+        }, 3000 )
+
         window.cancelAnimationFrame(idAnimation);
         document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
         soundPlayed.stop();
