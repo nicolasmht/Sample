@@ -100204,7 +100204,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function Component(scene, camera) {
   // Video
-  var video = document.querySelector('video'); // Sounds
+  var video = document.querySelector('video'); // Spacebar
+
+  var spacebar = document.querySelector('.focus-renaud .spacebar'); // Sounds
 
   var booba = new Howl({
     src: ['./renaud/sounds/booba.mp3'],
@@ -100329,12 +100331,14 @@ function Component(scene, camera) {
   }, 60);
   document.addEventListener('keydown', function (event) {
     if (event.code == 'Space') {
+      spacebar.classList.add('holding');
       spaceDown = true;
       spaceUp = false;
     }
   });
   document.addEventListener('keyup', function (event) {
     if (event.code == 'Space') {
+      spacebar.classList.remove('holding');
       spaceDown = false;
       spaceUp = true;
     }

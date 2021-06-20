@@ -249,6 +249,24 @@ html, body {
     background-size: cover;
     display: none;
 
+    .spacebar {
+      position: fixed;
+      bottom: 6%;
+      left: 50%;
+      transform: translate(-50%, 0px);
+      width: 450px;
+      height: 100px;
+      background-image: url('../assets/renaud/hold.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      transition: all 400ms;
+
+      &.holding {
+        background-image: url('../assets/renaud/holding.png');
+      }
+    }
+
     #video {
         position: fixed;
         top: 0;

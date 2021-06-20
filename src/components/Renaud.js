@@ -6,6 +6,9 @@ function Component(scene, camera) {
     // Video
     let video = document.querySelector('video');
 
+    // Spacebar
+    let spacebar = document.querySelector('.focus-renaud .spacebar');
+
     // Sounds
     let booba = new Howl({
         src: ['./renaud/sounds/booba.mp3'],
@@ -72,6 +75,8 @@ function Component(scene, camera) {
 
     document.addEventListener('keydown', function(event) {
         if (event.code == 'Space') {
+
+            spacebar.classList.add('holding');
             spaceDown = true;
             spaceUp = false;
         }
@@ -79,6 +84,7 @@ function Component(scene, camera) {
 
     document.addEventListener('keyup', function(event) {
         if (event.code == 'Space') {
+            spacebar.classList.remove('holding');
             spaceDown = false;
             spaceUp = true;
         }
