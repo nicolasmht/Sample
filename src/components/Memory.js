@@ -7,6 +7,7 @@ function Component(sceneMain) {
 
     let isFinish = false;
     let nbCardsFound = 0;
+    const soundDuration = 30000;
 
     let tutorial = document.querySelector('.focus-memory .tuto');
     let winScreen = document.querySelector('.focus-memory .win');
@@ -33,70 +34,70 @@ function Component(sceneMain) {
     var asap = new Howl({
         src: ['./memory/sounds/1_AsapRocky.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var steve = new Howl({
         src: ['./memory/sounds/1_SteveJobs.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var bowie = new Howl({
         src: ['./memory/sounds/2_DavidBowie.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var lana = new Howl({
         src: ['./memory/sounds/2_LanaDelRey.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var fanfare = new Howl({
         src: ['./memory/sounds/3_Fanfare.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var queen = new Howl({
         src: ['./memory/sounds/3_Queen.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var david = new Howl({
         src: ['./memory/sounds/4_DavidGilmour.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var sncf = new Howl({
         src: ['./memory/sounds/4_SNCF.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var ketchup = new Howl({
         src: ['./memory/sounds/5_LasKetchup.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var sugar = new Howl({
         src: ['./memory/sounds/5_TheSugarHill.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
@@ -184,13 +185,25 @@ function Component(sceneMain) {
             cardVisible.push(object.parent);
             TweenLite.to(object.parent.rotation, .5, {
                 y: Math.PI, onStart: ()=> {
+
                     if(soundPlayed) {
                         soundPlayed.fade(1, 0, 300)
-                        setTimeout(() => { soundPlayed.seek(0)}, 500)
+                        
+                        soundPlayed.once('fade', () => {
+                            soundPlayed.seek(0);
+                            soundPlayed = object.parent.data.sound;
+                            object.parent.data.sound.fade(0, 1, 300);
+                            object.parent.data.sound.play('sample');
+                            console.log('play');
+                        });
+                        
+                        return;
                     }
+
                     soundPlayed = object.parent.data.sound;
                     object.parent.data.sound.fade(0, 1, 300);
                     object.parent.data.sound.play('sample');
+                    console.log('play');
                 }
             });
     

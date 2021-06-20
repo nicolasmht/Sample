@@ -100774,6 +100774,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function Component(sceneMain) {
   var isFinish = false;
   var nbCardsFound = 0;
+  var soundDuration = 30000;
   var tutorial = document.querySelector('.focus-memory .tuto');
   var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
@@ -100795,61 +100796,61 @@ function Component(sceneMain) {
   var asap = new Howl({
     src: ['./memory/sounds/1_AsapRocky.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var steve = new Howl({
     src: ['./memory/sounds/1_SteveJobs.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var bowie = new Howl({
     src: ['./memory/sounds/2_DavidBowie.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var lana = new Howl({
     src: ['./memory/sounds/2_LanaDelRey.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var fanfare = new Howl({
     src: ['./memory/sounds/3_Fanfare.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var queen = new Howl({
     src: ['./memory/sounds/3_Queen.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var david = new Howl({
     src: ['./memory/sounds/4_DavidGilmour.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var sncf = new Howl({
     src: ['./memory/sounds/4_SNCF.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var ketchup = new Howl({
     src: ['./memory/sounds/5_LasKetchup.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var sugar = new Howl({
     src: ['./memory/sounds/5_TheSugarHill.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var data = [{
@@ -100977,14 +100978,20 @@ function Component(sceneMain) {
         onStart: function onStart() {
           if (soundPlayed) {
             soundPlayed.fade(1, 0, 300);
-            setTimeout(function () {
+            soundPlayed.once('fade', function () {
               soundPlayed.seek(0);
-            }, 500);
+              soundPlayed = object.parent.data.sound;
+              object.parent.data.sound.fade(0, 1, 300);
+              object.parent.data.sound.play('sample');
+              console.log('play');
+            });
+            return;
           }
 
           soundPlayed = object.parent.data.sound;
           object.parent.data.sound.fade(0, 1, 300);
           object.parent.data.sound.play('sample');
+          console.log('play');
         }
       });
 
