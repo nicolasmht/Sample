@@ -310,6 +310,20 @@ html, body {
   background-repeat: no-repeat;
   display: none;
 
+  #lampe {
+
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/gainsbourg/lampe.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10001;
+    pointer-events: none;
+    position: fixed;
+    
+  }
+
   #mask {
     width: 100%;
     height: 100%;

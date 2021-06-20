@@ -283,6 +283,17 @@ html, body {
   background-repeat: no-repeat;
   display: none;
 }
+.focus-gainsbourg #lampe {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/lampe.84f03aac.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 10001;
+  pointer-events: none;
+  position: fixed;
+}
 .focus-gainsbourg #mask {
   width: 100%;
   height: 100%;
