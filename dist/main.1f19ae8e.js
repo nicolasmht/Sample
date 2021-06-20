@@ -101183,19 +101183,29 @@ function Component(scene) {
   var tl = new _gsap.TimelineMax({
     paused: true
   });
-  tl.to(layer_1.style, 4, {
+  tl.fromTo(layer_1, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(layer_2.style, 4, {
+  tl.fromTo(layer_2, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(layer_3.style, 4, {
+  tl.fromTo(layer_3, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(layer_4.style, 4, {
+  tl.fromTo(layer_4, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(sun.style, 4, {
+  tl.fromTo(sun, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
   tl.to(background, 4, {
@@ -103029,7 +103039,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54044" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50678" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
