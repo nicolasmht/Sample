@@ -116,27 +116,48 @@ function Component(scene) {
     function turnTheDisc(sound) {
 
         // Animate the vinyle
-        last = discRotation;
-        discRotation += 360;
-        let time = 0;
-        let nameChange = false;
+        // last = discRotation;
+        // discRotation += 360;
+        // let time = 0;
+        // let nameChange = false;
+
+        console.log('test');
 
         let disc = document.querySelector('#disque');
         //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
-        TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
-            time++;
-            if(time > 25 && !nameChange) {
-            nameChange = true;
+        // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
+        //     time++;
+        //     if(time > 25 && !nameChange) {
+        //     nameChange = true;
 
-            // Edit the title of vinyle
-            let title = document.querySelector('#soundTitle');
-            title.innerText = sound.title;
+        //     // Edit the title of vinyle
+        //     let title = document.querySelector('#soundTitle');
+        //     title.innerText = sound.title;
 
-            // Edit the date of the vinyle
-            let date = document.querySelector('#soundDate');
-            date.innerText = sound.date;
-            }
-        }});
+        //     // Edit the date of the vinyle
+        //     let date = document.querySelector('#soundDate');
+        //     date.innerText = sound.date;
+        //     }
+        // }});
+        disc.classList.add('rotate');
+
+        setTimeout(() => {
+
+              // Edit the title of vinyle
+              let title = document.querySelector('#soundTitle');
+              title.innerText = sound.title;
+  
+              // Edit the date of the vinyle
+              let date = document.querySelector('#soundDate');
+              date.innerText = sound.date;
+
+        }, 1000);
+
+        setTimeout(() => {
+
+            disc.classList.remove('rotate');
+
+        }, 2000);
     }
 
 

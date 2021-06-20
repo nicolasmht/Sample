@@ -95294,8 +95294,8 @@ module.exports = "/tape_texture.c9de8db8.png";
 module.exports = "/tape2.81e511ca.png";
 },{}],"textures/orange.jpeg":[function(require,module,exports) {
 module.exports = "/orange.706887b8.jpeg";
-},{}],"objects/AudioTape/case_closed-m.glb":[function(require,module,exports) {
-module.exports = "/case_closed-m.b4bfe317.glb";
+},{}],"objects/AudioTape/case_closed-m.gltf":[function(require,module,exports) {
+module.exports = "/case_closed-m.700d9d7d.gltf";
 },{}],"audios/timeline/sound01.mp3":[function(require,module,exports) {
 module.exports = "/sound01.f8cb01c0.mp3";
 },{}],"audios/timeline/sound02.mp3":[function(require,module,exports) {
@@ -95320,16 +95320,18 @@ module.exports = "/sound10.a82aadb8.mp3";
 module.exports = "/sound11.31d31a48.mp3";
 },{}],"audios/timeline/sound12.mp3":[function(require,module,exports) {
 module.exports = "/sound12.c019b238.mp3";
-},{}],"textures/blue.png":[function(require,module,exports) {
-module.exports = "/blue.95ea86a4.png";
-},{}],"textures/cyani.png":[function(require,module,exports) {
-module.exports = "/cyani.fd3ae7e2.png";
-},{}],"textures/prune.png":[function(require,module,exports) {
-module.exports = "/prune.d9ce89ea.png";
-},{}],"textures/purple.jpeg":[function(require,module,exports) {
-module.exports = "/purple.f7d9fcab.jpeg";
-},{}],"textures/green.png":[function(require,module,exports) {
-module.exports = "/green.f0b0c1d8.png";
+},{}],"textures/tape/case01.png":[function(require,module,exports) {
+module.exports = "/case01.34154f79.png";
+},{}],"textures/tape/case02.png":[function(require,module,exports) {
+module.exports = "/case02.8da15503.png";
+},{}],"textures/tape/case03.png":[function(require,module,exports) {
+module.exports = "/case03.3e22b746.png";
+},{}],"textures/tape/case04.png":[function(require,module,exports) {
+module.exports = "/case04.ea6c3a0f.png";
+},{}],"textures/tape/case05.png":[function(require,module,exports) {
+module.exports = "/case05.f92b9ef3.png";
+},{}],"textures/tape/case06.png":[function(require,module,exports) {
+module.exports = "/case06.df167de8.png";
 },{}],"components/scrollTimeline.js":[function(require,module,exports) {
 "use strict";
 
@@ -95352,7 +95354,7 @@ var _tape = _interopRequireDefault(require("../textures/tape2.png"));
 
 var _orange = _interopRequireDefault(require("../textures/orange.jpeg"));
 
-var _case_closedM = _interopRequireDefault(require("../objects/AudioTape/case_closed-m.glb"));
+var _case_closedM = _interopRequireDefault(require("../objects/AudioTape/case_closed-m.gltf"));
 
 var _sound = _interopRequireDefault(require("../audios/timeline/sound01.mp3"));
 
@@ -95378,15 +95380,17 @@ var _sound11 = _interopRequireDefault(require("../audios/timeline/sound11.mp3"))
 
 var _sound12 = _interopRequireDefault(require("../audios/timeline/sound12.mp3"));
 
-var _blue = _interopRequireDefault(require("../textures/blue.png"));
+var _case = _interopRequireDefault(require("../textures/tape/case01.png"));
 
-var _cyani = _interopRequireDefault(require("../textures/cyani.png"));
+var _case2 = _interopRequireDefault(require("../textures/tape/case02.png"));
 
-var _prune = _interopRequireDefault(require("../textures/prune.png"));
+var _case3 = _interopRequireDefault(require("../textures/tape/case03.png"));
 
-var _purple = _interopRequireDefault(require("../textures/purple.jpeg"));
+var _case4 = _interopRequireDefault(require("../textures/tape/case04.png"));
 
-var _green = _interopRequireDefault(require("../textures/green.png"));
+var _case5 = _interopRequireDefault(require("../textures/tape/case05.png"));
+
+var _case6 = _interopRequireDefault(require("../textures/tape/case06.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -95398,7 +95402,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Textures
 // Object
 // import TapeModel from '../objects/AudioTape/TapeCaseLast2.glb';
-// import TapeModel from '../objects/AudioTape/case_closed-m_02.gltf';
+// import TapeModel from '../objects/AudioTape/case_closed-m.glb';
 function ScrollTimeline(scene, camera) {
   var loader = new _GLTFLoader.GLTFLoader();
   var tape = new THREE.Object3D();
@@ -95427,24 +95431,88 @@ function ScrollTimeline(scene, camera) {
 
       switch (modelPart) {
         case 'Storage':
-          child.material = new THREE.MeshNormalMaterial({
-            color: 0xff0,
-            side: THREE.DoubleSide
-          });
+          // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
           break;
 
         case 'Tape_obj':
           // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
           // child.position.x = -10
           break;
+
+        case 'Wheel_left':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Wheel_right':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Tape-black_plastic':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xD2D4BC,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'case':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xD2D4BC,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Case_b_Case_b_elem':
+          //Grey case
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0x111111,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Case_t_Case_t_elem':
+          //Grey case
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0x111111,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
+
+        case 'Tape-Mat1':
+          //Grey case
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0x111111,
+            transparent: true,
+            opacity: .9,
+            side: THREE.DoubleSide
+          });
+          break;
       }
     });
-    tape.scale.set(0.01, 0.01, 0.01);
-    tape.position.set(-2.5, 2.38, -1.45);
+    camera.position.x = -30;
+    camera.position.y = -30;
+    camera.position.z = -30; // tape.position.z = -5;
+
+    tape.scale.set(0.01125, 0.012, 0.012); // tape.position.set(-2.5115, 2.37, -1.45);
+
+    tape.position.set(camera.position.x - 0.0115, camera.position.y - 0.08, camera.position.z - 0.2004);
     tape.rotateY(Math.PI);
-    scene.add(tape); // tape.position.x = 2.41;
-    // tape.position.y = 2.41;
-    // tape.position.z = -2.41;
+    scene.add(tape);
+    console.log('cam-pos:', camera.position);
+    console.log('tape-pos:', tape.position); // tape.position.y = 2.41
     // reScale(tape);
 
     initTimeline();
@@ -95494,33 +95562,35 @@ function ScrollTimeline(scene, camera) {
   }
 
   function initTimeline() {
-    var tapeGroup = tape.getObjectByName('Tape_obj');
-    var storage = tape.getObjectByName('Storage');
-    var caseObj = tape.getObjectByName('Case');
-    var tapeObj = tape.getObjectByName('Tape');
-    var caseT = tape.getObjectByName('Case_t');
-    var sticker = tape.getObjectByName('Tape_elem_2');
-    var centre = tape.getObjectByName('Tape_elem_4');
-    var wheels = tape.getObjectByName('Tape_elem_1'); // let tapeGroup = tape.getObjectByName('Tape_obj')
-    // let storage = tape.getObjectByName('Storage')
-    // let caseObj = tape.getObjectByName('Case')
-    // let tapeObj = tape.getObjectByName('Tape')
-    // let caseT = tape.getObjectByName('Case_t_Case_t_elem')
-    // let sticker = tape.getObjectByName('Tape_Tape_elem-sticker')
-    // let centre = tape.getObjectByName('Tape_Tape_elem-glass')
-    // let wheels = tape.getObjectByName('Tape_Tape_elem-white_plastic')
-    // wheels.material.transparent = true;
-    // wheels.material.opacity = 0;
+    var tapeGroup = tape.getObjectByName('case_tape'); //Tape_obj
 
+    var storage = tape.getObjectByName('shelves'); //Storage
+
+    var facade = tape.getObjectByName('flat_tapes');
+    var caseObj = tape.getObjectByName('case');
+    var tapeObj = tape.getObjectByName('Tape');
+    var bobine = tape.getObjectByName('Tape-Mat1');
+    var plastic = tape.getObjectByName('Tape-black_plastic');
+    var caseT = tape.getObjectByName('Case_t_Case_t_elem'); //Case_t
+
+    var caseB = tape.getObjectByName('Case_b_Case_b_elem'); //Case_t
+
+    var sticker = tape.getObjectByName('Tape-sticker'); //Tape_elem_2
+
+    var centre = tape.getObjectByName('Tape-glass'); //Tape_elem_4
+
+    var wheelsL = tape.getObjectByName('Wheel_left');
+    var wheelsR = tape.getObjectByName('Wheel_right');
+    tapeGroup.position.z = -0.4;
     var textureLoader = new THREE.TextureLoader();
     var vertShader = "\n        varying vec2 vUv;\n        \n        void main() {\n            vUv = uv;\n            \n            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n        }\n        ";
     var fragShader = " \n        uniform sampler2D texture1;\n        uniform sampler2D texture2;\n        uniform float progress;\n        \n        varying vec2 vUv;\n        \n        void main() {\n            gl_FragColor = vec4( mix( texture2D(texture1, vUv).xyz, texture2D(texture2, vUv).xyz, progress ), 1. );\n        }\n        ";
     var uniforms = {
       texture1: {
-        value: textureLoader.load(_blue.default)
+        value: textureLoader.load(_case.default)
       },
       texture2: {
-        value: textureLoader.load(_cyani.default)
+        value: textureLoader.load(_case2.default)
       },
       progress: {
         value: 0
@@ -95542,7 +95612,7 @@ function ScrollTimeline(scene, camera) {
       z: -8
     }, 0) //decalage cassette
     .to(tapeGroup.position, 1, {
-      z: -14
+      z: -25
     }, 0.35) //decalage cassette
     .to(tapeGroup.position, 1, {
       y: 1
@@ -95552,25 +95622,44 @@ function ScrollTimeline(scene, camera) {
       y: 1
     }, 0.5) //bascule cassette
     .to(storage.position, 1, {
-      y: 20
-    }, .75) //etagere disapear
+      y: 40
+    }, .65) //etagere disapear
+    .to(facade.position, 1, {
+      y: 48.804056167602539
+    }, .65) //etagere disapear
     .to(tapeGroup.position, 1, {
-      x: 0,
+      x: 10,
+      y: 10,
       z: 0
-    }, 1) //decalage cassette
+    }, .75) //decalage cassette position page
     .to(tapeGroup.rotation, 1, {
       x: -3,
       y: 2
     }, 1) //rotation cassette
     .to(tapeGroup.rotation, 1, {
       y: 4.75
-    }, 1.5) //rotation cassette sur elle meme
-    .to(caseT.rotation, 1, {
+    }, 1.25) //rotation cassette sur elle meme
+    .to(caseT.rotation, .5, {
       y: 2
-    }, 1.5) //ouverture case
+    }, 1) //ouverture case
+    .to(caseObj.position, .5, {
+      x: -2,
+      z: -2
+    }, 1) //eloignement case
     .to(caseObj.position, 1, {
       x: -12
-    }, 1.75) //eloignement case
+    }, 1.25) //eloignement case
+    .to(caseT.material, .5, {
+      opacity: 0
+    }, 1.25) //degage case opacity
+    .to(caseB.material, .5, {
+      opacity: 0
+    }, 1.25) //degage case opacity
+    // .to(tapeGroup.rotation, 2, {y:-1.75}, 2.5) //rotation cassette sur elle meme
+    .to(tapeGroup.rotation, 4, {
+      y: -4.75,
+      x: 4
+    }, 2) //rotation cassette sur elle meme
     // //Bounce txt
     // .add(()=> { if(document.querySelector('.bounce')){document.querySelector('.kaki').classList.remove('bounce')} },1) //remove bounce
     // .add(()=> { document.querySelector('.kaki').classList.add('bounce') },1.3) //add bounce
@@ -95581,15 +95670,27 @@ function ScrollTimeline(scene, camera) {
       z: 0.15
     }, 2) //rotation cassette droite
     .to(storage.position, 0, {
+      y: -38.804056167602539
+    }, 2) //etagere tp bot
+    .to(facade.position, 0, {
       y: -30
     }, 2) //etagere tp bot
     //Put back
+    .to(caseT.material, .5, {
+      opacity: .9
+    }, 5) //degage case opacity
+    .to(caseB.material, .5, {
+      opacity: .9
+    }, 5) //degage case opacity
     .to(storage.position, 1, {
-      y: -5.8
+      y: 0
+    }, 5.25) //etagere appear bot
+    .to(facade.position, 1, {
+      y: 8.804056167602539
     }, 5.25) //etagere appear bot
     .to(tapeGroup.position, 1, {
-      x: -10,
-      y: 0.75,
+      x: 8.560792922973633,
+      y: 8.795806884765625,
       z: -13
     }, 5) //rotation cassette sur elle meme
     .to(tapeGroup.rotation, 1, {
@@ -95618,9 +95719,9 @@ function ScrollTimeline(scene, camera) {
       z: 0
     }, 5) //rotation cassette droite
     .to(tapeGroup.position, 1, {
-      x: -10,
-      y: 0.75,
-      z: 0
+      x: 8.560792922973633,
+      y: 8.795806884765625,
+      z: -0.4
     }, 6) //rotation cassette sur elle meme
     //PLAY SOUND AND CHANGE TEXTURE
     .add(function () {
@@ -95639,6 +95740,16 @@ function ScrollTimeline(scene, camera) {
       isNotPlaying = true;
       isBack = true;
     }, 1.75) // STEP 2 passage texture 2
+    .to(plastic.material.color, .25, {
+      r: 210 / 255,
+      g: 212 / 255,
+      b: 188 / 255
+    }, 1.75) //color 1
+    .to(plastic.material.color, .25, {
+      r: 244 / 255,
+      g: 220 / 255,
+      b: 181 / 255
+    }, 1.75) //color 2
     .to(uniforms.progress, .25, {
       value: 0
     }, 1.5) //fade to textureA
@@ -95646,24 +95757,34 @@ function ScrollTimeline(scene, camera) {
       value: 1
     }, 1.5) //fade to textureB
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_blue.default);
+      uniforms.texture1.value = textureLoader.load(_case.default);
     }, 1.75) //blue
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_cyani.default);
+      uniforms.texture2.value = textureLoader.load(_case2.default);
     }, 1.75) //cyan
     .add(function () {
       console.log('Step 3 t:2.35');
       switchSound(_sound5.default, _sound6.default);
       switchSoundText('1969', 'The Winstons', 'Amen Brother', '2011', 'Nicky Minaj', 'Save Me');
     }, 2.35) // STEP 3 passage texture 1
+    .to(plastic.material.color, .25, {
+      r: 244 / 255,
+      g: 220 / 255,
+      b: 181 / 255
+    }, 2.35) //color 2
+    .to(plastic.material.color, .25, {
+      r: 195 / 255,
+      g: 191 / 255,
+      b: 215 / 255
+    }, 2.35) //color 3
     .to(uniforms.progress, .25, {
       value: 1
     }, 2.1) //fade to textureC
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_cyani.default);
+      uniforms.texture2.value = textureLoader.load(_case2.default);
     }, 2.35) //cyan
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_prune.default);
+      uniforms.texture1.value = textureLoader.load(_case3.default);
     }, 2.35) //prune
     .to(uniforms.progress, .25, {
       value: 0
@@ -95673,45 +95794,75 @@ function ScrollTimeline(scene, camera) {
       switchSound(_sound7.default, _sound8.default);
       switchSoundText('1984', 'Jean Michel Jarre', 'Zoolook', '1978', 'Jean Michel Jarre', 'Equinox');
     }, 3.15) // STEP 4 passage texture 2
+    .to(plastic.material.color, .25, {
+      r: 195 / 255,
+      g: 191 / 255,
+      b: 215 / 255
+    }, 3.3) //color 3
+    .to(plastic.material.color, .25, {
+      r: 200 / 255,
+      g: 209 / 255,
+      b: 208 / 255
+    }, 3.3) //color 4
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_cyani.default);
+      uniforms.texture2.value = textureLoader.load(_case2.default);
     }, 2.9) //cyan
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_orange.default);
+      uniforms.texture2.value = textureLoader.load(_case4.default);
     }, 2.9) //orange
     .to(uniforms.progress, .25, {
       value: 1
     }, 3.15) //fade to texture2
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_prune.default);
+      uniforms.texture1.value = textureLoader.load(_case3.default);
     }, 3.3) //prune
     .add(function () {
       console.log('Step 5 t:3.85');
       switchSound(_sound9.default, _sound10.default);
       switchSoundText('1989', 'Ice Cube', 'Interview about SP-1200', '1997', 'DJ Muggs of Cypress Hill', 'Rhyme & Reason" documentary');
     }, 3.85) // STEP 5
+    .to(plastic.material.color, .25, {
+      r: 200 / 255,
+      g: 209 / 255,
+      b: 208 / 255
+    }, 4) //color 4
+    .to(plastic.material.color, .25, {
+      r: 213 / 255,
+      g: 200 / 255,
+      b: 218 / 255
+    }, 4) //color 5
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_orange.default);
+      uniforms.texture2.value = textureLoader.load(_case4.default);
     }, 3.6) //keep orange
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_purple.default);
+      uniforms.texture1.value = textureLoader.load(_case5.default);
     }, 3.6) //change purple
     .to(uniforms.progress, .25, {
       value: 0
     }, 3.85) //fade to texture1
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_orange.default);
+      uniforms.texture2.value = textureLoader.load(_case4.default);
     }, 4) //keep orange
     .add(function () {
       console.log('Step 6 t:4.65');
       switchSound(_sound11.default, _sound12.default);
       switchSoundText('1997', 'The Verve', 'Bitter Sweet Symphony', '1965', 'The Rolling Stones', 'The Last Time');
     }, 4.65) // STEP 6
+    .to(plastic.material.color, .25, {
+      r: 213 / 255,
+      g: 200 / 255,
+      b: 218 / 255
+    }, 4.65) //color 5
+    .to(plastic.material.color, .25, {
+      r: 190 / 255,
+      g: 219 / 255,
+      b: 219 / 255
+    }, 4.65) //color 6
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_purple.default);
+      uniforms.texture1.value = textureLoader.load(_case5.default);
     }, 4.65) //keep purple
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_green.default);
+      uniforms.texture2.value = textureLoader.load(_case6.default);
     }, 4.65) //change green
     .to(uniforms.progress, .25, {
       value: 1
@@ -95721,6 +95872,8 @@ function ScrollTimeline(scene, camera) {
     }, 6) //remove
     .add(function () {
       document.querySelector('#canvas').style.pointerEvents = 'initial';
+      sound01.fade(sound01.volume(), 0, 1000);
+      sound02.fade(sound02.volume(), 0, 1000);
     }, 6.1); //remove
 
     var proxyTween = _gsap.TweenLite.to({}, 1, {
@@ -95737,6 +95890,8 @@ function ScrollTimeline(scene, camera) {
       var progress = timelineTape.progress();
       progress += (proxyTween.progress() - progress) * 0.05;
       timelineTape.progress(progress);
+      wheelsL.rotation.x += 0.025;
+      wheelsR.rotation.x += 0.025;
     });
   }
 
@@ -95844,7 +95999,7 @@ function ScrollTimeline(scene, camera) {
 
 var _default = ScrollTimeline;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/getPerspectiveSize":"utils/getPerspectiveSize.js","../textures/tape_texture.png":"textures/tape_texture.png","../textures/tape2.png":"textures/tape2.png","../textures/orange.jpeg":"textures/orange.jpeg","../objects/AudioTape/case_closed-m.glb":"objects/AudioTape/case_closed-m.glb","../audios/timeline/sound01.mp3":"audios/timeline/sound01.mp3","../audios/timeline/sound02.mp3":"audios/timeline/sound02.mp3","../audios/timeline/sound03.mp3":"audios/timeline/sound03.mp3","../audios/timeline/sound04.mp3":"audios/timeline/sound04.mp3","../audios/timeline/sound05.mp3":"audios/timeline/sound05.mp3","../audios/timeline/sound06.mp3":"audios/timeline/sound06.mp3","../audios/timeline/sound07.mp3":"audios/timeline/sound07.mp3","../audios/timeline/sound08.mp3":"audios/timeline/sound08.mp3","../audios/timeline/sound09.mp3":"audios/timeline/sound09.mp3","../audios/timeline/sound10.mp3":"audios/timeline/sound10.mp3","../audios/timeline/sound11.mp3":"audios/timeline/sound11.mp3","../audios/timeline/sound12.mp3":"audios/timeline/sound12.mp3","../textures/blue.png":"textures/blue.png","../textures/cyani.png":"textures/cyani.png","../textures/prune.png":"textures/prune.png","../textures/purple.jpeg":"textures/purple.jpeg","../textures/green.png":"textures/green.png"}],"videos/Tear.mp4":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/getPerspectiveSize":"utils/getPerspectiveSize.js","../textures/tape_texture.png":"textures/tape_texture.png","../textures/tape2.png":"textures/tape2.png","../textures/orange.jpeg":"textures/orange.jpeg","../objects/AudioTape/case_closed-m.gltf":"objects/AudioTape/case_closed-m.gltf","../audios/timeline/sound01.mp3":"audios/timeline/sound01.mp3","../audios/timeline/sound02.mp3":"audios/timeline/sound02.mp3","../audios/timeline/sound03.mp3":"audios/timeline/sound03.mp3","../audios/timeline/sound04.mp3":"audios/timeline/sound04.mp3","../audios/timeline/sound05.mp3":"audios/timeline/sound05.mp3","../audios/timeline/sound06.mp3":"audios/timeline/sound06.mp3","../audios/timeline/sound07.mp3":"audios/timeline/sound07.mp3","../audios/timeline/sound08.mp3":"audios/timeline/sound08.mp3","../audios/timeline/sound09.mp3":"audios/timeline/sound09.mp3","../audios/timeline/sound10.mp3":"audios/timeline/sound10.mp3","../audios/timeline/sound11.mp3":"audios/timeline/sound11.mp3","../audios/timeline/sound12.mp3":"audios/timeline/sound12.mp3","../textures/tape/case01.png":"textures/tape/case01.png","../textures/tape/case02.png":"textures/tape/case02.png","../textures/tape/case03.png":"textures/tape/case03.png","../textures/tape/case04.png":"textures/tape/case04.png","../textures/tape/case05.png":"textures/tape/case05.png","../textures/tape/case06.png":"textures/tape/case06.png"}],"videos/Tear.mp4":[function(require,module,exports) {
 module.exports = "/Tear.6d29fc3c.mp4";
 },{}],"components/tearCanvas.js":[function(require,module,exports) {
 "use strict";
@@ -100629,30 +100784,37 @@ function Component(scene) {
 
   function turnTheDisc(sound) {
     // Animate the vinyle
-    last = discRotation;
-    discRotation += 360;
-    var time = 0;
-    var nameChange = false;
+    // last = discRotation;
+    // discRotation += 360;
+    // let time = 0;
+    // let nameChange = false;
+    console.log('test');
     var disc = document.querySelector('#disque'); //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
+    // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
+    //     time++;
+    //     if(time > 25 && !nameChange) {
+    //     nameChange = true;
+    //     // Edit the title of vinyle
+    //     let title = document.querySelector('#soundTitle');
+    //     title.innerText = sound.title;
+    //     // Edit the date of the vinyle
+    //     let date = document.querySelector('#soundDate');
+    //     date.innerText = sound.date;
+    //     }
+    // }});
 
-    _gsap.TweenLite.fromTo(disc.style, 1.5, {
-      transform: "translate(-50%, 50%) rotate(".concat(last, "deg)")
-    }, {
-      transform: "translate(-50%, 50%) rotate(".concat(discRotation, "deg)"),
-      onUpdate: function onUpdate() {
-        time++;
+    disc.classList.add('rotate');
+    setTimeout(function () {
+      // Edit the title of vinyle
+      var title = document.querySelector('#soundTitle');
+      title.innerText = sound.title; // Edit the date of the vinyle
 
-        if (time > 25 && !nameChange) {
-          nameChange = true; // Edit the title of vinyle
-
-          var title = document.querySelector('#soundTitle');
-          title.innerText = sound.title; // Edit the date of the vinyle
-
-          var date = document.querySelector('#soundDate');
-          date.innerText = sound.date;
-        }
-      }
-    });
+      var date = document.querySelector('#soundDate');
+      date.innerText = sound.date;
+    }, 1000);
+    setTimeout(function () {
+      disc.classList.remove('rotate');
+    }, 2000);
   } // Cursor animation
 
 
@@ -101882,7 +102044,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var fragment = "\nuniform sampler2D tDiffuse;\nuniform vec2 resolution;\n\nvoid mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {\n\n    vec2 texel = vec2( 1.0 / resolution.x, 1.0 / resolution.y );\n\n    // kernel definition (in glsl matrices are filled in column-major order)\n    const mat3 Gx = mat3( -1, -2, -1, 0, 0, 0, 1, 2, 1 ); // x direction kernel\n    const mat3 Gy = mat3( -1, 0, 1, -2, 0, 2, -1, 0, 1 ); // y direction kernel\n    \n    // fetch the 3x3 neighbourhood of a fragment\n    // first column\n    float tx0y0 = texture2D( inputBuffer, uv + texel * vec2( -1, -1 ) ).r;\n    float tx0y1 = texture2D( inputBuffer, uv + texel * vec2( -1,  0 ) ).r;\n    float tx0y2 = texture2D( inputBuffer, uv + texel * vec2( -1,  1 ) ).r;\n\n    // second column\n    float tx1y0 = texture2D( inputBuffer, uv + texel * vec2(  0, -1 ) ).r;\n    float tx1y1 = texture2D( inputBuffer, uv + texel * vec2(  0,  0 ) ).r;\n    float tx1y2 = texture2D( inputBuffer, uv + texel * vec2(  0,  1 ) ).r;\n\n    // third column\n    float tx2y0 = texture2D( inputBuffer, uv + texel * vec2(  1, -1 ) ).r;\n    float tx2y1 = texture2D( inputBuffer, uv + texel * vec2(  1,  0 ) ).r;\n    float tx2y2 = texture2D( inputBuffer, uv + texel * vec2(  1,  1 ) ).r;\n\n    // gradient value in x direction\n    float valueGx = Gx[0][0] * tx0y0 + Gx[1][0] * tx1y0 + Gx[2][0] * tx2y0 +\n        Gx[0][1] * tx0y1 + Gx[1][1] * tx1y1 + Gx[2][1] * tx2y1 +\n        Gx[0][2] * tx0y2 + Gx[1][2] * tx1y2 + Gx[2][2] * tx2y2;\n\n    // gradient value in y direction\n    float valueGy = Gy[0][0] * tx0y0 + Gy[1][0] * tx1y0 + Gy[2][0] * tx2y0 +\n        Gy[0][1] * tx0y1 + Gy[1][1] * tx1y1 + Gy[2][1] * tx2y1 +\n        Gy[0][2] * tx0y2 + Gy[1][2] * tx1y2 + Gy[2][2] * tx2y2;\n\n    // magnitute of the total gradient\n    float G = sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) );\n\n    // outputColor = vec4(vec3(1., 0., 0.), 1.);\n    // outputColor = inputColor;\n    outputColor = vec4(texture2D(inputBuffer, uv).rgb + vec3(-1. * G), inputColor.a);\n}\n";
+var fragment = "\nuniform sampler2D tDiffuse;\nuniform vec2 resolution;\n\nvoid mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {\n\n    vec2 texel = vec2( 1.0 / resolution.x, 1.0 / resolution.y );\n\n    // kernel definition (in glsl matrices are filled in column-major order)\n    const mat3 Gx = mat3( -1, -2, -1, 0, 0, 0, 1, 2, 1 ); // x direction kernel\n    const mat3 Gy = mat3( -1, 0, 1, -2, 0, 2, -1, 0, 1 ); // y direction kernel\n    \n    // fetch the 3x3 neighbourhood of a fragment\n    // first column\n    float tx0y0 = texture2D( inputBuffer, uv + texel * vec2( -1, -1 ) ).r;\n    float tx0y1 = texture2D( inputBuffer, uv + texel * vec2( -1,  0 ) ).r;\n    float tx0y2 = texture2D( inputBuffer, uv + texel * vec2( -1,  1 ) ).r;\n\n    // second column\n    float tx1y0 = texture2D( inputBuffer, uv + texel * vec2(  0, -1 ) ).r;\n    float tx1y1 = texture2D( inputBuffer, uv + texel * vec2(  0,  0 ) ).r;\n    float tx1y2 = texture2D( inputBuffer, uv + texel * vec2(  0,  1 ) ).r;\n\n    // third column\n    float tx2y0 = texture2D( inputBuffer, uv + texel * vec2(  1, -1 ) ).r;\n    float tx2y1 = texture2D( inputBuffer, uv + texel * vec2(  1,  0 ) ).r;\n    float tx2y2 = texture2D( inputBuffer, uv + texel * vec2(  1,  1 ) ).r;\n\n    // gradient value in x direction\n    float valueGx = Gx[0][0] * tx0y0 + Gx[1][0] * tx1y0 + Gx[2][0] * tx2y0 +\n        Gx[0][1] * tx0y1 + Gx[1][1] * tx1y1 + Gx[2][1] * tx2y1 +\n        Gx[0][2] * tx0y2 + Gx[1][2] * tx1y2 + Gx[2][2] * tx2y2;\n\n    // gradient value in y direction\n    float valueGy = Gy[0][0] * tx0y0 + Gy[1][0] * tx1y0 + Gy[2][0] * tx2y0 +\n        Gy[0][1] * tx0y1 + Gy[1][1] * tx1y1 + Gy[2][1] * tx2y1 +\n        Gy[0][2] * tx0y2 + Gy[1][2] * tx1y2 + Gy[2][2] * tx2y2;\n\n    // magnitute of the total gradient\n    float G = sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) );\n\n    // outputColor = vec4(vec3(1., 0., 0.), 1.);\n    // outputColor = inputColor;\n    outputColor = vec4(texture2D(inputBuffer, uv).rgb + vec3(-0.75 * G), inputColor.a);\n}\n";
 
 var OutlineEffect = /*#__PURE__*/function (_Effect) {
   _inherits(OutlineEffect, _Effect);
@@ -102172,8 +102334,7 @@ function Scene(canvas) {
     var components = [// Inserts all components here
     // new tearCanvas(scene, camera),
     // new daftPunk(scene, camera, interactionManager),
-    // new scrollTimeline(scene, camera),
-    new _Labo.default(scene, camera, renderer, interactionManager) // new KaleidoscopeComponent(scene, camera, composer)
+    new _scrollTimeline.default(scene, camera), new _Labo.default(scene, camera, renderer, interactionManager) // new KaleidoscopeComponent(scene, camera, composer)
     ];
     return components;
   }
@@ -102345,7 +102506,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51201" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60731" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -238,7 +238,7 @@ html, body {
         }
     }
 
-    img {
+    >img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -465,7 +465,7 @@ html, body {
   // Cursor
   #cursor {
     position: fixed;
-    z-index: 100000;
+    z-index: 10000;
     background-image: url('../images/focus/polo/cursors/cursor.png');
     width: 20px;
     height: 20px;
@@ -494,6 +494,15 @@ html, body {
     left: 50%;
     transform: translate(-50%, 50%) rotateZ(0deg);
     transform-origin: center;
+
+    &.rotate {
+      animation: rotation 2s ease-out forwards;
+    }
+
+    @keyframes rotation {
+      0% {transform: translate(-50%, 50%) rotate(0deg);}
+      100% {transform: translate(-50%, 50%) rotate(360deg);}
+    }
 
 
     h3 {
@@ -802,6 +811,8 @@ html, body {
             right: -50px;
             text-align: center;
             transition: .5s opacity ease-out;
+            user-select: none;
+            -webkit-user-select: none;
             p {
                 margin: 0;
                 font-size: 14px;

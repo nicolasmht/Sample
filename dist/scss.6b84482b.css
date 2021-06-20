@@ -225,7 +225,7 @@ html, body {
   height: 100%;
   object-fit: cover;
 }
-.focus-renaud img {
+.focus-renaud > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -425,7 +425,7 @@ html, body {
 }
 .focus-polo #cursor {
   position: fixed;
-  z-index: 100000;
+  z-index: 10000;
   background-image: url("/cursor.098de7c6.png");
   width: 20px;
   height: 20px;
@@ -449,6 +449,17 @@ html, body {
   left: 50%;
   transform: translate(-50%, 50%) rotateZ(0deg);
   transform-origin: center;
+}
+.focus-polo #disque.rotate {
+  animation: rotation 2s ease-out forwards;
+}
+@keyframes rotation {
+  0% {
+    transform: translate(-50%, 50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, 50%) rotate(360deg);
+  }
 }
 .focus-polo #disque h3 {
   margin: 0;
@@ -708,6 +719,8 @@ html, body {
   right: -50px;
   text-align: center;
   transition: 0.5s opacity ease-out;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .container .cont_slider .txt_slider p {
   margin: 0;
