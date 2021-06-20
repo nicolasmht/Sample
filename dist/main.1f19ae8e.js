@@ -100423,6 +100423,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
+  var tutorial = document.querySelector('.focus-gainsbourg .tuto');
   var canvas = document.getElementById('mask');
   var ctx = canvas.getContext('2d'); // Create a radial gradient
   // The inner circle is at x=110, y=90, with radius=30
@@ -100636,9 +100637,17 @@ function Component(scene) {
     return result;
   }
 
-  this.start = function () {};
+  this.start = function () {
+    setTimeout(function () {
+      tutorial.classList.add('hide');
+    }, 3000);
+  };
 
-  this.stop = function () {};
+  this.stop = function () {
+    setTimeout(function () {
+      tutorial.classList.remove('hide');
+    }, 3000);
+  };
 
   this.update = function (time) {};
 
@@ -102977,11 +102986,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64758" + '/');
-=======
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "54834" + '/');
->>>>>>> 1778dd23e6b5473b815e3b96952997c35e5ef399
 
   ws.onmessage = function (event) {
     checkedAssets = {};

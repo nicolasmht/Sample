@@ -206,6 +206,7 @@ html, body {
   background-size: 300px;
   transition: 400ms;
   z-index: 10000;
+  pointer-events: none;
 }
 .tuto.hide {
   opacity: 0;
@@ -221,6 +222,10 @@ html, body {
 }
 .tuto.kaleidoscope {
   background-image: url("/britney.51db3ead.png");
+}
+.tuto.gainsbourg {
+  background-image: url("/gainsbourg.f1494bf7.png");
+  z-index: 10020;
 }
 
 .focus-renaud {

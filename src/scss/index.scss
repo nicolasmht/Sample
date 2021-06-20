@@ -217,6 +217,7 @@ html, body {
   background-size: 300px;
   transition: 400ms;
   z-index: 10000;
+  pointer-events: none;
 
   &.hide {
     opacity: 0;
@@ -236,6 +237,11 @@ html, body {
 
   &.kaleidoscope {
     background-image: url('../../dist/tutorials/britney.png');
+  }
+
+  &.gainsbourg {
+    background-image: url('../../dist/tutorials/gainsbourg.png');
+    z-index: 10020;
   }
 }
 
