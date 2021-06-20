@@ -100331,7 +100331,7 @@ function Component(sceneMain) {
   var asap = new Howl({
     src: ['./memory/sounds/1_AsapRocky.mp3'],
     sprite: {
-      sample: [19000, 15000]
+      sample: [0, 15000]
     }
   });
   var steve = new Howl({
@@ -100343,31 +100343,31 @@ function Component(sceneMain) {
   var bowie = new Howl({
     src: ['./memory/sounds/2_DavidBowie.mp3'],
     sprite: {
-      sample: [17000, 15000]
+      sample: [0, 15000]
     }
   });
   var lana = new Howl({
     src: ['./memory/sounds/2_LanaDelRey.mp3'],
     sprite: {
-      sample: [206000, 15000]
+      sample: [0, 15000]
     }
   });
   var fanfare = new Howl({
     src: ['./memory/sounds/3_Fanfare.mp3'],
     sprite: {
-      sample: [128000, 15000]
+      sample: [0, 15000]
     }
   });
   var queen = new Howl({
     src: ['./memory/sounds/3_Queen.mp3'],
     sprite: {
-      sample: [25000, 15000]
+      sample: [0, 15000]
     }
   });
   var david = new Howl({
     src: ['./memory/sounds/4_DavidGilmour.mp3'],
     sprite: {
-      sample: [4000, 15000]
+      sample: [0, 15000]
     }
   });
   var sncf = new Howl({
@@ -100379,13 +100379,13 @@ function Component(sceneMain) {
   var ketchup = new Howl({
     src: ['./memory/sounds/5_LasKetchup.mp3'],
     sprite: {
-      sample: [36000, 15000]
+      sample: [0, 15000]
     }
   });
   var sugar = new Howl({
     src: ['./memory/sounds/5_TheSugarHill.mp3'],
     sprite: {
-      sample: [34000, 15000]
+      sample: [0, 15000]
     }
   });
   var data = [{
@@ -100496,7 +100496,7 @@ function Component(sceneMain) {
   function initCameraPosition() {
     // Animate the camera before they go in some object in the 3D scene 
     _gsap.TweenLite.to(camera.position, 1, {
-      z: 27
+      z: 23
     });
 
     _gsap.TweenLite.to(cards.rotation, 1, {
@@ -102522,7 +102522,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53617" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54834" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
