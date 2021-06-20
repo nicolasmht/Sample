@@ -718,6 +718,8 @@ html, body {
   right: -50px;
   text-align: center;
   transition: 0.5s opacity ease-out;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .container .cont_slider .txt_slider p {
   margin: 0;

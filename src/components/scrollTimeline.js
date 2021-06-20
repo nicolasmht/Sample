@@ -12,8 +12,8 @@ import Orange from '../textures/orange.jpeg';
 
 // Object
 // import TapeModel from '../objects/AudioTape/TapeCaseLast2.glb';
-import TapeModel from '../objects/AudioTape/case_closed-m.glb';
-// import TapeModel from '../objects/AudioTape/case_closed-m_02.gltf';
+// import TapeModel from '../objects/AudioTape/case_closed-m.glb';
+import TapeModel from '../objects/AudioTape/case_closed-m.gltf';
 
 import soundA from '../audios/timeline/sound01.mp3'
 import soundB from '../audios/timeline/sound02.mp3'
@@ -28,12 +28,12 @@ import soundJ from '../audios/timeline/sound10.mp3'
 import soundK from '../audios/timeline/sound11.mp3'
 import soundL from '../audios/timeline/sound12.mp3'
 
-import textureA from  '../textures/blue.png'
-import textureB from  '../textures/cyani.png'
-import textureC from  '../textures/prune.png'
-import textureD from  '../textures/orange.jpeg'
-import textureE from  '../textures/purple.jpeg'
-import textureF from  '../textures/green.png'
+import textureA from  '../textures/tape/case01.png'
+import textureB from  '../textures/tape/case02.png'
+import textureC from  '../textures/tape/case03.png'
+import textureD from  '../textures/tape/case04.png'
+import textureE from  '../textures/tape/case05.png'
+import textureF from  '../textures/tape/case06.png'
 
 function ScrollTimeline(scene, camera) {
 
@@ -64,24 +64,51 @@ function ScrollTimeline(scene, camera) {
                 console.log(child.name)
                 switch(modelPart) {
                     case 'Storage':
-                        child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
+                        // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
                     break;
                     case 'Tape_obj':
                         // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
                         // child.position.x = -10
                     break;
+                    case 'Wheel_left':
+                        child.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
+                    break;
+                    case 'Wheel_right':
+                        child.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
+                    break;
+                    case 'Tape-black_plastic':
+                        child.material = new THREE.MeshBasicMaterial({color:0xD2D4BC, transparent: true, opacity: .9, side:THREE.DoubleSide});
+                    break;
+                    case 'case':
+                        child.material = new THREE.MeshBasicMaterial({color:0xD2D4BC, transparent: true, opacity: .9, side:THREE.DoubleSide});
+                    break;
+                    case 'Case_b_Case_b_elem'://Grey case
+                        child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
+                    break;
+                    case 'Case_t_Case_t_elem'://Grey case
+                        child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
+                    break;
+                    case 'Tape-Mat1'://Grey case
+                        child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
+                    break;
                 }
             });
 
-            tape.scale.set(0.01, 0.01, 0.01);
-            tape.position.set(-2.5, 2.38, -1.45);
+            camera.position.x = -30;
+            camera.position.y = -30;
+            camera.position.z = -30;
+
+            // tape.position.z = -5;
+
+            tape.scale.set(0.01125, 0.012, 0.012);
+            // tape.position.set(-2.5115, 2.37, -1.45);
+            tape.position.set(camera.position.x -0.0115 , camera.position.y -0.08, camera.position.z -0.2004);
             tape.rotateY(Math.PI);
 
             scene.add(tape);
-
-            // tape.position.x = 2.41;
-            // tape.position.y = 2.41;
-            // tape.position.z = -2.41;
+            console.log('cam-pos:',camera.position);
+            console.log('tape-pos:',tape.position);
+            // tape.position.y = 2.41
 
             // reScale(tape);
 
@@ -128,26 +155,21 @@ function ScrollTimeline(scene, camera) {
     }
 
     function initTimeline() {
-        let tapeGroup = tape.getObjectByName('Tape_obj')
-        let storage = tape.getObjectByName('Storage')
-        let caseObj = tape.getObjectByName('Case')
+        let tapeGroup = tape.getObjectByName('case_tape')//Tape_obj
+        let storage = tape.getObjectByName('shelves')//Storage
+        let facade = tape.getObjectByName('flat_tapes')
+        let caseObj = tape.getObjectByName('case')
         let tapeObj = tape.getObjectByName('Tape')
-        let caseT = tape.getObjectByName('Case_t')
-        let sticker = tape.getObjectByName('Tape_elem_2')
-        let centre = tape.getObjectByName('Tape_elem_4')
-        let wheels = tape.getObjectByName('Tape_elem_1')
+        let bobine = tape.getObjectByName('Tape-Mat1')
+        let plastic = tape.getObjectByName('Tape-black_plastic')
+        let caseT = tape.getObjectByName('Case_t_Case_t_elem')//Case_t
+        let caseB = tape.getObjectByName('Case_b_Case_b_elem')//Case_t
+        let sticker = tape.getObjectByName('Tape-sticker')//Tape_elem_2
+        let centre = tape.getObjectByName('Tape-glass')//Tape_elem_4
+        let wheelsL = tape.getObjectByName('Wheel_left')
+        let wheelsR = tape.getObjectByName('Wheel_right')
 
-        // let tapeGroup = tape.getObjectByName('Tape_obj')
-        // let storage = tape.getObjectByName('Storage')
-        // let caseObj = tape.getObjectByName('Case')
-        // let tapeObj = tape.getObjectByName('Tape')
-        // let caseT = tape.getObjectByName('Case_t_Case_t_elem')
-        // let sticker = tape.getObjectByName('Tape_Tape_elem-sticker')
-        // let centre = tape.getObjectByName('Tape_Tape_elem-glass')
-        // let wheels = tape.getObjectByName('Tape_Tape_elem-white_plastic')
-
-        // wheels.material.transparent = true;
-        // wheels.material.opacity = 0;
+        tapeGroup.position.z = -0.4;
         
         const textureLoader = new THREE.TextureLoader()
         
@@ -192,15 +214,22 @@ function ScrollTimeline(scene, camera) {
         let timelineTape = new TimelineMax({ paused: true })
         
         .to(tapeGroup.position, 1, {z: -8}, 0) //decalage cassette
-        .to(tapeGroup.position, 1, {z: -14}, 0.35) //decalage cassette
+        .to(tapeGroup.position, 1, {z: -25}, 0.35) //decalage cassette
         .to(tapeGroup.position, 1, {y:1}, 0.5) //decalage cassette
         .to(tapeGroup.rotation, 1, {x: -2, y:1}, 0.5) //bascule cassette
-        .to(storage.position, 1, {y: 20}, .75) //etagere disapear
-        .to(tapeGroup.position, 1, {x: 0, z:0}, 1) //decalage cassette
+        .to(storage.position, 1, {y: 40}, .65) //etagere disapear
+        .to(facade.position, 1, {y: 48.804056167602539}, .65) //etagere disapear
+        .to(tapeGroup.position, 1, {x: 10,y:10, z:0}, .75) //decalage cassette position page
         .to(tapeGroup.rotation, 1, {x: -3, y:2}, 1) //rotation cassette
-        .to(tapeGroup.rotation, 1, {y:4.75}, 1.5) //rotation cassette sur elle meme
-        .to(caseT.rotation, 1, {y: 2},1.5) //ouverture case
-        .to(caseObj.position, 1, {x: -12},1.75) //eloignement case
+        .to(tapeGroup.rotation, 1, {y:4.75}, 1.25) //rotation cassette sur elle meme
+        .to(caseT.rotation, .5, {y: 2},1) //ouverture case
+        .to(caseObj.position, .5, {x:-2,z:-2},1) //eloignement case
+        .to(caseObj.position, 1, {x: -12},1.25) //eloignement case
+        .to(caseT.material, .5, {opacity: 0},1.25) //degage case opacity
+        .to(caseB.material, .5, {opacity: 0},1.25) //degage case opacity
+
+        // .to(tapeGroup.rotation, 2, {y:-1.75}, 2.5) //rotation cassette sur elle meme
+        .to(tapeGroup.rotation, 4, {y:-4.75,x:4}, 2) //rotation cassette sur elle meme
             
             // //Bounce txt
             // .add(()=> { if(document.querySelector('.bounce')){document.querySelector('.kaki').classList.remove('bounce')} },1) //remove bounce
@@ -208,16 +237,20 @@ function ScrollTimeline(scene, camera) {
             // .add(()=> { document.querySelector('.kaki').classList.remove('bounce') },1.5) //remove bounce
 
         .to(tapeObj.rotation, .5, {x:-1.2,y:3.5,z:0.15}, 2) //rotation cassette droite
-        .to(storage.position, 0, {y: -30}, 2) //etagere tp bot
+        .to(storage.position, 0, {y: -38.804056167602539}, 2) //etagere tp bot
+        .to(facade.position, 0, {y: -30}, 2) //etagere tp bot
         //Put back
-        .to(storage.position, 1, {y: -5.8}, 5.25) //etagere appear bot
-        .to(tapeGroup.position, 1, {x:-10,y:0.75,z:-13}, 5) //rotation cassette sur elle meme
+        .to(caseT.material, .5, {opacity: .9},5) //degage case opacity
+        .to(caseB.material, .5, {opacity: .9},5) //degage case opacity
+        .to(storage.position, 1, {y: 0}, 5.25) //etagere appear bot
+        .to(facade.position, 1, {y: 8.804056167602539}, 5.25) //etagere appear bot
+        .to(tapeGroup.position, 1, {x:8.560792922973633,y:8.795806884765625,z:-13}, 5) //rotation cassette sur elle meme
         .to(tapeGroup.rotation, 1, {x:0,y:0,z:0}, 5) //rotation cassette sur elle meme
         .to(caseT.rotation, 1, {x:0,y:4,z:0},5) //ouverture case
         .to(caseT.rotation, 1, {x:0,y:0,z:0},5.5) //ouverture case
         .to(caseObj.position, 1, {x:0,y:0,z:0},5) //eloignement case
         .to(tapeObj.rotation, 1, {x:0,y:0,z:0}, 5) //rotation cassette droite
-        .to(tapeGroup.position, 1, {x:-10,y:0.75,z:0}, 6) //rotation cassette sur elle meme
+        .to(tapeGroup.position, 1, {x:8.560792922973633,y:8.795806884765625,z:-0.4}, 6) //rotation cassette sur elle meme
 
 
         //PLAY SOUND AND CHANGE TEXTURE
@@ -234,6 +267,8 @@ function ScrollTimeline(scene, camera) {
             isNotPlaying = true;
             isBack = true;
         },1.75) // STEP 2 passage texture 2
+        .to(plastic.material.color, .25, {r:210/255,g:212/255, b:188/255 }, 1.75) //color 1
+        .to(plastic.material.color, .25, {r:244/255,g:220/255, b:181/255 }, 1.75) //color 2
         .to(uniforms.progress, .25, {value: 0},1.5) //fade to textureA
         .to(uniforms.progress, .25, {value: 1},1.5) //fade to textureB
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureA) },1.75) //blue
@@ -243,6 +278,8 @@ function ScrollTimeline(scene, camera) {
             switchSound(soundE, soundF)
             switchSoundText('1969','The Winstons','Amen Brother','2011','Nicky Minaj','Save Me')
         },2.35) // STEP 3 passage texture 1
+        .to(plastic.material.color, .25, {r:244/255,g:220/255, b:181/255 }, 2.35) //color 2
+        .to(plastic.material.color, .25, {r:195/255,g:191/255, b:215/255 }, 2.35) //color 3
         .to(uniforms.progress, .25, {value: 1},2.1) //fade to textureC
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureB) },2.35) //cyan
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureC) },2.35) //prune
@@ -252,6 +289,8 @@ function ScrollTimeline(scene, camera) {
             switchSound(soundG, soundH)
             switchSoundText('1984','Jean Michel Jarre','Zoolook','1978','Jean Michel Jarre','Equinox')
         },3.15) // STEP 4 passage texture 2
+        .to(plastic.material.color, .25, {r:195/255,g:191/255, b:215/255 }, 3.3) //color 3
+        .to(plastic.material.color, .25, {r:200/255,g:209/255, b:208/255 }, 3.3) //color 4
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureB) },2.9) //cyan
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureD) },2.9) //orange
         .to(uniforms.progress, .25, {value: 1},3.15) //fade to texture2
@@ -261,6 +300,8 @@ function ScrollTimeline(scene, camera) {
             switchSound(soundI, soundJ)
             switchSoundText('1989','Ice Cube','Interview about SP-1200','1997','DJ Muggs of Cypress Hill','Rhyme & Reason" documentary')
         },3.85) // STEP 5
+        .to(plastic.material.color, .25, {r:200/255,g:209/255, b:208/255 }, 4) //color 4
+        .to(plastic.material.color, .25, {r:213/255,g:200/255, b:218/255 }, 4) //color 5
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureD) },3.6) //keep orange
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureE) },3.6) //change purple
         .to(uniforms.progress, .25, {value: 0},3.85) //fade to texture1
@@ -270,12 +311,18 @@ function ScrollTimeline(scene, camera) {
             switchSound(soundK, soundL)
             switchSoundText('1997','The Verve','Bitter Sweet Symphony','1965','The Rolling Stones','The Last Time')
         },4.65) // STEP 6
+        .to(plastic.material.color, .25, {r:213/255,g:200/255, b:218/255 }, 4.65) //color 5
+        .to(plastic.material.color, .25, {r:190/255,g:219/255, b:219/255 }, 4.65) //color 6
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureE) },4.65) //keep purple
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureF) },4.65) //change green
         .to(uniforms.progress, .25, {value: 1},4.65) //fade to texture2
 
         .add(()=> { document.querySelector('#canvas').style.pointerEvents = 'none' },6) //remove
-        .add(()=> { document.querySelector('#canvas').style.pointerEvents = 'initial' },6.1) //remove
+        .add(()=> { 
+            document.querySelector('#canvas').style.pointerEvents = 'initial'
+            sound01.fade( sound01.volume(), 0, 1000 );
+            sound02.fade( sound02.volume(), 0, 1000 );
+        },6.1) //remove
 
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
@@ -292,6 +339,9 @@ function ScrollTimeline(scene, camera) {
             let progress = timelineTape.progress();
             progress += (proxyTween.progress() - progress) * 0.05;
             timelineTape.progress(progress);
+
+            wheelsL.rotation.x += 0.025;
+            wheelsR.rotation.x += 0.025;
         });
     }
 
