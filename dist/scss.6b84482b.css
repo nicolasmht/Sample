@@ -176,6 +176,26 @@ html, body {
   background-color: red;
 }
 
+.win {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000021;
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  transition: 400ms;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+}
+.win.show {
+  opacity: 1;
+}
+.win.memory {
+  background-image: url("/win.526a6438.png");
+}
+
 .tuto {
   width: 100vw;
   height: 100vh;
@@ -188,7 +208,6 @@ html, body {
   z-index: 10000;
 }
 .tuto.hide {
-  transform: scale(0.2);
   opacity: 0;
 }
 .tuto.memory {

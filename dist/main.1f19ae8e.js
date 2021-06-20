@@ -100763,6 +100763,10 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(sceneMain) {
+  var isFinish = false;
+  var nbCardsFound = 0;
+  var tutorial = document.querySelector('.focus-memory .tuto');
+  var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
   camera.position.z = 9;
@@ -100782,7 +100786,7 @@ function Component(sceneMain) {
   var asap = new Howl({
     src: ['./memory/sounds/1_AsapRocky.mp3'],
     sprite: {
-      sample: [19000, 15000]
+      sample: [0, 15000]
     }
   });
   var steve = new Howl({
@@ -100794,31 +100798,31 @@ function Component(sceneMain) {
   var bowie = new Howl({
     src: ['./memory/sounds/2_DavidBowie.mp3'],
     sprite: {
-      sample: [17000, 15000]
+      sample: [0, 15000]
     }
   });
   var lana = new Howl({
     src: ['./memory/sounds/2_LanaDelRey.mp3'],
     sprite: {
-      sample: [206000, 15000]
+      sample: [0, 15000]
     }
   });
   var fanfare = new Howl({
     src: ['./memory/sounds/3_Fanfare.mp3'],
     sprite: {
-      sample: [128000, 15000]
+      sample: [0, 15000]
     }
   });
   var queen = new Howl({
     src: ['./memory/sounds/3_Queen.mp3'],
     sprite: {
-      sample: [25000, 15000]
+      sample: [0, 15000]
     }
   });
   var david = new Howl({
     src: ['./memory/sounds/4_DavidGilmour.mp3'],
     sprite: {
-      sample: [4000, 15000]
+      sample: [0, 15000]
     }
   });
   var sncf = new Howl({
@@ -100830,13 +100834,13 @@ function Component(sceneMain) {
   var ketchup = new Howl({
     src: ['./memory/sounds/5_LasKetchup.mp3'],
     sprite: {
-      sample: [36000, 15000]
+      sample: [0, 15000]
     }
   });
   var sugar = new Howl({
     src: ['./memory/sounds/5_TheSugarHill.mp3'],
     sprite: {
-      sample: [34000, 15000]
+      sample: [0, 15000]
     }
   });
   var data = [{
@@ -100882,37 +100886,36 @@ function Component(sceneMain) {
   }]; // Create sounds
 
   var positions = [{
-    x: 0,
-    y: 12.5
+    x: 4,
+    y: 13
   }, {
-    x: 8.5,
-    y: -8
-  }, {
-    x: -8.5,
-    y: 7
-  }, {
-    x: -8.5,
-    y: -5.5
-  }, {
-    x: 0,
+    x: 4,
     y: 0
   }, {
-    x: 0,
-    y: -12.5
+    x: 4,
+    y: -13
   }, {
-    x: 2,
-    y: -23,
-    isRotate: true
+    x: -5,
+    y: 14
   }, {
-    x: -8.5,
-    y: -18
+    x: -5,
+    y: 1
   }, {
-    x: 10.5,
-    y: 2.5,
-    isRotate: true
+    x: -5,
+    y: -12
   }, {
-    x: 10.5,
+    x: -14,
+    y: 0
+  }, {
+    x: -16,
     y: 11,
+    isRotate: true
+  }, {
+    x: 13,
+    y: 1
+  }, {
+    x: 15,
+    y: -10,
     isRotate: true
   }]; // Groupe de cartes
 
@@ -100948,11 +100951,11 @@ function Component(sceneMain) {
   function initCameraPosition() {
     // Animate the camera before they go in some object in the 3D scene 
     _gsap.TweenLite.to(camera.position, 1, {
-      z: 27
+      z: 23
     });
 
     _gsap.TweenLite.to(cards.rotation, 1, {
-      z: -.8
+      z: .8
     });
   }
 
@@ -100979,6 +100982,12 @@ function Component(sceneMain) {
       if (cardVisible.length == 2 && cardVisible[0].data.same == cardVisible[1].data.id) {
         cardVisible.forEach(function (card) {
           card.data.valid = true;
+          nbCardsFound++;
+
+          if (nbCardsFound === 10 && !isFinish) {
+            isFinish = true;
+            winScreen.classList.add('show');
+          }
         });
         setTimeout(function () {
           cardVisible.splice(0, 2);
@@ -101025,11 +101034,18 @@ function Component(sceneMain) {
   };
 
   this.start = function () {
+    setTimeout(function () {
+      tutorial.classList.add('hide');
+    }, 3000);
     document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
     render();
   };
 
   this.stop = function () {
+    setTimeout(function () {
+      tutorial.classList.remove('hide');
+      winScreen.classList.add('show');
+    }, 3000);
     window.cancelAnimationFrame(idAnimation);
     document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
     soundPlayed.stop();
@@ -102961,7 +102977,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "64758" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54834" + '/');
+>>>>>>> 1778dd23e6b5473b815e3b96952997c35e5ef399
 
   ws.onmessage = function (event) {
     checkedAssets = {};
