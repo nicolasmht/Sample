@@ -164,23 +164,6 @@ function Component(scene) {
     // Cursor animation
     let cursor = document.querySelector('#cursor');
 
-    // When the mouse hover the sun
-    sun.addEventListener('mouseover', () => {
-        cursor.classList.add('drag')
-    });
-
-    // When the mouse leave the sun
-    sun.addEventListener('mouseout', () => {
-        cursor.classList.remove('drag')
-    });
-
-    // Classic cursor
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.pageX - 15 +'px';
-        cursor.style.top = e.pageY - 15 +'px';
-        //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
-    });
-
 
     // Make the sun draggable
     dragElement(sun);
@@ -267,6 +250,23 @@ function Component(scene) {
     }
 
     this.start = () => {
+
+         // When the mouse hover the sun
+        sun.addEventListener('mouseover', () => {
+            cursor.classList.add('drag')
+        });
+
+        // When the mouse leave the sun
+        sun.addEventListener('mouseout', () => {
+            cursor.classList.remove('drag')
+        });
+
+        // Classic cursor
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.pageX - 15 +'px';
+            cursor.style.top = e.pageY - 15 +'px';
+            //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
+        });
 
         setTimeout(() => {
             document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);

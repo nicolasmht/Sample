@@ -453,7 +453,7 @@ html, body {
 .focus-polo #cursor {
   position: fixed;
   z-index: 10000;
-  background-image: url("/cursor.098de7c6.png");
+  background-image: url("/cursor.b6c0ac8d.png");
   width: 20px;
   height: 20px;
   pointer-events: none;
@@ -522,7 +522,7 @@ html, body {
 .focus-polo #layer-1 {
   width: 100%;
   height: 100%;
-  background-image: url("/05.54b95d9c.png");
+  background-image: url("/05.44963e58.png");
   margin: 0;
   position: fixed;
   top: 0;
@@ -533,7 +533,7 @@ html, body {
 .focus-polo #layer-2 {
   width: 120%;
   height: 120%;
-  background-image: url("/02.b31dc7e1.png");
+  background-image: url("/02.59942c5d.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -576,7 +576,7 @@ html, body {
 .focus-polo #layer-3 {
   width: 105%;
   height: 105%;
-  background-image: url("/01.461b1eca.png");
+  background-image: url("/01.d7e55cda.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -607,7 +607,7 @@ html, body {
 .focus-polo #layer-4 {
   width: 100%;
   height: 100%;
-  background-image: url("/03.0215e571.png");
+  background-image: url("/03.43e36bc2.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -626,7 +626,7 @@ html, body {
   width: 250px;
   height: 250px;
   transform: translateX(-50%);
-  background-image: url("/04_Soleil.a218272f.png");
+  background-image: url("/04_Soleil.d8d45d4e.png");
   background-position: center;
   background-size: cover;
   box-sizing: border-box;
@@ -636,7 +636,7 @@ html, body {
 #sun::after {
   content: "";
   position: absolute;
-  background-image: url("/04_Halo.7e2567fc.png");
+  background-image: url("/04_Halo.e1cc18db.png");
   background-position: center;
   background-size: cover;
   width: 300px;

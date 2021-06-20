@@ -101298,20 +101298,7 @@ function Component(scene) {
   } // Cursor animation
 
 
-  var cursor = document.querySelector('#cursor'); // When the mouse hover the sun
-
-  sun.addEventListener('mouseover', function () {
-    cursor.classList.add('drag');
-  }); // When the mouse leave the sun
-
-  sun.addEventListener('mouseout', function () {
-    cursor.classList.remove('drag');
-  }); // Classic cursor
-
-  document.addEventListener('mousemove', function (e) {
-    cursor.style.left = e.pageX - 15 + 'px';
-    cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
-  }); // Make the sun draggable
+  var cursor = document.querySelector('#cursor'); // Make the sun draggable
 
   dragElement(sun);
 
@@ -101416,6 +101403,19 @@ function Component(scene) {
   }
 
   this.start = function () {
+    // When the mouse hover the sun
+    sun.addEventListener('mouseover', function () {
+      cursor.classList.add('drag');
+    }); // When the mouse leave the sun
+
+    sun.addEventListener('mouseout', function () {
+      cursor.classList.remove('drag');
+    }); // Classic cursor
+
+    document.addEventListener('mousemove', function (e) {
+      cursor.style.left = e.pageX - 15 + 'px';
+      cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
+    });
     setTimeout(function () {
       document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);
       document.querySelector('.focus-polo .tuto').classList.add('hide');
@@ -103001,7 +103001,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54834" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50678" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
