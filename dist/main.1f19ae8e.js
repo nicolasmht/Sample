@@ -95419,8 +95419,8 @@ function ScrollTimeline(scene, camera) {
   // camera.position.x = -2.5;
   // camera.position.y = 2.45;
   // camera.position.z = -1.25;
-
-  document.querySelector('#canvas').style.pointerEvents = 'none'; // let scrollY = 0;
+  // document.querySelector('#canvas').style.pointerEvents = 'none';
+  // let scrollY = 0;
 
   loader.load(_case_closedM.default, function (gltf) {
     tape = gltf.scene;

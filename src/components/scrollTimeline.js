@@ -51,7 +51,7 @@ function ScrollTimeline(scene, camera) {
         // camera.position.y = 2.45;
         // camera.position.z = -1.25;
 
-        document.querySelector('#canvas').style.pointerEvents = 'none'
+        // document.querySelector('#canvas').style.pointerEvents = 'none';
 
         // let scrollY = 0;
 
