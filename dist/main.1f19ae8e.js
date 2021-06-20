@@ -101216,6 +101216,7 @@ function Component(scene) {
     path: './polo/sounds/sirene/Nana_Sample.mp3',
     title: 'Nana',
     date: '2016',
+    artist: 'Polo & Pan'
   };
   var sireneSample = {
     path: _Os_Tincoas_Cordeiro_Nana_Original.default,
@@ -103034,7 +103035,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58883" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59365" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
