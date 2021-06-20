@@ -241,8 +241,6 @@ function Component(scene) {
         pageY.innerText = event.pageY;
     }
 
-    document.addEventListener("mousemove", parallaxEffect, false);
-
     function parallaxEffect(event){
         let positions = {x: event.pageX, y: event.pageY}
         let background = document.querySelector('#layer-2');
@@ -266,6 +264,24 @@ function Component(scene) {
         timecode[0] < 1 ? true : result += (parseInt(timecode[0]) * 60) * 1000;
         result += parseInt(`${timecode[2]}${timecode[3]}`) * 1000;
         return result;
+    }
+
+    this.start = () => {
+
+        setTimeout(() => {
+            document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);
+            document.querySelector('.focus-polo .tuto').classList.add('hide');
+        }, 3000);
+
+    };
+
+    this.stop = () => {
+
+        setTimeout(() => {
+            document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);
+            document.querySelector('.focus-polo .tuto').classList.remove('hide');
+        }, 3000);
+
     }
 
     this.update = function(time) {}
