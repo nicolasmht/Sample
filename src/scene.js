@@ -21,8 +21,7 @@ import RenaudComponent from './components/Renaud';
 
 import NoiseEffect from './noiseEffect';
 import OutlineEffect from './outlineEffect';
-
-import TextureGravure from './textures/scratch.png';
+import TextureGravure from './textures/textures_gravure/test.png';
 
 import KaleidoShader from './components/KaleidoShader';
 
@@ -65,9 +64,6 @@ function Scene(canvas, started = false) {
     const noiseFolder = gui.addFolder('Noise');
 
     const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    composer.setSize(window.innerWidth, window.innerHeight);
-
     composer.addPass(new RenderPass(scene, camera));
     composer.setSize(window.innerWidth, window.innerHeight);
 
@@ -122,7 +118,8 @@ function Scene(canvas, started = false) {
         uvTransform: true,
         alpha: 0
     });
-    // composer.addPass(new EffectPass(camera, textureEffect));
+
+    composer.addPass(new EffectPass(camera, textureEffect));
 
     function buildScene() {
         const scene = new THREE.Scene();

@@ -47,9 +47,9 @@ function ScrollTimeline(scene, camera) {
         let isNotPlaying = false;
 
          // Set camera
-        camera.position.x = -2.5;
-        camera.position.y = 2.45;
-        camera.position.z = -1.25;
+        // camera.position.x = -2.5;
+        // camera.position.y = 2.45;
+        // camera.position.z = -1.25;
 
         document.querySelector('#canvas').style.pointerEvents = 'none'
 
@@ -88,15 +88,26 @@ function ScrollTimeline(scene, camera) {
                     case 'Case_t_Case_t_elem'://Grey case
                         child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
                     break;
+                    case 'Tape-Mat1'://Grey case
+                        child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
+                    break;
                 }
             });
 
+            camera.position.x = -30;
+            camera.position.y = -30;
+            camera.position.z = -30;
+
+            // tape.position.z = -5;
+
             tape.scale.set(0.01125, 0.012, 0.012);
-            tape.position.set(-2.5115, 2.37, -1.45);
+            // tape.position.set(-2.5115, 2.37, -1.45);
+            tape.position.set(camera.position.x -0.0115 , camera.position.y -0.08, camera.position.z -0.2004);
             tape.rotateY(Math.PI);
 
             scene.add(tape);
-            console.log(tape.position.y);
+            console.log('cam-pos:',camera.position);
+            console.log('tape-pos:',tape.position);
             // tape.position.y = 2.41
 
             // reScale(tape);
@@ -155,34 +166,10 @@ function ScrollTimeline(scene, camera) {
         let caseB = tape.getObjectByName('Case_b_Case_b_elem')//Case_t
         let sticker = tape.getObjectByName('Tape-sticker')//Tape_elem_2
         let centre = tape.getObjectByName('Tape-glass')//Tape_elem_4
-        // let wheels = tape.getObjectByName('Tape_elem_1')
         let wheelsL = tape.getObjectByName('Wheel_left')
         let wheelsR = tape.getObjectByName('Wheel_right')
 
         tapeGroup.position.z = -0.4;
-
-        // wheelsL.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
-        // wheelsR.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
-        
-        //Base color
-        // plastic.material = new THREE.MeshBasicMaterial({color:0xD2D4BC, transparent: true, opacity: .9, side:THREE.DoubleSide});
-        // caseObj.material = new THREE.MeshBasicMaterial({color:0xD2D4BC, transparent: true, opacity: .9, side:THREE.DoubleSide});
-
-        // caseB.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
-        // caseT.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
-
-
-        // let tapeGroup = tape.getObjectByName('Tape_obj')
-        // let storage = tape.getObjectByName('Storage')
-        // let caseObj = tape.getObjectByName('Case')
-        // let tapeObj = tape.getObjectByName('Tape')
-        // let caseT = tape.getObjectByName('Case_t_Case_t_elem')
-        // let sticker = tape.getObjectByName('Tape_Tape_elem-sticker')
-        // let centre = tape.getObjectByName('Tape_Tape_elem-glass')
-        // let wheels = tape.getObjectByName('Tape_Tape_elem-white_plastic')
-
-        // wheels.material.transparent = true;
-        // wheels.material.opacity = 0;
         
         const textureLoader = new THREE.TextureLoader()
         
@@ -331,7 +318,11 @@ function ScrollTimeline(scene, camera) {
         .to(uniforms.progress, .25, {value: 1},4.65) //fade to texture2
 
         .add(()=> { document.querySelector('#canvas').style.pointerEvents = 'none' },6) //remove
-        .add(()=> { document.querySelector('#canvas').style.pointerEvents = 'initial' },6.1) //remove
+        .add(()=> { 
+            document.querySelector('#canvas').style.pointerEvents = 'initial'
+            sound01.fade( sound01.volume(), 0, 1000 );
+            sound02.fade( sound02.volume(), 0, 1000 );
+        },6.1) //remove
 
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
@@ -357,6 +348,7 @@ function ScrollTimeline(scene, camera) {
     function switchSoundText(dateT, artistT, titleT, dateB, artistB, titleB) {
         document.querySelector('.txt_slider-top').style.opacity = 0
         document.querySelector('.txt_slider-bot').style.opacity = 0
+
         setTimeout(()=> {
             document.querySelector('.txt_slider-top').style.opacity = 1
             document.querySelector('.txt_slider-bot').style.opacity = 1

@@ -17,7 +17,7 @@ function Component(scene, camera) {
     });
 
     // Timeline
-    let imgs = document.querySelectorAll("img");
+    let imgs = document.querySelectorAll(".focus-renaud img");
 
     let timeline = new TimelineMax({paused: true});
     timeline.fromTo(imgs[0], .4, {opacity: 0} ,{opacity: 1});

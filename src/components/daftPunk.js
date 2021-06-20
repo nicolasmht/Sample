@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 import {Howl, Howler} from 'howler';
+import { EffectComposer, EffectPass, RenderPass, BlendFunction, BloomEffect } from "postprocessing";
 
 // Object
 import daftPunkModel from '../objects/focus_daft-punk_02.gltf';
@@ -26,6 +27,13 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
     camera.position.set(0, 15, 40);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    // POST PROCESSING
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.setSize(window.innerWidth, window.innerHeight);
+
+    composer.addPass(new EffectPass(camera, new BloomEffect()));
 
     // LIGHT
     const light = new THREE.AmbientLight({ color: 0x404040, intensity: 2 });
@@ -278,10 +286,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
         });
     }
 
+    const clock = new THREE.Clock();
     let idAnimation = null;
 
     var render = function () {
         idAnimation = requestAnimationFrame(render);
+        composer.render(clock.getDelta());
         renderer.render(scene, camera);
     }
 

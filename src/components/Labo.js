@@ -21,9 +21,15 @@ import Polo from '../textures/Labo/Polo.png';
 import Renaud from '../textures/Labo/Renaud.png';
 import Retour from '../textures/Labo/Retour.png';
 
+import PinInactif from '../textures/Labo/Pin_Cab_Inactif.png';
+import PinHover from '../textures/Labo/Pin_Cab_Hover.png';
+
 import TextureGravure01 from '../textures/scratch-01.png';
 import TextureGravure02 from '../textures/scratch-02.png';
 import TextureGravure03 from '../textures/scratch-03.png';
+
+import TextureScene from '../textures/textures_gravure/test02.png';
+
 import fiveT from '../textures/fivetoner.jpg';
 
 import RenaudComponent from './Renaud';
@@ -44,7 +50,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     let labo = new THREE.Object3D();
 
     const texture01 = new THREE.TextureLoader().load(TextureGravure01);
-    const texture02 = new THREE.TextureLoader().load(TextureGravure02);
+    const texture02 = new THREE.TextureLoader().load(TextureScene);
     const texture03 = new THREE.TextureLoader().load(TextureGravure03);
 
     texture01.wrapS = THREE.RepeatWrapping;
@@ -84,9 +90,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                         child.material = new THREE.MeshToonMaterial({
                             side: THREE.DoubleSide,
                             gradientMap: fiveTone,
-                            normalMap: texture02,
-                            displacementMap: texture02,
-                            bumpMap: texture02,
+                            // normalMap: texture02,
+                            // displacementMap: texture02,
+                            // bumpMap: texture02,
                             map: texture02,
                         });
 
@@ -133,7 +139,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     );
 
     // Set camera
-    camera.position.x = -2.5;
+    camera.position.x = -5;
     camera.position.y = 2.45;
     camera.position.z = -1.25;
 
@@ -145,10 +151,43 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     // scene.add(cube);
 
     // Add pin for click
-    function CreateSrpite(file) {
-        const map = new THREE.TextureLoader().load(file);
-        const materialPin = new THREE.SpriteMaterial({ map: map, opacity: 0 });
-        return new THREE.Sprite(materialPin);
+    function CreateSrpite(file, x, y, z) {
+        const mapInactif = new THREE.TextureLoader().load(PinInactif);
+        const materialPin = new THREE.SpriteMaterial({ map: mapInactif, opacity: 0 });
+        const sprite = new THREE.Sprite(materialPin);
+        
+        const mapHover = new THREE.TextureLoader().load(PinHover);
+        const materialPinHover = new THREE.SpriteMaterial({ map: mapHover, opacity: 0 });
+        const spriteHover = new THREE.Sprite(materialPinHover);
+        
+        sprite.position.set(x, y, z);
+        spriteHover.position.set(x, y, z);
+
+        sprite.scale.set(0.25, 0.25, 0.25);
+        spriteHover.scale.set(0.25, 0.25, 0.25);
+
+        scene.add(sprite);
+        scene.add(spriteHover);
+
+        sprite.addEventListener("mouseover", (event) => {
+            TweenLite.to(sprite.material, 0.6, { opacity: 0, ease: EaseInOut });
+            TweenLite.to(spriteHover.material, 0.6, { opacity: 1, ease: EaseInOut });
+            document.body.style.cursor = "pointer";
+        });
+
+        sprite.addEventListener("mouseout", (event) => {
+            TweenLite.to(sprite.material, 0.6, { opacity: 1, ease: EaseInOut });
+            TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
+            document.body.style.cursor = "default";
+        });
+
+        sprite.addEventListener("click", (event) => {
+            console.log('click')
+        });
+
+        interactionManager.add(sprite);
+
+        return sprite;
     }
 
     const infos = document.querySelector('.container-infos');
@@ -251,10 +290,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Aznavour
      */
-    const aznavourPin = CreateSrpite(Aznavour);
-    aznavourPin.position.set(-0.15, 2.1, -1.1);
-    scene.add(aznavourPin);
-    
+    const aznavourPin = CreateSrpite(PinInactif, -0.15, 2.1, -1.1);
     aznavourPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Aznavour',
@@ -274,11 +310,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Britney
      */
-    const britneyPin = CreateSrpite(Britney);
-    britneyPin.position.set(-2.3, 3.2, -1.2);
-    scene.add(britneyPin);
+    const britneyPin = CreateSrpite(Britney, -2.3, 3.2, -1.2);
 
     britneyPin.addEventListener("click", (event) => {
+        console.log('okokok')
         onClick(event.target, {
             title: 'Britney',
             subTitle: 'From Bollywood to Hollywood',
@@ -292,14 +327,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         });
     });
 
-    interactionManager.add(britneyPin);
+    // interactionManager.add(britneyPin);
 
     /*
      * DaftPunk
      */
-    const daftPunkPin = CreateSrpite(DaftPunk);
-    daftPunkPin.position.set(0.9, 2.5, -1);
-    scene.add(daftPunkPin);
+    const daftPunkPin = CreateSrpite(DaftPunk, 0.9, 2.5, -1);
 
     daftPunkPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -323,9 +356,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Gainsbourg
      */
-    const gainsbourgPin = CreateSrpite(Gainsbourg);
-    gainsbourgPin.position.set(-0.49, 3.3, -1.5);
-    scene.add(gainsbourgPin);
+    const gainsbourgPin = CreateSrpite(Gainsbourg, -0.49, 3.3, -1.5);
 
     gainsbourgPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -349,9 +380,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Memo
      */
-    const memoPin = CreateSrpite(Memo);
-    memoPin.position.set(-0.37, 1.7, -0.4);
-    scene.add(memoPin);
+    const memoPin = CreateSrpite(Memo, -0.37, 1.7, -0.4);
 
     memoPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -375,9 +404,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Polo
      */
-    const poloPin = CreateSrpite(Polo);
-    poloPin.position.set(0.8, 3.6, -1);
-    scene.add(poloPin);
+    const poloPin = CreateSrpite(Polo, 0.8, 3.6, -1);
 
     poloPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -398,9 +425,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Renaud
      */
-    const renaudPin = CreateSrpite(Renaud);
-    renaudPin.position.set(-1.45, 1.9, -0.9);
-    scene.add(renaudPin);
+    const renaudPin = CreateSrpite(Renaud, -1.45, 1.9, -0.9);
 
     renaudPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -426,9 +451,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Retour
      */
 
-    const retourPin = CreateSrpite(Retour);
-    retourPin.position.set(-1.5, 2.55, -1.2);
-    scene.add(retourPin);
+    const retourPin = CreateSrpite(Retour, -1.5, 2.55, -1.2);
 
     retourPin.addEventListener("click", (event) => {
         console.log("Retour");
@@ -451,11 +474,41 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             .to(retourPin.material, 0.25, { opacity: 1, ease: EaseInOut });
         }});
 
+    let started = false;
+
+    window.addEventListener('scroll', function(event) {
+        const bodyHeight = document.documentElement.scrollHeight;
+
+        if (window.scrollY > bodyHeight - window.screen.height && !started) {
+            new TimelineMax()
+            .to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
+            .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(memoPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(poloPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseOut })
+            .to(retourPin.material, 0.25, { opacity: 1, ease: EaseOut });
+
+            document.querySelector('.container').style.display = 'none';
+
+            TweenLite.to(document.querySelector('.container').style, 0.4, {
+                opacity: 0, ease: EaseInOut,
+                onComplete: () => {
+                    document.querySelector('.container').style.display = 'none';
+                }
+            });
+
+            started = true;
+        }
+    })
+
     this.wheel = function(Y) {
         if (Y < 2) return;
 
         // Mutliply Y value
-        tlCamera.progress(Y - 2);
+        // tlCamera.progress(Y - 2);
     }
 
     this.update = function(time) {
@@ -464,6 +517,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         
         camera.rotation.x += 0.1 * ( target.y - camera.rotation.x );
         camera.rotation.y += 0.1 * ( target.x - camera.rotation.y );
+
+        interactionManager.update();
     }
 
     this.mousemove = (event) => {

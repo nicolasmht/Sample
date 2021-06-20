@@ -51,7 +51,7 @@ html, body {
 }
 
 .container-focus {
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     transform: translateX(100vw);
@@ -132,43 +132,35 @@ html, body {
     }
 
     .btn-infos {
-        padding: 1vw 5vw;
-        background-color: #000000;
-        border: none;
-        border-radius: 3vw;
-        color: #fff;
-        font-size: 1.6vw;
+        width: 13vw;
+        height: 5vw;
+        // background-color: #000000;
+        background-image: url(../images/CTA_Discover.png);
+        background-size: contain;
+        background-repeat: no-repeat;
         cursor: pointer;
+        border: none;
     }
 
     .close-infos{
         position: absolute;
         top: 2.5vh;
         right: 2.5vw;
-        width: 2vw;
-        height: 2vw;
+        width: 4vw;
+        height: 4vw;
         background-image: url(../images/close.png);
         background-position: center center;
         background-repeat: no-repeat;
+        background-size: contain;
         cursor: pointer;
     }
 }
 
 .gui{
-    position: absolute;
+    position: fixed;
     right: 0;
     z-index: 999;
 }
-
-// .container {
-//     position: absolute;
-//     width: 100%;
-//     // height: 500vh;
-//     // background: rgb(236,0,245);
-//     // background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
-//     // background-image: url('../images/Back.png');
-//     background-size: cover;
-// }
 
 .box {
     display: block;
@@ -187,6 +179,36 @@ html, body {
     width:30px;
     height:30px;
     background-color:red;
+}
+
+// Tutorials
+.tuto {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000021;
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  transition: 400ms;
+  z-index: 10000;
+
+  &.hide {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+
+  &.memory {
+    background-image: url('../../dist/tutorials/memory.png');
+  }
+
+  &.renaud {
+    background-image: url('../../dist/tutorials/renaud.png');
+  }
+
+  &.polo {
+    background-image: url('../../dist/tutorials/polo.png');
+  }
 }
 
 .focus-renaud {
@@ -273,6 +295,14 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
   display: none;
+
+  #mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    pointer-events: none;
+  }
 
   img {
     max-width: 25%;
@@ -724,15 +754,16 @@ html, body {
 }
 .container {
     position: absolute;
-    width: 100%;
+    width: 100vw;
     // height: 500vh;
-    background: rgb(236,0,245);
-    background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
-    background-image: url('../images/timeline_background.png');
+    // background: rgb(130, 113, 131);
+    // background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+    // background-image: url('../images/timeline_background.png');
     background-size: 100%;
     background-attachment: fixed;
     padding-top: 250vh;
     padding-bottom: 250vh;
+    z-index: 999;
     .cont_slider {
         position: fixed;
         top: 40%;
@@ -770,6 +801,8 @@ html, body {
             right: -50px;
             text-align: center;
             transition: .5s opacity ease-out;
+            user-select: none;
+            -webkit-user-select: none;
             p {
                 margin: 0;
                 font-size: 14px;
