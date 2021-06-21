@@ -837,7 +837,287 @@ html, body {
 
 .focus-aznavour {
 
-  
+  #ct-map {
+
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+}
+
+#map {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: scale(0.15);
+    animation: dezoom 5s ease-out forwards;
+    background-image: url('../assets/aznavour/background.jpeg');
+
+    width: 200vw;
+    height: 200vh;
+    overflow: auto;
+
+    .deco {
+        pointer-events: none;
+    }
+
+    .city {
+        pointer-events: none;
+    }
+}
+
+section {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+
+    &#maurice {
+        top: 0;
+        left: 0;
+        // background-color: beige;
+
+        .deco {
+            position: absolute;
+            width: 14vw;
+        }
+
+        .d1 {
+            top: 53vh;
+            left: 74vw;
+            width: 18vw;
+        }
+
+        .d2 {
+            top: 70vh;
+            left: 59vw;
+            width: 16vw;
+        }
+
+        .d3 {
+            top: 78vh;
+            left: 77vw;
+        }
+
+        .city {
+
+            width: 300px;
+            position: absolute;
+            top: 29vh;
+            left: 58vw;
+            pointer-events: none;
+        }
+    }
+
+    &#ile2 {
+        transform: translate(100%, 0%);
+
+        .deco {
+            position: absolute;
+            width: 14vw;
+        }
+
+        .d1 {
+            top: 40vh;
+            left: 9vw;
+            width: 24vw;
+        }
+
+        .d2 {
+            top: 70vh;
+            left: 18vw;
+            width: 19vw;
+        }
+
+        .d3 {
+            top: 70vh;
+            left: 78vw;
+        }
+
+        .title {
+            max-width: 14vw;
+            position: absolute;
+            left: 24vw;
+            top: 1vh;
+            pointer-events: none;
+        }
+
+        .city {
+            width: 38vw;
+            position: absolute;
+            top: 7vh;
+            left: 10vw;
+            pointer-events: none;
+        }
+    }
+
+
+    &#ile3 {
+        transform: translate(0, 100%);
+        // background-color: purple;
+
+        .deco {
+            position: absolute;
+            width: 14vw;
+        }
+
+        .d1 {
+            top: 89vh;
+            left: 9vw;
+            width: 11vw;
+        }
+
+        .d2 {
+            top: 30vh;
+            left: 22vw;
+            width: 12vw;
+        }
+
+        .d3 {
+            top: 50vh;
+            left: 78vw;
+        }
+
+        .city {
+            width: 20vw;
+            position: absolute;
+            top: 13vh;
+            left: 50vw;
+            pointer-events: none;
+        }
+    }
+
+    &#ile4 {
+        transform: translate(100%, 100%);
+        background-color: pink;
+    }
+
+    .sample {
+        width: 40vw;
+        height: 40vh;
+        position: absolute;
+        top: 36vh;
+        left: 30vw;
+        transition: 1000ms;
+        background-image: url('../assets/aznavour/01_original.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &.pettersbourg {
+            background-image: url('../assets/aznavour/02_sample.png');
+            width: 30vw;
+            left: 43vw;
+            top: 50vh;
+            height: 30vh;
+
+            &.played {
+                transform: translateX(140px) rotate(3deg) !important;
+            }
+        }
+
+        &.santiago {
+            background-image: url('../assets/aznavour/03_sample.png');
+            width: 30vw;
+            left: 20vw;
+            top: 60vh;
+            height: 25vh;
+
+            &.played {
+                transform: translateX(-2px) rotate(-15deg) !important;
+            }
+
+            .title {
+                left: -7vw;
+                top: -1vh;
+            }
+        }
+
+        .title {
+            max-width: 14vw;
+            position: absolute;
+            left: -4vw;
+            top: 1vh;
+            pointer-events: none;
+        }
+
+        &.played {
+            transform: translateX(50px) rotate(3deg) !important;
+        }
+    }
+
+    .original {
+        width: 23vw;
+        height: 48vh;
+        background-image: url('../assets/aznavour/01_sample.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 17vh;
+        left: 12vw;
+        transition: 1000ms;
+
+        &.pettersbourg {
+            background-image: url('../assets/aznavour/02_original.png');
+            width: 30vw;
+            left: 26vw;
+            height: 50vh;
+
+            &.played {
+                transform: translateX(160px) rotate(-3deg) !important;
+            }
+        }
+
+        &.santiago {
+            background-image: url('../assets/aznavour/03_original.png');
+            width: 30vw;
+            left: 40vw;
+            height: 50vh;
+
+            .title {
+                left: 23vw;
+                top: 39vh;
+            }
+
+            &.played {
+                transform: translateX(160px) rotate(-3deg) !important;
+            }
+        }
+
+
+
+        .title {
+            max-width: 14vw;
+            position: absolute;
+            left: -4vw;
+            top: -1vh;
+            pointer-events: none;
+        }
+
+        &.played {
+            transform: translateX(-40px) rotate(-10deg) !important;
+        }
+    }
+}
+}
+
+@keyframes dezoom {
+0% {
+    transform: scale(0.5);
+}
+
+60% {
+    transform: scale(0.5);
+}
+
+100% {
+    transform: scale(1);
+}
+
 }
 
 ////    TIMELINE    ////
