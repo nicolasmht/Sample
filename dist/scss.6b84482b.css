@@ -507,23 +507,6 @@ html, body {
   position: relative;
   display: none;
 }
-<<<<<<< HEAD
-=======
-.focus-polo #cursor {
-  position: fixed;
-  z-index: 10000;
-  background-image: url("/cursor.b6c0ac8d.png");
-  width: 20px;
-  height: 20px;
-  pointer-events: none;
-}
-.focus-polo #cursor.drag {
-  width: 66px;
-  height: 64px;
-  background-image: url("/drag.3edde612.png");
-  transform: rotate(-25deg);
-}
->>>>>>> 1ab7f5467616aa44528714fd3bb7d16798355e3b
 .focus-polo #disque {
   position: fixed;
   width: 260px;

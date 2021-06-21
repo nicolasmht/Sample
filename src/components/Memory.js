@@ -136,19 +136,15 @@ function Component(sceneMain) {
     
         card.add(verso);
         card.add(recto);
+
+        let isHover = false;
         
         card.addEventListener('mouseover', (event) =>{
             cursor.classList.add('click', 'show');
         });
 
-        card.addEventListener('mouseleave', () => {
-
-            cursor.classList.remove('show');
-            setTimeout(()=> {
-                cursor.classList.remove('click');
-            },
-            400)
-
+        card.addEventListener('mouseout', () => {
+            cursor.classList.remove('show', 'click');
         });
 
         cards.add(card);

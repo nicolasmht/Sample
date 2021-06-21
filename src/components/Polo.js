@@ -12,6 +12,8 @@ import AniKuniSample from '../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3';
 
 function Component(scene) {
 
+    let cursor = document.querySelector('#cursor .actions');
+
     // Create and add sound on pin
     function createSound(pin, sunset, sunshine) {
 
@@ -139,11 +141,6 @@ function Component(scene) {
     }
 
 
-    // Cursor animation
-    let cursor = document.querySelector('#cursor');
-    let cursorAction = document.querySelector('#cursor .actions');
-
-
     // Make the sun draggable
     dragElement(sun);
 
@@ -232,22 +229,15 @@ function Component(scene) {
 
          // When the mouse hover the sun
         sun.addEventListener('mouseover', () => {
-            cursorAction.classList.add('drag', 'show')
+            cursor.classList.add('drag', 'show')
         });
 
         // When the mouse leave the sun
         sun.addEventListener('mouseout', () => {
-            cursorAction.classList.remove('show');
+            cursor.classList.remove('show');
             setTimeout(() => {
-                cursorAction.classList.remove('drag')
+                cursor.classList.remove('drag')
             }, 400)
-        });
-
-        // Classic cursor
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.pageX - 15 +'px';
-            cursor.style.top = e.pageY - 15 +'px';
-            //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
         });
 
         setTimeout(() => {
