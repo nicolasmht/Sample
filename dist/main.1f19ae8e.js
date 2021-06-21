@@ -101789,9 +101789,6 @@ function Component(scene) {
   };
   createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample); // Vinyle player
 
-  var discRotation = 0;
-  var last = 0;
-
   function turnTheDisc(sound) {
     // Animate the vinyle
     var disc = document.querySelector('#disque');
@@ -101803,7 +101800,7 @@ function Component(scene) {
 
       var date = document.querySelector('#soundDate');
       date.innerText = sound.date;
-    }, 1000);
+    }, 600);
     setTimeout(function () {
       disc.classList.remove('rotate');
     }, 2000);
@@ -103643,7 +103640,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59014" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49946" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -517,7 +517,7 @@ html, body {
   background-repeat: no-repeat;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 50%) rotateZ(0deg);
+  transform: rotateZ(0deg) translate(-50%, 50%);
   transform-origin: center;
 }
 .focus-polo #disque.rotate {
@@ -525,10 +525,10 @@ html, body {
 }
 @keyframes rotation {
   0% {
-    transform: translate(-50%, 50%) rotate(0deg);
+    transform: rotateZ(0deg) translate(-50%, 50%);
   }
   100% {
-    transform: translate(-50%, 50%) rotate(360deg);
+    transform: rotateZ(360deg) translate(-50%, 50%);
   }
 }
 .focus-polo #disque h3 {

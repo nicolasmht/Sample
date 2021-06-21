@@ -112,9 +112,6 @@ function Component(scene) {
     createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
 
     // Vinyle player
-    let discRotation = 0;
-    let last = 0;
-
     function turnTheDisc(sound) {
 
         // Animate the vinyle
@@ -131,7 +128,7 @@ function Component(scene) {
               let date = document.querySelector('#soundDate');
               date.innerText = sound.date;
 
-        }, 1000);
+        }, 600);
 
         setTimeout(() => {
 

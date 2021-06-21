@@ -586,7 +586,7 @@ html, body {
     background-repeat: no-repeat;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 50%) rotateZ(0deg);
+    transform: rotateZ(0deg) translate(-50%, 50%) ;
     transform-origin: center;
 
     &.rotate {
@@ -594,8 +594,8 @@ html, body {
     }
 
     @keyframes rotation {
-      0% {transform: translate(-50%, 50%) rotate(0deg);}
-      100% {transform: translate(-50%, 50%) rotate(360deg);}
+      0% {transform: rotateZ(0deg) translate(-50%, 50%) }
+      100% {transform: rotateZ(360deg) translate(-50%, 50%)}
     }
 
 
@@ -833,6 +833,11 @@ html, body {
     width: 100vw;
     height: 100vh;
   }
+}
+
+.focus-aznavour {
+
+  
 }
 
 ////    TIMELINE    ////
