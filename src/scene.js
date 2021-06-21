@@ -187,8 +187,8 @@ function Scene(canvas, started = false) {
             // new tearCanvas(scene, camera),
             // new daftPunk(scene, camera, interactionManager),
 
-            new scrollTimeline(scene, camera),
-            // new LaboComponent(scene, camera, renderer, interactionManager),
+            // new scrollTimeline(scene, camera),
+            new LaboComponent(scene, camera, renderer, interactionManager),
 
             // new KaleidoscopeComponent(scene, camera, composer)
         ];

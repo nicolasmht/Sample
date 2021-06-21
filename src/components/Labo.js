@@ -209,17 +209,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         });
     }
 
-    function reset() {
-        // Reset all scenes
-        document.querySelector('.focus-renaud').style.display = 'none';
-        document.querySelector('.focus-gainsbourg').style.display = 'none';
-        document.querySelector('.focus-aznavour').style.display = 'none';
-        document.querySelector('.focus-memory').style.display = 'none';
-        document.querySelector('.focus-polo').style.display = 'none';
-        document.querySelector('.focus-daftpunk').style.display = 'none';
-        document.querySelector('.focus-kaleidoscope').style.display = 'none';
-    }
-
     const onDiscover = (callback) => {
         reset();
         discover.addEventListener('click', () => {
@@ -254,6 +243,19 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const poloFocus = new PoloComponent(scene);
     const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
     const kaleidoscopeFocus = new KaleidoscopeComponent(scene, camera);
+
+    //TO REMOVE
+    document.querySelector('.container').style.display = 'none';
+    document.querySelector('.container-focus').style.transform = 'none';
+    document.querySelector('.container-focus').style.transition = 'none';
+    document.querySelector('.focus-daftpunk').style.display = 'block';
+    document.querySelector('.focus-renaud').style.display = 'none';
+    document.querySelector('.focus-gainsbourg').style.display = 'none';
+    document.querySelector('.focus-aznavour').style.display = 'none';
+    document.querySelector('.focus-memory').style.display = 'none';
+    document.querySelector('.focus-polo').style.display = 'none';
+    document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    daftFocus.start();
     
     function onClick (target, item, callback) {
 

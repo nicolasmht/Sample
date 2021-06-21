@@ -1,20 +1,45 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
+import { Reflector } from 'three/examples/jsm/objects/Reflector';
+import { gsap, TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 import {Howl, Howler} from 'howler';
 import { EffectComposer, EffectPass, RenderPass, BlendFunction, BloomEffect } from "postprocessing";
+import SoundAnalyser from '../utils/soundAnalyser';
+import { InteractionManager } from "three.interactive";
 
 // Object
-import daftPunkModel from '../objects/focus_daft-punk_02.gltf';
-import daftPunkPyramid from '../objects/focus_daft-punk_pyramid.gltf';
+import daftPunkModel from '../objects/focus_daft-punk_texture.gltf';
 import daftPunkCadrillage from '../objects/focus_daft-punk_cadrillage.gltf';
-import threeT from '../textures/threeTone.png';
-import fiveT from '../textures/fivetoner.jpg';
+import mistTexture from '../textures/mist2.jpg';
 import sound1 from '../audios/tundra-beats.mp3';
 import sound2 from '../audios/RFL.mp3';
 
-function DaftPunk(sceneMain, cameraMain, interactionManager) {
+import sound0101 from '../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3';
+import sound0102 from '../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3';
+import sound0201 from '../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3';
+import sound0202 from '../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3';
+import sound0301 from '../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3';
+import sound0302 from '../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3';
+import sound0401 from '../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3';
+import sound0402 from '../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3';
 
+function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
+
+    //AUDIO ANALYSER
+    let context = new (window.AudioContext || window.webkitAudioContext)(); // Création de l'instance
+    let analyser = context.createAnalyser();
+    let frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    
+    let arraySound = [sound0101, sound0201, sound0301, sound0401]
+    let baseSound = 0;
+
+    let ambiantSound1 = new SoundAnalyser(context,sound0101, analyser, function (th) { th.play() })
+    let ambiantSound2 = new SoundAnalyser(context,sound0201, analyser, function () {})
+    let ambiantSound3 = new SoundAnalyser(context,sound0301, analyser, function () {})
+    let ambiantSound4 = new SoundAnalyser(context,sound0401, analyser, function () {})
+
+
+    //SCENE
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
     camera.position.z = 9;
@@ -22,11 +47,19 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     var renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0xEEF2FF, 1);
+    // renderer.setClearColor(0xEEF2FF, 1);
+    renderer.setClearColor(0x000000, 1);
     document.querySelector('.focus-daftpunk').appendChild(renderer.domElement);
 
     camera.position.set(0, 15, 40);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    //INIT INTERACTIONMANAGER
+    const interactionManager = new InteractionManager(
+        renderer,
+        camera,
+        renderer.domElement
+    );
 
     // POST PROCESSING
     const composer = new EffectComposer(renderer);
@@ -36,15 +69,31 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     composer.addPass(new EffectPass(camera, new BloomEffect()));
 
     // LIGHT
-    const light = new THREE.AmbientLight({ color: 0x404040, intensity: 2 });
-    scene.add(light);
+    // const light = new THREE.AmbientLight({ color: 0x404040, intensity: 1 });
+    // scene.add(light);
+
+     //POINTLIGHT
+     let pointLight = new THREE.PointLight( 0xff0000, 0, 350 );
+     pointLight.position.set( 0, 0, 0 );
+    //  let pointLightHelper = new THREE.PointLightHelper( pointLight, 2 );
+     scene.add( pointLight );
+    //  scene.add( pointLightHelper );
+
+     let pointLight2 = new THREE.PointLight( 0xffffff, 0.5, 250 );
+     pointLight2.position.set( 10, -10, 3 );
+    //  let pointLight2Helper = new THREE.PointLightHelper( pointLight2, 2 );
+     scene.add( pointLight2 );
+    //  scene.add( pointLight2Helper );
+
+     let pointLight3 = new THREE.PointLight( 0xffffff, 0, 250 );
+     pointLight3.position.set( 0, 10, 2 );
+    //  let pointLight3Helper = new THREE.PointLightHelper( pointLight3, 2 );
+     scene.add( pointLight3 );
+    //  scene.add( pointLight3Helper );
 
     let soundA = new Howl({ src: [sound1] });
     let soundB = new Howl({ src: [sound2] });
 
-    const threeTone = new THREE.TextureLoader().load(fiveT)
-    threeTone.minFilter = THREE.NearestFilter;
-    threeTone.magFilter = THREE.NearestFilter;
 
     const loader = new GLTFLoader();
     let pyramid = new THREE.Object3D();
@@ -55,8 +104,15 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
             pyramid.name = "Storage_group"
 
             pyramid.traverse( (child) => {
-                // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({ color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone });
+                if(child.material) {
+                    const oldMat = child.material;
+                    //Lambert light / Basic perf
+                    child.material = new THREE.MeshBasicMaterial({
+                        map: oldMat.map
+                    });
+
+                    oldMat.dispose();
+                }
             });
 
             scene.add(pyramid)
@@ -78,11 +134,13 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
             cadrillage.traverse( (child) => {
                 // console.log(child)
-                // child.material = new THREE.MeshToonMaterial({ color:0x0000ff, side:THREE.DoubleSide, gradientMap: threeTone });
+                child.material = new THREE.MeshPhongMaterial({ color:0x0000ff, shininess:50, side:THREE.FrontSide });
             });
 
             scene.add(cadrillage);
-            cadrillage.position.y = -5;
+            cadrillage.position.y = -7;
+            cadrillage.position.x = 10;
+            cadrillage.scale.x = 1.5;
         },
         ( xhr ) => {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -92,85 +150,50 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
         }
     )
     
+    //Floor
+    const texture = new THREE.TextureLoader().load( mistTexture );
+    const geoPlane = new THREE.CircleGeometry( 72, 30 );
+    const matPlane = new THREE.MeshBasicMaterial( {color: 0xeeeeee,transparent: true, opacity: .6, map:texture, side: THREE.FrontSide} );
+    const plane = new THREE.Mesh( geoPlane, matPlane );
+    plane.rotation.x = Math.PI/2
+    plane.scale.x = 1.27
+    plane.position.y = -15
+    scene.add( plane );
+    
+    //Miror
+    const geoMiror = new THREE.CircleGeometry( 72, 100 );
+    let groundMirror = new Reflector( geoMiror, {
+        clipBias: 0.0003,
+        textureWidth: window.innerWidth * window.devicePixelRatio,
+        textureHeight: window.innerHeight * window.devicePixelRatio,
+        color: 0x222222
+    } );
+    groundMirror.rotation.x = -Math.PI/2
+    groundMirror.scale.x = 1.23
+    groundMirror.position.y = -15
+    scene.add( groundMirror );
+    
     function initInteraction() {
 
         let pyramidB = pyramid.getObjectByName('bas')
         let pyramidT = pyramid.getObjectByName('haut')
         let pyramidModel = pyramid.getObjectByName('Pyramid')
-        let pyramidB1 = pyramid.getObjectByName('Pyramid_bas')//green
-        let pyramidB2 = pyramid.getObjectByName('Pyramid_bas1')//pink
-        let pyramidB3 = pyramid.getObjectByName('Pyramid_bas_1')//yel
-        let pyramidB4 = pyramid.getObjectByName('Pyramid_bas2')//blue
-        let pyramidBT = pyramid.getObjectByName('Pyramid_Top')
+        let pyramidB1 = pyramid.getObjectByName('Pyramid_bas_1')
+        let pyramidB2 = pyramid.getObjectByName('Pyramid_bas2')
+        let pyramidB3 = pyramid.getObjectByName('Pyramid_bas3')
+        let pyramidB4 = pyramid.getObjectByName('Pyramid_bas4')
         let baseRotationBot = pyramidB.rotation.y;
         let baseRotationTop = pyramidT.rotation.y;
         let multiplicateur = 1;
         let turn = 0;
         let firstClick = true;
         let isComplete = false;
+        let faceFind = 0;
 
         let drag = false;
         let mouseDown = false
         let dragProgress = baseRotationBot;
 
-        // //OUTLINE GLOBAL
-        // let pyramidModelOutline = pyramidModel.clone()
-        // pyramidModelOutline.traverse( (child) => {
-        //     child.material = new THREE.MeshBasicMaterial({color:0x000000, side:THREE.DoubleSide, wireframe: true});
-        // });
-        // // pyramidModelOutline.position.y = 1 
-        // // pyramidModelOutline.position.x = 0 
-        // // pyramidModelOutline.position.z = 2 
-        // pyramidModelOutline.position.y = 1
-        // pyramidModelOutline.position.x = 0 
-        // pyramidModelOutline.position.z = 0 
-        // pyramidModelOutline.scale.multiplyScalar(1.01);
-        // scene.add(pyramidModelOutline)
-
-        // //TEST WIREFRAME
-        // const wireframe = new THREE.WireframeGeometry( pyramid );
-
-        // const line = new THREE.LineSegments( wireframe );
-        // line.material.depthTest = false;
-        // line.material.opacity = 1;
-        // line.material.transparent = true;
-        
-        // scene.add( line );
-
-        // //OUTLINE SEPARATE
-        // let pyramidModelOutline = pyramidModel.clone()
-        // pyramidModelOutline.traverse( (child) => {
-        //     child.material = new THREE.MeshBasicMaterial({color:0x000000, side:THREE.DoubleSide});
-        // });
-        // // pyramidModelOutline.position.y = 1 
-        // // pyramidModelOutline.position.x = 0 
-        // // pyramidModelOutline.position.z = 2 
-        // // pyramidModelOutline.scale.multiplyScalar(1.1);
-        // // scene.add(pyramidModelOutline)
-
-        // let pyramidBOutline = pyramidModelOutline.getObjectByName('bas')
-        // let pyramidTOutline = pyramidModelOutline.getObjectByName('haut')
-
-        // let pyramidsB = new THREE.Group()
-        // pyramidsB.add(pyramidBOutline)
-        // pyramidsB.add(pyramidB)
-
-        // pyramidBOutline.position.y = -0.5
-        // pyramidBOutline.position.x = 0
-        // pyramidBOutline.position.z = 1.5
-        // pyramidBOutline.scale.multiplyScalar(1.1);
-
-        // let pyramidsT = new THREE.Group()
-        // pyramidsT.add(pyramidTOutline)
-        // pyramidsT.add(pyramidT)
-
-        // pyramidTOutline.position.y = 0
-        // pyramidTOutline.position.x = 0
-        // pyramidTOutline.position.z = 1.5
-        // pyramidTOutline.scale.multiplyScalar(1.1);
-
-        // scene.add(pyramidsB, pyramidsT)
-                
         //RAYCAST BOT FACE FOR SOUND
         let faceTarget;
         let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
@@ -181,17 +204,27 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
         botArray.forEach(e => {
             e.addEventListener('mouseover',(t)=> {
+                console.log('mouseover');
+                console.log(t.target.name)
                 t.stopPropagation()
                 faceTarget = t.target.name
                 setTimeout(()=> {
                     soundA.stop()
                     soundB.stop()
                     switch (faceTarget) {
-                        case 'Pyramid_bas': //green
-                                soundA.play();
+                        case 'Pyramid_bas_1': //Dog
+                                console.log('Face 1: Dog')
+                                // soundA.play();
                             break;
-                        case 'Pyramid_bas2': //blue
-                                soundB.play();
+                        case 'Pyramid_bas2': //Spatial
+                                console.log('Face 2: SPatial')
+                                // soundB.play();
+                            break;
+                        case 'Pyramid_bas3': //Hand
+                                console.log('Face 3: Hand')
+                            break;
+                        case 'Pyramid_bas4': //Phone
+                                console.log('Face 4: Phone')
                             break;
                         default:
                             break;
@@ -202,25 +235,24 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
         //RAYCAST TOP OR BOTTOM TARGET
         let targetPyramid = pyramidB
-        let modelArray = [pyramidB,pyramidT];
-        interactionManager.add(pyramidB);
-        interactionManager.add(pyramidT);
-        modelArray.forEach(e => {
-            e.addEventListener('mousedown',(t)=> {
-                t.stopPropagation()
-                switch (t.target.name) {
-                    case 'bas':
-                        targetPyramid = pyramidB
-                        break;
-                    case 'haut':
-                        targetPyramid = pyramidT
-                        break;
-                    default:
-                        break;
-                }
-            })
-        })
-
+        // let modelArray = [pyramidB,pyramidT];
+        // interactionManager.add(pyramidB);
+        // interactionManager.add(pyramidT);
+        // modelArray.forEach(e => {
+        //     e.addEventListener('mousedown',(t)=> {
+        //         t.stopPropagation()
+        //         switch (t.target.name) {
+        //             case 'bas':
+        //                 targetPyramid = pyramidB
+        //                 break;
+        //             case 'haut':
+        //                 targetPyramid = pyramidT
+        //                 break;
+        //             default:
+        //                 break;
+        //         }
+        //     })
+        // })
 
         document.addEventListener('mousedown', () => {
             drag = false
@@ -266,20 +298,61 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
                     let initialPosition = (nextFace - ((Math.PI*2)*turn)).toFixed(2)
                     let tlFusion = new TimelineMax({})
                     //If two face aligné (soustraction des angles de rotation)
-                    if(initialPosition - baseRotationTop.toFixed(2) == 0 && isComplete == false) {
+                    // console.log('initialPositionIncrement:',parseFloat(initialPosition),'baseRotationTop:',(baseRotationTop+((Math.PI/2)*faceFind)).toFixed(2));
+                    // console.log('result:',(initialPosition - (baseRotationTop+((Math.PI/2)*faceFind)).toFixed(2)));
+                    if((parseFloat(initialPosition) - (baseRotationTop+((Math.PI/2)*faceFind)).toFixed(2)) == 0 && isComplete == false) {
+                        if(faceFind<3) {
+                            faceFind += 1;
+                        } else {
+                            faceFind = 0;
+                        }
                         isComplete=true
-                        tlFusion.to(pyramidT.position, 2, {ease:Bounce.easeIn, y: -1.5}, 0)
-                                .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: -4}, 0)
-                                .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 4}, 0)
-                                .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 4}, 0)
-                                .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: -4}, 0)
-                                .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
-                                .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
-                                .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
-                                .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
-                    } if(initialPosition - baseRotationTop.toFixed(2) != 0 &&isComplete == true) {
-                        tlFusion.to(pyramidT.position, 1, {ease:Bounce.easeIn, y: 0.5}, 0)
-                        isComplete = false
+                        tlFusion.to(pyramidT.position, 2, {ease:Bounce.easeIn, y: -1}, 0)
+                                .to(pyramidT.scale, 2, {ease:Bounce.easeIn, x: 1.28, y:1.29, z:1.29}, 0)
+                                .to(pyramid.rotation, 2, { y: Math.PI*2}, 1)
+                                .to(pointLight3, 2, { intensity:1}, 1.5)
+                    
+                    //SWITCH SOUND +1
+                    // } if((parseFloat(initialPosition) - (baseRotationTop+((Math.PI/2)*faceFind)).toFixed(2)) != 0 && isComplete == true) { //turn after find
+                    // } if(parseFloat(initialPosition) - baseRotationTop.toFixed(2) != 0 && isComplete == true) { //turn after find
+                    } if(pyramidT.position.y == -1 && isComplete == true) { //turn after find
+                        // setTimeout(()=>{
+                            // console.log('remove');
+                            // ambiantSound.onStop()
+                            if(baseSound<3){
+                                baseSound += 1;
+                            } else {
+                                baseSound = 0;
+                            }
+
+                            switch (baseSound) {
+                                case 0:
+                                        ambiantSound4.stop();
+                                    break;
+                                case 1:
+                                        ambiantSound1.stop();
+                                        ambiantSound2.play();
+                                    break;
+                                case 2:
+                                        ambiantSound2.stop();
+                                        ambiantSound3.play();
+                                       
+                                    break;
+                                case 3:
+                                        ambiantSound3.stop();
+                                        ambiantSound4.play();
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            tlFusion.to(pyramidT.position, 1, { y: 2.8129539489746094}, 0)
+                                    .to(pyramidT.scale, 1, {ease:Bounce.easeIn, x: 1, y:1, z:1}, 0)
+                                    .to(pyramidT.rotation, 1, {ease:Bounce.easeIn, y:pyramidT.rotation.y + (Math.PI/2)}, 0)//turn top pyramid 1time
+                                    .to(pyramid.rotation, 0, {y:0}, 0)
+                                    .to(pointLight3, 2, { intensity:0}, 1)
+                            isComplete = false
+                        // },4000)
                     }
                 },1)
             mouseDown = false
@@ -292,6 +365,13 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     var render = function () {
         idAnimation = requestAnimationFrame(render);
         composer.render(clock.getDelta());
+
+        //POINTLIGHT SOUND INTENSITY
+        analyser.getByteFrequencyData(frequencyData);
+        pointLight.intensity = frequencyData[0]/20;
+
+        interactionManager.update();
+
         renderer.render(scene, camera);
     }
 
@@ -304,8 +384,9 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     }
 
     this.update = function(time) {
-        interactionManager.update();
     }
+
+    this.mousemove = function(event) {}
 
     this.helpers = (gui) => {
         const folder = gui.addFolder("DaftPunk");

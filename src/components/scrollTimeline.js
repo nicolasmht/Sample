@@ -5,16 +5,10 @@ import { TimelineMax, Power4, TweenLite, TweenMax } from 'gsap';
 // Utils
 import getPerspectiveSize from '../utils/getPerspectiveSize';
 
-// Textures
-import TapeTexture from '../textures/tape_texture.png';
-import TapeTexture2 from '../textures/tape2.png';
-import Orange from '../textures/orange.jpeg';
-
 // Object
-// import TapeModel from '../objects/AudioTape/TapeCaseLast2.glb';
-// import TapeModel from '../objects/AudioTape/case_closed-m.glb';
 import TapeModel from '../objects/AudioTape/case_closed-m.gltf';
 
+// Sound
 import soundA from '../audios/timeline/sound01.mp3'
 import soundB from '../audios/timeline/sound02.mp3'
 import soundC from '../audios/timeline/sound03.mp3'
@@ -28,6 +22,7 @@ import soundJ from '../audios/timeline/sound10.mp3'
 import soundK from '../audios/timeline/sound11.mp3'
 import soundL from '../audios/timeline/sound12.mp3'
 
+//Textures
 import textureA from  '../textures/tape/case01.png'
 import textureB from  '../textures/tape/case02.png'
 import textureC from  '../textures/tape/case03.png'
@@ -45,11 +40,6 @@ function ScrollTimeline(scene, camera) {
         let initialPose = 0;
         let isBack = false;
         let isNotPlaying = false;
-
-         // Set camera
-        // camera.position.x = -2.5;
-        // camera.position.y = 2.45;
-        // camera.position.z = -1.25;
 
         document.querySelector('#canvas').style.pointerEvents = 'none'
 
@@ -94,6 +84,7 @@ function ScrollTimeline(scene, camera) {
                 }
             });
 
+            //Set Camera
             camera.position.x = -30;
             camera.position.y = -30;
             camera.position.z = -30;
@@ -106,8 +97,8 @@ function ScrollTimeline(scene, camera) {
             tape.rotateY(Math.PI);
 
             scene.add(tape);
-            console.log('cam-pos:',camera.position);
-            console.log('tape-pos:',tape.position);
+            // console.log('cam-pos:',camera.position);
+            // console.log('tape-pos:',tape.position);
             // tape.position.y = 2.41
 
             // reScale(tape);
@@ -254,14 +245,14 @@ function ScrollTimeline(scene, camera) {
 
 
         //PLAY SOUND AND CHANGE TEXTURE
-        .add(()=> { console.log('Step 1 t:1')
+        .add(()=> { //console.log('Step 1 t:1')
             if(isBack && isNotPlaying) {
                 switchSound(soundA, soundB)
                 switchSoundText('1948','Pierre Schaeffer','Études de bruits','1948','Pierre Schaeffer','Études aux chemins de fer')
                 isNotPlaying = false
             }
         },1) // STEP 1
-        .add(()=> { console.log('Step 2 t:1.75')
+        .add(()=> { //console.log('Step 2 t:1.75')
             switchSound(soundC, soundD)
             switchSoundText('1966','The Beatles','Tomorrow Never Knows','1967','The Beatles','Flying')
             isNotPlaying = true;
@@ -274,7 +265,7 @@ function ScrollTimeline(scene, camera) {
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureA) },1.75) //blue
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureB) },1.75) //cyan
 
-        .add(()=> { console.log('Step 3 t:2.35')
+        .add(()=> { //console.log('Step 3 t:2.35')
             switchSound(soundE, soundF)
             switchSoundText('1969','The Winstons','Amen Brother','2011','Nicky Minaj','Save Me')
         },2.35) // STEP 3 passage texture 1
@@ -285,7 +276,7 @@ function ScrollTimeline(scene, camera) {
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureC) },2.35) //prune
         .to(uniforms.progress, .25, {value: 0},2.35) //fade to texture1
         
-        .add(()=> { console.log('Step 4 t:3.15')
+        .add(()=> { //console.log('Step 4 t:3.15')
             switchSound(soundG, soundH)
             switchSoundText('1984','Jean Michel Jarre','Zoolook','1978','Jean Michel Jarre','Equinox')
         },3.15) // STEP 4 passage texture 2
@@ -296,7 +287,7 @@ function ScrollTimeline(scene, camera) {
         .to(uniforms.progress, .25, {value: 1},3.15) //fade to texture2
         .add(()=> { uniforms.texture1.value = textureLoader.load(textureC) },3.3) //prune
 
-        .add(()=> { console.log('Step 5 t:3.85')
+        .add(()=> { //console.log('Step 5 t:3.85')
             switchSound(soundI, soundJ)
             switchSoundText('1989','Ice Cube','Interview about SP-1200','1997','DJ Muggs of Cypress Hill','Rhyme & Reason" documentary')
         },3.85) // STEP 5
@@ -307,7 +298,7 @@ function ScrollTimeline(scene, camera) {
         .to(uniforms.progress, .25, {value: 0},3.85) //fade to texture1
         .add(()=> { uniforms.texture2.value = textureLoader.load(textureD) },4) //keep orange
 
-        .add(()=> { console.log('Step 6 t:4.65')
+        .add(()=> { //console.log('Step 6 t:4.65')
             switchSound(soundK, soundL)
             switchSoundText('1997','The Verve','Bitter Sweet Symphony','1965','The Rolling Stones','The Last Time')
         },4.65) // STEP 6
@@ -379,16 +370,12 @@ function ScrollTimeline(scene, camera) {
             sound02.play()
         });
         sound02.fade( sound02.volume(), 0, 1000 );
-
         
-        // gsap.to(document.querySelector('.slider').style, {top: 0 , duration:700})
-        // TweenMax.to(document.querySelector('.slider').style, 1, {top:-10});
         document.querySelector('.slider').style.top = -20+'px'
         document.querySelector('.slider').style.transition = 'all .25s ease-out'
         setTimeout(()=>{
             document.querySelector('.slider').style.transition = 'none'
         },250)
-        // document.querySelector('.slider').style.top = -10+'px'
 
         initialPose = 0
     }
@@ -428,7 +415,6 @@ function ScrollTimeline(scene, camera) {
 
             if ( event.isPrimary === false ) return;
 
-            // console.log( e);
             sliderPos = Math.max( 0, Math.min( 200, (e.clientY + initialPose) - currentPos) );
             // console.log(sliderPos);
 
@@ -436,14 +422,13 @@ function ScrollTimeline(scene, camera) {
             // Mets le slider à une position - sa propre taille 
             slider.style.top = sliderPos - ( slider.offsetWidth / 2 ) + "px";
 
-            console.log((((sliderPos - slider.offsetWidth)/1000)+0.04)*5);
-            console.log(((((1000 - sliderPos) - slider.offsetWidth)/1000)-0.76)*5);
+            // console.log((((sliderPos - slider.offsetWidth)/1000)+0.04)*5);
+            // console.log(((((1000 - sliderPos) - slider.offsetWidth)/1000)-0.76)*5);
             sound02.volume((((sliderPos - slider.offsetWidth)/1000)+0.04)*5);
             sound01.volume(((((1000 - sliderPos) - slider.offsetWidth)/1000)-0.76)*5);
 
             // console.log((sliderPos - slider.offsetWidth)/1000);
             // console.log(((1000 - sliderPos) - slider.offsetWidth)/1000);
-
             // sound02.volume((sliderPos - slider.offsetWidth)/1000);
             // sound01.volume(((1000 - sliderPos) - slider.offsetWidth)/1000);
 
