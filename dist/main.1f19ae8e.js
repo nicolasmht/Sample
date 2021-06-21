@@ -100777,11 +100777,12 @@ function Component(sceneMain) {
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
   camera.position.z = 9;
   var renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
+    alpha: true
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0xEEF2FF, 1);
+  renderer.setClearColor(0xEEF2FF, 0);
   document.querySelector('.focus-memory').appendChild(renderer.domElement);
   var loader = new THREE.TextureLoader();
   var materialVerso = new THREE.MeshBasicMaterial({
@@ -103042,7 +103043,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59365" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52316" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
