@@ -100299,6 +100299,16 @@ function Component(scene, camera) {
     opacity: 0
   }, {
     opacity: 1
+  });
+  timeline.fromTo(imgs[16], .4, {
+    opacity: 0
+  }, {
+    opacity: 1
+  });
+  timeline.fromTo(imgs[17], .4, {
+    opacity: 0
+  }, {
+    opacity: 1
   }); // Variables
 
   var intervalID = null;
@@ -103046,7 +103056,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58095" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58919" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
