@@ -194,8 +194,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         sprite.position.set(x, y, z);
         spriteHover.position.set(x, y, z);
 
-        sprite.scale.set(0.22, 0.22, 0.22);
-        spriteHover.scale.set(0.22, 0.22, 0.22);
+        sprite.scale.set(0.20, 0.20, 0.20);
+        spriteHover.scale.set(0.20, 0.20, 0.20);
 
         scene.add(sprite);
         scene.add(spriteHover);
@@ -253,7 +253,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             infos.classList.remove('visible');
             infos.classList.remove('full');
             containerFocus.classList.remove('full');
-            TweenLite.to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseInOut });
+            TweenLite.to(camera.position, 1, { x: 0, y: 2.7, z: 4.2, ease: EaseInOut });
 
             callback();
         });
@@ -386,7 +386,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Britney
      */
-    const britneyPin = CreateSrpite(Britney, -1.6, 3.3, 0);
+    const britneyPin = CreateSrpite(Britney, -1.8, 3.2, -0.25);
 
     britneyPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -412,7 +412,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * DaftPunk
      */
-    const daftPunkPin = CreateSrpite(DaftPunk, 1.5, 2.5, -0.15);
+    const daftPunkPin = CreateSrpite(DaftPunk, 1.55, 2.5, -0.15);
 
     daftPunkPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -436,7 +436,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Gainsbourg
      */
-    const gainsbourgPin = CreateSrpite(Gainsbourg, 0.01, 3.3, -0.4);
+    const gainsbourgPin = CreateSrpite(Gainsbourg, -0.04, 3.4, -0.4);
 
     gainsbourgPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -508,7 +508,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Renaud
      */
-    const renaudPin = CreateSrpite(Renaud, -0.95, 1.9, -0.5);
+    const renaudPin = CreateSrpite(Renaud, -0.95, 1.9, -0.67);
 
     renaudPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -534,7 +534,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      * Retour
      */
 
-    const retourPin = CreateSrpite(Retour, -1.2, 2.5, -1.2);
+    const retourPin = CreateSrpite(Retour, -1, 2.5, -0.4);
 
     retourPin.addEventListener("click", (event) => {
         console.log("Retour");
@@ -542,20 +542,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     interactionManager.add(retourPin);
 
-    // Move camera
-    let tlCamera = new TimelineMax({ paused: true })
-        .to(camera.position, { x: 0, y: 2.7, z: 2.5, onComplete: () => {
-            new TimelineMax()
-            .to(camera.position, 1, { x: 0, y: 2.7, z: 1.2, ease: EaseInOut })
-            .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(memoPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(poloPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-            .to(retourPin.material, 0.25, { opacity: 1, ease: EaseInOut });
-        }});
+    // // Move camera
+    // let tlCamera = new TimelineMax({ paused: true })
+    //     .to(camera.position, { x: 0, y: 2.7, z: 2.5, onComplete: () => {
+    //         new TimelineMax()
+    //         .to(camera.position, 1, { x: 0, y: 2.7, z: 1.2, ease: EaseInOut })
+    //         .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(memoPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(poloPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseInOut })
+    //         .to(retourPin.material, 0.25, { opacity: 1, ease: EaseInOut });
+    //     }});
 
     let started = false;
 
@@ -573,7 +573,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             camera.position.set(-0.99, 2.565, -0.305);
 
             new TimelineMax({ delay: 0.3 })
-                .to(camera.position, 2, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
+                .to(camera.position, 2, { x: 0, y: 2.7, z: 4.2, ease: EaseOut })
                 .to(aznavourPin.material, 0.15, { opacity: 1, ease: EaseOut })
                 .to(britneyPin.material, 0.15, { opacity: 1, ease: EaseOut })
                 .to(daftPunkPin.material, 0.15, { opacity: 1, ease: EaseOut })
@@ -613,15 +613,22 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         interactionManager.update();
     }
 
+    // Cursor animation
+    let cursor = document.querySelector('#cursor');
+    let cursorAction = document.querySelector('#cursor .actions');
+
     this.mousemove = (event) => {
         mouse.x = ( event.clientX - windowHalf.x );
 	    mouse.y = ( event.clientY - windowHalf.x );
+
+        cursor.style.left = event.pageX - 15 +'px';
+        cursor.style.top = event.pageY - 15 +'px';
     }
 
     this.keyup = function(e) {
         if (e.key === 'Enter') {
             new TimelineMax()
-            .to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
+            .to(camera.position, 1, { x: 0, y: 2.7, z: 4.2, ease: EaseOut })
             .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseOut })

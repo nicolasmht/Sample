@@ -19,6 +19,7 @@ html, body {
     overflow-x: hidden;
     background-color: transparent;
     cursor: default;
+    user-select: none;
 }
 
 ////    COLOR    ////
@@ -79,6 +80,7 @@ html, body {
         width: 4vw;
         height: 4vw;
         cursor: pointer;
+        outline: none;
         z-index: 99999;
     }
 }
@@ -92,7 +94,7 @@ html, body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-image: url(../images/background.png);
+    background-image: url(../images/background-info.png);
     background-size: cover;
     background-position: center center;
     background-repeat: repeat;
@@ -115,6 +117,8 @@ html, body {
         margin: 0;
         margin-bottom: 2.5vh;
         font-size: 4vw;
+        font-family: "bely-display";
+        text-align: center;
     }
 
     .subTitle-infos{
@@ -122,6 +126,7 @@ html, body {
         margin: 0;
         margin-bottom: 3vh;
         font-size: 2vw;
+        font-family: "biotif";
     }
 
     .description-infos{
@@ -129,6 +134,8 @@ html, body {
         text-align: left;
         font-size: 1.2vw;
         line-height: 2vw;
+        font-family: "biotif-l";
+        font-weight: 100;
     }
 
     .btn-infos {
@@ -140,6 +147,7 @@ html, body {
         // background-repeat: no-repeat;
         cursor: pointer;
         border: none;
+        background: none;
     }
 
     .close-infos{
@@ -154,8 +162,8 @@ html, body {
 
 .gui{
     position: fixed;
-    right: 0;
-    z-index: 999;
+    right: 5vw;
+    z-index: 99999;
 }
 
 .box {
@@ -946,6 +954,7 @@ html, body {
         position: relative;
         cursor: pointer;
         width: auto;
+        outline: none;
         &::before {
             content: "";
             position: absolute;
@@ -963,6 +972,7 @@ html, body {
         margin-bottom: 700px;
         p {
           line-height: 1.6vw;
+          transition: 0.15s all;
         }
         &-left {
             width: 55%;
@@ -1080,6 +1090,7 @@ html, body {
             .title {
                 font-family: 'bely-display';
                 font-size: 40px;
+                line-height: 2.4vw;
             }
             .desc {
                 line-height: 25px;

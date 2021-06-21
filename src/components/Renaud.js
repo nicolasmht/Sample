@@ -51,7 +51,7 @@ function Component(scene, camera) {
     let currentImage = 0;
 
     // Le temps de l'effet
-    const DURATION = 50;
+    const DURATION = 25;
 
     // Interval
     intervalID = setInterval(function() {

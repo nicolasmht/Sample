@@ -11,7 +11,7 @@ import IMG from '../images/focus/kaleidoscope/Bollywood.png';
 import IMG2 from '../images/focus/kaleidoscope/Britney.png';
 
 import Sound01 from '../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3';
-import Sound02 from '../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3';
+import Sound02 from '../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3';
 
 function KaleidoscopeComponent(scene) {
 
@@ -21,13 +21,11 @@ function KaleidoscopeComponent(scene) {
 
     let soundLeft = new Howl({
         src: Sound01,
-        autoplay: false,
         volume: 0.5,
     });
 
     let soundRight = new Howl({
         src: Sound02,
-        autoplay: false,
         loop: true,
         volume: 0.5,
     });
@@ -147,30 +145,34 @@ function KaleidoscopeComponent(scene) {
     }
 
     this.start = () => {
-        soundLeft.fade(1, 0, 1000);
-        soundLeft.once("fade", () => {
-            soundLeft.play();
-        });
+        // soundLeft.fade(0, 1, 1000);
+        // soundLeft.once("fade", () => {
+        //     soundLeft.play();
+        // });
 
-        soundRight.fade(1, 0, 1000);
-        soundRight.once("fade", () => {
-            soundRight.play();
-        });
+        // soundRight.fade(0, 1, 1000);
+        // soundRight.once("fade", () => {
+        //     soundRight.play();
+        // });
+
+        soundLeft.play();
+        soundRight.play();
     }
 
     this.stop = () => {
-        soundLeft.fade(1, 0, 1000);
-        soundLeft.once("fade", () => {
-            soundLeft.seek(0);
-            soundLeft.stop();
-        });
-        
+        // soundLeft.fade(1, 0, 1000);
+        // soundLeft.once("fade", () => {
+            // soundLeft.stop();
+        // });
+        // 
 
-        soundRight.fade(1, 0, 1000);
-        soundRight.once("fade", () => {
-            soundRight.seek(0);
-            soundRight.stop();
-        });
+        // soundRight.fade(1, 0, 1000);
+        // soundRight.once("fade", () => {
+            // soundRight.stop();
+        // });
+
+        soundLeft.stop();
+        soundRight.stop();
 
     }
 

@@ -281,6 +281,8 @@ function Component(sceneMain) {
 
     this.stop = function() {
 
+        if (soundPlayed === null) return;
+
         setTimeout(() => {
             tutorial.classList.remove('hide');
             winScreen.classList.add('show');

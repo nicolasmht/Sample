@@ -17,6 +17,7 @@ html, body {
   overflow-x: hidden;
   background-color: transparent;
   cursor: default;
+  user-select: none;
 }
 
 .kaki {
@@ -79,6 +80,7 @@ html, body {
   width: 4vw;
   height: 4vw;
   cursor: pointer;
+  outline: none;
   z-index: 99999;
 }
 
@@ -93,7 +95,7 @@ html, body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(/background.0063873b.png);
+  background-image: url(/background-info.f8229202.png);
   background-size: cover;
   background-position: center center;
   background-repeat: repeat;
@@ -113,24 +115,30 @@ html, body {
   margin: 0;
   margin-bottom: 2.5vh;
   font-size: 4vw;
+  font-family: "bely-display";
+  text-align: center;
 }
 .container-infos .subTitle-infos {
   text-align: center;
   margin: 0;
   margin-bottom: 3vh;
   font-size: 2vw;
+  font-family: "biotif";
 }
 .container-infos .description-infos {
   margin-bottom: 10vh;
   text-align: left;
   font-size: 1.2vw;
   line-height: 2vw;
+  font-family: "biotif-l";
+  font-weight: 100;
 }
 .container-infos .btn-infos {
   width: 13vw;
   height: 5vw;
   cursor: pointer;
   border: none;
+  background: none;
 }
 .container-infos .close-infos {
   position: absolute;
@@ -143,8 +151,8 @@ html, body {
 
 .gui {
   position: fixed;
-  right: 0;
-  z-index: 999;
+  right: 5vw;
+  z-index: 99999;
 }
 
 .box {
@@ -829,6 +837,7 @@ html, body {
   position: relative;
   cursor: pointer;
   width: auto;
+  outline: none;
 }
 .container .cta::before {
   content: "";
@@ -847,6 +856,7 @@ html, body {
 }
 .container_artist p {
   line-height: 1.6vw;
+  transition: 0.15s all;
 }
 .container_artist-left {
   width: 55%;
@@ -953,6 +963,7 @@ html, body {
 .container_artist-panel .title {
   font-family: "bely-display";
   font-size: 40px;
+  line-height: 2.4vw;
 }
 .container_artist-panel .desc {
   line-height: 25px;

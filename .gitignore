@@ -63,8 +63,3 @@ typings/
 # Parcel related files
 dist/
 .cache/
-build/
-.history
-
-.DS_Store
-dist/
