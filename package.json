@@ -26,6 +26,7 @@
     "gh-pages": "^2.2.0",
     "gsap": "^3.7.0",
     "howler": "^2.2.1",
+    "interpolate-range": "^2.1.0",
     "postprocessing": "^6.22.0",
     "regenerator-runtime": "^0.13.7",
     "stats-js": "^1.0.1",

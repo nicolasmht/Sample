@@ -1,0 +1,873 @@
+@font-face {
+    font-family: "biotif";
+    src: url("../fonts/biotif/Biotif-Regular.ttf");
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    // overflow: hidden;
+    overflow-x: hidden;
+    background-color: transparent;
+    cursor: default;
+}
+
+////    COLOR    ////
+.kaki {
+    color: #8C945B;
+}
+.orange {
+    color: #D46D43;
+}
+.purple {
+    color: #75609A;
+}
+.green {
+    color: #18BF6F;
+}
+.prune {
+    color: #4F4A87;
+}
+.cyan {
+    color: #31A5D1;
+}
+
+
+#canvas {   
+//   position: absolute;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1;
+  transition: opacity 3s;
+}
+
+.container-focus {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    transform: translateX(100vw);
+    transition: all 3s;
+    z-index: 2;
+    overflow: hidden;
+
+    &.full{
+        transform: translateX(0)!important;
+    }
+
+    .canvas-02 {
+      position: absolute;
+      top: 0; left: 0;
+      z-index: 1;
+      transition: opacity 3s;
+      display: none;
+    }
+    
+    .back-labo{
+        position: absolute;
+        top: 2.5vh; left: 2.5vw;
+        width: 3vw;
+        height: 3vw;
+        background-image: url(../images/back-labo.png);
+        background-size: contain;
+        background-position: center center;
+        cursor: pointer;
+        z-index: 3;
+    }
+}
+
+.container-infos{
+    position: fixed;
+    top: 0; bottom: 0; right: 0;
+    width: 30vw;
+    padding: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(../images/background.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: repeat;
+    z-index: 999;
+
+    transform: translateX(100%);
+    transition: all 3s;
+
+    &.visible {
+        transition: all 0.3s;
+        transform: translateX(0);
+    }
+
+    &.full {
+        transition: all 3s;
+        transform: translateX(-100vw);
+    }
+
+    .title-infos{
+        margin: 0;
+        margin-bottom: 2.5vh;
+        font-size: 4vw;
+    }
+
+    .subTitle-infos{
+        margin: 0;
+        margin-bottom: 3vh;
+        font-size: 2vw;
+    }
+
+    .description-infos{
+        margin-bottom: 10vh;
+        text-align: left;
+        font-size: 1.2vw;
+        line-height: 2vw;
+    }
+
+    .btn-infos {
+        padding: 1vw 5vw;
+        background-color: #000000;
+        border: none;
+        border-radius: 3vw;
+        color: #fff;
+        font-size: 1.6vw;
+        cursor: pointer;
+    }
+
+    .close-infos{
+        position: absolute;
+        top: 2.5vh;
+        right: 2.5vw;
+        width: 2vw;
+        height: 2vw;
+        background-image: url(../images/close.png);
+        background-position: center center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+}
+
+.gui{
+    position: absolute;
+    right: 0;
+    z-index: 999;
+}
+
+// .container {
+//     position: absolute;
+//     width: 100%;
+//     // height: 500vh;
+//     // background: rgb(236,0,245);
+//     // background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+//     // background-image: url('../images/Back.png');
+//     background-size: cover;
+// }
+
+.box {
+    display: block;
+    position:absolute;
+    top:300px;
+    left:0;
+    width:30px;
+    height:30px;
+    background-color:blue;
+}
+.box2 {
+    display: block;
+    position:absolute;
+    top:330px;
+    left:0;
+    width:30px;
+    height:30px;
+    background-color:red;
+}
+
+.focus-renaud {
+    width: 100vw;
+    height: 100vh;
+    -o-object-fit: contain;
+    object-fit: contain;
+    background-image: url('../images/focus/renaud/background.png');
+    background-position: center;
+    background-size: cover;
+    display: none;
+
+    #video {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100vh;
+
+        img {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: fixed;
+        opacity: 0;
+        -webkit-animation-name: shake;
+        -webkit-animation-duration: 0.8s;
+        -webkit-transform-origin: 50% 50%;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+    }
+}
+
+@-webkit-keyframes shake {
+    0% {
+      -webkit-transform: translate(2px, 1px) rotate(0deg);
+    }
+    10% {
+      -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+      -webkit-transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+      -webkit-transform: translate(0px, 2px) rotate(0deg);
+    }
+    40% {
+      -webkit-transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+      -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+      -webkit-transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+      -webkit-transform: translate(2px, 1px) rotate(-1deg);
+    }
+    80% {
+      -webkit-transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+      -webkit-transform: translate(2px, 2px) rotate(0deg);
+    }
+    100% {
+      -webkit-transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+.focus-gainsbourg {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../images/focus/gainsbourg/background.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: none;
+
+  img {
+    max-width: 25%;
+    cursor: move;
+    position: absolute;
+    transition: box-shadow 300ms;
+    z-index: 2;
+    transform-origin: center;
+
+    &.draggable:hover{
+      filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
+    }
+  
+    &.stamp{
+      max-width: 10%;
+      z-index: 1;
+    }
+
+    &.aram{
+      width: 7%;
+      bottom: 10vw;
+      left: 10vw;
+    }
+
+    &.chopin{
+      top: 42vh;
+      right: 25vw;
+      width: 6%;
+    }
+
+    &.clopes{
+      width: 160px;
+      transform: rotate(36.67deg);
+      top: -40px;
+      left: 20%;
+    }
+
+    &.dvorak{
+      width: 80px;
+      top: 5%;
+      left: 22%;
+    }
+
+    &.charlotte {
+      width: 10%;
+      bottom: 20vw;
+      left: 10vw;
+    }
+
+    &.lemon {
+      width: 33%;
+      top: 39vh;
+      right: 14vw;
+      transform-origin: center;
+      transform: rotate(30deg);
+    }
+
+    &.jtm{
+      transform: rotate(66.39deg);
+      bottom: 0vh;
+      left: 40vh;
+    }
+
+    &.polska{
+      bottom: 3vh;
+      left: 54vh;
+      width: 6%;
+    }
+
+    &.charlotte,
+    &.aram {
+      bottom: 0%;
+      left: 10%;
+    }
+  }
+  
+  #background-cover{
+    background-image: url('../images/focus/gainsbourg/background-cover.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1000;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    pointer-events: none;
+  }
+}
+
+.focus-aznavour{
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  display: none;
+
+  &::-webkit-scrollbar {
+      display: none;
+  }
+
+  #map {
+      width: 4000px;
+      height: 4000px;
+      transition: all 300ms ease-in-out;
+  }
+
+  section {
+      position: absolute;
+
+      .section {
+          transition: 300ms;
+      }
+
+      .section:first-of-type {
+          width: 400px;
+          height: 300px;
+          background-color: blue;
+          position: absolute;
+      }
+
+      .section:last-of-type {
+          width: 400px;
+          height: 300px;
+          background-color: purple;
+          position: absolute;
+          top: 20px;
+          left: 20px;
+      }
+  }
+
+  #maurice {
+      left: 50%;
+      margin-left: -50px;
+      top: 50%;
+      margin-top: -50px;
+  }
+
+  #caimans {
+      left: 90%;
+      top: 60%;
+      margin-top: -50px;
+  }
+}
+
+.focus-memory{
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+
+.focus-polo {
+  width: 100vw;
+  height: 100vh;
+  // overflow: hidden;
+  margin: 0;
+  position: relative;
+  display: none;
+
+  // Cursor
+  #cursor {
+    position: fixed;
+    z-index: 100000;
+    background-image: url('../images/focus/polo/cursors/cursor.png');
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    // transition: 400ms ease-in-out;
+    // transition-property: width, height, background-image, transform;
+    // transform-origin: center;
+
+    &.drag {
+      width: 66px;
+      height: 64px;
+      background-image: url('../images/focus/polo/cursors/drag.png');
+      transform: rotate(-25deg);
+    }
+  }
+
+  #disque {
+    position: fixed;
+    width: 260px;
+    height: 260px;
+    background-image: url('../images/focus/polo/Disque.png');
+    z-index: 100000;
+    background-size: contain;
+    background-repeat: no-repeat;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%) rotateZ(0deg);
+    transform-origin: center;
+
+
+    h3 {
+      margin: 0;
+      position: absolute;
+      color: white;
+      top: 65px;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+
+    }
+
+    h4 {
+      margin: 0;
+      position: absolute;
+      color: black;
+      top: 110px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+
+    }
+  }
+
+  #background {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, rgb(108, 40, 106) 0%, rgb(0, 18, 244) 100%);
+    mix-blend-mode: overlay;
+    z-index: 50000;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  // .back {
+  //   position: fixed;
+  //   bottom: 70px;
+  //   right: 70px;
+  //   width: 174px;
+  //   height: 174px;
+  //   border: 50%;
+  //   border-radius: 50%;
+  //   cursor: pointer;
+  //   clip-path: circle(100%);
+  //   transition: clip-path .7s;
+  //   transform-origin: center;
+  //   padding: 4px;
+  //   background-image: url('../images/focus/polo/icon-back.png');
+  //   background-repeat: no-repeat;
+  //   background-position: center;
+  //   z-index: 90000;
+
+  //   &:hover {
+  //     clip-path: circle(34px at center);
+  //   }
+  // }
+
+  #layer-1 {
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/focus/polo/05.png');
+    margin: 0;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+  }
+
+  #layer-2 {
+    width: 120%;
+    height: 120%;
+    background-image: url('../images/focus/polo/02.png');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+
+    .pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background-color: white;
+      cursor: pointer;
+      pointer-events: all;
+
+      &#sirene {
+        top: 50vh;
+        left: 43vw;
+      }
+
+      &#poisson {
+        top: 50vh;
+        left: 43vw;
+      }
+
+      &#papillon {
+        top: 68vh;
+        left: 53vw;
+      }
+
+      &#carnivore {
+        top: 50vh;
+        left: 43vw;
+      }
+
+      &#main {
+        top: 50vh;
+        left: 93vw;
+      }
+    }
+  }
+
+  #layer-3 {
+    width: 105%;
+    height: 105%;
+    background-image: url('../images/focus/polo/01.png');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+
+    .pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background-color: white;
+      cursor: pointer;
+      pointer-events: all;
+
+      &#papillon {
+        top: 68vh;
+        left: 60vw;
+      }
+
+      &#carnivore {
+        top: 48vh;
+        left: 6vw;
+      }
+    }
+  }
+
+  #layer-4 {
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/focus/polo/03.png');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.8s ease-in-out;
+    pointer-events: none;
+  }
+}
+
+#sun {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  transform: translateX(-50%);
+  background-image: url('../images/focus/polo/04_Soleil.png');
+  background-position: center;
+  background-size: cover;
+  box-sizing: border-box;
+  cursor: pointer;
+  z-index: 2;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url('../images/focus/polo/04_Halo.png');
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 300px;
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
+////    TIMELINE    ////
+
+// body::after {
+//     content: "";
+//     height: 2px;
+//     position: fixed;
+//     top: calc(50% - 1px);
+//     left: 0;
+//     right: 0;
+//     background: red;
+//     z-index: 10;
+// }
+
+.bounce {
+    animation: bounce 1s ease-in-out forwards;
+}
+
+@keyframes bounce {
+    0% {transform: scaleY(1.15);}
+    20% {transform: scaleY(0.85);}
+    40% {transform: scaleY(1.1);}
+    60% {transform: scaleY(0.95);}
+    80% {transform: scaleY(1);}
+    100% {transform: scaleY(1);}
+}
+.container {
+    position: absolute;
+    width: 100%;
+    // height: 500vh;
+    background: rgb(236,0,245);
+    background: linear-gradient(0deg, rgba(236,0,245,1) 20%, rgba(23,189,194,1) 100%);
+    background-image: url('../images/timeline_background.png');
+    background-size: 100%;
+    background-attachment: fixed;
+    padding-top: 250vh;
+    padding-bottom: 250vh;
+    .cont_slider {
+        position: fixed;
+        top: 40%;
+        right: 60px;
+        height: 200px;
+        width: 20px;
+        background-image: url('../images/Ligne.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        .slider {
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            overflow: visible;
+            position: relative;
+            &::after {
+                content: '';
+                position: absolute;
+                width: 80px;
+                height: 40px;
+                background-image: url('../images/Player.png');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                top: 0;
+                left: -20px;
+            }
+        }
+        .txt_slider {
+            border: 2px solid cyan;
+            position: absolute;
+            width: 120px;
+            right: -50px;
+            &-top {
+                background: red;
+                top: -220px;
+            }
+            &-bot {
+                background: green;
+                top: 220px;
+            }
+        }
+    }
+
+    h1 {
+        font-family: 'bely-display';
+        font-size: 50px;
+    }
+    p {
+        font-family: 'biotif';
+        font-size: 16px;
+    }
+    .cta {
+        font-family: 'bely-display';
+        font-size: 18px;
+        position: relative;
+        cursor: pointer;
+        width: 100px;
+        &::before {
+            content: "";
+            position: absolute;
+            width: 85px;
+            background: url('../images/Underline.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            bottom: -9px;
+            height: 10px;
+        }
+    }
+    &_artist {
+        display: flex;
+        padding: 30px;
+        margin-bottom: 700px;
+        &-left {
+            width: 55%;
+            position: relative;
+            img {
+                position: absolute;
+            }
+            .ps {
+                &-1 {
+                    top: 20%;
+                }
+                &-2 {
+                    left: 40%;
+                }
+                &-3 {
+                    left: 30%;
+                    top: -50%;
+                }
+            }
+            .beat {
+                &-1 {
+                    left: 10%;
+                    bottom: -50%;
+                }
+                &-2 {
+                    top: -30%;
+                }
+            }
+            .ab {
+                &-1 {
+                    bottom: -60%;
+                }
+                &-2 {
+                    top: -50%;
+                    left: 50%;
+                }
+            }
+            .jm {
+                &-1 {
+                    right: 25%;
+                    top: 25%;
+                }
+                &-2 {
+                    right: 0%;
+                }
+                &-3 {
+                    right: -60%;
+                    top: -75%;
+                }
+            }
+            .sp {
+                &-1 {
+                    bottom: -100%;
+                }
+                &-2 {
+                    right: 15%;
+                    top: -70%;
+                }
+                &-3 {
+                    right: -50%;
+                    top: -100%;
+                }
+            }
+            .conf {
+                &-1 {
+                    left: 20%;
+                    top: 20%;
+                }
+                &-2 {
+                    top: -60%;
+                    left: 20%;
+                }
+                &-3 {
+                    right: -60%;
+                    top: -100%;
+                }
+            }
+        }
+        &-right {
+            width: 35%;
+            position: relative;
+        }
+    }
+}

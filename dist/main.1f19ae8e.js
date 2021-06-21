@@ -95288,8 +95288,8 @@ function getPerspectiveSize(camera, distance) {
 
 var _default = getPerspectiveSize;
 exports.default = _default;
-},{}],"objects/AudioTape/case_closed-m.gltf":[function(require,module,exports) {
-module.exports = "/case_closed-m.700d9d7d.gltf";
+},{}],"objects/AudioTape/case.gltf":[function(require,module,exports) {
+module.exports = "/case.8a29ecfb.gltf";
 },{}],"audios/timeline/sound01.mp3":[function(require,module,exports) {
 module.exports = "/sound01.f8cb01c0.mp3";
 },{}],"audios/timeline/sound02.mp3":[function(require,module,exports) {
@@ -95326,6 +95326,8 @@ module.exports = "/case04.ea6c3a0f.png";
 module.exports = "/case05.f92b9ef3.png";
 },{}],"textures/tape/case06.png":[function(require,module,exports) {
 module.exports = "/case06.df167de8.png";
+},{}],"textures/textures_gravure/test02.png":[function(require,module,exports) {
+module.exports = "/test02.82d0f8a7.png";
 },{}],"components/scrollTimeline.js":[function(require,module,exports) {
 "use strict";
 
@@ -95342,7 +95344,7 @@ var _gsap = require("gsap");
 
 var _getPerspectiveSize = _interopRequireDefault(require("../utils/getPerspectiveSize"));
 
-var _case_closedM = _interopRequireDefault(require("../objects/AudioTape/case_closed-m.gltf"));
+var _case = _interopRequireDefault(require("../objects/AudioTape/case.gltf"));
 
 var _sound = _interopRequireDefault(require("../audios/timeline/sound01.mp3"));
 
@@ -95368,17 +95370,19 @@ var _sound11 = _interopRequireDefault(require("../audios/timeline/sound11.mp3"))
 
 var _sound12 = _interopRequireDefault(require("../audios/timeline/sound12.mp3"));
 
-var _case = _interopRequireDefault(require("../textures/tape/case01.png"));
+var _case2 = _interopRequireDefault(require("../textures/tape/case01.png"));
 
-var _case2 = _interopRequireDefault(require("../textures/tape/case02.png"));
+var _case3 = _interopRequireDefault(require("../textures/tape/case02.png"));
 
-var _case3 = _interopRequireDefault(require("../textures/tape/case03.png"));
+var _case4 = _interopRequireDefault(require("../textures/tape/case03.png"));
 
-var _case4 = _interopRequireDefault(require("../textures/tape/case04.png"));
+var _case5 = _interopRequireDefault(require("../textures/tape/case04.png"));
 
-var _case5 = _interopRequireDefault(require("../textures/tape/case05.png"));
+var _case6 = _interopRequireDefault(require("../textures/tape/case05.png"));
 
-var _case6 = _interopRequireDefault(require("../textures/tape/case06.png"));
+var _case7 = _interopRequireDefault(require("../textures/tape/case06.png"));
+
+var _test = _interopRequireDefault(require("../textures/textures_gravure/test02.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -95403,9 +95407,13 @@ function ScrollTimeline(scene, camera) {
   var initialPose = 0;
   var isBack = false;
   var isNotPlaying = false;
-  document.querySelector('#canvas').style.pointerEvents = 'none'; // let scrollY = 0;
+  document.querySelector('#canvas').style.pointerEvents = 'none';
+  var textureCaseLoad = new THREE.TextureLoader().load(_test.default);
+  textureCaseLoad.wrapS = THREE.RepeatWrapping;
+  textureCaseLoad.wrapT = THREE.RepeatWrapping;
+  textureCaseLoad.repeat.set(0.35, 0.35); // let scrollY = 0;
 
-  loader.load(_case_closedM.default, function (gltf) {
+  loader.load(_case.default, function (gltf) {
     tape = gltf.scene;
     tape.name = "Storage_group";
     tape.traverse(function (child) {
@@ -95417,7 +95425,8 @@ function ScrollTimeline(scene, camera) {
         case 'desk_haut2':
         case 'desk_haut3':
           child.material = new THREE.MeshBasicMaterial({
-            color: 0xEBD3BA,
+            color: 0xeccfb0,
+            map: textureCaseLoad,
             side: THREE.DoubleSide
           });
           break;
@@ -95425,6 +95434,15 @@ function ScrollTimeline(scene, camera) {
         case 'Tape_obj':
           // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
           // child.position.x = -10
+          break;
+
+        case 'right':
+          // console.log('MATERIAL',child.material);
+          // child.material.lightMapIntensity = 2
+          // child.material.envMapIntensity = 2
+          // child.material.aoMapIntensity = 2
+          child.material.brightness = 10;
+          child.material.shininess = 5;
           break;
 
         case 'Wheel_left':
@@ -95488,17 +95506,16 @@ function ScrollTimeline(scene, camera) {
             side: THREE.DoubleSide
           });
           break;
-      }
+      } // console.log(child.name)
 
-      console.log(child.name);
     }); //Set Camera
 
     camera.position.x = -30;
     camera.position.y = -30;
     camera.position.z = -30; // tape.position.z = -5;
 
-    tape.scale.set(0.01125, 0.012, 0.012);
-    tape.position.set(camera.position.x - 0.0115, camera.position.y - 0.08, camera.position.z - 0.2004);
+    tape.scale.set(0.0128, 0.0128, 0.0128);
+    tape.position.set(camera.position.x - 0.0115, camera.position.y - 0.0825, camera.position.z - 0.2004);
     tape.rotateY(Math.PI);
     scene.add(tape); // console.log('cam-pos:',camera.position);
     // console.log('tape-pos:',tape.position);
@@ -95557,6 +95574,7 @@ function ScrollTimeline(scene, camera) {
     var storage = tape.getObjectByName('shelves'); //Storage
 
     var facade = tape.getObjectByName('flat_tapes');
+    var etiquette = tape.getObjectByName('etiquette');
     var caseObj = tape.getObjectByName('case');
     var tapeObj = tape.getObjectByName('Tape');
     var bobine = tape.getObjectByName('Tape-Mat1');
@@ -95577,10 +95595,10 @@ function ScrollTimeline(scene, camera) {
     var fragShader = " \n        uniform sampler2D texture1;\n        uniform sampler2D texture2;\n        uniform float progress;\n        \n        varying vec2 vUv;\n        \n        void main() {\n            gl_FragColor = vec4( mix( texture2D(texture1, vUv).xyz, texture2D(texture2, vUv).xyz, progress ), 1. );\n        }\n        ";
     var uniforms = {
       texture1: {
-        value: textureLoader.load(_case.default)
+        value: textureLoader.load(_case2.default)
       },
       texture2: {
-        value: textureLoader.load(_case2.default)
+        value: textureLoader.load(_case3.default)
       },
       progress: {
         value: 0
@@ -95645,6 +95663,9 @@ function ScrollTimeline(scene, camera) {
     .to(caseB.material, .5, {
       opacity: 0
     }, 1.25) //degage case opacity
+    .to(etiquette.material, .5, {
+      opacity: 0
+    }, 1.25) //degage case opacity
     // .to(tapeGroup.rotation, 2, {y:-1.75}, 2.5) //rotation cassette sur elle meme
     .to(tapeGroup.rotation, 4, {
       y: -4.75,
@@ -95670,6 +95691,9 @@ function ScrollTimeline(scene, camera) {
       opacity: .9
     }, 5) //degage case opacity
     .to(caseB.material, .5, {
+      opacity: .9
+    }, 5) //degage case opacity
+    .to(etiquette.material, .5, {
       opacity: .9
     }, 5) //degage case opacity
     .to(storage.position, 1, {
@@ -95746,10 +95770,10 @@ function ScrollTimeline(scene, camera) {
       value: 1
     }, 1.5) //fade to textureB
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case.default);
+      uniforms.texture1.value = textureLoader.load(_case2.default);
     }, 1.75) //blue
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case2.default);
+      uniforms.texture2.value = textureLoader.load(_case3.default);
     }, 1.75) //cyan
     .add(function () {
       //console.log('Step 3 t:2.35')
@@ -95770,10 +95794,10 @@ function ScrollTimeline(scene, camera) {
       value: 1
     }, 2.1) //fade to textureC
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case2.default);
+      uniforms.texture2.value = textureLoader.load(_case3.default);
     }, 2.35) //cyan
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case3.default);
+      uniforms.texture1.value = textureLoader.load(_case4.default);
     }, 2.35) //prune
     .to(uniforms.progress, .25, {
       value: 0
@@ -95794,16 +95818,16 @@ function ScrollTimeline(scene, camera) {
       b: 208 / 255
     }, 3.3) //color 4
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case2.default);
+      uniforms.texture2.value = textureLoader.load(_case3.default);
     }, 2.9) //cyan
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case4.default);
+      uniforms.texture2.value = textureLoader.load(_case5.default);
     }, 2.9) //orange
     .to(uniforms.progress, .25, {
       value: 1
     }, 3.15) //fade to texture2
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case3.default);
+      uniforms.texture1.value = textureLoader.load(_case4.default);
     }, 3.3) //prune
     .add(function () {
       //console.log('Step 5 t:3.85')
@@ -95821,16 +95845,16 @@ function ScrollTimeline(scene, camera) {
       b: 218 / 255
     }, 4) //color 5
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case4.default);
+      uniforms.texture2.value = textureLoader.load(_case5.default);
     }, 3.6) //keep orange
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case5.default);
+      uniforms.texture1.value = textureLoader.load(_case6.default);
     }, 3.6) //change purple
     .to(uniforms.progress, .25, {
       value: 0
     }, 3.85) //fade to texture1
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case4.default);
+      uniforms.texture2.value = textureLoader.load(_case5.default);
     }, 4) //keep orange
     .add(function () {
       //console.log('Step 6 t:4.65')
@@ -95848,10 +95872,10 @@ function ScrollTimeline(scene, camera) {
       b: 219 / 255
     }, 4.65) //color 6
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case5.default);
+      uniforms.texture1.value = textureLoader.load(_case6.default);
     }, 4.65) //keep purple
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case6.default);
+      uniforms.texture2.value = textureLoader.load(_case7.default);
     }, 4.65) //change green
     .to(uniforms.progress, .25, {
       value: 1
@@ -95984,7 +96008,7 @@ function ScrollTimeline(scene, camera) {
 
 var _default = ScrollTimeline;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/getPerspectiveSize":"utils/getPerspectiveSize.js","../objects/AudioTape/case_closed-m.gltf":"objects/AudioTape/case_closed-m.gltf","../audios/timeline/sound01.mp3":"audios/timeline/sound01.mp3","../audios/timeline/sound02.mp3":"audios/timeline/sound02.mp3","../audios/timeline/sound03.mp3":"audios/timeline/sound03.mp3","../audios/timeline/sound04.mp3":"audios/timeline/sound04.mp3","../audios/timeline/sound05.mp3":"audios/timeline/sound05.mp3","../audios/timeline/sound06.mp3":"audios/timeline/sound06.mp3","../audios/timeline/sound07.mp3":"audios/timeline/sound07.mp3","../audios/timeline/sound08.mp3":"audios/timeline/sound08.mp3","../audios/timeline/sound09.mp3":"audios/timeline/sound09.mp3","../audios/timeline/sound10.mp3":"audios/timeline/sound10.mp3","../audios/timeline/sound11.mp3":"audios/timeline/sound11.mp3","../audios/timeline/sound12.mp3":"audios/timeline/sound12.mp3","../textures/tape/case01.png":"textures/tape/case01.png","../textures/tape/case02.png":"textures/tape/case02.png","../textures/tape/case03.png":"textures/tape/case03.png","../textures/tape/case04.png":"textures/tape/case04.png","../textures/tape/case05.png":"textures/tape/case05.png","../textures/tape/case06.png":"textures/tape/case06.png"}],"videos/Tear.mp4":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/getPerspectiveSize":"utils/getPerspectiveSize.js","../objects/AudioTape/case.gltf":"objects/AudioTape/case.gltf","../audios/timeline/sound01.mp3":"audios/timeline/sound01.mp3","../audios/timeline/sound02.mp3":"audios/timeline/sound02.mp3","../audios/timeline/sound03.mp3":"audios/timeline/sound03.mp3","../audios/timeline/sound04.mp3":"audios/timeline/sound04.mp3","../audios/timeline/sound05.mp3":"audios/timeline/sound05.mp3","../audios/timeline/sound06.mp3":"audios/timeline/sound06.mp3","../audios/timeline/sound07.mp3":"audios/timeline/sound07.mp3","../audios/timeline/sound08.mp3":"audios/timeline/sound08.mp3","../audios/timeline/sound09.mp3":"audios/timeline/sound09.mp3","../audios/timeline/sound10.mp3":"audios/timeline/sound10.mp3","../audios/timeline/sound11.mp3":"audios/timeline/sound11.mp3","../audios/timeline/sound12.mp3":"audios/timeline/sound12.mp3","../textures/tape/case01.png":"textures/tape/case01.png","../textures/tape/case02.png":"textures/tape/case02.png","../textures/tape/case03.png":"textures/tape/case03.png","../textures/tape/case04.png":"textures/tape/case04.png","../textures/tape/case05.png":"textures/tape/case05.png","../textures/tape/case06.png":"textures/tape/case06.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png"}],"videos/Tear.mp4":[function(require,module,exports) {
 module.exports = "/Tear.6d29fc3c.mp4";
 },{}],"components/tearCanvas.js":[function(require,module,exports) {
 "use strict";
@@ -99580,6 +99604,9 @@ var SoundAnalyser = /*#__PURE__*/function () {
 
 exports.default = SoundAnalyser;
 ;
+},{}],"../node_modules/interpolate-range/bundle.js":[function(require,module,exports) {
+"use strict";function clamp(t,r,e){var n=e;return n<t&&(n=t),n>r&&(n=r),n}function linearStep(t,r,e,n){return n?clamp(t,r,e):e}function interpolate(t){var r=slicedToArray(t.inputRange,2),e=r[0],n=r[1],o=slicedToArray(t.outputRange,2),a=o[0],i=o[1],u=t.clamp,p=t.fn,l=void 0===p?linearStep:p,c=(i-a)/(n-e);return function(t){return l(a,i,(t-e)*(c+a),u)}}function smoothStep(t,r,e){var n=clamp(t,r,(e-t)/(r-t));return n*n*(3-2*n)}function smootherStep(t,r,e){var n=clamp(t,r,(e-t)/(r-t));return n*n*n*(n*(6*n-15)+10)}Object.defineProperty(exports,"__esModule",{value:!0});var slicedToArray=function(){return function(t,r){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return function(t,r){var e=[],n=!0,o=!1,a=void 0;try{for(var i,u=t[Symbol.iterator]();!(n=(i=u.next()).done)&&(e.push(i.value),!r||e.length!==r);n=!0);}catch(t){o=!0,a=t}finally{try{!n&&u.return&&u.return()}finally{if(o)throw a}}return e}(t,r);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}();exports.default=interpolate,exports.clamp=clamp,exports.smoothStep=smoothStep,exports.smootherStep=smootherStep;
+
 },{}],"objects/focus_daft-punk_texture.gltf":[function(require,module,exports) {
 module.exports = "/focus_daft-punk_texture.f948f66f.gltf";
 },{}],"objects/focus_daft-punk_cadrillage.gltf":[function(require,module,exports) {
@@ -99630,6 +99657,8 @@ var _soundAnalyser = _interopRequireDefault(require("../utils/soundAnalyser"));
 
 var _three2 = require("three.interactive");
 
+var _interpolateRange = _interopRequireDefault(require("interpolate-range"));
+
 var _focus_daftPunk_texture = _interopRequireDefault(require("../objects/focus_daft-punk_texture.gltf"));
 
 var _focus_daftPunk_cadrillage = _interopRequireDefault(require("../objects/focus_daft-punk_cadrillage.gltf"));
@@ -99677,7 +99706,8 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   });
   var ambiantSound2 = new _soundAnalyser.default(context, _Sister_sledge_IlMacquillageLady.default, analyser, function () {});
   var ambiantSound3 = new _soundAnalyser.default(context, _Daft_Punk_Voyager.default, analyser, function () {});
-  var ambiantSound4 = new _soundAnalyser.default(context, _The_Sherbs_We_Ride_Tonight.default, analyser, function () {}); //SCENE
+  var ambiantSound4 = new _soundAnalyser.default(context, _The_Sherbs_We_Ride_Tonight.default, analyser, function () {});
+  var winScreen = document.querySelector('.focus-daftpunk .win'); //SCENE
 
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
@@ -99719,10 +99749,16 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   scene.add(pointLight3); //  scene.add( pointLight3Helper );
 
   var soundA = new _howler.Howl({
-    src: [_tundraBeats.default]
+    src: [_Daft_Punk_Da_Funk.default]
   });
   var soundB = new _howler.Howl({
-    src: [_RFL.default]
+    src: [_Daft_Punk_Aerodynamic.default]
+  });
+  var soundC = new _howler.Howl({
+    src: [_Daft_Punk_Technologic.default]
+  });
+  var soundD = new _howler.Howl({
+    src: [_Daft_Punk_Contact.default]
   });
   var loader = new _GLTFLoader.GLTFLoader();
   var pyramid = new THREE.Object3D();
@@ -99743,8 +99779,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     scene.add(pyramid);
     pyramid.position.y = -10;
     initInteraction();
-  }, function (xhr) {
-    console.log(xhr.loaded / xhr.total * 100 + '% loaded');
+  }, function (xhr) {// console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
   }, function (error) {
     console.log('An error happened');
   });
@@ -99763,8 +99798,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     cadrillage.position.y = -7;
     cadrillage.position.x = 10;
     cadrillage.scale.x = 1.5;
-  }, function (xhr) {
-    console.log(xhr.loaded / xhr.total * 100 + '% loaded');
+  }, function (xhr) {// console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
   }, function (error) {
     console.log('An error happened');
   }); //Floor
@@ -99774,7 +99808,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var matPlane = new THREE.MeshBasicMaterial({
     color: 0xeeeeee,
     transparent: true,
-    opacity: .6,
+    opacity: .5,
     map: texture,
     side: THREE.FrontSide
   });
@@ -99813,53 +99847,47 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     var faceFind = 0;
     var drag = false;
     var mouseDown = false;
-    var dragProgress = baseRotationBot; //RAYCAST BOT FACE FOR SOUND
-
-    var faceTarget;
-    var botArray = [pyramidB1, pyramidB2, pyramidB3, pyramidB4];
-    interactionManager.add(pyramidB1);
-    interactionManager.add(pyramidB2);
-    interactionManager.add(pyramidB3);
-    interactionManager.add(pyramidB4);
-    botArray.forEach(function (e) {
-      e.addEventListener('mouseover', function (t) {
-        console.log('mouseover');
-        console.log(t.target.name);
-        t.stopPropagation();
-        faceTarget = t.target.name;
-        setTimeout(function () {
-          soundA.stop();
-          soundB.stop();
-
-          switch (faceTarget) {
-            case 'Pyramid_bas_1':
-              //Dog
-              console.log('Face 1: Dog'); // soundA.play();
-
-              break;
-
-            case 'Pyramid_bas2':
-              //Spatial
-              console.log('Face 2: SPatial'); // soundB.play();
-
-              break;
-
-            case 'Pyramid_bas3':
-              //Hand
-              console.log('Face 3: Hand');
-              break;
-
-            case 'Pyramid_bas4':
-              //Phone
-              console.log('Face 4: Phone');
-              break;
-
-            default:
-              break;
-          }
-        }, 500);
-      });
-    }); //RAYCAST TOP OR BOTTOM TARGET
+    var dragProgress = baseRotationBot; // //RAYCAST BOT FACE FOR SOUND
+    // let faceTarget;
+    // let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
+    // interactionManager.add(pyramidB1);
+    // interactionManager.add(pyramidB2);
+    // interactionManager.add(pyramidB3);
+    // interactionManager.add(pyramidB4);
+    // botArray.forEach(e => {
+    //     e.addEventListener('mouseover',(t)=> {
+    //         // console.log(t.target.name)
+    //         t.stopPropagation()
+    //         faceTarget = t.target.name
+    //         setTimeout(()=> {
+    //             soundA.stop()
+    //             soundB.stop()
+    //             soundC.stop()
+    //             soundD.stop()
+    //             switch (faceTarget) {
+    //                 case 'Pyramid_bas_1': //Dog
+    //                         console.log('Face 1: Dog')
+    //                         // soundA.play();
+    //                     break;
+    //                 case 'Pyramid_bas2': //Spatial
+    //                         console.log('Face 2: SPatial')
+    //                         // soundB.play();
+    //                     break;
+    //                 case 'Pyramid_bas3': //Hand
+    //                         console.log('Face 3: Hand')
+    //                         // soundC.play();
+    //                     break;
+    //                 case 'Pyramid_bas4': //Phone
+    //                         console.log('Face 4: Phone')
+    //                         // soundD.play();
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //         },500)
+    //     })
+    // });
+    //RAYCAST TOP OR BOTTOM TARGET
 
     var targetPyramid = pyramidB; // let modelArray = [pyramidB,pyramidT];
     // interactionManager.add(pyramidB);
@@ -100000,6 +100028,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
           switch (baseSound) {
             case 0:
               ambiantSound4.stop();
+              winScreen.classList.add('show');
               break;
 
             case 1:
@@ -100091,7 +100120,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","interpolate-range":"../node_modules/interpolate-range/bundle.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100574,8 +100603,6 @@ module.exports = "/scratch-01.ff2f70cc.png";
 module.exports = "/scratch-02.a1a548c1.png";
 },{}],"textures/scratch-03.png":[function(require,module,exports) {
 module.exports = "/scratch-03.dbed141c.png";
-},{}],"textures/textures_gravure/test02.png":[function(require,module,exports) {
-module.exports = "/test02.82d0f8a7.png";
 },{}],"textures/textures_gravure/test03.png":[function(require,module,exports) {
 module.exports = "/test03.2767b2d0.png";
 },{}],"textures/fivetoner.jpg":[function(require,module,exports) {
@@ -102763,22 +102790,54 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   retourPin.addEventListener("click", function (event) {
     console.log("Retour");
   });
-  interactionManager.add(retourPin); // // Move camera
-  // let tlCamera = new TimelineMax({ paused: true })
-  //     .to(camera.position, { x: 0, y: 2.7, z: 2.5, onComplete: () => {
-  //         new TimelineMax()
-  //         .to(camera.position, 1, { x: 0, y: 2.7, z: 1.2, ease: EaseInOut })
-  //         .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(gainsbourgPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(memoPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(poloPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseInOut })
-  //         .to(retourPin.material, 0.25, { opacity: 1, ease: EaseInOut });
-  //     }});
+  interactionManager.add(retourPin); // Move camera
 
-  var started = false;
+  var tlCamera = new _gsap.TimelineMax({
+    paused: true
+  }).to(camera.position, {
+    x: 0,
+    y: 2.7,
+    z: 2.5,
+    onComplete: function onComplete() {
+      new _gsap.TimelineMax().to(camera.position, 1, {
+        x: 0,
+        y: 2.7,
+        z: 1.2,
+        ease: _gsap.EaseInOut
+      }).to(scene.getObjectByName('Storage_group').scale, 1, {
+        x: 0.085,
+        y: 0.085,
+        z: 0.085
+      }) // Scale Case
+      .to(aznavourPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(britneyPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(daftPunkPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(gainsbourgPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(memoPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(poloPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(renaudPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      }).to(retourPin.material, 0.25, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+    }
+  });
+  var started = false; //MOVE CAMERA
+
   window.addEventListener('scroll', function (event) {
     var bodyHeight = document.documentElement.scrollHeight;
 
@@ -103503,7 +103562,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "65487" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64015" + '/');
+>>>>>>> 1ab7f5467616aa44528714fd3bb7d16798355e3b
 
   ws.onmessage = function (event) {
     checkedAssets = {};

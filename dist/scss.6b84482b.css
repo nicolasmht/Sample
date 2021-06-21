@@ -17,7 +17,6 @@ html, body {
   overflow-x: hidden;
   background-color: transparent;
   cursor: default;
-  user-select: none;
 }
 
 #cursor {
@@ -116,7 +115,6 @@ html, body {
   width: 4vw;
   height: 4vw;
   cursor: pointer;
-  outline: none;
   z-index: 99999;
 }
 
@@ -131,7 +129,7 @@ html, body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(/background-info.f8229202.png);
+  background-image: url(/background.0063873b.png);
   background-size: cover;
   background-position: center center;
   background-repeat: repeat;
@@ -151,44 +149,40 @@ html, body {
   margin: 0;
   margin-bottom: 2.5vh;
   font-size: 4vw;
-  font-family: "bely-display";
-  text-align: center;
 }
 .container-infos .subTitle-infos {
   text-align: center;
   margin: 0;
   margin-bottom: 3vh;
   font-size: 2vw;
-  font-family: "biotif";
 }
 .container-infos .description-infos {
   margin-bottom: 10vh;
   text-align: left;
   font-size: 1.2vw;
   line-height: 2vw;
-  font-family: "biotif-l";
-  font-weight: 100;
 }
 .container-infos .btn-infos {
   width: 13vw;
   height: 5vw;
   cursor: pointer;
   border: none;
+  outline: none;
   background: none;
 }
 .container-infos .close-infos {
   position: absolute;
   top: 2.5vh;
   right: 2.5vw;
-  width: 2.5vw;
-  height: 2.5vw;
+  width: 4vw;
+  height: 4vw;
   cursor: pointer;
 }
 
 .gui {
   position: fixed;
-  right: 5vw;
-  z-index: 99999;
+  right: 0;
+  z-index: 999;
 }
 
 .box {
@@ -513,6 +507,23 @@ html, body {
   position: relative;
   display: none;
 }
+<<<<<<< HEAD
+=======
+.focus-polo #cursor {
+  position: fixed;
+  z-index: 10000;
+  background-image: url("/cursor.b6c0ac8d.png");
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+.focus-polo #cursor.drag {
+  width: 66px;
+  height: 64px;
+  background-image: url("/drag.3edde612.png");
+  transform: rotate(-25deg);
+}
+>>>>>>> 1ab7f5467616aa44528714fd3bb7d16798355e3b
 .focus-polo #disque {
   position: fixed;
   width: 260px;
@@ -718,7 +729,6 @@ html, body {
   width: 100vw;
   height: 100vh;
   cursor: move;
-  display: none;
   background-image: url(/Fond_4.a3bb98b7.jpg);
   background-size: cover;
   background-position: center center;
@@ -838,7 +848,6 @@ html, body {
   position: relative;
   cursor: pointer;
   width: auto;
-  outline: none;
 }
 .container .cta::before {
   content: "";
@@ -857,7 +866,6 @@ html, body {
 }
 .container_artist p {
   line-height: 1.6vw;
-  transition: 0.15s all;
 }
 .container_artist-left {
   width: 55%;
@@ -928,6 +936,12 @@ html, body {
   width: 25vw;
   position: relative;
 }
+.container_artist-right h1 {
+  transition: all 0.5s ease-out;
+}
+.container_artist-right p {
+  transition: all 0.5s ease-out;
+}
 .container_artist-panel {
   background: red;
   height: 100vh;
@@ -964,7 +978,6 @@ html, body {
 .container_artist-panel .title {
   font-family: "bely-display";
   font-size: 40px;
-  line-height: 2.4vw;
 }
 .container_artist-panel .desc {
   line-height: 25px;
@@ -987,9 +1000,12 @@ html, body {
   background-color: #43C6FE;
 }
 
+.focus-daftpunk {
+  cursor: grab;
+}
 .focus-daftpunk .push-cab {
   position: fixed;
-  top: 50px;
+  bottom: 50px;
   right: 50px;
   height: 120px;
   width: 120px;
@@ -1000,12 +1016,12 @@ html, body {
   left: 2px;
   height: 116px;
   width: 116px;
-  background: url("/Dig_txt.2944d6aa.png");
+  background: url("/Back_Txt_Beige.237132ad.png");
   background-size: contain;
   animation: rotation 5s linear infinite;
 }
-.focus-daftpunk .push-cab .text-container.white {
-  filter: invert(1);
+.focus-daftpunk .push-cab .text-container.black {
+  filter: invert(1) contrast(2);
 }
 .focus-daftpunk .push-cab .circle-container {
   position: absolute;
@@ -1050,10 +1066,10 @@ html, body {
 }
 @keyframes rotation {
   0% {
-    transform: translate(-50%, 50%) rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-    transform: translate(-50%, 50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
