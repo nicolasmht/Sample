@@ -101164,6 +101164,8 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _three2 = require("three.interactive");
+
 var _gsap = require("gsap");
 
 var _cardVerso = _interopRequireDefault(require("../images/focus/memory/card-verso.jpeg"));
@@ -101192,6 +101194,7 @@ function Component(sceneMain) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0xEEF2FF, 0);
   document.querySelector('.focus-memory').appendChild(renderer.domElement);
+  var interactionManager = new _three2.InteractionManager(renderer, camera, renderer.domElement);
   var loader = new THREE.TextureLoader();
   var materialVerso = new THREE.MeshBasicMaterial({
     side: THREE.FrontSide,
@@ -101323,7 +101326,11 @@ function Component(sceneMain) {
     card.data = item;
     card.add(verso);
     card.add(recto);
-    cards.add(card); // Delete the used position
+    card.addEventListener('mouseover', function (event) {
+      console.log(event);
+    });
+    cards.add(card);
+    interactionManager.add(card); // Delete the used position
 
     if (random > -1) {
       positions.splice(random, 1);
@@ -101441,6 +101448,7 @@ function Component(sceneMain) {
 
   var render = function render() {
     idAnimation = requestAnimationFrame(render);
+    interactionManager.update();
     renderer.render(scene, camera);
   };
 
@@ -101475,7 +101483,7 @@ function Component(sceneMain) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
 module.exports = "/Nana_Sample.562078ff.mp3";
 },{}],"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":[function(require,module,exports) {
 module.exports = "/Os_Tincoas_Cordeiro_Nana_Original.ca13f4e7.mp3";

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { InteractionManager } from "three.interactive";
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
 import CardVerso from '../images/focus/memory/card-verso.jpeg';
@@ -22,6 +23,11 @@ function Component(sceneMain) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0xEEF2FF, 0);
     document.querySelector('.focus-memory').appendChild(renderer.domElement);
+
+    const interactionManager = new InteractionManager(
+        renderer, camera, renderer.domElement
+    )
+
 
     const loader = new THREE.TextureLoader();
  
@@ -129,7 +135,13 @@ function Component(sceneMain) {
     
         card.add(verso);
         card.add(recto);
+        
+        card.addEventListener('mouseover', (event) =>{
+            console.log(event);
+        });
+
         cards.add(card);
+        interactionManager.add(card);
     
         // Delete the used position
         if (random > -1) {
@@ -269,6 +281,7 @@ function Component(sceneMain) {
     
     var render = function () {
         idAnimation = requestAnimationFrame(render);
+        interactionManager.update();
         renderer.render(scene, camera);
     }
 
