@@ -209,6 +209,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         });
     }
 
+    function reset() {
+        // Reset all scenes
+        document.querySelector('.focus-renaud').style.display = 'none';
+        document.querySelector('.focus-gainsbourg').style.display = 'none';
+        document.querySelector('.focus-aznavour').style.display = 'none';
+        document.querySelector('.focus-memory').style.display = 'none';
+        document.querySelector('.focus-polo').style.display = 'none';
+        document.querySelector('.focus-daftpunk').style.display = 'none';
+        document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    }
+
     const onDiscover = (callback) => {
         reset();
         discover.addEventListener('click', () => {

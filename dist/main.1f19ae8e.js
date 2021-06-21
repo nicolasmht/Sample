@@ -101941,6 +101941,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     });
   };
 
+  function reset() {
+    // Reset all scenes
+    document.querySelector('.focus-renaud').style.display = 'none';
+    document.querySelector('.focus-gainsbourg').style.display = 'none';
+    document.querySelector('.focus-aznavour').style.display = 'none';
+    document.querySelector('.focus-memory').style.display = 'none';
+    document.querySelector('.focus-polo').style.display = 'none';
+    document.querySelector('.focus-daftpunk').style.display = 'none';
+    document.querySelector('.focus-kaleidoscope').style.display = 'none';
+  }
+
   var onDiscover = function onDiscover(callback) {
     reset();
     discover.addEventListener('click', function () {
@@ -102924,7 +102935,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61917" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58918" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
