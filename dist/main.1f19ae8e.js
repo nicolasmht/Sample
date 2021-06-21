@@ -100935,7 +100935,8 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function Component(scene) {
   var tutorial = document.querySelector('.focus-gainsbourg .tuto');
   var canvas = document.getElementById('mask');
-  var ctx = canvas.getContext('2d'); // Create a radial gradient
+  var ctx = canvas.getContext('2d');
+  var cursor = document.querySelector('#cursor .actions'); // Create a radial gradient
   // The inner circle is at x=110, y=90, with radius=30
   // The outer circle is at x=100, y=100, with radius=70
 
@@ -101008,13 +101009,15 @@ function Component(scene) {
     });
     var isMouseover = false;
     paper.addEventListener('mouseover', function () {
+      cursor.classList.add('show');
       if (isMouseover || paperSoundStopped) return;
       paperSound.play('sample');
       paperSound.fade(0, 1, 700);
       isMouseover = true;
     });
     paper.addEventListener('mouseout', function () {
-      // Stop the sound
+      cursor.classList.remove('show'); // Stop the sound
+
       paperSound.once('fade', function () {
         paperSound.stop();
       });
@@ -101140,15 +101143,11 @@ function Component(scene) {
   }
 
   this.start = function () {
-    setTimeout(function () {
-      tutorial.classList.add('hide');
-    }, 3000);
+    cursor.classList.add('drag');
   };
 
   this.stop = function () {
-    setTimeout(function () {
-      tutorial.classList.remove('hide');
-    }, 3000);
+    cursor.classList.remove('drag');
   };
 
   this.update = function (time) {};
@@ -103635,7 +103634,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50807" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53493" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

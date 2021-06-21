@@ -17,6 +17,7 @@ function Component(scene) {
     let tutorial = document.querySelector('.focus-gainsbourg .tuto');
     let canvas = document.getElementById('mask');
     var ctx = canvas.getContext('2d');
+    let cursor = document.querySelector('#cursor .actions');
 
     // Create a radial gradient
     // The inner circle is at x=110, y=90, with radius=30
@@ -99,6 +100,8 @@ function Component(scene) {
         let isMouseover = false;
 
         paper.addEventListener('mouseover', function () {
+
+            cursor.classList.add('show');
             
             if (isMouseover || paperSoundStopped) return;
 
@@ -108,6 +111,8 @@ function Component(scene) {
         });
         
         paper.addEventListener('mouseout', function () {
+
+            cursor.classList.remove('show');
 
             // Stop the sound
             paperSound.once( 'fade', () => { paperSound.stop(); });
@@ -222,16 +227,11 @@ function Component(scene) {
     }
 
     this.start = () => {
-
-        setTimeout(() => {
-            tutorial.classList.add('hide');
-        }, 3000 );
+        cursor.classList.add('drag');
     }
-    this.stop = () => {
 
-        setTimeout(() => {
-            tutorial.classList.remove('hide');
-        }, 3000 )
+    this.stop = () => {
+        cursor.classList.remove('drag');
     }
 
     this.update = function(time) {}
