@@ -10,6 +10,10 @@
   font-family: "biotif-l";
   src: url("/Biotif-LightItalic.26bc7b96.ttf");
 }
+@font-face {
+  font-family: "biotif-light";
+  src: url("/Biotif-Light.adb0b3fc.ttf");
+}
 html, body {
   width: 100vw;
   height: 100vh;
@@ -826,7 +830,7 @@ html, body {
   margin-bottom: 700px;
 }
 .container_artist p {
-  line-height: 1.6vw;
+  line-height: 40px;
 }
 .container_artist-left {
   width: 55%;
@@ -1032,6 +1036,106 @@ html, body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+@keyframes removeIntro {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+.intro_timeline {
+  animation: removeIntro 1s linear 12s forwards;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 9999;
+}
+.intro_timeline-part1 {
+  animation: removeIntro 1s linear 5s forwards;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: url("/intro_background.1425936f.png");
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.intro_timeline-part1 .part1-vinyle {
+  mix-blend-mode: difference;
+  margin-bottom: -21vh;
+  max-width: 800px;
+}
+.intro_timeline-part1 .part1-logo {
+  z-index: 1;
+  margin-bottom: 5vh;
+}
+.intro_timeline-part1 .part1-text {
+  font-family: "biotif";
+  text-align: center;
+  font-size: 18px;
+}
+.intro_timeline-part1 .part1-sound {
+  mix-blend-mode: multiply;
+  width: 80px;
+}
+.intro_timeline-part2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: url("/intro_background.1425936f.png");
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.intro_timeline-part2 .part2-logo {
+  height: 70px;
+  width: auto;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+.intro_timeline-part2 .part2-h1 {
+  font-family: "bely-display";
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 0px;
+}
+.intro_timeline-part2 .part2-h1 span {
+  font-family: "biotif-light";
+  text-align: center;
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+.intro_timeline-part2 .part2-text {
+  font-family: "biotif-light";
+  line-height: 35px;
+  letter-spacing: 2px;
+  font-size: 18px;
+}
+.intro_timeline-part2 .part2-discover {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 400px;
 }
 
 /*# sourceMappingURL=/scss.6b84482b.css.map */

@@ -95684,7 +95684,13 @@ function ScrollTimeline(scene, camera) {
       fragmentShader: fragShader
     });
     centre.material.transparent = true;
-    centre.material.opacity = 0; //TIMELINE
+    centre.material.opacity = 0;
+    var textureALoad = textureLoader.load(_case2.default);
+    var textureBLoad = textureLoader.load(_case3.default);
+    var textureCLoad = textureLoader.load(_case4.default);
+    var textureDLoad = textureLoader.load(_case5.default);
+    var textureELoad = textureLoader.load(_case6.default);
+    var textureFLoad = textureLoader.load(_case7.default); //TIMELINE
 
     var timelineTape = new _gsap.TimelineMax({
       paused: true
@@ -95842,10 +95848,10 @@ function ScrollTimeline(scene, camera) {
       value: 1
     }, 1.5) //fade to textureB
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case2.default);
+      uniforms.texture1.value = textureALoad;
     }, 1.75) //blue
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case3.default);
+      uniforms.texture2.value = textureBLoad;
     }, 1.75) //cyan
     .add(function () {
       //console.log('Step 3 t:2.35')
@@ -95866,10 +95872,10 @@ function ScrollTimeline(scene, camera) {
       value: 1
     }, 2.1) //fade to textureC
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case3.default);
+      uniforms.texture2.value = textureBLoad;
     }, 2.35) //cyan
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case4.default);
+      uniforms.texture1.value = textureCLoad;
     }, 2.35) //prune
     .to(uniforms.progress, .25, {
       value: 0
@@ -95890,16 +95896,16 @@ function ScrollTimeline(scene, camera) {
       b: 208 / 255
     }, 3.3) //color 4
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case3.default);
+      uniforms.texture2.value = textureBLoad;
     }, 2.9) //cyan
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case5.default);
+      uniforms.texture2.value = textureDLoad;
     }, 2.9) //orange
     .to(uniforms.progress, .25, {
       value: 1
     }, 3.15) //fade to texture2
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case4.default);
+      uniforms.texture1.value = textureCLoad;
     }, 3.3) //prune
     .add(function () {
       //console.log('Step 5 t:3.85')
@@ -95917,16 +95923,16 @@ function ScrollTimeline(scene, camera) {
       b: 218 / 255
     }, 4) //color 5
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case5.default);
+      uniforms.texture2.value = textureDLoad;
     }, 3.6) //keep orange
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case6.default);
+      uniforms.texture1.value = textureELoad;
     }, 3.6) //change purple
     .to(uniforms.progress, .25, {
       value: 0
     }, 3.85) //fade to texture1
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case5.default);
+      uniforms.texture2.value = textureDLoad;
     }, 4) //keep orange
     .add(function () {
       //console.log('Step 6 t:4.65')
@@ -95944,10 +95950,10 @@ function ScrollTimeline(scene, camera) {
       b: 219 / 255
     }, 4.65) //color 6
     .add(function () {
-      uniforms.texture1.value = textureLoader.load(_case6.default);
+      uniforms.texture1.value = textureELoad;
     }, 4.65) //keep purple
     .add(function () {
-      uniforms.texture2.value = textureLoader.load(_case7.default);
+      uniforms.texture2.value = textureFLoad;
     }, 4.65) //change green
     .to(uniforms.progress, .25, {
       value: 1
@@ -103634,7 +103640,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64015" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54053" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
