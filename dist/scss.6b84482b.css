@@ -20,6 +20,42 @@ html, body {
   user-select: none;
 }
 
+#cursor {
+  position: fixed;
+  z-index: 1000000;
+  background-image: url("/cursor.fd2a68e9.svg");
+  width: 20px;
+  background-repeat: no-repeat;
+  height: 20px;
+  background-size: cover;
+  pointer-events: none;
+}
+#cursor .actions {
+  width: 60px;
+  height: 60px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transform: scale(0);
+  transition: transform 400ms ease-out;
+  left: -10px;
+  top: -10px;
+  position: absolute;
+  transform-origin: 20px 20px;
+}
+#cursor .actions.drag {
+  background-image: url("/cursor_drag.5cd1d4d2.svg");
+}
+#cursor .actions.move {
+  background-image: url("/cursor_move.faefe908.svg");
+}
+#cursor .actions.click {
+  background-image: url("/cursor_click.515c7e80.svg");
+}
+#cursor .actions.show {
+  transform: scale(1);
+}
+
 .kaki {
   color: #8C945B;
 }
@@ -476,41 +512,6 @@ html, body {
   margin: 0;
   position: relative;
   display: none;
-}
-.focus-polo #cursor {
-  position: fixed;
-  z-index: 1000000;
-  background-image: url("/cursor.fd2a68e9.svg");
-  width: 20px;
-  background-repeat: no-repeat;
-  height: 20px;
-  background-size: cover;
-  pointer-events: none;
-}
-.focus-polo #cursor .actions {
-  width: 60px;
-  height: 60px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  transform: scale(0);
-  transition: transform 400ms ease-out;
-  left: -10px;
-  top: -10px;
-  position: absolute;
-  transform-origin: 20px 20px;
-}
-.focus-polo #cursor .actions.drag {
-  background-image: url("/cursor_drag.5cd1d4d2.svg");
-}
-.focus-polo #cursor .actions.move {
-  background-image: url("/cursor_move.faefe908.svg");
-}
-.focus-polo #cursor .actions.click {
-  background-image: url("/cursor_click.515c7e80.svg");
-}
-.focus-polo #cursor .actions.show {
-  transform: scale(1);
 }
 .focus-polo #disque {
   position: fixed;

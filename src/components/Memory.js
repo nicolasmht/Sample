@@ -10,6 +10,7 @@ function Component(sceneMain) {
     let nbCardsFound = 0;
     const soundDuration = 30000;
     let badCards = [];
+    let cursor = document.querySelector('#cursor .actions');
 
     let tutorial = document.querySelector('.focus-memory .tuto');
     let winScreen = document.querySelector('.focus-memory .win');
@@ -137,7 +138,17 @@ function Component(sceneMain) {
         card.add(recto);
         
         card.addEventListener('mouseover', (event) =>{
-            console.log(event);
+            cursor.classList.add('click', 'show');
+        });
+
+        card.addEventListener('mouseleave', () => {
+
+            cursor.classList.remove('show');
+            setTimeout(()=> {
+                cursor.classList.remove('click');
+            },
+            400)
+
         });
 
         cards.add(card);
