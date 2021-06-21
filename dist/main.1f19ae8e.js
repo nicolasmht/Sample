@@ -37055,7 +37055,7 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
-},{}],"../node_modules/events/events.js":[function(require,module,exports) {
+},{}],"../../../.config/yarn/global/node_modules/events/events.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -89782,7 +89782,7 @@ function toTrianglesDrawMode(geometry, drawMode) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports._colorExp = exports._getCache = exports._getSetter = exports._missingPlugin = exports._round = exports._roundModifier = exports._config = exports._ticker = exports._plugins = exports._checkPlugin = exports._replaceRandom = exports._colorStringFilter = exports._sortPropTweensByPriority = exports._forEachName = exports._removeLinkedListItem = exports._setDefaults = exports._relExp = exports._renderComplexString = exports._isUndefined = exports._isString = exports._numWithUnitExp = exports._numExp = exports._getProperty = exports.shuffle = exports.interpolate = exports.unitize = exports.pipe = exports.mapRange = exports.toArray = exports.splitColor = exports.clamp = exports.getUnit = exports.normalize = exports.snap = exports.random = exports.distribute = exports.wrapYoyo = exports.wrap = exports.Circ = exports.Expo = exports.Sine = exports.Bounce = exports.SteppedEase = exports.Back = exports.Elastic = exports.Strong = exports.Quint = exports.Quart = exports.Cubic = exports.Quad = exports.Linear = exports.Power4 = exports.Power3 = exports.Power2 = exports.Power1 = exports.Power0 = exports.default = exports.gsap = exports.PropTween = exports.TweenLite = exports.TweenMax = exports.Tween = exports.TimelineLite = exports.TimelineMax = exports.Timeline = exports.Animation = exports.GSCache = void 0;
+exports._colorExp = exports._getCache = exports._getSetter = exports._missingPlugin = exports._round = exports._roundModifier = exports._config = exports._ticker = exports._plugins = exports._checkPlugin = exports._replaceRandom = exports._colorStringFilter = exports._sortPropTweensByPriority = exports._forEachName = exports._removeLinkedListItem = exports._setDefaults = exports._relExp = exports._renderComplexString = exports._isUndefined = exports._isString = exports._numWithUnitExp = exports._numExp = exports._getProperty = exports.shuffle = exports.interpolate = exports.unitize = exports.pipe = exports.mapRange = exports.selector = exports.toArray = exports.splitColor = exports.clamp = exports.getUnit = exports.normalize = exports.snap = exports.random = exports.distribute = exports.wrapYoyo = exports.wrap = exports.Circ = exports.Expo = exports.Sine = exports.Bounce = exports.SteppedEase = exports.Back = exports.Elastic = exports.Strong = exports.Quint = exports.Quart = exports.Cubic = exports.Quad = exports.Linear = exports.Power4 = exports.Power3 = exports.Power2 = exports.Power1 = exports.Power0 = exports.default = exports.gsap = exports.PropTween = exports.TweenLite = exports.TweenMax = exports.Tween = exports.TimelineLite = exports.TimelineMax = exports.Timeline = exports.Animation = exports.GSCache = void 0;
 
 function _assertThisInitialized(self) {
   if (self === void 0) {
@@ -89798,7 +89798,7 @@ function _inheritsLoose(subClass, superClass) {
   subClass.__proto__ = superClass;
 }
 /*!
- * GSAP 3.6.1
+ * GSAP 3.7.0
  * https://greensock.com
  *
  * @license Copyright 2008-2021, GreenSock. All rights reserved.
@@ -89867,8 +89867,9 @@ _numWithUnitExp = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g,
     _complexStringNumExp = /[-+=.]*\d+\.?\d*(?:e-|e\+)?\d*/gi,
     //duplicate so that while we're looping through matches from exec(), it doesn't contaminate the lastIndex of _numExp which we use to search for colors too.
 _relExp = /[+-]=-?[.\d]+/,
-    _delimitedValueExp = /[#\-+.]*\b[a-z\d-=+%.]+/gi,
-    _unitExp = /[\d.+\-=]+(?:e[-+]\d*)*/i,
+    _delimitedValueExp = /[^,'"\[\]\s]+/gi,
+    // previously /[#\-+.]*\b[a-z\d\-=+%.]+/gi but didn't catch special characters.
+_unitExp = /[\d.+\-=]+(?:e[-+]\d*)*/i,
     _globalTimeline,
     _win,
     _coreInitted,
@@ -89944,31 +89945,6 @@ _round = function _round(value) {
   for (; toSearch.indexOf(toFind[i]) < 0 && ++i < l;) {}
 
   return i < l;
-},
-    _parseVars = function _parseVars(params, type, parent) {
-  //reads the arguments passed to one of the key methods and figures out if the user is defining things with the OLD/legacy syntax where the duration is the 2nd parameter, and then it adjusts things accordingly and spits back the corrected vars object (with the duration added if necessary, as well as runBackwards or startAt or immediateRender). type 0 = to()/staggerTo(), 1 = from()/staggerFrom(), 2 = fromTo()/staggerFromTo()
-  var isLegacy = _isNumber(params[1]),
-      varsIndex = (isLegacy ? 2 : 1) + (type < 2 ? 0 : 1),
-      vars = params[varsIndex],
-      irVars;
-
-  isLegacy && (vars.duration = params[1]);
-  vars.parent = parent;
-
-  if (type) {
-    irVars = vars;
-
-    while (parent && !("immediateRender" in irVars)) {
-      // inheritance hasn't happened yet, but someone may have set a default in an ancestor timeline. We could do vars.immediateRender = _isNotFalse(_inheritDefaults(vars).immediateRender) but that'd exact a slight performance penalty because _inheritDefaults() also runs in the Tween constructor. We're paying a small kb price here to gain speed.
-      irVars = parent.vars.defaults || {};
-      parent = _isNotFalse(parent.vars.inherit) && parent.parent;
-    }
-
-    vars.immediateRender = _isNotFalse(irVars.immediateRender);
-    type < 2 ? vars.runBackwards = 1 : vars.startAt = params[varsIndex - 1]; // "from" vars
-  }
-
-  return vars;
 },
     _lazyRender = function _lazyRender() {
   var l = _lazyTweens.length,
@@ -90218,12 +90194,12 @@ _postAddChecks = function _postAddChecks(timeline, child) {
 },
     _addToTimeline = function _addToTimeline(timeline, child, position, skipChecks) {
   child.parent && _removeFromParent(child);
-  child._start = _round(position + child._delay);
+  child._start = _round((_isNumber(position) ? position : position || timeline !== _globalTimeline ? _parsePosition(timeline, position, child) : timeline._time) + child._delay);
   child._end = _round(child._start + (child.totalDuration() / Math.abs(child.timeScale()) || 0));
 
   _addLinkedListItem(timeline, child, "_first", "_last", timeline._sort ? "_start" : 0);
 
-  timeline._recent = child;
+  _isFromOrFromStart(child) || (timeline._recent = child);
   skipChecks || _postAddChecks(timeline, child);
   return timeline;
 },
@@ -90249,10 +90225,14 @@ _postAddChecks = function _postAddChecks(timeline, child) {
   return parent && parent._ts && parent._initted && !parent._lock && (parent.rawTime() < 0 || _parentPlayheadIsBeforeStart(parent));
 },
     // check parent's _lock because when a timeline repeats/yoyos and does its artificial wrapping, we shouldn't force the ratio back to 0
-_renderZeroDurationTween = function _renderZeroDurationTween(tween, totalTime, suppressEvents, force) {
+_isFromOrFromStart = function _isFromOrFromStart(_ref2) {
+  var data = _ref2.data;
+  return data === "isFromStart" || data === "isStart";
+},
+    _renderZeroDurationTween = function _renderZeroDurationTween(tween, totalTime, suppressEvents, force) {
   var prevRatio = tween.ratio,
-      ratio = totalTime < 0 || !totalTime && (!tween._start && _parentPlayheadIsBeforeStart(tween) || (tween._ts < 0 || tween._dp._ts < 0) && tween.data !== "isFromStart" && tween.data !== "isStart") ? 0 : 1,
-      // if the tween or its parent is reversed and the totalTime is 0, we should go to a ratio of 0.
+      ratio = totalTime < 0 || !totalTime && (!tween._start && _parentPlayheadIsBeforeStart(tween) && !(!tween._initted && _isFromOrFromStart(tween)) || (tween._ts < 0 || tween._dp._ts < 0) && !_isFromOrFromStart(tween)) ? 0 : 1,
+      // if the tween or its parent is reversed and the totalTime is 0, we should go to a ratio of 0. Edge case: if a from() or fromTo() stagger tween is placed later in a timeline, the "startAt" zero-duration tween could initially render at a time when the parent timeline's playhead is technically BEFORE where this tween is, so make sure that any "from" and "fromTo" startAt tweens are rendered the first time at a ratio of 1.
   repeatDelay = tween._rDelay,
       tTime = 0,
       pt,
@@ -90352,36 +90332,70 @@ _renderZeroDurationTween = function _renderZeroDurationTween(tween, totalTime, s
 },
     _zeroPosition = {
   _start: 0,
-  endTime: _emptyFunc
+  endTime: _emptyFunc,
+  totalDuration: _emptyFunc
 },
-    _parsePosition = function _parsePosition(animation, position) {
+    _parsePosition = function _parsePosition(animation, position, percentAnimation) {
   var labels = animation.labels,
       recent = animation._recent || _zeroPosition,
       clippedDuration = animation.duration() >= _bigNum ? recent.endTime(false) : animation._dur,
       //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
   i,
-      offset;
+      offset,
+      isPercent;
 
   if (_isString(position) && (isNaN(position) || position in labels)) {
     //if the string is a number like "1", check to see if there's a label with that name, otherwise interpret it as a number (absolute value).
-    i = position.charAt(0);
-
-    if (i === "<" || i === ">") {
-      return (i === "<" ? recent._start : recent.endTime(recent._repeat >= 0)) + (parseFloat(position.substr(1)) || 0);
-    }
-
+    offset = position.charAt(0);
+    isPercent = position.substr(-1) === "%";
     i = position.indexOf("=");
+
+    if (offset === "<" || offset === ">") {
+      i >= 0 && (position = position.replace(/=/, ""));
+      return (offset === "<" ? recent._start : recent.endTime(recent._repeat >= 0)) + (parseFloat(position.substr(1)) || 0) * (isPercent ? (i < 0 ? recent : percentAnimation).totalDuration() / 100 : 1);
+    }
 
     if (i < 0) {
       position in labels || (labels[position] = clippedDuration);
       return labels[position];
     }
 
-    offset = +(position.charAt(i - 1) + position.substr(i + 1));
-    return i > 1 ? _parsePosition(animation, position.substr(0, i - 1)) + offset : clippedDuration + offset;
+    offset = parseFloat(position.charAt(i - 1) + position.substr(i + 1));
+
+    if (isPercent && percentAnimation) {
+      offset = offset / 100 * (_isArray(percentAnimation) ? percentAnimation[0] : percentAnimation).totalDuration();
+    }
+
+    return i > 1 ? _parsePosition(animation, position.substr(0, i - 1), percentAnimation) + offset : clippedDuration + offset;
   }
 
   return position == null ? clippedDuration : +position;
+},
+    _createTweenType = function _createTweenType(type, params, timeline) {
+  var isLegacy = _isNumber(params[1]),
+      varsIndex = (isLegacy ? 2 : 1) + (type < 2 ? 0 : 1),
+      vars = params[varsIndex],
+      irVars,
+      parent;
+
+  isLegacy && (vars.duration = params[1]);
+  vars.parent = timeline;
+
+  if (type) {
+    irVars = vars;
+    parent = timeline;
+
+    while (parent && !("immediateRender" in irVars)) {
+      // inheritance hasn't happened yet, but someone may have set a default in an ancestor timeline. We could do vars.immediateRender = _isNotFalse(_inheritDefaults(vars).immediateRender) but that'd exact a slight performance penalty because _inheritDefaults() also runs in the Tween constructor. We're paying a small kb price here to gain speed.
+      irVars = parent.vars.defaults || {};
+      parent = _isNotFalse(parent.vars.inherit) && parent.parent;
+    }
+
+    vars.immediateRender = _isNotFalse(irVars.immediateRender);
+    type < 2 ? vars.runBackwards = 1 : vars.startAt = params[varsIndex - 1]; // "from" vars
+  }
+
+  return new Tween(params[0], vars, params[varsIndex + 1]);
 },
     _conditionalReturn = function _conditionalReturn(value, func) {
   return value || value === 0 ? func(value) : func;
@@ -90420,8 +90434,15 @@ clamp = function clamp(min, max, value) {
   }) || accumulator;
 },
     //takes any value and returns an array. If it's a string (and leaveStrings isn't true), it'll use document.querySelectorAll() and convert that to an array. It'll also accept iterables like jQuery objects.
-toArray = function toArray(value, leaveStrings) {
-  return _isString(value) && !leaveStrings && (_coreInitted || !_wake()) ? _slice.call(_doc.querySelectorAll(value), 0) : _isArray(value) ? _flatten(value, leaveStrings) : _isArrayLike(value) ? _slice.call(value, 0) : value ? [value] : [];
+toArray = function toArray(value, scope, leaveStrings) {
+  return _isString(value) && !leaveStrings && (_coreInitted || !_wake()) ? _slice.call((scope || _doc).querySelectorAll(value), 0) : _isArray(value) ? _flatten(value, leaveStrings) : _isArrayLike(value) ? _slice.call(value, 0) : value ? [value] : [];
+},
+    selector = function selector(value) {
+  value = toArray(value)[0] || _warn("Invalid scope") || {};
+  return function (v) {
+    var el = value.current || value.nativeElement || value;
+    return toArray(v, el.querySelectorAll ? el : el === value ? _warn("Invalid scope") || _doc.createElement("div") : value);
+  };
 },
     shuffle = function shuffle(a) {
   return a.sort(function () {
@@ -91292,6 +91313,7 @@ exports.snap = snap;
 exports._roundModifier = _roundModifier;
 exports.distribute = distribute;
 exports.shuffle = shuffle;
+exports.selector = selector;
 exports.toArray = toArray;
 exports.clamp = clamp;
 exports.getUnit = getUnit;
@@ -91400,8 +91422,7 @@ var GSCache = function GSCache(target, harness) {
 exports.GSCache = GSCache;
 
 var Animation = /*#__PURE__*/function () {
-  function Animation(vars, time) {
-    var parent = vars.parent || _globalTimeline;
+  function Animation(vars) {
     this.vars = vars;
     this._delay = +vars.delay || 0;
 
@@ -91417,9 +91438,6 @@ var Animation = /*#__PURE__*/function () {
 
     this.data = vars.data;
     _tickerActive || _ticker.wake();
-    parent && _addToTimeline(parent, this, time || time === 0 ? time : parent._time, 1);
-    vars.reversed && this.reverse();
-    vars.paused && this.paused(true);
   }
 
   var _proto = Animation.prototype;
@@ -91528,6 +91546,8 @@ var Animation = /*#__PURE__*/function () {
     }
 
     var tTime = this.parent && this._ts ? _parentToChildTotalTime(this.parent._time, this) : this._tTime; // make sure to do the parentToChildTotalTime() BEFORE setting the new _ts because the old one must be used in that calculation.
+    // future addition? Up side: fast and minimal file size. Down side: only works on this animation; if a timeline is reversed, for example, its childrens' onReverse wouldn't get called.
+    //(+value < 0 && this._rts >= 0) && _callback(this, "onReverse", true);
     // prioritize rendering where the parent's playhead lines up instead of this._tTime because there could be a tween that's animating another tween's timeScale in the same rendering loop (same parent), thus if the timeScale tween renders first, it would alter _start BEFORE _tTime was set on that tick (in the rendering loop), effectively freezing it until the timeScale tween finishes.
 
     this._rts = +value || 0;
@@ -91576,7 +91596,7 @@ var Animation = /*#__PURE__*/function () {
   };
 
   _proto.rawTime = function rawTime(wrapRepeats) {
-    var parent = this.parent || this._dp; // _dp = detatched parent
+    var parent = this.parent || this._dp; // _dp = detached parent
 
     return !parent ? this._tTime : wrapRepeats && (!this._ts || this._repeat && this._time && this.totalProgress() < 1) ? this._tTime % (this._dur + this._rDelay) : !this._ts ? this._tTime : _parentToChildTotalTime(parent.rawTime(wrapRepeats), this);
   };
@@ -91748,19 +91768,21 @@ _setDefaults(Animation.prototype, {
 var Timeline = /*#__PURE__*/function (_Animation) {
   _inheritsLoose(Timeline, _Animation);
 
-  function Timeline(vars, time) {
+  function Timeline(vars, position) {
     var _this;
 
     if (vars === void 0) {
       vars = {};
     }
 
-    _this = _Animation.call(this, vars, time) || this;
+    _this = _Animation.call(this, vars) || this;
     _this.labels = {};
     _this.smoothChildTiming = !!vars.smoothChildTiming;
     _this.autoRemoveChildren = !!vars.autoRemoveChildren;
     _this._sort = _isNotFalse(vars.sortChildren);
-    _this.parent && _postAddChecks(_this.parent, _assertThisInitialized(_this));
+    _globalTimeline && _addToTimeline(vars.parent || _globalTimeline, _assertThisInitialized(_this), position);
+    vars.reversed && _this.reverse();
+    vars.paused && _this.paused(true);
     vars.scrollTrigger && _scrollTrigger(_assertThisInitialized(_this), vars.scrollTrigger);
     return _this;
   }
@@ -91768,17 +91790,20 @@ var Timeline = /*#__PURE__*/function (_Animation) {
   var _proto2 = Timeline.prototype;
 
   _proto2.to = function to(targets, vars, position) {
-    new Tween(targets, _parseVars(arguments, 0, this), _parsePosition(this, _isNumber(vars) ? arguments[3] : position));
+    _createTweenType(0, arguments, this);
+
     return this;
   };
 
   _proto2.from = function from(targets, vars, position) {
-    new Tween(targets, _parseVars(arguments, 1, this), _parsePosition(this, _isNumber(vars) ? arguments[3] : position));
+    _createTweenType(1, arguments, this);
+
     return this;
   };
 
   _proto2.fromTo = function fromTo(targets, fromVars, toVars, position) {
-    new Tween(targets, _parseVars(arguments, 2, this), _parsePosition(this, _isNumber(fromVars) ? arguments[4] : position));
+    _createTweenType(2, arguments, this);
+
     return this;
   };
 
@@ -91792,7 +91817,7 @@ var Timeline = /*#__PURE__*/function (_Animation) {
   };
 
   _proto2.call = function call(callback, params, position) {
-    return _addToTimeline(this, Tween.delayedCall(0, callback, params), _parsePosition(this, position));
+    return _addToTimeline(this, Tween.delayedCall(0, callback, params), position);
   } //ONLY for backward compatibility! Maybe delete?
   ;
 
@@ -91905,6 +91930,8 @@ var Timeline = /*#__PURE__*/function (_Animation) {
           prevTime = rewinding ? 0 : dur;
           this._lock = 1;
           this.render(prevTime || (isYoyo ? 0 : _round(iteration * cycleDuration)), suppressEvents, !dur)._lock = 0;
+          this._tTime = tTime; // if a user gets the iteration() inside the onRepeat, for example, it should be accurate.
+
           !suppressEvents && this.parent && _callback(this, "onRepeat");
           this.vars.repeatRefresh && !isYoyo && (this.invalidate()._lock = 1);
 
@@ -91921,6 +91948,7 @@ var Timeline = /*#__PURE__*/function (_Animation) {
             this._lock = 2;
             prevTime = rewinding ? dur : -0.0001;
             this.render(prevTime, true);
+            this.vars.repeatRefresh && !isYoyo && this.invalidate();
           }
 
           this._lock = 0;
@@ -91953,7 +91981,14 @@ var Timeline = /*#__PURE__*/function (_Animation) {
         prevTime = 0; // upon init, the playhead should always go forward; someone could invalidate() a completed timeline and then if they restart(), that would make child tweens render in reverse order which could lock in the wrong starting values if they build on each other, like tl.to(obj, {x: 100}).to(obj, {x: 0}).
       }
 
-      !prevTime && time && !suppressEvents && _callback(this, "onStart");
+      if (!prevTime && time && !suppressEvents) {
+        _callback(this, "onStart");
+
+        if (this._tTime !== tTime) {
+          // in case the onStart triggered a render at a different spot, eject. Like if someone did animation.pause(0.5) or something inside the onStart.
+          return this;
+        }
+      }
 
       if (time >= prevTime && totalTime >= 0) {
         child = this._first;
@@ -92026,8 +92061,8 @@ var Timeline = /*#__PURE__*/function (_Animation) {
       if (tTime === tDur && tDur >= this.totalDuration() || !tTime && prevTime) if (prevStart === this._start || Math.abs(timeScale) !== Math.abs(this._ts)) if (!this._lock) {
         (totalTime || !dur) && (tTime === tDur && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1); // don't remove if the timeline is reversed and the playhead isn't at 0, otherwise tl.progress(1).reverse() won't work. Only remove if the playhead is at the end and timeScale is positive, or if the playhead is at 0 and the timeScale is negative.
 
-        if (!suppressEvents && !(totalTime < 0 && !prevTime) && (tTime || prevTime)) {
-          _callback(this, tTime === tDur ? "onComplete" : "onReverseComplete", true);
+        if (!suppressEvents && !(totalTime < 0 && !prevTime) && (tTime || prevTime || !tDur)) {
+          _callback(this, tTime === tDur && totalTime >= 0 ? "onComplete" : "onReverseComplete", true);
 
           this._prom && !(tTime < tDur && this.timeScale() > 0) && this._prom();
         }
@@ -92040,7 +92075,7 @@ var Timeline = /*#__PURE__*/function (_Animation) {
   _proto2.add = function add(child, position) {
     var _this2 = this;
 
-    _isNumber(position) || (position = _parsePosition(this, position));
+    _isNumber(position) || (position = _parsePosition(this, position, child));
 
     if (!(child instanceof Animation)) {
       if (_isArray(child)) {
@@ -92214,7 +92249,7 @@ var Timeline = /*#__PURE__*/function (_Animation) {
   // targets() {
   // 	let result = [];
   // 	this.getChildren(true, true, false).forEach(t => result.push(...t.targets()));
-  // 	return result;
+  // 	return result.filter((v, i) => result.indexOf(v) === i);
   // }
   ;
 
@@ -92228,6 +92263,7 @@ var Timeline = /*#__PURE__*/function (_Animation) {
         _onStart = _vars.onStart,
         onStartParams = _vars.onStartParams,
         immediateRender = _vars.immediateRender,
+        initted,
         tween = Tween.to(tl, _setDefaults({
       ease: vars.ease || "none",
       lazy: false,
@@ -92237,8 +92273,13 @@ var Timeline = /*#__PURE__*/function (_Animation) {
       duration: vars.duration || Math.abs((endTime - (startAt && "time" in startAt ? startAt.time : tl._time)) / tl.timeScale()) || _tinyNum,
       onStart: function onStart() {
         tl.pause();
-        var duration = vars.duration || Math.abs((endTime - tl._time) / tl.timeScale());
-        tween._dur !== duration && _setDuration(tween, duration, 0, 1).render(tween._time, true, true);
+
+        if (!initted) {
+          var duration = vars.duration || Math.abs((endTime - (startAt && "time" in startAt ? startAt.time : tl._time)) / tl.timeScale());
+          tween._dur !== duration && _setDuration(tween, duration, 0, 1).render(tween._time, true, true);
+          initted = 1;
+        }
+
         _onStart && _onStart.apply(tween, onStartParams || []); //in case the user had an onStart in the vars - we don't want to overwrite it.
       }
     }, vars));
@@ -92510,12 +92551,18 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
     }
 
     if (end.charAt(1) === "=") {
-      end = parseFloat(parsedStart) + parseFloat(end.substr(2)) * (end.charAt(0) === "-" ? -1 : 1) + (getUnit(parsedStart) || 0);
+      pt = parseFloat(parsedStart) + parseFloat(end.substr(2)) * (end.charAt(0) === "-" ? -1 : 1) + (getUnit(parsedStart) || 0);
+
+      if (pt || pt === 0) {
+        // to avoid isNaN, like if someone passes in a value like "!= whatever"
+        end = pt;
+      }
     }
   }
 
   if (parsedStart !== end) {
-    if (!isNaN(parsedStart * end)) {
+    if (!isNaN(parsedStart * end) && end !== "") {
+      // fun fact: any number multiplied by "" is evaluated as the number 0!
       pt = new PropTween(this._pt, target, prop, +parsedStart || 0, end - (parsedStart || 0), typeof currentValue === "boolean" ? _renderBoolean : _renderPlain, 0, setter);
       funcParam && (pt.fp = funcParam);
       modifier && pt.modifier(modifier, this, target);
@@ -92608,6 +92655,8 @@ _initTween = function _initTween(tween, time) {
     tween._ease = yoyoEase;
   }
 
+  tween._from = !tl && !!vars.runBackwards; //nested timelines should never run backwards - the backwards-ness is in the child tweens.
+
   if (!tl) {
     //if there's an internal timeline, skip all the parsing because we passed that task down the chain.
     harness = targets[0] ? _getCache(targets[0]).harness : 0;
@@ -92632,13 +92681,21 @@ _initTween = function _initTween(tween, time) {
       }, startAt))); //copy the properties/values into a new object to avoid collisions, like var to = {x:0}, from = {x:500}; timeline.fromTo(e, from, to).fromTo(e, to, from);
 
 
+      time < 0 && !immediateRender && !autoRevert && tween._startAt.render(-1, true); // rare edge case, like if a render is forced in the negative direction of a non-initted tween.
+
       if (immediateRender) {
-        if (time > 0) {
-          autoRevert || (tween._startAt = 0); //tweens that render immediately (like most from() and fromTo() tweens) shouldn't revert when their parent timeline's playhead goes backward past the startTime because the initial render could have happened anytime and it shouldn't be directly correlated to this tween's startTime. Imagine setting up a complex animation where the beginning states of various objects are rendered immediately but the tween doesn't happen for quite some time - if we revert to the starting values as soon as the playhead goes backward past the tween's startTime, it will throw things off visually. Reversion should only happen in Timeline instances where immediateRender was false or when autoRevert is explicitly set to true.
-        } else if (dur && !(time < 0 && prevStartAt)) {
+        time > 0 && !autoRevert && (tween._startAt = 0); //tweens that render immediately (like most from() and fromTo() tweens) shouldn't revert when their parent timeline's playhead goes backward past the startTime because the initial render could have happened anytime and it shouldn't be directly correlated to this tween's startTime. Imagine setting up a complex animation where the beginning states of various objects are rendered immediately but the tween doesn't happen for quite some time - if we revert to the starting values as soon as the playhead goes backward past the tween's startTime, it will throw things off visually. Reversion should only happen in Timeline instances where immediateRender was false or when autoRevert is explicitly set to true.
+
+        if (dur && time <= 0) {
           time && (tween._zTime = time);
           return; //we skip initialization here so that overwriting doesn't occur until the tween actually begins. Otherwise, if you create several immediateRender:true tweens of the same target/properties to drop into a Timeline, the last one created would overwrite the first ones because they didn't get placed into the timeline yet before the first render occurs and kicks in overwriting.
-        }
+        } // if (time > 0) {
+        // 	autoRevert || (tween._startAt = 0); //tweens that render immediately (like most from() and fromTo() tweens) shouldn't revert when their parent timeline's playhead goes backward past the startTime because the initial render could have happened anytime and it shouldn't be directly correlated to this tween's startTime. Imagine setting up a complex animation where the beginning states of various objects are rendered immediately but the tween doesn't happen for quite some time - if we revert to the starting values as soon as the playhead goes backward past the tween's startTime, it will throw things off visually. Reversion should only happen in Timeline instances where immediateRender was false or when autoRevert is explicitly set to true.
+        // } else if (dur && !(time < 0 && prevStartAt)) {
+        // 	time && (tween._zTime = time);
+        // 	return; //we skip initialization here so that overwriting doesn't occur until the tween actually begins. Otherwise, if you create several immediateRender:true tweens of the same target/properties to drop into a Timeline, the last one created would overwrite the first ones because they didn't get placed into the timeline yet before the first render occurs and kicks in overwriting.
+        // }
+
       } else if (autoRevert === false) {
         tween._startAt = 0;
       }
@@ -92663,6 +92720,8 @@ _initTween = function _initTween(tween, time) {
         harnessVars && (p[harness.prop] = harnessVars); // in case someone does something like .from(..., {css:{}})
 
         _removeFromParent(tween._startAt = Tween.set(targets, p));
+
+        time < 0 && tween._startAt.render(-1, true); // rare edge case, like if a render is forced in the negative direction of a non-initted from() tween.
 
         if (!immediateRender) {
           _initTween(tween._startAt, _tinyNum); //ensures that the initial values are recorded
@@ -92723,8 +92782,6 @@ _initTween = function _initTween(tween, time) {
     tween._onInit && tween._onInit(tween); //plugins like RoundProps must wait until ALL of the PropTweens are instantiated. In the plugin's init() function, it sets the _onInit on the tween instance. May not be pretty/intuitive, but it's fast and keeps file size down.
   }
 
-  tween._from = !tl && !!vars.runBackwards; //nested timelines should never run backwards - the backwards-ness is in the child tweens.
-
   tween._onUpdate = onUpdate;
   tween._initted = (!tween._op || tween._pt) && !overwritten; // if overwrittenProps resulted in the entire tween being killed, do NOT flag it as initted or else it may render for one tick.
 },
@@ -92772,16 +92829,16 @@ exports._checkPlugin = _checkPlugin;
 var Tween = /*#__PURE__*/function (_Animation2) {
   _inheritsLoose(Tween, _Animation2);
 
-  function Tween(targets, vars, time, skipInherit) {
+  function Tween(targets, vars, position, skipInherit) {
     var _this3;
 
     if (typeof vars === "number") {
-      time.duration = vars;
-      vars = time;
-      time = null;
+      position.duration = vars;
+      vars = position;
+      position = null;
     }
 
-    _this3 = _Animation2.call(this, skipInherit ? vars : _inheritDefaults(vars), time) || this;
+    _this3 = _Animation2.call(this, skipInherit ? vars : _inheritDefaults(vars)) || this;
     var _this3$vars = _this3.vars,
         duration = _this3$vars.duration,
         delay = _this3$vars.delay,
@@ -92792,7 +92849,7 @@ var Tween = /*#__PURE__*/function (_Animation2) {
         defaults = _this3$vars.defaults,
         scrollTrigger = _this3$vars.scrollTrigger,
         yoyoEase = _this3$vars.yoyoEase,
-        parent = _this3.parent,
+        parent = vars.parent || _globalTimeline,
         parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber(targets[0]) : "length" in vars) ? [targets] : toArray(targets),
         tl,
         i,
@@ -92822,7 +92879,11 @@ var Tween = /*#__PURE__*/function (_Animation2) {
           ease: "none"
         });
 
-        keyframes.forEach(function (frame) {
+        stagger ? parsedTargets.forEach(function (t, i) {
+          return keyframes.forEach(function (frame, j) {
+            return tl.to(t, frame, j ? ">" : i * stagger);
+          });
+        }) : keyframes.forEach(function (frame) {
           return tl.to(parsedTargets, frame, ">");
         });
       } else {
@@ -92882,7 +92943,10 @@ var Tween = /*#__PURE__*/function (_Animation2) {
       _overwritingTween = 0;
     }
 
-    parent && _postAddChecks(parent, _assertThisInitialized(_this3));
+    _addToTimeline(parent, _assertThisInitialized(_this3), position);
+
+    vars.reversed && _this3.reverse();
+    vars.paused && _this3.paused(true);
 
     if (immediateRender || !duration && !keyframes && _this3._start === _round(parent._time) && _isNotFalse(immediateRender) && _hasNoPausedAncestors(_assertThisInitialized(_this3)) && parent.data !== "nested") {
       _this3._tTime = -_tinyNum; //forces a render without having to set the render() "force" parameter to true because we want to allow lazying by default (using the "force" parameter always forces an immediate full render)
@@ -92998,6 +93062,16 @@ var Tween = /*#__PURE__*/function (_Animation2) {
       }
 
       time && !prevTime && !suppressEvents && _callback(this, "onStart");
+
+      if (time && !prevTime && !suppressEvents) {
+        _callback(this, "onStart");
+
+        if (this._tTime !== tTime) {
+          // in case the onStart triggered a render at a different spot, eject. Like if someone did animation.pause(0.5) or something inside the onStart.
+          return this;
+        }
+      }
+
       pt = this._pt;
 
       while (pt) {
@@ -93138,7 +93212,7 @@ var Tween = /*#__PURE__*/function (_Animation2) {
   };
 
   Tween.from = function from(targets, vars) {
-    return new Tween(targets, _parseVars(arguments, 1));
+    return _createTweenType(1, arguments);
   };
 
   Tween.delayedCall = function delayedCall(delay, callback, params, scope) {
@@ -93156,7 +93230,7 @@ var Tween = /*#__PURE__*/function (_Animation2) {
   };
 
   Tween.fromTo = function fromTo(targets, fromVars, toVars) {
-    return new Tween(targets, _parseVars(arguments, 2));
+    return _createTweenType(2, arguments);
   };
 
   Tween.set = function set(targets, vars) {
@@ -93222,7 +93296,7 @@ var _setterPlain = function _setterPlain(target, property, value) {
   return _isFunction(target[property]) ? _setterFunc : _isUndefined(target[property]) && target.setAttribute ? _setterAttribute : _setterPlain;
 },
     _renderPlain = function _renderPlain(ratio, data) {
-  return data.set(data.t, data.p, Math.round((data.s + data.c * ratio) * 10000) / 10000, data);
+  return data.set(data.t, data.p, Math.round((data.s + data.c * ratio) * 1000000) / 1000000, data);
 },
     _renderBoolean = function _renderBoolean(ratio, data) {
   return data.set(data.t, data.p, !!(data.s + data.c * ratio), data);
@@ -93454,12 +93528,12 @@ var _gsap = {
   config: function config(value) {
     return _mergeDeep(_config, value || {});
   },
-  registerEffect: function registerEffect(_ref2) {
-    var name = _ref2.name,
-        effect = _ref2.effect,
-        plugins = _ref2.plugins,
-        defaults = _ref2.defaults,
-        extendTimeline = _ref2.extendTimeline;
+  registerEffect: function registerEffect(_ref3) {
+    var name = _ref3.name,
+        effect = _ref3.effect,
+        plugins = _ref3.plugins,
+        defaults = _ref3.defaults,
+        extendTimeline = _ref3.extendTimeline;
     (plugins || "").split(",").forEach(function (pluginName) {
       return pluginName && !_plugins[pluginName] && !_globals[pluginName] && _warn(name + " effect requires " + pluginName + " plugin.");
     });
@@ -93525,6 +93599,7 @@ var _gsap = {
     clamp: clamp,
     splitColor: splitColor,
     toArray: toArray,
+    selector: selector,
     mapRange: mapRange,
     pipe: pipe,
     unitize: unitize,
@@ -93655,13 +93730,9 @@ var gsap = _gsap.registerPlugin({
 
 
 exports.default = exports.gsap = gsap;
-Tween.version = Timeline.version = gsap.version = "3.6.1";
+Tween.version = Timeline.version = gsap.version = "3.7.0";
 _coreReady = 1;
-
-if (_windowExists()) {
-  _wake();
-}
-
+_windowExists() && _wake();
 var Power0 = _easeMap.Power0,
     Power1 = _easeMap.Power1,
     Power2 = _easeMap.Power2,
@@ -93709,7 +93780,7 @@ exports.checkPrefix = exports._createElement = exports._getBBox = exports.defaul
 var _gsapCore = require("./gsap-core.js");
 
 /*!
- * CSSPlugin 3.6.1
+ * CSSPlugin 3.7.0
  * https://greensock.com
  *
  * Copyright 2008-2021, GreenSock. All rights reserved.
@@ -94009,7 +94080,7 @@ _convertToUnit = function _convertToUnit(target, property, value, unit) {
 
   if (_transformProps[property] && property !== "transform") {
     value = _parseTransform(target, uncache);
-    value = property !== "transformOrigin" ? value[property] : _firstTwoOnly(_getComputedProperty(target, _transformOriginProp)) + " " + value.zOrigin + "px";
+    value = property !== "transformOrigin" ? value[property] : value.svg ? value.origin : _firstTwoOnly(_getComputedProperty(target, _transformOriginProp)) + " " + value.zOrigin + "px";
   } else {
     value = target.style[property];
 
@@ -94445,7 +94516,7 @@ _identity2DMatrix = [1, 0, 0, 1, 0, 0],
   matrix = _getMatrix(target, cache.svg);
 
   if (cache.svg) {
-    t1 = !cache.uncache && !uncache && target.getAttribute("data-svg-origin");
+    t1 = (!cache.uncache || origin === "0px 0px") && !uncache && target.getAttribute("data-svg-origin"); // if origin is 0,0 and cache.uncache is true, let the recorded data-svg-origin stay. Otherwise, whenever we set cache.uncache to true, we'd need to set element.style.transformOrigin = (cache.xOrigin - bbox.x) + "px " + (cache.yOrigin - bbox.y) + "px". Remember, to work around browser inconsistencies we always force SVG elements' transformOrigin to 0,0 and offset the translation accordingly.
 
     _applySVGOrigin(target, t1 || origin, !!t1 || cache.originIsAbsolute, cache.smooth !== false, matrix);
   }
@@ -94961,6 +95032,7 @@ var CSSPlugin = {
 
         endUnit ? startUnit !== endUnit && (startValue = _convertToUnit(target, p, startValue, endUnit) + endUnit) : startUnit && (endValue += startUnit);
         this.add(style, "setProperty", startValue, endValue, index, targets, 0, 0, p);
+        props.push(p);
       } else if (type !== "undefined") {
         if (startAt && p in startAt) {
           // in case someone hard-codes a complex value as the start, like top: "calc(2vh / 2)". Without this, it'd use the computed value (always in px)
@@ -95008,7 +95080,7 @@ var CSSPlugin = {
           }
 
           if (p === "scale") {
-            this._pt = new _gsapCore.PropTween(this._pt, cache, "scaleY", cache.scaleY, relative ? relative * endNum : endNum - cache.scaleY);
+            this._pt = new _gsapCore.PropTween(this._pt, cache, "scaleY", cache.scaleY, (relative ? relative * endNum : endNum - cache.scaleY) || 0);
             props.push("scaleY", p);
             p += "X";
           } else if (p === "transformOrigin") {
@@ -95066,7 +95138,7 @@ var CSSPlugin = {
         } else if (!(p in style)) {
           if (p in target) {
             //maybe it's not a style - it could be a property added directly to an element in which case we'll try to animate that.
-            this.add(target, p, target[p], endValue, index, targets);
+            this.add(target, p, startValue || target[p], endValue, index, targets);
           } else {
             (0, _gsapCore._missingPlugin)(p, endValue);
             continue;
@@ -95427,11 +95499,16 @@ function ScrollTimeline(scene, camera) {
     tape.name = "Storage_group";
     tape.traverse(function (child) {
       var modelPart = child.name;
-      console.log(child.name);
 
       switch (modelPart) {
-        case 'Storage':
-          // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
+        case 'desk_haut':
+        case 'desk_haut16':
+        case 'desk_haut2':
+        case 'desk_haut3':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xEBD3BA,
+            side: THREE.DoubleSide
+          });
           break;
 
         case 'Tape_obj':
@@ -95501,13 +95578,14 @@ function ScrollTimeline(scene, camera) {
           });
           break;
       }
+
+      console.log(child.name);
     });
     camera.position.x = -30;
     camera.position.y = -30;
     camera.position.z = -30; // tape.position.z = -5;
 
-    tape.scale.set(0.01125, 0.012, 0.012); // tape.position.set(-2.5115, 2.37, -1.45);
-
+    tape.scale.set(0.01125, 0.012, 0.012);
     tape.position.set(camera.position.x - 0.0115, camera.position.y - 0.08, camera.position.z - 0.2004);
     tape.rotateY(Math.PI);
     scene.add(tape);
@@ -95583,7 +95661,7 @@ function ScrollTimeline(scene, camera) {
     var wheelsR = tape.getObjectByName('Wheel_right');
     tapeGroup.position.z = -0.4;
     var textureLoader = new THREE.TextureLoader();
-    var vertShader = "\n        varying vec2 vUv;\n        \n        void main() {\n            vUv = uv;\n            \n            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n        }\n        ";
+    var vertShader = "\n            varying vec2 vUv;\n            \n            void main() {\n                vUv = uv;\n                \n                gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n            }\n        ";
     var fragShader = " \n        uniform sampler2D texture1;\n        uniform sampler2D texture2;\n        uniform float progress;\n        \n        varying vec2 vUv;\n        \n        void main() {\n            gl_FragColor = vec4( mix( texture2D(texture1, vUv).xyz, texture2D(texture2, vUv).xyz, progress ), 1. );\n        }\n        ";
     var uniforms = {
       texture1: {
@@ -95881,7 +95959,7 @@ function ScrollTimeline(scene, camera) {
     }); //PROGRESS LINK TO THE PERCENT SCROLL PAGE
 
 
-    document.addEventListener("mousewheel", function (e) {
+    document.addEventListener("scroll", function (e) {
       var documentHeight = document.querySelector('.container').offsetHeight;
       var windowHeight = window.innerHeight;
       var scrollTop = window.pageYOffset;
@@ -95944,8 +96022,8 @@ function ScrollTimeline(scene, camera) {
 
 
   function initSlider() {
-    sound01.play();
-    sound02.play();
+    // sound01.play();
+    // sound02.play();
     var sliderPos;
     var currentPos = 0;
     var slider = document.querySelector('.slider');
@@ -99303,8 +99381,8 @@ var global = arguments[3];
 
 },{}],"objects/focus_daft-punk_02.gltf":[function(require,module,exports) {
 module.exports = "/focus_daft-punk_02.c2673076.gltf";
-},{}],"objects/focus_daft-punk_pyramid.gltf":[function(require,module,exports) {
-module.exports = "/focus_daft-punk_pyramid.89ed363a.gltf";
+},{}],"objects/PyramidSeparate.glb":[function(require,module,exports) {
+module.exports = "/PyramidSeparate.00d9201f.glb";
 },{}],"objects/focus_daft-punk_cadrillage.gltf":[function(require,module,exports) {
 module.exports = "/focus_daft-punk_cadrillage.d46294cf.gltf";
 },{}],"textures/threeTone.png":[function(require,module,exports) {
@@ -99333,9 +99411,11 @@ var _howler = require("howler");
 
 var _postprocessing = require("postprocessing");
 
+var _three2 = require("three.interactive");
+
 var _focus_daftPunk_ = _interopRequireDefault(require("../objects/focus_daft-punk_02.gltf"));
 
-var _focus_daftPunk_pyramid = _interopRequireDefault(require("../objects/focus_daft-punk_pyramid.gltf"));
+var _PyramidSeparate = _interopRequireDefault(require("../objects/PyramidSeparate.glb"));
 
 var _focus_daftPunk_cadrillage = _interopRequireDefault(require("../objects/focus_daft-punk_cadrillage.gltf"));
 
@@ -99354,7 +99434,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // Object
-function DaftPunk(sceneMain, cameraMain, interactionManager) {
+function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
   camera.position.z = 9;
@@ -99366,7 +99446,8 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
   renderer.setClearColor(0xEEF2FF, 1);
   document.querySelector('.focus-daftpunk').appendChild(renderer.domElement);
   camera.position.set(0, 15, 40);
-  camera.lookAt(new THREE.Vector3(0, 0, 0)); // POST PROCESSING
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
+  var interactionManager = new _three2.InteractionManager(renderer, camera, renderer.domElement); // POST PROCESSING
 
   var composer = new _postprocessing.EffectComposer(renderer);
   composer.addPass(new _postprocessing.RenderPass(scene, camera));
@@ -99390,7 +99471,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
   var loader = new _GLTFLoader.GLTFLoader();
   var pyramid = new THREE.Object3D();
   var cadrillage = new THREE.Object3D();
-  loader.load(_focus_daftPunk_.default, function (gltf) {
+  loader.load(_PyramidSeparate.default, function (gltf) {
     pyramid = gltf.scene;
     pyramid.name = "Storage_group";
     pyramid.traverse(function (child) {// console.log(child)
@@ -99430,16 +99511,16 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
     var pyramidB4 = pyramid.getObjectByName('Pyramid_bas2'); //blue
 
-    var pyramidBT = pyramid.getObjectByName('Pyramid_Top');
-    var baseRotationBot = pyramidB.rotation.y;
-    var baseRotationTop = pyramidT.rotation.y;
-    var multiplicateur = 1;
-    var turn = 0;
-    var firstClick = true;
-    var isComplete = false;
-    var drag = false;
-    var mouseDown = false;
-    var dragProgress = baseRotationBot; // //OUTLINE GLOBAL
+    var pyramidBT = pyramid.getObjectByName('Pyramid_Top'); // let baseRotationBot = pyramidB.rotation.y;
+    // let baseRotationTop = pyramidT.rotation.y;
+    // let multiplicateur = 1;
+    // let turn = 0;
+    // let firstClick = true;
+    // let isComplete = false;
+    // let drag = false;
+    // let mouseDown = false
+    // let dragProgress = baseRotationBot;
+    // //OUTLINE GLOBAL
     // let pyramidModelOutline = pyramidModel.clone()
     // pyramidModelOutline.traverse( (child) => {
     //     child.material = new THREE.MeshBasicMaterial({color:0x000000, side:THREE.DoubleSide, wireframe: true});
@@ -99490,178 +99571,108 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
     var faceTarget;
     var botArray = [pyramidB1, pyramidB2, pyramidB3, pyramidB4];
+    console.log(botArray);
+    botArray.forEach(function (e) {// e.addEventListener('mouseover',(t)=> {
+      //     t.stopPropagation()
+      //     faceTarget = t.target.name
+      //     setTimeout(()=> {
+      //         soundA.stop()
+      //         soundB.stop()
+      //         switch (faceTarget) {
+      //             case 'Pyramid_bas': //green
+      //                     soundA.play();
+      //                 break;
+      //             case 'Pyramid_bas2': //blue
+      //                     soundB.play();
+      //                 break;
+      //             default:
+      //                 break;
+      //         }
+      //     }, 500)
+      // })
+    });
     interactionManager.add(pyramidB1);
     interactionManager.add(pyramidB2);
     interactionManager.add(pyramidB3);
-    interactionManager.add(pyramidB4);
-    botArray.forEach(function (e) {
-      e.addEventListener('mouseover', function (t) {
-        t.stopPropagation();
-        faceTarget = t.target.name;
-        setTimeout(function () {
-          soundA.stop();
-          soundB.stop();
-
-          switch (faceTarget) {
-            case 'Pyramid_bas':
-              //green
-              soundA.play();
-              break;
-
-            case 'Pyramid_bas2':
-              //blue
-              soundB.play();
-              break;
-
-            default:
-              break;
-          }
-        }, 500);
-      });
-    }); //RAYCAST TOP OR BOTTOM TARGET
+    interactionManager.add(pyramidB4); //RAYCAST TOP OR BOTTOM TARGET
 
     var targetPyramid = pyramidB;
     var modelArray = [pyramidB, pyramidT];
+    modelArray.forEach(function (e) {// console.log(e);
+      // e.addEventListener('mousedown',(t)=> {
+      //     t.stopPropagation()
+      //     switch (t.target.name) {
+      //         case 'bas':
+      //             targetPyramid = pyramidB
+      //             break;
+      //         case 'haut':
+      //             targetPyramid = pyramidT
+      //             break;
+      //         default:
+      //             break;
+      //     }
+      // })
+    });
     interactionManager.add(pyramidB);
     interactionManager.add(pyramidT);
-    modelArray.forEach(function (e) {
-      e.addEventListener('mousedown', function (t) {
-        t.stopPropagation();
-
-        switch (t.target.name) {
-          case 'bas':
-            targetPyramid = pyramidB;
-            break;
-
-          case 'haut':
-            targetPyramid = pyramidT;
-            break;
-
-          default:
-            break;
-        }
-      });
+    document.addEventListener('mousedown', function () {// drag = false
+      // mouseDown = true
     });
-    document.addEventListener('mousedown', function () {
-      drag = false;
-      mouseDown = true;
-    });
-    document.addEventListener('mousemove', function (e) {
-      drag = true;
-
-      if (mouseDown) {
-        if (firstClick) {
-          if (targetPyramid == pyramidT) {
-            var tlBaseRotation = new _gsap.TimelineMax({}).to(pyramidB.rotation, 1, {
-              ease: _gsap.Elastic.easeOut.config(2, 1),
-              y: baseRotationTop
-            }, 0).add(function () {
-              firstClick = false;
-            }, 1);
-          }
-
-          firstClick = false;
-        }
-
-        dragProgress = targetPyramid.rotation.y;
-        dragProgress += e.movementX / 200;
-        targetPyramid.rotation.y = dragProgress;
-        var rotationY = targetPyramid.rotation.y - Math.PI * 2 * turn; //Less
-
-        if (rotationY < -5.45) {
-          multiplicateur = 0;
-        }
-
-        if (rotationY < -3.9 && rotationY > -5.45) {
-          multiplicateur = -3;
-          turn -= 1;
-        }
-
-        if (rotationY < -2.15 && rotationY > -3.9) {
-          multiplicateur = -2;
-        }
-
-        if (rotationY < -0.52 && rotationY > -2.15) {
-          multiplicateur = -1;
-        }
-
-        if (rotationY < 0.9 && rotationY > -0.52) {
-          multiplicateur = 0;
-        } //More
-
-
-        if (rotationY < 2.5 && rotationY > 0.9) {
-          multiplicateur = 1;
-        }
-
-        if (rotationY < 4.25 && rotationY > 2.5) {
-          multiplicateur = 2;
-        }
-
-        if (rotationY < 5.85 && rotationY > 4.25) {
-          multiplicateur = 3;
-        }
-
-        if (rotationY < 7.15 && rotationY > 5.85) {
-          multiplicateur = 4;
-          turn += 1;
-        }
-
-        if (rotationY >= 7.15) {
-          multiplicateur = 1;
-        }
-      }
-    });
-    document.addEventListener('mouseup', function () {
-      var nextFace = baseRotationTop + Math.PI / 2 * multiplicateur + Math.PI * 2 * turn;
-      var tlRotation = new _gsap.TimelineMax({}).to(targetPyramid.rotation, 1, {
-        ease: _gsap.Elastic.easeOut.config(2, 1),
-        y: nextFace
-      }, 0).add(function () {
-        var initialPosition = (nextFace - Math.PI * 2 * turn).toFixed(2);
-        var tlFusion = new _gsap.TimelineMax({}); //If two face aligné (soustraction des angles de rotation)
-
-        if (initialPosition - baseRotationTop.toFixed(2) == 0 && isComplete == false) {
-          isComplete = true;
-          tlFusion.to(pyramidT.position, 2, {
-            ease: _gsap.Bounce.easeIn,
-            y: -1.5
-          }, 0).to(pyramidB3.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            x: -4
-          }, 0).to(pyramidB4.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            z: 4
-          }, 0).to(pyramidB1.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            x: 4
-          }, 0).to(pyramidB2.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            z: -4
-          }, 0).to(pyramidB3.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            x: 0
-          }, 1).to(pyramidB4.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            z: 0
-          }, 1).to(pyramidB1.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            x: 0
-          }, 1).to(pyramidB2.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            z: 0
-          }, 1);
-        }
-
-        if (initialPosition - baseRotationTop.toFixed(2) != 0 && isComplete == true) {
-          tlFusion.to(pyramidT.position, 1, {
-            ease: _gsap.Bounce.easeIn,
-            y: 0.5
-          }, 0);
-          isComplete = false;
-        }
-      }, 1);
-      mouseDown = false;
+    document.addEventListener('mousemove', function (e) {//     drag = true
+      //     if(mouseDown) {
+      //         if(firstClick) {
+      //            if(targetPyramid == pyramidT) {
+      //                 let tlBaseRotation = new TimelineMax({})
+      //                     .to(pyramidB.rotation, 1, {ease:Elastic.easeOut.config(2,1), y: baseRotationTop}, 0)
+      //                     .add(()=> {
+      //                         firstClick = false
+      //                     },1)
+      //             }
+      //             firstClick = false
+      //         }
+      //         dragProgress = targetPyramid.rotation.y
+      //         dragProgress += e.movementX/200;
+      //         targetPyramid.rotation.y = dragProgress;
+      //         let rotationY = targetPyramid.rotation.y - ((Math.PI*2)*turn);
+      //         //Less
+      //         if(rotationY < -5.45) { multiplicateur = 0;}
+      //         if(rotationY < -3.9 && rotationY > -5.45) { multiplicateur= -3; turn -= 1;}
+      //         if(rotationY < -2.15 && rotationY > -3.9) { multiplicateur= -2;}
+      //         if(rotationY < -0.52 && rotationY > -2.15) { multiplicateur= -1;}
+      //         if(rotationY < 0.9 && rotationY > -0.52) { multiplicateur= 0;}
+      //         //More
+      //         if(rotationY < 2.5 && rotationY > 0.9) { multiplicateur= 1; }
+      //         if(rotationY < 4.25 && rotationY > 2.5) { multiplicateur= 2; }
+      //         if(rotationY < 5.85 && rotationY > 4.25) { multiplicateur= 3; }
+      //         if(rotationY < 7.15 && rotationY > 5.85) { multiplicateur= 4; turn += 1;}
+      //         if(rotationY >= 7.15) { multiplicateur = 1;}
+      //     }
+      // });
+      // document.addEventListener('mouseup', () => {
+      //     let nextFace = ( baseRotationTop + (( Math.PI / 2 ) * multiplicateur )) + (( Math.PI * 2 ) * turn );
+      //     let tlRotation = new TimelineMax({})
+      //         .to(targetPyramid.rotation, 1, {ease:Elastic.easeOut.config(2,1), y: nextFace}, 0)
+      //         .add(()=> {
+      //             let initialPosition = (nextFace - ((Math.PI*2)*turn)).toFixed(2)
+      //             let tlFusion = new TimelineMax({})
+      //             //If two face aligné (soustraction des angles de rotation)
+      //             if(initialPosition - baseRotationTop.toFixed(2) == 0 && isComplete == false) {
+      //                 isComplete=true
+      //                 tlFusion.to(pyramidT.position, 2, {ease:Bounce.easeIn, y: -1.5}, 0)
+      //                         .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: -4}, 0)
+      //                         .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 4}, 0)
+      //                         .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 4}, 0)
+      //                         .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: -4}, 0)
+      //                         .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
+      //                         .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
+      //                         .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
+      //                         .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
+      //             } if(initialPosition - baseRotationTop.toFixed(2) != 0 &&isComplete == true) {
+      //                 tlFusion.to(pyramidT.position, 1, {ease:Bounce.easeIn, y: 0.5}, 0)
+      //                 isComplete = false
+      //             }
+      //         },1)
+      //     mouseDown = false
     });
   }
 
@@ -99701,7 +99712,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../objects/focus_daft-punk_02.gltf":"objects/focus_daft-punk_02.gltf","../objects/focus_daft-punk_pyramid.gltf":"objects/focus_daft-punk_pyramid.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/threeTone.png":"textures/threeTone.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","../objects/focus_daft-punk_02.gltf":"objects/focus_daft-punk_02.gltf","../objects/PyramidSeparate.glb":"objects/PyramidSeparate.glb","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/threeTone.png":"textures/threeTone.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100156,8 +100167,8 @@ function DRACOWorker() {
     }
   }
 }
-},{"three":"../node_modules/three/build/three.module.js"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
-module.exports = "/Cabinet_Objets_09.8f82d2fb.gltf";
+},{"three":"../node_modules/three/build/three.module.js"}],"objects/Cabinet.gltf":[function(require,module,exports) {
+module.exports = "/Cabinet.54a379d8.gltf";
 },{}],"textures/Labo/Aznavour.png":[function(require,module,exports) {
 module.exports = "/Aznavour.8961d268.png";
 },{}],"textures/Labo/Britney.png":[function(require,module,exports) {
@@ -100186,6 +100197,8 @@ module.exports = "/scratch-02.a1a548c1.png";
 module.exports = "/scratch-03.dbed141c.png";
 },{}],"textures/textures_gravure/test02.png":[function(require,module,exports) {
 module.exports = "/test02.82d0f8a7.png";
+},{}],"textures/textures_gravure/test03.png":[function(require,module,exports) {
+module.exports = "/test03.2767b2d0.png";
 },{}],"components/Renaud.js":[function(require,module,exports) {
 "use strict";
 
@@ -101540,7 +101553,7 @@ var Kaleidoscope = /*#__PURE__*/function () {
         this.context.rotate(index * step);
         this.context.beginPath();
         this.context.moveTo(-0.5, -0.5);
-        this.context.arc(0, 0, this.radius, step * -0.51, step * 0.51);
+        this.context.arc(0, 0, this.radius * 2, step * -0.51, step * 0.51);
         this.context.lineTo(0.5, 0.5);
         this.context.closePath();
         this.context.rotate(Math.PI / 2);
@@ -101617,6 +101630,10 @@ exports.DragDrop = DragDrop;
 module.exports = "/Bollywood.0d0fae15.png";
 },{}],"images/focus/kaleidoscope/Britney.png":[function(require,module,exports) {
 module.exports = "/Britney.9a60b423.png";
+},{}],"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":[function(require,module,exports) {
+module.exports = "/britney-spears-toxic-audio.e7177786.mp3";
+},{}],"audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3":[function(require,module,exports) {
+module.exports = "/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.5cd83197.mp3";
 },{}],"components/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
@@ -101627,11 +101644,17 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _howler = require("howler");
+
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
 var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
 
 var _Britney = _interopRequireDefault(require("../images/focus/kaleidoscope/Britney.png"));
+
+var _britneySpearsToxicAudio = _interopRequireDefault(require("../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3"));
+
+var _tereMereBeechMeinFullSongShuddhDesiRomanceSushantSinghRajputParineetiChopra = _interopRequireDefault(require("../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -101646,6 +101669,17 @@ function KaleidoscopeComponent(scene) {
   // Init kaleidoscope
   var image = new Image();
   var image2 = new Image();
+  var soundLeft = new _howler.Howl({
+    src: _britneySpearsToxicAudio.default,
+    autoplay: false,
+    volume: 0.5
+  });
+  var soundRight = new _howler.Howl({
+    src: _tereMereBeechMeinFullSongShuddhDesiRomanceSushantSinghRajputParineetiChopra.default,
+    autoplay: false,
+    loop: true,
+    volume: 0.5
+  });
 
   image.onload = function () {
     return kaleidoscope.draw();
@@ -101670,14 +101704,16 @@ function KaleidoscopeComponent(scene) {
   kaleidoscope.domElement.style.position = "absolute";
   kaleidoscope.domElement.style.left = "0";
   kaleidoscope.domElement.style.top = "0";
-  kaleidoscope.domElement.style.zIndex = "999";
-  kaleidoscope.domElement.style.width = window.innerWidth;
-  kaleidoscope.domElement.style.height = window.innerWidth;
+  kaleidoscope.domElement.style.zIndex = "999"; // kaleidoscope.domElement.style.width = window.innerWidth * 2;
+  // kaleidoscope.domElement.style.height = window.innerWidth * 2;
+
   document.querySelector(".focus-kaleidoscope").appendChild(kaleidoscope.domElement);
   kaleidoscope2.domElement.style.position = "absolute";
   kaleidoscope2.domElement.style.left = "0";
   kaleidoscope2.domElement.style.top = "0";
-  kaleidoscope2.domElement.style.zIndex = "999";
+  kaleidoscope2.domElement.style.zIndex = "999"; // kaleidoscope2.domElement.style.width = window.innerWidth * 2;
+  // kaleidoscope2.domElement.style.height = window.innerWidth * 2;
+
   document.querySelector(".focus-kaleidoscope").appendChild(kaleidoscope2.domElement); // Init drag & drop
 
   var dragger = new _Kaleidoscope.DragDrop(function (data) {
@@ -101690,7 +101726,7 @@ function KaleidoscopeComponent(scene) {
   var tx = kaleidoscope.offsetX;
   var ty = kaleidoscope.offsetY;
   var tr = kaleidoscope.offsetRotation;
-  document.addEventListener('mousemove', function (event) {
+  document.querySelector('.focus-kaleidoscope').addEventListener('mousemove', function (event) {
     var cx, cy, dx, dy, hx, hy;
     cx = window.innerWidth / 2;
     cy = window.innerHeight / 2;
@@ -101704,6 +101740,8 @@ function KaleidoscopeComponent(scene) {
     var mouseY = -(event.clientY / window.innerHeight * 2 + 1);
     kaleidoscope2.domElement.style.opacity = 0.5 + mouseX; // kaleidoscope2.domElement.style.opacity = 1 * -mouseX + 0.25;
 
+    soundLeft.volume(1.2 * -mouseX);
+    soundRight.volume(mouseX);
     return tr = Math.atan2(hy, hx);
   });
 
@@ -101741,6 +101779,24 @@ function KaleidoscopeComponent(scene) {
     // kaleidoscope2.draw();
   };
 
+  this.start = function () {
+    soundLeft.play();
+    soundRight.play();
+  };
+
+  this.stop = function () {
+    soundLeft.fade(1, 0, 1000);
+    soundLeft.once("fade", function () {
+      soundLeft.seek(0);
+      soundLeft.stop();
+    });
+    soundRight.fade(1, 0, 1000);
+    soundRight.once("fade", function () {
+      soundRight.seek(0);
+      soundRight.stop();
+    });
+  };
+
   this.helpers = function (gui) {
     var kali = gui.addFolder("Kaleidoscope");
     kali.add(kaleidoscope, "zoom").min(0.25).max(2.0);
@@ -101776,7 +101832,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3":"audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101794,7 +101850,7 @@ var _gsap = require("gsap");
 
 var _mouse = _interopRequireDefault(require("../utils/mouse"));
 
-var _Cabinet_Objets_ = _interopRequireDefault(require("../objects/Cabinet_Objets_09.gltf"));
+var _Cabinet = _interopRequireDefault(require("../objects/Cabinet.gltf"));
 
 var _Aznavour = _interopRequireDefault(require("../textures/Labo/Aznavour.png"));
 
@@ -101823,6 +101879,8 @@ var _scratch2 = _interopRequireDefault(require("../textures/scratch-02.png"));
 var _scratch3 = _interopRequireDefault(require("../textures/scratch-03.png"));
 
 var _test = _interopRequireDefault(require("../textures/textures_gravure/test02.png"));
+
+var _test2 = _interopRequireDefault(require("../textures/textures_gravure/test03.png"));
 
 var _fivetoner = _interopRequireDefault(require("../textures/fivetoner.jpg"));
 
@@ -101869,7 +101927,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   texture01.minFilter = THREE.LinearMipMapLinearFilter;
   texture01.magFilter = THREE.LinearFilter;
   texture01.magFilter = THREE.CubeUVReflectionMapping;
-  loader.load(_Cabinet_Objets_.default, function (gltf) {
+  loader.load(_Cabinet.default, function (gltf) {
     var mat;
     labo = gltf.scene;
     labo.name = "labo";
@@ -101878,35 +101936,55 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       //GET OLD COLOR AND USE IT WITH TOON MATERIAL
       if (child.material) {
         mat = child.material;
+        if (child.name == "plante") return;
 
-        if (child.name != 'plante') {
-          if (child.name == 'cloche1' || child.name == 'verre' || child.name == 'cloche' || child.name == 'cordes' || child.name == 'cloche_1') {} else {
-            // texture02.rotation = Math.random() * 360 * (Math.PI/180);
-            // console.log(texture02.rotation)
-            child.material = new THREE.MeshToonMaterial({
-              side: THREE.DoubleSide,
-              gradientMap: fiveTone,
-              // normalMap: texture02,
-              // displacementMap: texture02,
-              // bumpMap: texture02,
-              map: texture02
-            });
-
-            if (child.name == 'wall') {
-              child.material.map = null;
-            }
-
-            if (child.name == 'desk_tiroirs001' || child.name == 'desk_tiroirs002' || child.name == 'desk_tiroirs003' || child.name == 'desk_tiroirs004' || child.name == 'desk_tiroirs005' || child.name == 'desk_tiroirs006' || child.name == 'desk_tiroirs009') {
-              child.material.map = texture03;
-            }
-
-            child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
+        if (child.name == 'cloche1' || child.name == 'verre' || child.name == 'cloche' || child.name == 'cordes' || child.name == 'cloche_1') {
+          child.material = new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.08
+          });
+        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1") {
+          if (child.name != "child.material" || child.name == "herbier-herbier") return;
+          child.material = new THREE.MeshBasicMaterial({
+            // side: THREE.DoubleSide,
+            map: child.material.map,
+            transparent: true
+          });
+        } else {
+          if (child.name == "desk_haut_1") {
+            texture02.wrapS = 0.1;
+            texture02.wrapT = 0.1;
+          } else {
+            texture02.wrapS = THREE.RepeatWrapping;
+            texture02.wrapT = THREE.RepeatWrapping;
           }
+
+          child.material = new THREE.MeshToonMaterial({
+            side: THREE.DoubleSide,
+            gradientMap: fiveTone,
+            map: texture02
+          });
+          if (child.name == 'wall') child.material.map = null; // if (
+          //     child.name == 'desk_tiroirs001' ||
+          //     child.name == 'desk_tiroirs002' ||
+          //     child.name == 'desk_tiroirs003' ||
+          //     child.name == 'desk_tiroirs004' ||
+          //     child.name == 'desk_tiroirs005' ||
+          //     child.name == 'desk_tiroirs006' ||
+          //     child.name == 'desk_tiroirs009'
+          // ) {
+          //     child.material.map = texture03;
+          // }
+
+          child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b); // console.log(child.name)
         }
+
+        if (child.name == 'wall') child.material.map = null; // console.log(child.name)
       }
     });
     labo.rotateY(Math.PI);
-    labo.scale.set(0.02, 0.02, 0.02);
     scene.add(labo);
   }, function (xhr) {// console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
   }, function (error) {
@@ -102053,7 +102131,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.focus-kaleidoscope').style.display = 'none'; // Display tuto
 
     document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
-      tuto.style.display = 'block';
       tuto.style.opacity = 1;
     });
   }
@@ -102068,10 +102145,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       setTimeout(function () {
         document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
           _gsap.TweenLite.to(tuto.style, .6, {
-            opacity: 0,
-            onComplete: function onComplete() {
-              tuto.style.display = 'none';
-            }
+            opacity: 0
           });
         });
       }, 4000);
@@ -102118,7 +102192,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var animate = _gsap.TweenLite.to(camera.position, 3, {
       x: target.position.x,
       y: target.position.y,
-      z: target.position.z + 1,
+      z: target.position.z + 0.15,
       ease: _gsap.EaseOut,
       onUpdate: function onUpdate(e) {
         if (camera.position.z < 1.8) {
@@ -102139,7 +102213,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    */
 
 
-  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, -0.15, 2.1, -1.1);
+  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, 0.37, 2, -0.21);
   aznavourPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Aznavour',
@@ -102158,7 +102232,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Britney
    */
 
-  var britneyPin = CreateSrpite(_Britney.default, -1.9, 3.2, -1.2);
+  var britneyPin = CreateSrpite(_Britney.default, -1.6, 3.3, 0);
   britneyPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Britney',
@@ -102167,8 +102241,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }, function () {
       onDiscover(function () {
         reset();
+        kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
-        onClose(function () {});
+        onClose(function () {
+          kaleidoscopeFocus.stop();
+        });
       });
     });
   });
@@ -102177,7 +102254,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * DaftPunk
    */
 
-  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1, 2.35, -1);
+  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1.5, 2.5, -0.15);
   daftPunkPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'DaftPunk',
@@ -102199,7 +102276,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Gainsbourg
    */
 
-  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.39, 3.05, -1.5);
+  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, 0.01, 3.3, -0.4);
   gainsbourgPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Gainsbourg',
@@ -102219,7 +102296,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Memo
    */
 
-  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.75, -0.4);
+  var memoPin = CreateSrpite(_Memo.default, 0.065, 1.8, 0.25);
   memoPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Memo',
@@ -102241,7 +102318,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Polo
    */
 
-  var poloPin = CreateSrpite(_Polo.default, 0.65, 3.3, -1);
+  var poloPin = CreateSrpite(_Polo.default, 1.4, 3.5, -0.4);
   poloPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Polo et Pan',
@@ -102263,7 +102340,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Renaud
    */
 
-  var renaudPin = CreateSrpite(_Renaud.default, -1.38, 2.1, -0.9);
+  var renaudPin = CreateSrpite(_Renaud.default, -0.95, 1.9, -0.5);
   renaudPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Renaud',
@@ -102338,9 +102415,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     if (window.scrollY > bodyHeight - window.screen.height && !started) {
       // Move to position
       var tape = scene.getObjectByName('Storage_group');
-      tape.position.set(-1.5, 2.45, -2);
-      camera.position.set(-1.5, 2.45, -1.6);
-      new _gsap.TimelineMax().to(camera.position, 1, {
+      tape.position.set(-1, 2.515, -0.5);
+      camera.position.set(-0.99, 2.565, -0.305);
+      new _gsap.TimelineMax({
+        delay: 0.3
+      }).to(camera.position, 2, {
         x: 0,
         y: 2.7,
         z: 2.5,
@@ -102476,12 +102555,16 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     retourGUI.add(retourPin.position, 'x');
     retourGUI.add(retourPin.position, 'y');
     retourGUI.add(retourPin.position, 'z');
+    var laboGUI = gui.addFolder('Labo');
+    laboGUI.add(labo.position, 'x');
+    laboGUI.add(labo.position, 'y');
+    laboGUI.add(labo.position, 'z');
   };
 }
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet.gltf":"objects/Cabinet.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/textures_gravure/test03.png":"textures/textures_gravure/test03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102848,7 +102931,7 @@ function Scene(canvas) {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
     renderer.gammaOutput = true;
-    renderer.setClearColor(0xEDE3E1, 1);
+    renderer.setClearColor(0xEDE3E1, 0);
     var DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
     renderer.setPixelRatio(DPR); // renderer.setPixelRatio(1);
 
@@ -103015,7 +103098,7 @@ bindEventListeners01();
 render01();
 scene.helpers();
 scene.setStarted(true);
-},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../../../.config/yarn/global/node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -103043,7 +103126,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52316" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49731" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -103219,5 +103302,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map

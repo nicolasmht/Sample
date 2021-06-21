@@ -3,17 +3,18 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 import {Howl, Howler} from 'howler';
 import { EffectComposer, EffectPass, RenderPass, BlendFunction, BloomEffect } from "postprocessing";
+import { InteractionManager } from "three.interactive";
 
 // Object
 import daftPunkModel from '../objects/focus_daft-punk_02.gltf';
-import daftPunkPyramid from '../objects/focus_daft-punk_pyramid.gltf';
+import daftPunkPyramid from '../objects/PyramidSeparate.glb';
 import daftPunkCadrillage from '../objects/focus_daft-punk_cadrillage.gltf';
 import threeT from '../textures/threeTone.png';
 import fiveT from '../textures/fivetoner.jpg';
 import sound1 from '../audios/tundra-beats.mp3';
 import sound2 from '../audios/RFL.mp3';
 
-function DaftPunk(sceneMain, cameraMain, interactionManager) {
+function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
@@ -27,6 +28,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
 
     camera.position.set(0, 15, 40);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    const interactionManager = new InteractionManager(
+        renderer,
+        camera,
+        renderer.domElement
+    );
 
     // POST PROCESSING
     const composer = new EffectComposer(renderer);
@@ -50,9 +57,9 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
     let pyramid = new THREE.Object3D();
     let cadrillage = new THREE.Object3D();
 
-    loader.load( daftPunkModel, ( gltf ) => {
+    loader.load( daftPunkPyramid, ( gltf ) => {
             pyramid = gltf.scene;
-            pyramid.name = "Storage_group"
+            pyramid.name = "Storage_group";
 
             pyramid.traverse( (child) => {
                 // console.log(child)
@@ -101,17 +108,18 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
         let pyramidB2 = pyramid.getObjectByName('Pyramid_bas1')//pink
         let pyramidB3 = pyramid.getObjectByName('Pyramid_bas_1')//yel
         let pyramidB4 = pyramid.getObjectByName('Pyramid_bas2')//blue
-        let pyramidBT = pyramid.getObjectByName('Pyramid_Top')
-        let baseRotationBot = pyramidB.rotation.y;
-        let baseRotationTop = pyramidT.rotation.y;
-        let multiplicateur = 1;
-        let turn = 0;
-        let firstClick = true;
-        let isComplete = false;
+        let pyramidBT = pyramid.getObjectByName('Pyramid_Top');
 
-        let drag = false;
-        let mouseDown = false
-        let dragProgress = baseRotationBot;
+        // let baseRotationBot = pyramidB.rotation.y;
+        // let baseRotationTop = pyramidT.rotation.y;
+        // let multiplicateur = 1;
+        // let turn = 0;
+        // let firstClick = true;
+        // let isComplete = false;
+
+        // let drag = false;
+        // let mouseDown = false
+        // let dragProgress = baseRotationBot;
 
         // //OUTLINE GLOBAL
         // let pyramidModelOutline = pyramidModel.clone()
@@ -174,115 +182,122 @@ function DaftPunk(sceneMain, cameraMain, interactionManager) {
         //RAYCAST BOT FACE FOR SOUND
         let faceTarget;
         let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
+
+        console.log(botArray)
+
+        botArray.forEach(e => {
+            // e.addEventListener('mouseover',(t)=> {
+            //     t.stopPropagation()
+            //     faceTarget = t.target.name
+            //     setTimeout(()=> {
+            //         soundA.stop()
+            //         soundB.stop()
+            //         switch (faceTarget) {
+            //             case 'Pyramid_bas': //green
+            //                     soundA.play();
+            //                 break;
+            //             case 'Pyramid_bas2': //blue
+            //                     soundB.play();
+            //                 break;
+            //             default:
+            //                 break;
+            //         }
+            //     }, 500)
+            // })
+        });
+
         interactionManager.add(pyramidB1);
         interactionManager.add(pyramidB2);
         interactionManager.add(pyramidB3);
         interactionManager.add(pyramidB4);
 
-        botArray.forEach(e => {
-            e.addEventListener('mouseover',(t)=> {
-                t.stopPropagation()
-                faceTarget = t.target.name
-                setTimeout(()=> {
-                    soundA.stop()
-                    soundB.stop()
-                    switch (faceTarget) {
-                        case 'Pyramid_bas': //green
-                                soundA.play();
-                            break;
-                        case 'Pyramid_bas2': //blue
-                                soundB.play();
-                            break;
-                        default:
-                            break;
-                    }
-                },500)
-            })
-        });
-
         //RAYCAST TOP OR BOTTOM TARGET
         let targetPyramid = pyramidB
         let modelArray = [pyramidB,pyramidT];
+        
+        modelArray.forEach(e => {
+            // console.log(e);
+            // e.addEventListener('mousedown',(t)=> {
+            //     t.stopPropagation()
+            //     switch (t.target.name) {
+            //         case 'bas':
+            //             targetPyramid = pyramidB
+            //             break;
+            //         case 'haut':
+            //             targetPyramid = pyramidT
+            //             break;
+            //         default:
+            //             break;
+            //     }
+            // })
+        });
+
         interactionManager.add(pyramidB);
         interactionManager.add(pyramidT);
-        modelArray.forEach(e => {
-            e.addEventListener('mousedown',(t)=> {
-                t.stopPropagation()
-                switch (t.target.name) {
-                    case 'bas':
-                        targetPyramid = pyramidB
-                        break;
-                    case 'haut':
-                        targetPyramid = pyramidT
-                        break;
-                    default:
-                        break;
-                }
-            })
-        })
-
 
         document.addEventListener('mousedown', () => {
-            drag = false
-            mouseDown = true
+            // drag = false
+            // mouseDown = true
         });
-        document.addEventListener('mousemove', (e) => {
-            drag = true
-            if(mouseDown) {
-                if(firstClick) {
-                   if(targetPyramid == pyramidT) {
-                        let tlBaseRotation = new TimelineMax({})
-                            .to(pyramidB.rotation, 1, {ease:Elastic.easeOut.config(2,1), y: baseRotationTop}, 0)
-                            .add(()=> {
-                                firstClick = false
-                            },1)
-                    }
-                    firstClick = false
-                }
-                dragProgress = targetPyramid.rotation.y
-                dragProgress += e.movementX/200;
-                targetPyramid.rotation.y = dragProgress;
-                let rotationY = targetPyramid.rotation.y - ((Math.PI*2)*turn);
 
-                //Less
-                if(rotationY < -5.45) { multiplicateur = 0;}
-                if(rotationY < -3.9 && rotationY > -5.45) { multiplicateur= -3; turn -= 1;}
-                if(rotationY < -2.15 && rotationY > -3.9) { multiplicateur= -2;}
-                if(rotationY < -0.52 && rotationY > -2.15) { multiplicateur= -1;}
-                if(rotationY < 0.9 && rotationY > -0.52) { multiplicateur= 0;}
-                //More
-                if(rotationY < 2.5 && rotationY > 0.9) { multiplicateur= 1; }
-                if(rotationY < 4.25 && rotationY > 2.5) { multiplicateur= 2; }
-                if(rotationY < 5.85 && rotationY > 4.25) { multiplicateur= 3; }
-                if(rotationY < 7.15 && rotationY > 5.85) { multiplicateur= 4; turn += 1;}
-                if(rotationY >= 7.15) { multiplicateur = 1;}
-            }
-        });
-        document.addEventListener('mouseup', () => {
-            let nextFace = ( baseRotationTop + (( Math.PI / 2 ) * multiplicateur )) + (( Math.PI * 2 ) * turn );
-            let tlRotation = new TimelineMax({})
-                .to(targetPyramid.rotation, 1, {ease:Elastic.easeOut.config(2,1), y: nextFace}, 0)
-                .add(()=> {
-                    let initialPosition = (nextFace - ((Math.PI*2)*turn)).toFixed(2)
-                    let tlFusion = new TimelineMax({})
-                    //If two face aligné (soustraction des angles de rotation)
-                    if(initialPosition - baseRotationTop.toFixed(2) == 0 && isComplete == false) {
-                        isComplete=true
-                        tlFusion.to(pyramidT.position, 2, {ease:Bounce.easeIn, y: -1.5}, 0)
-                                .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: -4}, 0)
-                                .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 4}, 0)
-                                .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 4}, 0)
-                                .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: -4}, 0)
-                                .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
-                                .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
-                                .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
-                                .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
-                    } if(initialPosition - baseRotationTop.toFixed(2) != 0 &&isComplete == true) {
-                        tlFusion.to(pyramidT.position, 1, {ease:Bounce.easeIn, y: 0.5}, 0)
-                        isComplete = false
-                    }
-                },1)
-            mouseDown = false
+        document.addEventListener('mousemove', (e) => {
+        //     drag = true
+        //     if(mouseDown) {
+        //         if(firstClick) {
+        //            if(targetPyramid == pyramidT) {
+        //                 let tlBaseRotation = new TimelineMax({})
+        //                     .to(pyramidB.rotation, 1, {ease:Elastic.easeOut.config(2,1), y: baseRotationTop}, 0)
+        //                     .add(()=> {
+        //                         firstClick = false
+        //                     },1)
+        //             }
+        //             firstClick = false
+        //         }
+        //         dragProgress = targetPyramid.rotation.y
+        //         dragProgress += e.movementX/200;
+        //         targetPyramid.rotation.y = dragProgress;
+        //         let rotationY = targetPyramid.rotation.y - ((Math.PI*2)*turn);
+
+        //         //Less
+        //         if(rotationY < -5.45) { multiplicateur = 0;}
+        //         if(rotationY < -3.9 && rotationY > -5.45) { multiplicateur= -3; turn -= 1;}
+        //         if(rotationY < -2.15 && rotationY > -3.9) { multiplicateur= -2;}
+        //         if(rotationY < -0.52 && rotationY > -2.15) { multiplicateur= -1;}
+        //         if(rotationY < 0.9 && rotationY > -0.52) { multiplicateur= 0;}
+        //         //More
+        //         if(rotationY < 2.5 && rotationY > 0.9) { multiplicateur= 1; }
+        //         if(rotationY < 4.25 && rotationY > 2.5) { multiplicateur= 2; }
+        //         if(rotationY < 5.85 && rotationY > 4.25) { multiplicateur= 3; }
+        //         if(rotationY < 7.15 && rotationY > 5.85) { multiplicateur= 4; turn += 1;}
+        //         if(rotationY >= 7.15) { multiplicateur = 1;}
+        //     }
+        // });
+
+        // document.addEventListener('mouseup', () => {
+        //     let nextFace = ( baseRotationTop + (( Math.PI / 2 ) * multiplicateur )) + (( Math.PI * 2 ) * turn );
+        //     let tlRotation = new TimelineMax({})
+        //         .to(targetPyramid.rotation, 1, {ease:Elastic.easeOut.config(2,1), y: nextFace}, 0)
+        //         .add(()=> {
+        //             let initialPosition = (nextFace - ((Math.PI*2)*turn)).toFixed(2)
+        //             let tlFusion = new TimelineMax({})
+        //             //If two face aligné (soustraction des angles de rotation)
+        //             if(initialPosition - baseRotationTop.toFixed(2) == 0 && isComplete == false) {
+        //                 isComplete=true
+        //                 tlFusion.to(pyramidT.position, 2, {ease:Bounce.easeIn, y: -1.5}, 0)
+        //                         .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: -4}, 0)
+        //                         .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 4}, 0)
+        //                         .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 4}, 0)
+        //                         .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: -4}, 0)
+        //                         .to(pyramidB3.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
+        //                         .to(pyramidB4.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
+        //                         .to(pyramidB1.position, 1, {ease:Bounce.easeIn, x: 0}, 1)
+        //                         .to(pyramidB2.position, 1, {ease:Bounce.easeIn, z: 0}, 1)
+        //             } if(initialPosition - baseRotationTop.toFixed(2) != 0 &&isComplete == true) {
+        //                 tlFusion.to(pyramidT.position, 1, {ease:Bounce.easeIn, y: 0.5}, 0)
+        //                 isComplete = false
+        //             }
+        //         },1)
+        //     mouseDown = false
         });
     }
 

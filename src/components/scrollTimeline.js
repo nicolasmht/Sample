@@ -15,25 +15,25 @@ import Orange from '../textures/orange.jpeg';
 // import TapeModel from '../objects/AudioTape/case_closed-m.glb';
 import TapeModel from '../objects/AudioTape/case_closed-m.gltf';
 
-import soundA from '../audios/timeline/sound01.mp3'
-import soundB from '../audios/timeline/sound02.mp3'
-import soundC from '../audios/timeline/sound03.mp3'
-import soundD from '../audios/timeline/sound04.mp3'
-import soundE from '../audios/timeline/sound05.mp3'
-import soundF from '../audios/timeline/sound06.mp3'
-import soundG from '../audios/timeline/sound07.mp3'
-import soundH from '../audios/timeline/sound08.mp3'
-import soundI from '../audios/timeline/sound09.mp3'
-import soundJ from '../audios/timeline/sound10.mp3'
-import soundK from '../audios/timeline/sound11.mp3'
-import soundL from '../audios/timeline/sound12.mp3'
+import soundA from '../audios/timeline/sound01.mp3';
+import soundB from '../audios/timeline/sound02.mp3';
+import soundC from '../audios/timeline/sound03.mp3';
+import soundD from '../audios/timeline/sound04.mp3';
+import soundE from '../audios/timeline/sound05.mp3';
+import soundF from '../audios/timeline/sound06.mp3';
+import soundG from '../audios/timeline/sound07.mp3';
+import soundH from '../audios/timeline/sound08.mp3';
+import soundI from '../audios/timeline/sound09.mp3';
+import soundJ from '../audios/timeline/sound10.mp3';
+import soundK from '../audios/timeline/sound11.mp3';
+import soundL from '../audios/timeline/sound12.mp3';
 
-import textureA from  '../textures/tape/case01.png'
-import textureB from  '../textures/tape/case02.png'
-import textureC from  '../textures/tape/case03.png'
-import textureD from  '../textures/tape/case04.png'
-import textureE from  '../textures/tape/case05.png'
-import textureF from  '../textures/tape/case06.png'
+import textureA from  '../textures/tape/case01.png';
+import textureB from  '../textures/tape/case02.png';
+import textureC from  '../textures/tape/case03.png';
+import textureD from  '../textures/tape/case04.png';
+import textureE from  '../textures/tape/case05.png';
+import textureF from  '../textures/tape/case06.png';
 
 function ScrollTimeline(scene, camera) {
 
@@ -61,10 +61,13 @@ function ScrollTimeline(scene, camera) {
 
             tape.traverse( (child) => {
                 let modelPart = child.name;
-                console.log(child.name)
+
                 switch(modelPart) {
-                    case 'Storage':
-                        // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
+                    case 'desk_haut':
+                    case 'desk_haut16':
+                    case 'desk_haut2':
+                    case 'desk_haut3':
+                        child.material = new THREE.MeshBasicMaterial({color:0xEBD3BA, side:THREE.DoubleSide});
                     break;
                     case 'Tape_obj':
                         // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
@@ -92,6 +95,8 @@ function ScrollTimeline(scene, camera) {
                         child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
                     break;
                 }
+                
+                console.log(child.name)
             });
 
             camera.position.x = -30;
@@ -101,7 +106,6 @@ function ScrollTimeline(scene, camera) {
             // tape.position.z = -5;
 
             tape.scale.set(0.01125, 0.012, 0.012);
-            // tape.position.set(-2.5115, 2.37, -1.45);
             tape.position.set(camera.position.x -0.0115 , camera.position.y -0.08, camera.position.z -0.2004);
             tape.rotateY(Math.PI);
 
@@ -174,13 +178,13 @@ function ScrollTimeline(scene, camera) {
         const textureLoader = new THREE.TextureLoader()
         
         let vertShader = `
-        varying vec2 vUv;
-        
-        void main() {
-            vUv = uv;
+            varying vec2 vUv;
             
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-        }
+            void main() {
+                vUv = uv;
+                
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+            }
         `
         let fragShader = ` 
         uniform sampler2D texture1;
@@ -327,7 +331,7 @@ function ScrollTimeline(scene, camera) {
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
-        document.addEventListener("mousewheel", (e) => {
+        document.addEventListener("scroll", (e) => {
             let documentHeight = document.querySelector('.container').offsetHeight;
             let windowHeight = window.innerHeight;
 
@@ -396,8 +400,8 @@ function ScrollTimeline(scene, camera) {
     //SLIDER
     function initSlider() {
         
-        sound01.play();
-        sound02.play();
+        // sound01.play();
+        // sound02.play();
 
         let sliderPos;
         let currentPos = 0;
