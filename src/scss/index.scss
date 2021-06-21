@@ -584,18 +584,18 @@ html, body {
     z-index: 100000;
     background-size: contain;
     background-repeat: no-repeat;
-    bottom: 0;
+    bottom: 0px;
     left: 50%;
-    transform: rotateZ(0deg) translate(-50%, 50%) ;
     transform-origin: center;
+    transform: translate(-50%, 50%);
 
     &.rotate {
-      animation: rotation 2s ease-out forwards;
+      animation: rotate 2s ease-out forwards;
     }
 
-    @keyframes rotation {
-      0% {transform: rotateZ(0deg) translate(-50%, 50%) }
-      100% {transform: rotateZ(360deg) translate(-50%, 50%)}
+    @keyframes rotate {
+      0% {transform: translate(-50%, 50%) rotateZ(0deg)}
+      100% {transform: translate(-50%, 50%) rotateZ(360deg)}
     }
 
 
