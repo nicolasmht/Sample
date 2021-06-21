@@ -37055,7 +37055,7 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
-},{}],"../../../.config/yarn/global/node_modules/events/events.js":[function(require,module,exports) {
+},{}],"../node_modules/events/events.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -101682,25 +101682,7 @@ function Component(scene) {
 
   function turnTheDisc(sound) {
     // Animate the vinyle
-    // last = discRotation;
-    // discRotation += 360;
-    // let time = 0;
-    // let nameChange = false;
-    console.log('test');
-    var disc = document.querySelector('#disque'); //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
-    // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
-    //     time++;
-    //     if(time > 25 && !nameChange) {
-    //     nameChange = true;
-    //     // Edit the title of vinyle
-    //     let title = document.querySelector('#soundTitle');
-    //     title.innerText = sound.title;
-    //     // Edit the date of the vinyle
-    //     let date = document.querySelector('#soundDate');
-    //     date.innerText = sound.date;
-    //     }
-    // }});
-
+    var disc = document.querySelector('#disque');
     disc.classList.add('rotate');
     setTimeout(function () {
       // Edit the title of vinyle
@@ -101716,7 +101698,8 @@ function Component(scene) {
   } // Cursor animation
 
 
-  var cursor = document.querySelector('#cursor'); // Make the sun draggable
+  var cursor = document.querySelector('#cursor');
+  var cursorAction = document.querySelector('#cursor .actions'); // Make the sun draggable
 
   dragElement(sun);
 
@@ -101823,11 +101806,14 @@ function Component(scene) {
   this.start = function () {
     // When the mouse hover the sun
     sun.addEventListener('mouseover', function () {
-      cursor.classList.add('drag');
+      cursorAction.classList.add('drag', 'show');
     }); // When the mouse leave the sun
 
     sun.addEventListener('mouseout', function () {
-      cursor.classList.remove('drag');
+      cursorAction.classList.remove('show');
+      setTimeout(function () {
+        cursorAction.classList.remove('drag');
+      }, 400);
     }); // Classic cursor
 
     document.addEventListener('mousemove', function (e) {
@@ -103506,7 +103492,7 @@ bindEventListeners01();
 render01();
 scene.helpers();
 scene.setStarted(true);
-},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../../../.config/yarn/global/node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -103534,11 +103520,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50963" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56722" + '/');
->>>>>>> 974b504716b0345f30adcb81b67dadf4e1da31e7
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50599" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -103714,5 +103696,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map

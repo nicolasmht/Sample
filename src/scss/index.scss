@@ -532,20 +532,43 @@ html, body {
   // Cursor
   #cursor {
     position: fixed;
-    z-index: 10000;
-    background-image: url('../assets/polo/cursors/cursor.png');
+    z-index: 1000000;
+    background-image: url('../assets/polo/cursors/cursor.svg');
     width: 20px;
+    background-repeat: no-repeat;
     height: 20px;
+    background-size: cover;
     pointer-events: none;
-    // transition: 400ms ease-in-out;
-    // transition-property: width, height, background-image, transform;
-    // transform-origin: center;
 
-    &.drag {
-      width: 66px;
-      height: 64px;
-      background-image: url('../images/focus/polo/cursors/drag.png');
-      transform: rotate(-25deg);
+    .actions {
+      width: 60px;
+      height: 60px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      transform: scale(0);
+      transition: transform 400ms ease-out;
+      left: -10px;
+      top: -10px;
+      position: absolute;
+      transform-origin: 20px 20px;
+
+      &.drag {
+        background-image: url('../assets/polo/cursors/cursor_drag.svg');
+      }
+
+      &.move {
+        background-image: url('../assets/polo/cursors/cursor_move.svg');
+      }
+
+      &.click {
+        background-image: url('../assets/polo/cursors/cursor_click.svg');
+      }
+
+      &.show {
+        transform: scale(1);
+      }
+      // transform: rotate(-25deg);
     }
   }
 
