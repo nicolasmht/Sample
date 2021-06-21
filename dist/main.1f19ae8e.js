@@ -99840,7 +99840,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var matPlane = new THREE.MeshBasicMaterial({
     color: 0xeeeeee,
     transparent: true,
-    opacity: .6,
+    opacity: .45,
     map: texture,
     side: THREE.FrontSide
   });
@@ -99889,7 +99889,6 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     interactionManager.add(pyramidB4);
     botArray.forEach(function (e) {
       e.addEventListener('mouseover', function (t) {
-        console.log('mouseover');
         console.log(t.target.name);
         t.stopPropagation();
         faceTarget = t.target.name;
@@ -99900,14 +99899,14 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
           switch (faceTarget) {
             case 'Pyramid_bas_1':
               //Dog
-              console.log('Face 1: Dog'); // soundA.play();
-
+              console.log('Face 1: Dog');
+              soundA.play();
               break;
 
             case 'Pyramid_bas2':
               //Spatial
-              console.log('Face 2: SPatial'); // soundB.play();
-
+              console.log('Face 2: SPatial');
+              soundB.play();
               break;
 
             case 'Pyramid_bas3':
@@ -102570,18 +102569,19 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var memoryFocus = new _Memory.default(scene);
   var poloFocus = new _Polo2.default(scene);
   var daftFocus = new _daftPunk.default(scene, camera, interactionManager);
-  var kaleidoscopeFocus = new _Kaleidoscope.default(scene, camera); // //TO REMOVE
-  // document.querySelector('.container').style.display = 'none';
-  // document.querySelector('.container-focus').style.transform = 'none';
-  // document.querySelector('.container-focus').style.transition = 'none';
-  // document.querySelector('.focus-daftpunk').style.display = 'block';
-  // document.querySelector('.focus-renaud').style.display = 'none';
-  // document.querySelector('.focus-gainsbourg').style.display = 'none';
-  // document.querySelector('.focus-aznavour').style.display = 'none';
-  // document.querySelector('.focus-memory').style.display = 'none';
-  // document.querySelector('.focus-polo').style.display = 'none';
-  // document.querySelector('.focus-kaleidoscope').style.display = 'none';
-  // daftFocus.start();
+  var kaleidoscopeFocus = new _Kaleidoscope.default(scene, camera); //TO REMOVE
+
+  document.querySelector('.container').style.display = 'none';
+  document.querySelector('.container-focus').style.transform = 'none';
+  document.querySelector('.container-focus').style.transition = 'none';
+  document.querySelector('.focus-daftpunk').style.display = 'block';
+  document.querySelector('.focus-renaud').style.display = 'none';
+  document.querySelector('.focus-gainsbourg').style.display = 'none';
+  document.querySelector('.focus-aznavour').style.display = 'none';
+  document.querySelector('.focus-memory').style.display = 'none';
+  document.querySelector('.focus-polo').style.display = 'none';
+  document.querySelector('.focus-kaleidoscope').style.display = 'none';
+  daftFocus.start();
 
   function onClick(target, item, callback) {
     // reset();
@@ -103519,7 +103519,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60324" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60464" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

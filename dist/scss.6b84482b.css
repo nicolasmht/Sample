@@ -965,12 +965,12 @@ html, body {
   left: 2px;
   height: 116px;
   width: 116px;
-  background: url("/Dig_txt.2944d6aa.png");
+  background: url("/Back_Txt_Beige.237132ad.png");
   background-size: contain;
   animation: rotation 5s linear infinite;
 }
-.focus-daftpunk .push-cab .text-container.white {
-  filter: invert(1);
+.focus-daftpunk .push-cab .text-container.black {
+  filter: invert(1) contrast(2);
 }
 .focus-daftpunk .push-cab .circle-container {
   position: absolute;

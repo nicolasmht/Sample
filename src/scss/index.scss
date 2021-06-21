@@ -1093,11 +1093,11 @@ html, body {
       left: 2px;
       height: 116px;
       width: 116px;
-      background: url('../images/PushCab/Dig_txt.png');
+      background: url('../images/PushCab/Back_Txt_Beige.png');
       background-size: contain;
       animation: rotation 5s linear infinite;
-      &.white {
-        filter: invert(1);
+      &.black {
+        filter: invert(1) contrast(2);
       }
     }
     .circle-container {
