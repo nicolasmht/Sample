@@ -56,7 +56,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   transform: translateX(100vw);
-  transition: all 3s;
+  transition: transform 2s;
   z-index: 2;
   overflow: hidden;
 }
@@ -75,13 +75,10 @@ html, body {
   position: absolute;
   top: 2.5vh;
   left: 2.5vw;
-  width: 3vw;
-  height: 3vw;
-  background-image: url(/back-labo.7774f8e2.png);
-  background-size: contain;
-  background-position: center center;
+  width: 4vw;
+  height: 4vw;
   cursor: pointer;
-  z-index: 3;
+  z-index: 99999;
 }
 
 .container-infos {
@@ -89,7 +86,7 @@ html, body {
   top: 0;
   bottom: 0;
   right: 0;
-  width: 30vw;
+  width: 22vw;
   padding: 5vh;
   display: flex;
   justify-content: center;
@@ -101,14 +98,14 @@ html, body {
   background-repeat: repeat;
   z-index: 999;
   transform: translateX(100%);
-  transition: all 3s;
+  transition: all 2s;
 }
 .container-infos.visible {
   transition: all 0.3s;
   transform: translateX(0);
 }
 .container-infos.full {
-  transition: all 3s;
+  transition: all 2s;
   transform: translateX(-100vw);
 }
 .container-infos .title-infos {
@@ -117,6 +114,7 @@ html, body {
   font-size: 4vw;
 }
 .container-infos .subTitle-infos {
+  text-align: center;
   margin: 0;
   margin-bottom: 3vh;
   font-size: 2vw;
@@ -130,9 +128,6 @@ html, body {
 .container-infos .btn-infos {
   width: 13vw;
   height: 5vw;
-  background-image: url(/CTA_Discover.cfead27a.png);
-  background-size: contain;
-  background-repeat: no-repeat;
   cursor: pointer;
   border: none;
 }
@@ -142,10 +137,6 @@ html, body {
   right: 2.5vw;
   width: 4vw;
   height: 4vw;
-  background-image: url(/close.46897bca.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
   cursor: pointer;
 }
 
@@ -175,6 +166,26 @@ html, body {
   background-color: red;
 }
 
+.win {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000021;
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  transition: 400ms;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+}
+.win.show {
+  opacity: 1;
+}
+.win.memory {
+  background-image: url("/win.526a6438.png");
+}
+
 .tuto {
   width: 100vw;
   height: 100vh;
@@ -185,9 +196,9 @@ html, body {
   background-size: 300px;
   transition: 400ms;
   z-index: 10000;
+  pointer-events: none;
 }
 .tuto.hide {
-  transform: scale(0.2);
   opacity: 0;
 }
 .tuto.memory {
@@ -199,16 +210,43 @@ html, body {
 .tuto.polo {
   background-image: url("/polo.93e13b0a.png");
 }
+.tuto.kaleidoscope {
+  background-image: url("/britney.51db3ead.png");
+}
+.tuto.gainsbourg {
+  background-image: url("/gainsbourg.f1494bf7.png");
+  z-index: 10020;
+}
 
 .focus-renaud {
   width: 100vw;
   height: 100vh;
   -o-object-fit: contain;
   object-fit: contain;
-  background-image: url("/background.fd6cf431.png");
+  background-image: url("/background.35c6f407.jpeg");
   background-position: center;
   background-size: cover;
   display: none;
+}
+.focus-renaud .spacebar {
+  position: fixed;
+  bottom: 6%;
+  left: 50%;
+  transform: translate(-50%, 0px);
+  width: 330px;
+  height: 100px;
+  background-image: url("/hold.97c9d69c.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: all 400ms;
+  opacity: 0;
+}
+.focus-renaud .spacebar.show {
+  opacity: 1;
+}
+.focus-renaud .spacebar.holding {
+  background-image: url("/holding.15be8fab.png");
 }
 .focus-renaud #video {
   position: fixed;
@@ -224,62 +262,57 @@ html, body {
   height: 100%;
   object-fit: cover;
 }
-.focus-renaud img {
+.focus-renaud > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   position: fixed;
   opacity: 0;
   -webkit-animation-name: shake;
-  -webkit-animation-duration: 0.8s;
+  -webkit-animation-duration: 0.2s;
   -webkit-transform-origin: 50% 50%;
   -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
+  -webkit-animation-timing-function: ease-in;
+}
+.focus-renaud > img:nth-child(2) {
+  -webkit-animation-name: shake2;
 }
 
 @-webkit-keyframes shake {
   0% {
-    -webkit-transform: translate(2px, 1px) rotate(0deg);
-  }
-  10% {
-    -webkit-transform: translate(-1px, -2px) rotate(-1deg);
-  }
-  20% {
-    -webkit-transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    -webkit-transform: translate(0px, 2px) rotate(0deg);
-  }
-  40% {
-    -webkit-transform: translate(1px, -1px) rotate(1deg);
-  }
-  50% {
-    -webkit-transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    -webkit-transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    -webkit-transform: translate(2px, 1px) rotate(-1deg);
-  }
-  80% {
-    -webkit-transform: translate(-1px, -1px) rotate(1deg);
-  }
-  90% {
-    -webkit-transform: translate(2px, 2px) rotate(0deg);
+    -webkit-transform: translate(0.7px, 0.5px);
   }
   100% {
-    -webkit-transform: translate(1px, -2px) rotate(-1deg);
+    -webkit-transform: translate(-0.7px, -0.5px);
+  }
+}
+@-webkit-keyframes shake2 {
+  0% {
+    -webkit-transform: translate(0.2px, 0.1px);
+  }
+  100% {
+    -webkit-transform: translate(-1px, -0.1px);
   }
 }
 .focus-gainsbourg {
   width: 100vw;
   height: 100vh;
-  background-image: url("/background.605da404.jpeg");
+  background-image: url("/background_1.4dbb732f.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: none;
+}
+.focus-gainsbourg #lampe {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/lampe.84f03aac.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 10001;
+  pointer-events: none;
+  position: fixed;
 }
 .focus-gainsbourg #mask {
   width: 100%;
@@ -292,12 +325,12 @@ html, body {
   max-width: 25%;
   cursor: move;
   position: absolute;
-  transition: box-shadow 300ms;
+  transition: transform 300ms;
   z-index: 2;
   transform-origin: center;
 }
 .focus-gainsbourg img.draggable:hover {
-  filter: drop-shadow(0 0 0.75rem rgba(255, 0, 0, 0.75));
+  transform: scale(1.1);
 }
 .focus-gainsbourg img.stamp {
   max-width: 10%;
@@ -319,6 +352,9 @@ html, body {
   top: -40px;
   left: 20%;
 }
+.focus-gainsbourg img.clopes:hover {
+  transform: rotate(36.67deg) scale(1.1) !important;
+}
 .focus-gainsbourg img.dvorak {
   width: 80px;
   top: 5%;
@@ -336,10 +372,16 @@ html, body {
   transform-origin: center;
   transform: rotate(30deg);
 }
+.focus-gainsbourg img.lemon:hover {
+  transform: rotate(30deg) scale(1.1) !important;
+}
 .focus-gainsbourg img.jtm {
   transform: rotate(66.39deg);
   bottom: 0vh;
   left: 40vh;
+}
+.focus-gainsbourg img.jtm:hover {
+  transform: rotate(66.39deg) scale(1.1);
 }
 .focus-gainsbourg img.polska {
   bottom: 3vh;
@@ -351,7 +393,7 @@ html, body {
   left: 10%;
 }
 .focus-gainsbourg #background-cover {
-  background-image: url("/background-cover.014080d0.png");
+  background-image: url("/background_cover.8fb86d00.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -413,6 +455,10 @@ html, body {
   width: 100vw;
   height: 100vh;
   display: none;
+  background-image: url("/background.6f667cd6.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .focus-polo {
@@ -424,8 +470,8 @@ html, body {
 }
 .focus-polo #cursor {
   position: fixed;
-  z-index: 100000;
-  background-image: url("/cursor.098de7c6.png");
+  z-index: 10000;
+  background-image: url("/cursor.b6c0ac8d.png");
   width: 20px;
   height: 20px;
   pointer-events: none;
@@ -448,6 +494,17 @@ html, body {
   left: 50%;
   transform: translate(-50%, 50%) rotateZ(0deg);
   transform-origin: center;
+}
+.focus-polo #disque.rotate {
+  animation: rotation 2s ease-out forwards;
+}
+@keyframes rotation {
+  0% {
+    transform: translate(-50%, 50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, 50%) rotate(360deg);
+  }
 }
 .focus-polo #disque h3 {
   margin: 0;
@@ -483,7 +540,7 @@ html, body {
 .focus-polo #layer-1 {
   width: 100%;
   height: 100%;
-  background-image: url("/05.54b95d9c.png");
+  background-image: url("/05.44963e58.png");
   margin: 0;
   position: fixed;
   top: 0;
@@ -494,7 +551,7 @@ html, body {
 .focus-polo #layer-2 {
   width: 120%;
   height: 120%;
-  background-image: url("/02.b31dc7e1.png");
+  background-image: url("/02.59942c5d.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -537,7 +594,7 @@ html, body {
 .focus-polo #layer-3 {
   width: 105%;
   height: 105%;
-  background-image: url("/01.461b1eca.png");
+  background-image: url("/01.d7e55cda.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -568,7 +625,7 @@ html, body {
 .focus-polo #layer-4 {
   width: 100%;
   height: 100%;
-  background-image: url("/03.0215e571.png");
+  background-image: url("/03.43e36bc2.png");
   background-position: center;
   background-size: cover;
   position: fixed;
@@ -587,7 +644,7 @@ html, body {
   width: 250px;
   height: 250px;
   transform: translateX(-50%);
-  background-image: url("/04_Soleil.a218272f.png");
+  background-image: url("/04_Soleil.d8d45d4e.png");
   background-position: center;
   background-size: cover;
   box-sizing: border-box;
@@ -597,7 +654,7 @@ html, body {
 #sun::after {
   content: "";
   position: absolute;
-  background-image: url("/04_Halo.7e2567fc.png");
+  background-image: url("/04_Halo.e1cc18db.png");
   background-position: center;
   background-size: cover;
   width: 300px;
@@ -629,7 +686,10 @@ html, body {
 .focus-kaleidoscope {
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
+  cursor: move;
+  background-image: url(/Fond_1.b3d8f70d.jpg);
+  background-size: cover;
+  background-position: center center;
 }
 .focus-kaleidoscope canvas {
   width: 100%;
@@ -731,18 +791,21 @@ html, body {
 }
 .container h1 {
   font-family: "bely-display";
-  font-size: 50px;
+  font-size: 2.6vw;
 }
 .container p {
-  font-family: "biotif";
-  font-size: 16px;
+  font-family: "biotif-l";
+  font-size: 1vw;
+}
+.container p b {
+  font-family: "biotif-b";
 }
 .container .cta {
   font-family: "bely-display";
-  font-size: 18px;
+  font-size: 1.1vw;
   position: relative;
   cursor: pointer;
-  width: 100px;
+  width: auto;
 }
 .container .cta::before {
   content: "";
@@ -758,6 +821,9 @@ html, body {
   display: flex;
   padding: 30px;
   margin-bottom: 700px;
+}
+.container_artist p {
+  line-height: 1.6vw;
 }
 .container_artist-left {
   width: 55%;
@@ -825,7 +891,7 @@ html, body {
   top: -100%;
 }
 .container_artist-right {
-  width: 35%;
+  width: 25vw;
   position: relative;
 }
 .container_artist-panel {

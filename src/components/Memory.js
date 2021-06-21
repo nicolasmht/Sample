@@ -5,14 +5,21 @@ import CardVerso from '../images/focus/memory/card-verso.jpeg';
 
 function Component(sceneMain) {
 
+    let isFinish = false;
+    let nbCardsFound = 0;
+    const soundDuration = 30000;
+
+    let tutorial = document.querySelector('.focus-memory .tuto');
+    let winScreen = document.querySelector('.focus-memory .win');
+
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
     camera.position.z = 9;
     
-    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0xEEF2FF, 1);
+    renderer.setClearColor(0xEEF2FF, 0);
     document.querySelector('.focus-memory').appendChild(renderer.domElement);
 
     const loader = new THREE.TextureLoader();
@@ -27,70 +34,70 @@ function Component(sceneMain) {
     var asap = new Howl({
         src: ['./memory/sounds/1_AsapRocky.mp3'],
         sprite: {
-            sample: [19000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var steve = new Howl({
         src: ['./memory/sounds/1_SteveJobs.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var bowie = new Howl({
         src: ['./memory/sounds/2_DavidBowie.mp3'],
         sprite: {
-            sample: [17000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var lana = new Howl({
         src: ['./memory/sounds/2_LanaDelRey.mp3'],
         sprite: {
-            sample: [206000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var fanfare = new Howl({
         src: ['./memory/sounds/3_Fanfare.mp3'],
         sprite: {
-            sample: [128000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var queen = new Howl({
         src: ['./memory/sounds/3_Queen.mp3'],
         sprite: {
-            sample: [25000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var david = new Howl({
         src: ['./memory/sounds/4_DavidGilmour.mp3'],
         sprite: {
-            sample: [4000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var sncf = new Howl({
         src: ['./memory/sounds/4_SNCF.mp3'],
         sprite: {
-            sample: [0, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var ketchup = new Howl({
         src: ['./memory/sounds/5_LasKetchup.mp3'],
         sprite: {
-            sample: [36000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
     var sugar = new Howl({
         src: ['./memory/sounds/5_TheSugarHill.mp3'],
         sprite: {
-            sample: [34000, 15000]
+            sample: [0, soundDuration]
         }
     });
 
@@ -109,16 +116,18 @@ function Component(sceneMain) {
     
     // Create sounds
     const positions = [
-        { x: 0, y: 12.5},
-        { x: 8.5, y: -8},
-        { x: -8.5, y: 7},
-        { x: -8.5, y: -5.5},
-        { x: 0, y: 0},
-        { x: 0, y: -12.5},
-        { x: 2, y: -23, isRotate: true},
-        { x: -8.5, y: -18},
-        { x: 10.5, y: 2.5, isRotate: true},
-        { x:  10.5, y: 11, isRotate: true},
+
+        { x: 4, y: 13},
+        { x: 4, y: 0},
+        { x: 4, y: -13},
+        { x: -5, y: 14},
+        { x: -5, y: 1},
+        { x: -5, y: -12},
+        { x: -14, y: 0},
+        { x: -16, y: 11, isRotate: true},
+        { x: 13, y: 1,},
+        { x:  15, y: -10, isRotate: true},
+    
     ];
     
     // Groupe de cartes
@@ -165,8 +174,8 @@ function Component(sceneMain) {
     function initCameraPosition(){
 
         // Animate the camera before they go in some object in the 3D scene 
-        TweenLite.to(camera.position, 1, {z: 27});
-        TweenLite.to(cards.rotation, 1, {z: -.8});
+        TweenLite.to(camera.position, 1, {z: 23});
+        TweenLite.to(cards.rotation, 1, {z: .8});
     }
 
     function showCard(object) {
@@ -176,19 +185,38 @@ function Component(sceneMain) {
             cardVisible.push(object.parent);
             TweenLite.to(object.parent.rotation, .5, {
                 y: Math.PI, onStart: ()=> {
+
                     if(soundPlayed) {
                         soundPlayed.fade(1, 0, 300)
-                        setTimeout(() => { soundPlayed.seek(0)}, 500)
+                        
+                        soundPlayed.once('fade', () => {
+                            soundPlayed.seek(0);
+                            soundPlayed = object.parent.data.sound;
+                            object.parent.data.sound.fade(0, 1, 300);
+                            object.parent.data.sound.play('sample');
+                            console.log('play');
+                        });
+                        
+                        return;
                     }
+
                     soundPlayed = object.parent.data.sound;
                     object.parent.data.sound.fade(0, 1, 300);
                     object.parent.data.sound.play('sample');
+                    console.log('play');
                 }
             });
     
             if (cardVisible.length == 2 && cardVisible[0].data.same == cardVisible[1].data.id) {
                 cardVisible.forEach((card) => {
                     card.data.valid = true;
+                    nbCardsFound++;
+
+                    if(nbCardsFound === 10 && !isFinish) {
+                        isFinish = true;
+                        winScreen.classList.add('show');
+                    }
+            
                 });
     
                 setTimeout(() => {
@@ -196,6 +224,7 @@ function Component(sceneMain) {
                 }, 1000);
     
             } else if (cardVisible.length == 2 && (cardVisible[0].data.same != cardVisible[1].data.id)) {
+
                 cardVisible.forEach((card) => {
     
                     setTimeout(() => {
@@ -239,18 +268,31 @@ function Component(sceneMain) {
         renderer.render(scene, camera);
     }
 
+
     this.start = function() {
+
+        setTimeout(() => {
+            tutorial.classList.add('hide');
+        }, 3000 )
+
         document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
         render();
     }
 
     this.stop = function() {
+
+        setTimeout(() => {
+            tutorial.classList.remove('hide');
+            winScreen.classList.add('show');
+        }, 3000 )
+
         window.cancelAnimationFrame(idAnimation);
         document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
         soundPlayed.stop();
     }
 
-    this.update = function(time) {}
+    this.update = function(time) {
+    }
 
     this.helpers = (gui) => {}
 

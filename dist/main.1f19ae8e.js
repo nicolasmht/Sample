@@ -100150,7 +100150,462 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DRACOLoader = void 0;
+
+var _three = require("three");
+
+const _taskCache = new WeakMap();
+
+class DRACOLoader extends _three.Loader {
+  constructor(manager) {
+    super(manager);
+    this.decoderPath = '';
+    this.decoderConfig = {};
+    this.decoderBinary = null;
+    this.decoderPending = null;
+    this.workerLimit = 4;
+    this.workerPool = [];
+    this.workerNextTaskID = 1;
+    this.workerSourceURL = '';
+    this.defaultAttributeIDs = {
+      position: 'POSITION',
+      normal: 'NORMAL',
+      color: 'COLOR',
+      uv: 'TEX_COORD'
+    };
+    this.defaultAttributeTypes = {
+      position: 'Float32Array',
+      normal: 'Float32Array',
+      color: 'Float32Array',
+      uv: 'Float32Array'
+    };
+  }
+
+  setDecoderPath(path) {
+    this.decoderPath = path;
+    return this;
+  }
+
+  setDecoderConfig(config) {
+    this.decoderConfig = config;
+    return this;
+  }
+
+  setWorkerLimit(workerLimit) {
+    this.workerLimit = workerLimit;
+    return this;
+  }
+
+  load(url, onLoad, onProgress, onError) {
+    const loader = new _three.FileLoader(this.manager);
+    loader.setPath(this.path);
+    loader.setResponseType('arraybuffer');
+    loader.setRequestHeader(this.requestHeader);
+    loader.setWithCredentials(this.withCredentials);
+    loader.load(url, buffer => {
+      const taskConfig = {
+        attributeIDs: this.defaultAttributeIDs,
+        attributeTypes: this.defaultAttributeTypes,
+        useUniqueIDs: false
+      };
+      this.decodeGeometry(buffer, taskConfig).then(onLoad).catch(onError);
+    }, onProgress, onError);
+  }
+  /** @deprecated Kept for backward-compatibility with previous DRACOLoader versions. */
+
+
+  decodeDracoFile(buffer, callback, attributeIDs, attributeTypes) {
+    const taskConfig = {
+      attributeIDs: attributeIDs || this.defaultAttributeIDs,
+      attributeTypes: attributeTypes || this.defaultAttributeTypes,
+      useUniqueIDs: !!attributeIDs
+    };
+    this.decodeGeometry(buffer, taskConfig).then(callback);
+  }
+
+  decodeGeometry(buffer, taskConfig) {
+    // TODO: For backward-compatibility, support 'attributeTypes' objects containing
+    // references (rather than names) to typed array constructors. These must be
+    // serialized before sending them to the worker.
+    for (const attribute in taskConfig.attributeTypes) {
+      const type = taskConfig.attributeTypes[attribute];
+
+      if (type.BYTES_PER_ELEMENT !== undefined) {
+        taskConfig.attributeTypes[attribute] = type.name;
+      }
+    } //
+
+
+    const taskKey = JSON.stringify(taskConfig); // Check for an existing task using this buffer. A transferred buffer cannot be transferred
+    // again from this thread.
+
+    if (_taskCache.has(buffer)) {
+      const cachedTask = _taskCache.get(buffer);
+
+      if (cachedTask.key === taskKey) {
+        return cachedTask.promise;
+      } else if (buffer.byteLength === 0) {
+        // Technically, it would be possible to wait for the previous task to complete,
+        // transfer the buffer back, and decode again with the second configuration. That
+        // is complex, and I don't know of any reason to decode a Draco buffer twice in
+        // different ways, so this is left unimplemented.
+        throw new Error('THREE.DRACOLoader: Unable to re-decode a buffer with different ' + 'settings. Buffer has already been transferred.');
+      }
+    } //
+
+
+    let worker;
+    const taskID = this.workerNextTaskID++;
+    const taskCost = buffer.byteLength; // Obtain a worker and assign a task, and construct a geometry instance
+    // when the task completes.
+
+    const geometryPending = this._getWorker(taskID, taskCost).then(_worker => {
+      worker = _worker;
+      return new Promise((resolve, reject) => {
+        worker._callbacks[taskID] = {
+          resolve,
+          reject
+        };
+        worker.postMessage({
+          type: 'decode',
+          id: taskID,
+          taskConfig,
+          buffer
+        }, [buffer]); // this.debug();
+      });
+    }).then(message => this._createGeometry(message.geometry)); // Remove task from the task list.
+    // Note: replaced '.finally()' with '.catch().then()' block - iOS 11 support (#19416)
+
+
+    geometryPending.catch(() => true).then(() => {
+      if (worker && taskID) {
+        this._releaseTask(worker, taskID); // this.debug();
+
+      }
+    }); // Cache the task result.
+
+    _taskCache.set(buffer, {
+      key: taskKey,
+      promise: geometryPending
+    });
+
+    return geometryPending;
+  }
+
+  _createGeometry(geometryData) {
+    const geometry = new _three.BufferGeometry();
+
+    if (geometryData.index) {
+      geometry.setIndex(new _three.BufferAttribute(geometryData.index.array, 1));
+    }
+
+    for (let i = 0; i < geometryData.attributes.length; i++) {
+      const attribute = geometryData.attributes[i];
+      const name = attribute.name;
+      const array = attribute.array;
+      const itemSize = attribute.itemSize;
+      geometry.setAttribute(name, new _three.BufferAttribute(array, itemSize));
+    }
+
+    return geometry;
+  }
+
+  _loadLibrary(url, responseType) {
+    const loader = new _three.FileLoader(this.manager);
+    loader.setPath(this.decoderPath);
+    loader.setResponseType(responseType);
+    loader.setWithCredentials(this.withCredentials);
+    return new Promise((resolve, reject) => {
+      loader.load(url, resolve, undefined, reject);
+    });
+  }
+
+  preload() {
+    this._initDecoder();
+
+    return this;
+  }
+
+  _initDecoder() {
+    if (this.decoderPending) return this.decoderPending;
+    const useJS = typeof WebAssembly !== 'object' || this.decoderConfig.type === 'js';
+    const librariesPending = [];
+
+    if (useJS) {
+      librariesPending.push(this._loadLibrary('draco_decoder.js', 'text'));
+    } else {
+      librariesPending.push(this._loadLibrary('draco_wasm_wrapper.js', 'text'));
+      librariesPending.push(this._loadLibrary('draco_decoder.wasm', 'arraybuffer'));
+    }
+
+    this.decoderPending = Promise.all(librariesPending).then(libraries => {
+      const jsContent = libraries[0];
+
+      if (!useJS) {
+        this.decoderConfig.wasmBinary = libraries[1];
+      }
+
+      const fn = DRACOWorker.toString();
+      const body = ['/* draco decoder */', jsContent, '', '/* worker */', fn.substring(fn.indexOf('{') + 1, fn.lastIndexOf('}'))].join('\n');
+      this.workerSourceURL = URL.createObjectURL(new Blob([body]));
+    });
+    return this.decoderPending;
+  }
+
+  _getWorker(taskID, taskCost) {
+    return this._initDecoder().then(() => {
+      if (this.workerPool.length < this.workerLimit) {
+        const worker = new Worker(this.workerSourceURL);
+        worker._callbacks = {};
+        worker._taskCosts = {};
+        worker._taskLoad = 0;
+        worker.postMessage({
+          type: 'init',
+          decoderConfig: this.decoderConfig
+        });
+
+        worker.onmessage = function (e) {
+          const message = e.data;
+
+          switch (message.type) {
+            case 'decode':
+              worker._callbacks[message.id].resolve(message);
+
+              break;
+
+            case 'error':
+              worker._callbacks[message.id].reject(message);
+
+              break;
+
+            default:
+              console.error('THREE.DRACOLoader: Unexpected message, "' + message.type + '"');
+          }
+        };
+
+        this.workerPool.push(worker);
+      } else {
+        this.workerPool.sort(function (a, b) {
+          return a._taskLoad > b._taskLoad ? -1 : 1;
+        });
+      }
+
+      const worker = this.workerPool[this.workerPool.length - 1];
+      worker._taskCosts[taskID] = taskCost;
+      worker._taskLoad += taskCost;
+      return worker;
+    });
+  }
+
+  _releaseTask(worker, taskID) {
+    worker._taskLoad -= worker._taskCosts[taskID];
+    delete worker._callbacks[taskID];
+    delete worker._taskCosts[taskID];
+  }
+
+  debug() {
+    console.log('Task load: ', this.workerPool.map(worker => worker._taskLoad));
+  }
+
+  dispose() {
+    for (let i = 0; i < this.workerPool.length; ++i) {
+      this.workerPool[i].terminate();
+    }
+
+    this.workerPool.length = 0;
+    return this;
+  }
+
+}
+/* WEB WORKER */
+
+
+exports.DRACOLoader = DRACOLoader;
+
+function DRACOWorker() {
+  let decoderConfig;
+  let decoderPending;
+
+  onmessage = function (e) {
+    const message = e.data;
+
+    switch (message.type) {
+      case 'init':
+        decoderConfig = message.decoderConfig;
+        decoderPending = new Promise(function (resolve
+        /*, reject*/
+        ) {
+          decoderConfig.onModuleLoaded = function (draco) {
+            // Module is Promise-like. Wrap before resolving to avoid loop.
+            resolve({
+              draco: draco
+            });
+          };
+
+          DracoDecoderModule(decoderConfig); // eslint-disable-line no-undef
+        });
+        break;
+
+      case 'decode':
+        const buffer = message.buffer;
+        const taskConfig = message.taskConfig;
+        decoderPending.then(module => {
+          const draco = module.draco;
+          const decoder = new draco.Decoder();
+          const decoderBuffer = new draco.DecoderBuffer();
+          decoderBuffer.Init(new Int8Array(buffer), buffer.byteLength);
+
+          try {
+            const geometry = decodeGeometry(draco, decoder, decoderBuffer, taskConfig);
+            const buffers = geometry.attributes.map(attr => attr.array.buffer);
+            if (geometry.index) buffers.push(geometry.index.array.buffer);
+            self.postMessage({
+              type: 'decode',
+              id: message.id,
+              geometry
+            }, buffers);
+          } catch (error) {
+            console.error(error);
+            self.postMessage({
+              type: 'error',
+              id: message.id,
+              error: error.message
+            });
+          } finally {
+            draco.destroy(decoderBuffer);
+            draco.destroy(decoder);
+          }
+        });
+        break;
+    }
+  };
+
+  function decodeGeometry(draco, decoder, decoderBuffer, taskConfig) {
+    const attributeIDs = taskConfig.attributeIDs;
+    const attributeTypes = taskConfig.attributeTypes;
+    let dracoGeometry;
+    let decodingStatus;
+    const geometryType = decoder.GetEncodedGeometryType(decoderBuffer);
+
+    if (geometryType === draco.TRIANGULAR_MESH) {
+      dracoGeometry = new draco.Mesh();
+      decodingStatus = decoder.DecodeBufferToMesh(decoderBuffer, dracoGeometry);
+    } else if (geometryType === draco.POINT_CLOUD) {
+      dracoGeometry = new draco.PointCloud();
+      decodingStatus = decoder.DecodeBufferToPointCloud(decoderBuffer, dracoGeometry);
+    } else {
+      throw new Error('THREE.DRACOLoader: Unexpected geometry type.');
+    }
+
+    if (!decodingStatus.ok() || dracoGeometry.ptr === 0) {
+      throw new Error('THREE.DRACOLoader: Decoding failed: ' + decodingStatus.error_msg());
+    }
+
+    const geometry = {
+      index: null,
+      attributes: []
+    }; // Gather all vertex attributes.
+
+    for (const attributeName in attributeIDs) {
+      const attributeType = self[attributeTypes[attributeName]];
+      let attribute;
+      let attributeID; // A Draco file may be created with default vertex attributes, whose attribute IDs
+      // are mapped 1:1 from their semantic name (POSITION, NORMAL, ...). Alternatively,
+      // a Draco file may contain a custom set of attributes, identified by known unique
+      // IDs. glTF files always do the latter, and `.drc` files typically do the former.
+
+      if (taskConfig.useUniqueIDs) {
+        attributeID = attributeIDs[attributeName];
+        attribute = decoder.GetAttributeByUniqueId(dracoGeometry, attributeID);
+      } else {
+        attributeID = decoder.GetAttributeId(dracoGeometry, draco[attributeIDs[attributeName]]);
+        if (attributeID === -1) continue;
+        attribute = decoder.GetAttribute(dracoGeometry, attributeID);
+      }
+
+      geometry.attributes.push(decodeAttribute(draco, decoder, dracoGeometry, attributeName, attributeType, attribute));
+    } // Add index.
+
+
+    if (geometryType === draco.TRIANGULAR_MESH) {
+      geometry.index = decodeIndex(draco, decoder, dracoGeometry);
+    }
+
+    draco.destroy(dracoGeometry);
+    return geometry;
+  }
+
+  function decodeIndex(draco, decoder, dracoGeometry) {
+    const numFaces = dracoGeometry.num_faces();
+    const numIndices = numFaces * 3;
+    const byteLength = numIndices * 4;
+
+    const ptr = draco._malloc(byteLength);
+
+    decoder.GetTrianglesUInt32Array(dracoGeometry, byteLength, ptr);
+    const index = new Uint32Array(draco.HEAPF32.buffer, ptr, numIndices).slice();
+
+    draco._free(ptr);
+
+    return {
+      array: index,
+      itemSize: 1
+    };
+  }
+
+  function decodeAttribute(draco, decoder, dracoGeometry, attributeName, attributeType, attribute) {
+    const numComponents = attribute.num_components();
+    const numPoints = dracoGeometry.num_points();
+    const numValues = numPoints * numComponents;
+    const byteLength = numValues * attributeType.BYTES_PER_ELEMENT;
+    const dataType = getDracoDataType(draco, attributeType);
+
+    const ptr = draco._malloc(byteLength);
+
+    decoder.GetAttributeDataArrayForAllPoints(dracoGeometry, attribute, dataType, byteLength, ptr);
+    const array = new attributeType(draco.HEAPF32.buffer, ptr, numValues).slice();
+
+    draco._free(ptr);
+
+    return {
+      name: attributeName,
+      array: array,
+      itemSize: numComponents
+    };
+  }
+
+  function getDracoDataType(draco, attributeType) {
+    switch (attributeType) {
+      case Float32Array:
+        return draco.DT_FLOAT32;
+
+      case Int8Array:
+        return draco.DT_INT8;
+
+      case Int16Array:
+        return draco.DT_INT16;
+
+      case Int32Array:
+        return draco.DT_INT32;
+
+      case Uint8Array:
+        return draco.DT_UINT8;
+
+      case Uint16Array:
+        return draco.DT_UINT16;
+
+      case Uint32Array:
+        return draco.DT_UINT32;
+    }
+  }
+}
+},{"three":"../node_modules/three/build/three.module.js"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
 module.exports = "/Cabinet_Objets_09.8f82d2fb.gltf";
 },{}],"textures/Labo/Aznavour.png":[function(require,module,exports) {
 module.exports = "/Aznavour.8961d268.png";
@@ -100200,7 +100655,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function Component(scene, camera) {
   // Video
-  var video = document.querySelector('video'); // Sounds
+  var video = document.querySelector('video'); // Spacebar
+
+  var spacebar = document.querySelector('.focus-renaud .spacebar'); // Sounds
 
   var booba = new Howl({
     src: ['./renaud/sounds/booba.mp3'],
@@ -100293,6 +100750,16 @@ function Component(scene, camera) {
     opacity: 0
   }, {
     opacity: 1
+  });
+  timeline.fromTo(imgs[16], .4, {
+    opacity: 0
+  }, {
+    opacity: 1
+  });
+  timeline.fromTo(imgs[17], .4, {
+    opacity: 0
+  }, {
+    opacity: 1
   }); // Variables
 
   var intervalID = null;
@@ -100325,12 +100792,14 @@ function Component(scene, camera) {
   }, 60);
   document.addEventListener('keydown', function (event) {
     if (event.code == 'Space') {
+      spacebar.classList.add('holding');
       spaceDown = true;
       spaceUp = false;
     }
   });
   document.addEventListener('keyup', function (event) {
     if (event.code == 'Space') {
+      spacebar.classList.remove('holding');
       spaceDown = false;
       spaceUp = true;
     }
@@ -100358,6 +100827,9 @@ function Component(scene, camera) {
   this.mousemove = function (e) {};
 
   this.start = function () {
+    setTimeout(function () {
+      spacebar.classList.add('show');
+    }, 4000);
     renaud.play();
     booba.play();
   };
@@ -100370,22 +100842,22 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"audios/focus/gainsbourg/Chopin_Prelude.mp3":[function(require,module,exports) {
-module.exports = "/Chopin_Prelude.9fcef88c.mp3";
-},{}],"audios/focus/gainsbourg/jtm.mp3":[function(require,module,exports) {
-module.exports = "/jtm.c71141b9.mp3";
-},{}],"audios/focus/gainsbourg/charlotte.mp3":[function(require,module,exports) {
-module.exports = "/charlotte.15bbec7b.mp3";
-},{}],"audios/focus/gainsbourg/aram.mp3":[function(require,module,exports) {
-module.exports = "/aram.1d4cbd8d.mp3";
-},{}],"audios/focus/gainsbourg/lemon.mp3":[function(require,module,exports) {
-module.exports = "/lemon.2e8235ab.mp3";
-},{}],"audios/focus/gainsbourg/Chopin_Etude.mp3":[function(require,module,exports) {
-module.exports = "/Chopin_Etude.596b17e1.mp3";
-},{}],"audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3":[function(require,module,exports) {
-module.exports = "/Gainsbourg_TheInitials.641ddf16.mp3";
-},{}],"audios/focus/gainsbourg/dvorak.mp3":[function(require,module,exports) {
-module.exports = "/dvorak.df38f911.mp3";
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+module.exports = "/Chopin_Prelude.9d4786e9.mp3";
+},{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
+module.exports = "/jtm.7f7ef207.mp3";
+},{}],"assets/gainsbourg/sounds/charlotte.mp3":[function(require,module,exports) {
+module.exports = "/charlotte.59b9a105.mp3";
+},{}],"assets/gainsbourg/sounds/aram.mp3":[function(require,module,exports) {
+module.exports = "/aram.4779f777.mp3";
+},{}],"assets/gainsbourg/sounds/lemon.mp3":[function(require,module,exports) {
+module.exports = "/lemon.9fbf3206.mp3";
+},{}],"assets/gainsbourg/sounds/Chopin_Etude.mp3":[function(require,module,exports) {
+module.exports = "/Chopin_Etude.fd6bfa8d.mp3";
+},{}],"assets/gainsbourg/sounds/bb.mp3":[function(require,module,exports) {
+module.exports = "/bb.cbd522f0.mp3";
+},{}],"assets/gainsbourg/sounds/dvorak.mp3":[function(require,module,exports) {
+module.exports = "/dvorak.70462a83.mp3";
 },{}],"components/Gainsbourg.js":[function(require,module,exports) {
 "use strict";
 
@@ -100396,21 +100868,21 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
-var _Chopin_Prelude = _interopRequireDefault(require("../audios/focus/gainsbourg/Chopin_Prelude.mp3"));
+var _Chopin_Prelude = _interopRequireDefault(require("../assets/gainsbourg/sounds/Chopin_Prelude.mp3"));
 
-var _jtm = _interopRequireDefault(require("../audios/focus/gainsbourg/jtm.mp3"));
+var _jtm = _interopRequireDefault(require("../assets/gainsbourg/sounds/jtm.mp3"));
 
-var _charlotte = _interopRequireDefault(require("../audios/focus/gainsbourg/charlotte.mp3"));
+var _charlotte = _interopRequireDefault(require("../assets/gainsbourg/sounds/charlotte.mp3"));
 
-var _aram = _interopRequireDefault(require("../audios/focus/gainsbourg/aram.mp3"));
+var _aram = _interopRequireDefault(require("../assets/gainsbourg/sounds/aram.mp3"));
 
-var _lemon = _interopRequireDefault(require("../audios/focus/gainsbourg/lemon.mp3"));
+var _lemon = _interopRequireDefault(require("../assets/gainsbourg/sounds/lemon.mp3"));
 
-var _Chopin_Etude = _interopRequireDefault(require("../audios/focus/gainsbourg/Chopin_Etude.mp3"));
+var _Chopin_Etude = _interopRequireDefault(require("../assets/gainsbourg/sounds/Chopin_Etude.mp3"));
 
-var _Gainsbourg_TheInitials = _interopRequireDefault(require("../audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3"));
+var _bb = _interopRequireDefault(require("../assets/gainsbourg/sounds/bb.mp3"));
 
-var _dvorak = _interopRequireDefault(require("../audios/focus/gainsbourg/dvorak.mp3"));
+var _dvorak = _interopRequireDefault(require("../assets/gainsbourg/sounds/dvorak.mp3"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -100419,6 +100891,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
+  var tutorial = document.querySelector('.focus-gainsbourg .tuto');
   var canvas = document.getElementById('mask');
   var ctx = canvas.getContext('2d'); // Create a radial gradient
   // The inner circle is at x=110, y=90, with radius=30
@@ -100573,56 +101046,48 @@ function Component(scene) {
 
 
   CreateSound(document.querySelector('.clopes'), document.querySelector('.dvorak'), {
-    path: _Gainsbourg_TheInitials.default,
+    path: _bb.default,
     artist: 'Serge Gainsbourg',
     title: 'Initials BB',
-    date: '1968',
-    start: timecodeToMilliseconds('0:27')
+    date: '1968'
   }, {
     path: _dvorak.default,
     artist: 'Antonín Dvorák',
     title: 'Symphony No. 9, "From the New World"',
-    date: '1893',
-    start: timecodeToMilliseconds('2:08')
+    date: '1893'
   });
   CreateSound(document.querySelector('.lemon'), document.querySelector('.chopin'), {
     path: _lemon.default,
     artist: 'Serge Gainsbourg',
     title: 'Lemon incest',
-    date: '1984',
-    start: timecodeToMilliseconds('0:06')
+    date: '1984'
   }, {
     path: _Chopin_Etude.default,
     artist: 'Frédéric Chopin',
     title: 'Étude, Op. 10, No. 3 in E Major',
-    date: '1830',
-    start: timecodeToMilliseconds('0:00')
+    date: '1830'
   });
   CreateSound(document.querySelector('.charlotte'), document.querySelector('.aram'), {
     path: _charlotte.default,
     artist: 'Serge Gainsbourg',
     title: 'Charlotte for ever',
-    date: '1986',
-    start: timecodeToMilliseconds('0:00')
+    date: '1986'
   }, {
     path: _aram.default,
     artist: 'Aram Khatchatourian',
     title: 'Andantino',
-    date: '1947',
-    start: timecodeToMilliseconds('0:00')
+    date: '1947'
   });
   CreateSound(document.querySelector('.jtm'), document.querySelector('.polska'), {
     path: _jtm.default,
     artist: 'Serge Gainsbourg',
     title: "Je t'aime moi non plus",
-    date: '1969',
-    start: timecodeToMilliseconds('0:14')
+    date: '1969'
   }, {
     path: _Chopin_Prelude.default,
     artist: 'Frédéric Chopin',
     title: "Prelude, Op. 28, No. 4 in E Minor",
-    date: '1839',
-    start: timecodeToMilliseconds('0:14')
+    date: '1839'
   }); // Timecode to milliseconds
 
   function timecodeToMilliseconds(timecode) {
@@ -100632,9 +101097,17 @@ function Component(scene) {
     return result;
   }
 
-  this.start = function () {};
+  this.start = function () {
+    setTimeout(function () {
+      tutorial.classList.add('hide');
+    }, 3000);
+  };
 
-  this.stop = function () {};
+  this.stop = function () {
+    setTimeout(function () {
+      tutorial.classList.remove('hide');
+    }, 3000);
+  };
 
   this.update = function (time) {};
 
@@ -100649,7 +101122,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../audios/focus/gainsbourg/Chopin_Prelude.mp3":"audios/focus/gainsbourg/Chopin_Prelude.mp3","../audios/focus/gainsbourg/jtm.mp3":"audios/focus/gainsbourg/jtm.mp3","../audios/focus/gainsbourg/charlotte.mp3":"audios/focus/gainsbourg/charlotte.mp3","../audios/focus/gainsbourg/aram.mp3":"audios/focus/gainsbourg/aram.mp3","../audios/focus/gainsbourg/lemon.mp3":"audios/focus/gainsbourg/lemon.mp3","../audios/focus/gainsbourg/Chopin_Etude.mp3":"audios/focus/gainsbourg/Chopin_Etude.mp3","../audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3":"audios/focus/gainsbourg/Gainsbourg_TheInitials.mp3","../audios/focus/gainsbourg/dvorak.mp3":"audios/focus/gainsbourg/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","../assets/gainsbourg/sounds/Chopin_Prelude.mp3":"assets/gainsbourg/sounds/Chopin_Prelude.mp3","../assets/gainsbourg/sounds/jtm.mp3":"assets/gainsbourg/sounds/jtm.mp3","../assets/gainsbourg/sounds/charlotte.mp3":"assets/gainsbourg/sounds/charlotte.mp3","../assets/gainsbourg/sounds/aram.mp3":"assets/gainsbourg/sounds/aram.mp3","../assets/gainsbourg/sounds/lemon.mp3":"assets/gainsbourg/sounds/lemon.mp3","../assets/gainsbourg/sounds/Chopin_Etude.mp3":"assets/gainsbourg/sounds/Chopin_Etude.mp3","../assets/gainsbourg/sounds/bb.mp3":"assets/gainsbourg/sounds/bb.mp3","../assets/gainsbourg/sounds/dvorak.mp3":"assets/gainsbourg/sounds/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100759,15 +101232,21 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(sceneMain) {
+  var isFinish = false;
+  var nbCardsFound = 0;
+  var soundDuration = 30000;
+  var tutorial = document.querySelector('.focus-memory .tuto');
+  var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
   camera.position.z = 9;
   var renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
+    alpha: true
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0xEEF2FF, 1);
+  renderer.setClearColor(0xEEF2FF, 0);
   document.querySelector('.focus-memory').appendChild(renderer.domElement);
   var loader = new THREE.TextureLoader();
   var materialVerso = new THREE.MeshBasicMaterial({
@@ -100778,61 +101257,61 @@ function Component(sceneMain) {
   var asap = new Howl({
     src: ['./memory/sounds/1_AsapRocky.mp3'],
     sprite: {
-      sample: [19000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var steve = new Howl({
     src: ['./memory/sounds/1_SteveJobs.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var bowie = new Howl({
     src: ['./memory/sounds/2_DavidBowie.mp3'],
     sprite: {
-      sample: [17000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var lana = new Howl({
     src: ['./memory/sounds/2_LanaDelRey.mp3'],
     sprite: {
-      sample: [206000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var fanfare = new Howl({
     src: ['./memory/sounds/3_Fanfare.mp3'],
     sprite: {
-      sample: [128000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var queen = new Howl({
     src: ['./memory/sounds/3_Queen.mp3'],
     sprite: {
-      sample: [25000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var david = new Howl({
     src: ['./memory/sounds/4_DavidGilmour.mp3'],
     sprite: {
-      sample: [4000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var sncf = new Howl({
     src: ['./memory/sounds/4_SNCF.mp3'],
     sprite: {
-      sample: [0, 15000]
+      sample: [0, soundDuration]
     }
   });
   var ketchup = new Howl({
     src: ['./memory/sounds/5_LasKetchup.mp3'],
     sprite: {
-      sample: [36000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var sugar = new Howl({
     src: ['./memory/sounds/5_TheSugarHill.mp3'],
     sprite: {
-      sample: [34000, 15000]
+      sample: [0, soundDuration]
     }
   });
   var data = [{
@@ -100878,37 +101357,36 @@ function Component(sceneMain) {
   }]; // Create sounds
 
   var positions = [{
-    x: 0,
-    y: 12.5
+    x: 4,
+    y: 13
   }, {
-    x: 8.5,
-    y: -8
-  }, {
-    x: -8.5,
-    y: 7
-  }, {
-    x: -8.5,
-    y: -5.5
-  }, {
-    x: 0,
+    x: 4,
     y: 0
   }, {
-    x: 0,
-    y: -12.5
+    x: 4,
+    y: -13
   }, {
-    x: 2,
-    y: -23,
-    isRotate: true
+    x: -5,
+    y: 14
   }, {
-    x: -8.5,
-    y: -18
+    x: -5,
+    y: 1
   }, {
-    x: 10.5,
-    y: 2.5,
-    isRotate: true
+    x: -5,
+    y: -12
   }, {
-    x: 10.5,
+    x: -14,
+    y: 0
+  }, {
+    x: -16,
     y: 11,
+    isRotate: true
+  }, {
+    x: 13,
+    y: 1
+  }, {
+    x: 15,
+    y: -10,
     isRotate: true
   }]; // Groupe de cartes
 
@@ -100944,11 +101422,11 @@ function Component(sceneMain) {
   function initCameraPosition() {
     // Animate the camera before they go in some object in the 3D scene 
     _gsap.TweenLite.to(camera.position, 1, {
-      z: 27
+      z: 23
     });
 
     _gsap.TweenLite.to(cards.rotation, 1, {
-      z: -.8
+      z: .8
     });
   }
 
@@ -100961,20 +101439,32 @@ function Component(sceneMain) {
         onStart: function onStart() {
           if (soundPlayed) {
             soundPlayed.fade(1, 0, 300);
-            setTimeout(function () {
+            soundPlayed.once('fade', function () {
               soundPlayed.seek(0);
-            }, 500);
+              soundPlayed = object.parent.data.sound;
+              object.parent.data.sound.fade(0, 1, 300);
+              object.parent.data.sound.play('sample');
+              console.log('play');
+            });
+            return;
           }
 
           soundPlayed = object.parent.data.sound;
           object.parent.data.sound.fade(0, 1, 300);
           object.parent.data.sound.play('sample');
+          console.log('play');
         }
       });
 
       if (cardVisible.length == 2 && cardVisible[0].data.same == cardVisible[1].data.id) {
         cardVisible.forEach(function (card) {
           card.data.valid = true;
+          nbCardsFound++;
+
+          if (nbCardsFound === 10 && !isFinish) {
+            isFinish = true;
+            winScreen.classList.add('show');
+          }
         });
         setTimeout(function () {
           cardVisible.splice(0, 2);
@@ -101021,11 +101511,18 @@ function Component(sceneMain) {
   };
 
   this.start = function () {
+    setTimeout(function () {
+      tutorial.classList.add('hide');
+    }, 3000);
     document.querySelector('.focus-memory').addEventListener('mousedown', onMouseDown, false);
     render();
   };
 
   this.stop = function () {
+    setTimeout(function () {
+      tutorial.classList.remove('hide');
+      winScreen.classList.add('show');
+    }, 3000);
     window.cancelAnimationFrame(idAnimation);
     document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
     soundPlayed.stop();
@@ -101154,19 +101651,29 @@ function Component(scene) {
   var tl = new _gsap.TimelineMax({
     paused: true
   });
-  tl.to(layer_1.style, 4, {
+  tl.fromTo(layer_1, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(layer_2.style, 4, {
+  tl.fromTo(layer_2, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(layer_3.style, 4, {
+  tl.fromTo(layer_3, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(layer_4.style, 4, {
+  tl.fromTo(layer_4, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
-  tl.to(sun.style, 4, {
+  tl.fromTo(sun, 4, {
+    filter: 'contrast(1) brightness(1) saturate(1)'
+  }, {
     filter: 'contrast(1.19) brightness(0.82) saturate(0.96)'
   }, 0);
   tl.to(background, 4, {
@@ -101177,8 +101684,7 @@ function Component(scene) {
     path: './polo/sounds/sirene/Nana_Sample.mp3',
     title: 'Nana',
     date: '2016',
-    artist: 'Polo & Pan',
-    start: 0
+    artist: 'Polo & Pan'
   };
   var sireneSample = {
     path: _Os_Tincoas_Cordeiro_Nana_Original.default,
@@ -101197,23 +101703,20 @@ function Component(scene) {
     path: _ZoomZoomSample.default,
     title: 'Zum-Zum',
     date: '1970',
-    artist: 'Edu Lobo',
-    start: timecodeToMilliseconds('0:02')
+    artist: 'Edu Lobo'
   };
   createSound(document.querySelector('#papillon'), papillonSound, papillonSample);
   var mainSound = {
     path: _Claire_de_lune_Original.default,
     title: 'Pays imaginaire',
     date: '2017',
-    artist: 'Polo & Pan',
-    start: timecodeToMilliseconds('0:29')
+    artist: 'Polo & Pan'
   };
   var mainSample = {
     path: _Imaginaire_Sample.default,
     title: 'Clair de lune',
     date: '1903',
-    artist: 'Claude Debussy',
-    start: 125000
+    artist: 'Claude Debussy'
   };
   createSound(document.querySelector('#main'), mainSound, mainSample);
   var carnivoreSound = {
@@ -101235,47 +101738,41 @@ function Component(scene) {
 
   function turnTheDisc(sound) {
     // Animate the vinyle
-    last = discRotation;
-    discRotation += 360;
-    var time = 0;
-    var nameChange = false;
+    // last = discRotation;
+    // discRotation += 360;
+    // let time = 0;
+    // let nameChange = false;
+    console.log('test');
     var disc = document.querySelector('#disque'); //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
+    // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
+    //     time++;
+    //     if(time > 25 && !nameChange) {
+    //     nameChange = true;
+    //     // Edit the title of vinyle
+    //     let title = document.querySelector('#soundTitle');
+    //     title.innerText = sound.title;
+    //     // Edit the date of the vinyle
+    //     let date = document.querySelector('#soundDate');
+    //     date.innerText = sound.date;
+    //     }
+    // }});
 
-    _gsap.TweenLite.fromTo(disc.style, 1.5, {
-      transform: "translate(-50%, 50%) rotate(".concat(last, "deg)")
-    }, {
-      transform: "translate(-50%, 50%) rotate(".concat(discRotation, "deg)"),
-      onUpdate: function onUpdate() {
-        time++;
+    disc.classList.add('rotate');
+    setTimeout(function () {
+      // Edit the title of vinyle
+      var title = document.querySelector('#soundTitle');
+      title.innerText = sound.title; // Edit the date of the vinyle
 
-        if (time > 25 && !nameChange) {
-          nameChange = true; // Edit the title of vinyle
-
-          var title = document.querySelector('#soundTitle');
-          title.innerText = sound.title; // Edit the date of the vinyle
-
-          var date = document.querySelector('#soundDate');
-          date.innerText = sound.date;
-        }
-      }
-    });
+      var date = document.querySelector('#soundDate');
+      date.innerText = sound.date;
+    }, 1000);
+    setTimeout(function () {
+      disc.classList.remove('rotate');
+    }, 2000);
   } // Cursor animation
 
 
-  var cursor = document.querySelector('#cursor'); // When the mouse hover the sun
-
-  sun.addEventListener('mouseover', function () {
-    cursor.classList.add('drag');
-  }); // When the mouse leave the sun
-
-  sun.addEventListener('mouseout', function () {
-    cursor.classList.remove('drag');
-  }); // Classic cursor
-
-  document.addEventListener('mousemove', function (e) {
-    cursor.style.left = e.pageX - 15 + 'px';
-    cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
-  }); // Make the sun draggable
+  var cursor = document.querySelector('#cursor'); // Make the sun draggable
 
   dragElement(sun);
 
@@ -101336,8 +101833,6 @@ function Component(scene) {
     pageY.innerText = event.pageY;
   }
 
-  document.addEventListener("mousemove", parallaxEffect, false);
-
   function parallaxEffect(event) {
     var positions = {
       x: event.pageX,
@@ -101380,6 +101875,33 @@ function Component(scene) {
     result += parseInt("".concat(timecode[2]).concat(timecode[3])) * 1000;
     return result;
   }
+
+  this.start = function () {
+    // When the mouse hover the sun
+    sun.addEventListener('mouseover', function () {
+      cursor.classList.add('drag');
+    }); // When the mouse leave the sun
+
+    sun.addEventListener('mouseout', function () {
+      cursor.classList.remove('drag');
+    }); // Classic cursor
+
+    document.addEventListener('mousemove', function (e) {
+      cursor.style.left = e.pageX - 15 + 'px';
+      cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
+    });
+    setTimeout(function () {
+      document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);
+      document.querySelector('.focus-polo .tuto').classList.add('hide');
+    }, 3000);
+  };
+
+  this.stop = function () {
+    setTimeout(function () {
+      document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);
+      document.querySelector('.focus-polo .tuto').classList.remove('hide');
+    }, 3000);
+  };
 
   this.update = function (time) {};
 
@@ -101730,6 +102252,8 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _GLTFLoader = require("three/examples/jsm/loaders/GLTFLoader");
 
+var _DRACOLoader = require("three/examples/jsm/loaders/DRACOLoader");
+
 var _gsap = require("gsap");
 
 var _mouse = _interopRequireDefault(require("../utils/mouse"));
@@ -101789,13 +102313,17 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Packages
 // Utilis
 // Gltf
-// import LaboGltf from '../objects/labo.gltf';
 // Pin
 function LaboComponent(scene, camera, renderer, interactionManager) {
   var mouse = new THREE.Vector2();
   var target = new THREE.Vector2();
-  var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
-  var loader = new _GLTFLoader.GLTFLoader();
+  var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2); // Instantiate a loader
+
+  var loader = new _GLTFLoader.GLTFLoader(); // Optional: Provide a DRACOLoader instance to decode compressed mesh data
+  // const dracoLoader = new DRACOLoader();
+  // dracoLoader.setDecoderPath(LaboGltf);
+  // loader.setDRACOLoader(dracoLoader);
+
   var labo = new THREE.Object3D();
   var texture01 = new THREE.TextureLoader().load(_scratch.default);
   var texture02 = new THREE.TextureLoader().load(_test.default);
@@ -101840,13 +102368,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
           }
         }
       }
-    }); //CABINET TEST COLORATION
-    // let cabinet = labo.getObjectByName('cabinet')
-    // cabinet.traverse( (child) => {
-    //     child.material = new THREE.MeshToonMaterial({color: 0xa87b32,side:THREE.DoubleSide, gradientMap: fiveTone});
-    // });
-    // labo.position.set(0, 0, -0.5);
-
+    });
     labo.rotateY(Math.PI);
     labo.scale.set(0.02, 0.02, 0.02);
     scene.add(labo);
@@ -101882,11 +102404,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var spriteHover = new THREE.Sprite(materialPinHover);
     sprite.position.set(x, y, z);
     spriteHover.position.set(x, y, z);
-    sprite.scale.set(0.25, 0.25, 0.25);
-    spriteHover.scale.set(0.25, 0.25, 0.25);
+    sprite.scale.set(0.22, 0.22, 0.22);
+    spriteHover.scale.set(0.22, 0.22, 0.22);
     scene.add(sprite);
     scene.add(spriteHover);
+    var isClick = false;
     sprite.addEventListener("mouseover", function (event) {
+      if (isClick) return;
+
       _gsap.TweenLite.to(sprite.material, 0.6, {
         opacity: 0,
         ease: _gsap.EaseInOut
@@ -101900,6 +102425,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       document.body.style.cursor = "pointer";
     });
     sprite.addEventListener("mouseout", function (event) {
+      if (isClick) return;
+
       _gsap.TweenLite.to(sprite.material, 0.6, {
         opacity: 1,
         ease: _gsap.EaseInOut
@@ -101913,7 +102440,45 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       document.body.style.cursor = "default";
     });
     sprite.addEventListener("click", function (event) {
-      console.log('click');
+      isClick = true;
+
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+
+      document.body.style.cursor = "default";
+    });
+    document.querySelector('.close-infos').addEventListener('click', function (event) {
+      isClick = false;
+
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
+    });
+    document.querySelector('.back-labo').addEventListener('click', function (event) {
+      isClick = false;
+
+      _gsap.TweenLite.to(sprite.material, 0.6, {
+        opacity: 1,
+        ease: _gsap.EaseInOut
+      });
+
+      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+        opacity: 0,
+        ease: _gsap.EaseInOut
+      });
     });
     interactionManager.add(sprite);
     return sprite;
@@ -101949,7 +102514,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.focus-memory').style.display = 'none';
     document.querySelector('.focus-polo').style.display = 'none';
     document.querySelector('.focus-daftpunk').style.display = 'none';
-    document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    document.querySelector('.focus-kaleidoscope').style.display = 'none'; // Display tuto
+
+    document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
+      tuto.style.display = 'block';
+      tuto.style.opacity = 1;
+    });
   }
 
   var onDiscover = function onDiscover(callback) {
@@ -101957,7 +102527,18 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     discover.addEventListener('click', function () {
       infos.classList.add('full');
       document.querySelector('.container-focus').classList.add('full');
-      callback();
+      callback(); // Remove tuto
+
+      setTimeout(function () {
+        document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
+          _gsap.TweenLite.to(tuto.style, .6, {
+            opacity: 0,
+            onComplete: function onComplete() {
+              tuto.style.display = 'none';
+            }
+          });
+        });
+      }, 4000);
     }, {
       once: true
     });
@@ -101989,34 +102570,33 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var memoryFocus = new _Memory.default(scene);
   var poloFocus = new _Polo2.default(scene);
   var daftFocus = new _daftPunk.default(scene, camera, interactionManager);
-  var kaleidoscopeFocus = new _Kaleidoscope.default(scene, camera); //TO REMOVE
-
-  document.querySelector('.container').style.display = 'none';
-  document.querySelector('.container-focus').style.transform = 'none';
-  document.querySelector('.container-focus').style.transition = 'none';
-  document.querySelector('.focus-daftpunk').style.display = 'block';
-  document.querySelector('.focus-renaud').style.display = 'none';
-  document.querySelector('.focus-gainsbourg').style.display = 'none';
-  document.querySelector('.focus-aznavour').style.display = 'none';
-  document.querySelector('.focus-memory').style.display = 'none';
-  document.querySelector('.focus-polo').style.display = 'none';
-  document.querySelector('.focus-kaleidoscope').style.display = 'none';
-  daftFocus.start();
+  var kaleidoscopeFocus = new _Kaleidoscope.default(scene, camera); // //TO REMOVE
+  // document.querySelector('.container').style.display = 'none';
+  // document.querySelector('.container-focus').style.transform = 'none';
+  // document.querySelector('.container-focus').style.transition = 'none';
+  // document.querySelector('.focus-daftpunk').style.display = 'block';
+  // document.querySelector('.focus-renaud').style.display = 'none';
+  // document.querySelector('.focus-gainsbourg').style.display = 'none';
+  // document.querySelector('.focus-aznavour').style.display = 'none';
+  // document.querySelector('.focus-memory').style.display = 'none';
+  // document.querySelector('.focus-polo').style.display = 'none';
+  // document.querySelector('.focus-kaleidoscope').style.display = 'none';
+  // daftFocus.start();
 
   function onClick(target, item, callback) {
     // reset();
     // Assign content to info container
     document.querySelector('.title-infos').innerText = item.title;
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
-    document.querySelector('.description-infos').innerText = item.description;
+    document.querySelector('.description-infos').innerHTML = item.description;
 
-    var animate = _gsap.TweenLite.to(camera.position, 5, {
+    var animate = _gsap.TweenLite.to(camera.position, 3, {
       x: target.position.x,
       y: target.position.y,
-      z: target.position.z + 1.5,
+      z: target.position.z + 1,
       ease: _gsap.EaseOut,
       onUpdate: function onUpdate(e) {
-        if (camera.position.z < 3.5) {
+        if (camera.position.z < 1.8) {
           infos.classList.add('visible');
         }
       },
@@ -102027,8 +102607,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     onInfoClose(function () {
       animate.kill();
-      renaudFocus.stop();
-      memoryFocus.stop();
     });
   }
   /*
@@ -102055,9 +102633,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Britney
    */
 
-  var britneyPin = CreateSrpite(_Britney.default, -2.3, 3.2, -1.2);
+  var britneyPin = CreateSrpite(_Britney.default, -1.9, 3.2, -1.2);
   britneyPin.addEventListener("click", function (event) {
-    console.log('okokok');
     onClick(event.target, {
       title: 'Britney',
       subTitle: 'From Bollywood to Hollywood',
@@ -102069,13 +102646,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         onClose(function () {});
       });
     });
-  }); // interactionManager.add(britneyPin);
-
+  });
+  interactionManager.add(britneyPin);
   /*
    * DaftPunk
    */
 
-  var daftPunkPin = CreateSrpite(_DaftPunk.default, 0.9, 2.5, -1);
+  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1, 2.35, -1);
   daftPunkPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'DaftPunk',
@@ -102097,12 +102674,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Gainsbourg
    */
 
-  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.49, 3.3, -1.5);
+  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.39, 3.05, -1.5);
   gainsbourgPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Gainsbourg',
       subTitle: 'A hint of classic behind an iconoclast spirit',
-      description: 'Well known for his music, his romances but also because of his scandalous spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a classical music lover?'
+      description: 'Well known for his music, his romances but also because of his <b>scandalous</b> spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a <b>classical music lover<b/>?'
     }, function () {
       onDiscover(function () {
         reset();
@@ -102117,7 +102694,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Memo
    */
 
-  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.7, -0.4);
+  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.75, -0.4);
   memoPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Memo',
@@ -102139,7 +102716,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Polo
    */
 
-  var poloPin = CreateSrpite(_Polo.default, 0.8, 3.6, -1);
+  var poloPin = CreateSrpite(_Polo.default, 0.65, 3.3, -1);
   poloPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Polo et Pan',
@@ -102149,7 +102726,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       onDiscover(function () {
         reset();
         document.querySelector('.focus-polo').style.display = 'block';
-        onClose(function () {});
+        poloFocus.start();
+        onClose(function () {
+          poloFocus.stop();
+        });
       });
     });
   });
@@ -102158,7 +102738,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Renaud
    */
 
-  var renaudPin = CreateSrpite(_Renaud.default, -1.45, 1.9, -0.9);
+  var renaudPin = CreateSrpite(_Renaud.default, -1.38, 2.1, -0.9);
   renaudPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Renaud',
@@ -102181,7 +102761,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Retour
    */
 
-  var retourPin = CreateSrpite(_Retour.default, -1.5, 2.55, -1.2);
+  var retourPin = CreateSrpite(_Retour.default, -1.2, 2.5, -1.2);
   retourPin.addEventListener("click", function (event) {
     console.log("Retour");
   });
@@ -102231,33 +102811,37 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var bodyHeight = document.documentElement.scrollHeight;
 
     if (window.scrollY > bodyHeight - window.screen.height && !started) {
+      // Move to position
+      var tape = scene.getObjectByName('Storage_group');
+      tape.position.set(-1.5, 2.45, -2);
+      camera.position.set(-1.5, 2.45, -1.6);
       new _gsap.TimelineMax().to(camera.position, 1, {
         x: 0,
         y: 2.7,
         z: 2.5,
         ease: _gsap.EaseOut
-      }).to(aznavourPin.material, 0.25, {
+      }).to(aznavourPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(britneyPin.material, 0.25, {
+      }).to(britneyPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(daftPunkPin.material, 0.25, {
+      }).to(daftPunkPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(gainsbourgPin.material, 0.25, {
+      }).to(gainsbourgPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(memoPin.material, 0.25, {
+      }).to(memoPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(poloPin.material, 0.25, {
+      }).to(poloPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(renaudPin.material, 0.25, {
+      }).to(renaudPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
-      }).to(retourPin.material, 0.25, {
+      }).to(retourPin.material, 0.15, {
         opacity: 1,
         ease: _gsap.EaseOut
       });
@@ -102325,6 +102909,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         opacity: 1,
         ease: _gsap.EaseOut
       });
+      document.querySelector('.container').style.display = 'none';
     }
   };
 
@@ -102371,7 +102956,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102738,8 +103323,7 @@ function Scene(canvas) {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
     renderer.gammaOutput = true;
-    renderer.setClearColor(0x808088, 0); // renderer.setClearColor(0xDAAD9F);
-
+    renderer.setClearColor(0xEDE3E1, 1);
     var DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
     renderer.setPixelRatio(DPR); // renderer.setPixelRatio(1);
 
@@ -102935,7 +103519,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58918" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60324" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
