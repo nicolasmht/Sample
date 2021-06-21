@@ -116,29 +116,7 @@ function Component(scene) {
     function turnTheDisc(sound) {
 
         // Animate the vinyle
-        // last = discRotation;
-        // discRotation += 360;
-        // let time = 0;
-        // let nameChange = false;
-
-        console.log('test');
-
         let disc = document.querySelector('#disque');
-        //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
-        // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
-        //     time++;
-        //     if(time > 25 && !nameChange) {
-        //     nameChange = true;
-
-        //     // Edit the title of vinyle
-        //     let title = document.querySelector('#soundTitle');
-        //     title.innerText = sound.title;
-
-        //     // Edit the date of the vinyle
-        //     let date = document.querySelector('#soundDate');
-        //     date.innerText = sound.date;
-        //     }
-        // }});
         disc.classList.add('rotate');
 
         setTimeout(() => {
@@ -163,6 +141,7 @@ function Component(scene) {
 
     // Cursor animation
     let cursor = document.querySelector('#cursor');
+    let cursorAction = document.querySelector('#cursor .actions');
 
 
     // Make the sun draggable
@@ -253,12 +232,15 @@ function Component(scene) {
 
          // When the mouse hover the sun
         sun.addEventListener('mouseover', () => {
-            cursor.classList.add('drag')
+            cursorAction.classList.add('drag', 'show')
         });
 
         // When the mouse leave the sun
         sun.addEventListener('mouseout', () => {
-            cursor.classList.remove('drag')
+            cursorAction.classList.remove('show');
+            setTimeout(() => {
+                cursorAction.classList.remove('drag')
+            }, 400)
         });
 
         // Classic cursor
