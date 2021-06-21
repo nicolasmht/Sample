@@ -100182,8 +100182,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     var folder = gui.addFolder("DaftPunk");
     folder.add(camera.position, "x");
     folder.add(camera.position, "y");
-    folder.add(camera.position, "z");
-    folder.add(light, 'intensity');
+    folder.add(camera.position, "z"); // folder.add(light, 'intensity');
   };
 
   this.wheel = function (Y) {};
@@ -100812,7 +100811,7 @@ function Component(scene, camera) {
   var videoTimer = 0;
   var currentImage = 0; // Le temps de l'effet
 
-  var DURATION = 50; // Interval
+  var DURATION = 25; // Interval
 
   intervalID = setInterval(function () {
     var videoFrames = document.querySelectorAll('#video img');
@@ -101264,6 +101263,8 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _three2 = require("three.interactive");
+
 var _gsap = require("gsap");
 
 var _cardVerso = _interopRequireDefault(require("../images/focus/memory/card-verso.jpeg"));
@@ -101278,6 +101279,7 @@ function Component(sceneMain) {
   var isFinish = false;
   var nbCardsFound = 0;
   var soundDuration = 30000;
+  var badCards = [];
   var tutorial = document.querySelector('.focus-memory .tuto');
   var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
@@ -101291,6 +101293,7 @@ function Component(sceneMain) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0xEEF2FF, 0);
   document.querySelector('.focus-memory').appendChild(renderer.domElement);
+  var interactionManager = new _three2.InteractionManager(renderer, camera, renderer.domElement);
   var loader = new THREE.TextureLoader();
   var materialVerso = new THREE.MeshBasicMaterial({
     side: THREE.FrontSide,
@@ -101298,64 +101301,34 @@ function Component(sceneMain) {
   });
   var geometry = new THREE.PlaneGeometry(8, 12, 32);
   var asap = new Howl({
-    src: ['./memory/sounds/1_AsapRocky.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/1_AsapRocky.mp3']
   });
   var steve = new Howl({
-    src: ['./memory/sounds/1_SteveJobs.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/1_SteveJobs.mp3']
   });
   var bowie = new Howl({
-    src: ['./memory/sounds/2_DavidBowie.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/2_DavidBowie.mp3']
   });
   var lana = new Howl({
-    src: ['./memory/sounds/2_LanaDelRey.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/2_LanaDelRey.mp3']
   });
   var fanfare = new Howl({
-    src: ['./memory/sounds/3_Fanfare.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/3_Fanfare.mp3']
   });
   var queen = new Howl({
-    src: ['./memory/sounds/3_Queen.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/3_Queen.mp3']
   });
   var david = new Howl({
-    src: ['./memory/sounds/4_DavidGilmour.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/4_DavidGilmour.mp3']
   });
   var sncf = new Howl({
-    src: ['./memory/sounds/4_SNCF.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/4_SNCF.mp3']
   });
   var ketchup = new Howl({
-    src: ['./memory/sounds/5_LasKetchup.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/5_LasKetchup.mp3']
   });
   var sugar = new Howl({
-    src: ['./memory/sounds/5_TheSugarHill.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/5_TheSugarHill.mp3']
   });
   var data = [{
     id: 1,
@@ -101452,7 +101425,11 @@ function Component(sceneMain) {
     card.data = item;
     card.add(verso);
     card.add(recto);
-    cards.add(card); // Delete the used position
+    card.addEventListener('mouseover', function (event) {
+      console.log(event);
+    });
+    cards.add(card);
+    interactionManager.add(card); // Delete the used position
 
     if (random > -1) {
       positions.splice(random, 1);
@@ -101474,7 +101451,7 @@ function Component(sceneMain) {
   }
 
   function showCard(object) {
-    if (cardVisible.length < 2 && !object.parent.data.valid) {
+    if (cardVisible.length < 3 && !object.parent.data.valid) {
       cardVisible.push(object.parent);
 
       _gsap.TweenLite.to(object.parent.rotation, .5, {
@@ -101483,18 +101460,23 @@ function Component(sceneMain) {
           if (soundPlayed) {
             soundPlayed.fade(1, 0, 300);
             soundPlayed.once('fade', function () {
+              console.log('stop');
+              soundPlayed.stop();
               soundPlayed.seek(0);
-              soundPlayed = object.parent.data.sound;
-              object.parent.data.sound.fade(0, 1, 300);
-              object.parent.data.sound.play('sample');
+              console.log(soundPlayed.seek());
+              setTimeout(function () {
+                soundPlayed = object.parent.data.sound;
+                object.parent.data.sound.fade(0, 1, 300);
+                object.parent.data.sound.play();
+              }, 100);
               console.log('play');
             });
             return;
           }
 
           soundPlayed = object.parent.data.sound;
+          object.parent.data.sound.play();
           object.parent.data.sound.fade(0, 1, 300);
-          object.parent.data.sound.play('sample');
           console.log('play');
         }
       });
@@ -101511,9 +101493,23 @@ function Component(sceneMain) {
         });
         setTimeout(function () {
           cardVisible.splice(0, 2);
-        }, 1000);
-      } else if (cardVisible.length == 2 && cardVisible[0].data.same != cardVisible[1].data.id) {
-        cardVisible.forEach(function (card) {
+        }, 100);
+      } else if (cardVisible.length === 2 && cardVisible[0].data.same != cardVisible[1].data.id) {
+        // cardVisible.forEach((card) => {
+        //     setTimeout(() => {
+        //         TweenLite.to(card.rotation, .5, {
+        //             y: 0,
+        //             onUpdate: () => {}
+        //         });
+        //     }, 1000)
+        // });
+        badCards.push(cardVisible[0]);
+        badCards.push(cardVisible[1]); // cardVisible.splice(0, 2);
+
+        console.log(badCards);
+      } else if (cardVisible.length == 3 && cardVisible[0].data.same != cardVisible[1].data.id) {
+        badCards.forEach(function (card) {
+          console.log(card);
           setTimeout(function () {
             _gsap.TweenLite.to(card.rotation, .5, {
               y: 0,
@@ -101522,6 +101518,7 @@ function Component(sceneMain) {
           }, 1000);
         });
         cardVisible.splice(0, 2);
+        badCards = [];
       }
     }
   }
@@ -101550,6 +101547,7 @@ function Component(sceneMain) {
 
   var render = function render() {
     idAnimation = requestAnimationFrame(render);
+    interactionManager.update();
     renderer.render(scene, camera);
   };
 
@@ -101562,6 +101560,7 @@ function Component(sceneMain) {
   };
 
   this.stop = function () {
+    if (soundPlayed === null) return;
     setTimeout(function () {
       tutorial.classList.remove('hide');
       winScreen.classList.add('show');
@@ -101584,7 +101583,7 @@ function Component(sceneMain) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
 module.exports = "/Nana_Sample.562078ff.mp3";
 },{}],"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":[function(require,module,exports) {
 module.exports = "/Os_Tincoas_Cordeiro_Nana_Original.ca13f4e7.mp3";
@@ -101781,25 +101780,7 @@ function Component(scene) {
 
   function turnTheDisc(sound) {
     // Animate the vinyle
-    // last = discRotation;
-    // discRotation += 360;
-    // let time = 0;
-    // let nameChange = false;
-    console.log('test');
-    var disc = document.querySelector('#disque'); //disc.style.transform = `translate(-50%, 50%) rotateZ(${discRotation}deg)`;
-    // TweenLite.fromTo(disc.style, 1.5,{ transform: `translate(-50%, 50%) rotate(${last}deg)`}, { transform: `translate(-50%, 50%) rotate(${discRotation}deg)`, onUpdate:() => {
-    //     time++;
-    //     if(time > 25 && !nameChange) {
-    //     nameChange = true;
-    //     // Edit the title of vinyle
-    //     let title = document.querySelector('#soundTitle');
-    //     title.innerText = sound.title;
-    //     // Edit the date of the vinyle
-    //     let date = document.querySelector('#soundDate');
-    //     date.innerText = sound.date;
-    //     }
-    // }});
-
+    var disc = document.querySelector('#disque');
     disc.classList.add('rotate');
     setTimeout(function () {
       // Edit the title of vinyle
@@ -101815,7 +101796,8 @@ function Component(scene) {
   } // Cursor animation
 
 
-  var cursor = document.querySelector('#cursor'); // Make the sun draggable
+  var cursor = document.querySelector('#cursor');
+  var cursorAction = document.querySelector('#cursor .actions'); // Make the sun draggable
 
   dragElement(sun);
 
@@ -101922,11 +101904,14 @@ function Component(scene) {
   this.start = function () {
     // When the mouse hover the sun
     sun.addEventListener('mouseover', function () {
-      cursor.classList.add('drag');
+      cursorAction.classList.add('drag', 'show');
     }); // When the mouse leave the sun
 
     sun.addEventListener('mouseout', function () {
-      cursor.classList.remove('drag');
+      cursorAction.classList.remove('show');
+      setTimeout(function () {
+        cursorAction.classList.remove('drag');
+      }, 400);
     }); // Classic cursor
 
     document.addEventListener('mousemove', function (e) {
@@ -102126,8 +102111,8 @@ module.exports = "/Bollywood.0d0fae15.png";
 module.exports = "/Britney.9a60b423.png";
 },{}],"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":[function(require,module,exports) {
 module.exports = "/britney-spears-toxic-audio.e7177786.mp3";
-},{}],"audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3":[function(require,module,exports) {
-module.exports = "/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.5cd83197.mp3";
+},{}],"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":[function(require,module,exports) {
+module.exports = "/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.04618063.mp3";
 },{}],"components/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
@@ -102148,7 +102133,7 @@ var _Britney = _interopRequireDefault(require("../images/focus/kaleidoscope/Brit
 
 var _britneySpearsToxicAudio = _interopRequireDefault(require("../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3"));
 
-var _tereMereBeechMeinFullSongShuddhDesiRomanceSushantSinghRajputParineetiChopra = _interopRequireDefault(require("../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3"));
+var _lataMangeshkarSpBalasubrahmanyamTereMereBeechMein_ = _interopRequireDefault(require("../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -102165,12 +102150,10 @@ function KaleidoscopeComponent(scene) {
   var image2 = new Image();
   var soundLeft = new _howler.Howl({
     src: _britneySpearsToxicAudio.default,
-    autoplay: false,
     volume: 0.5
   });
   var soundRight = new _howler.Howl({
-    src: _tereMereBeechMeinFullSongShuddhDesiRomanceSushantSinghRajputParineetiChopra.default,
-    autoplay: false,
+    src: _lataMangeshkarSpBalasubrahmanyamTereMereBeechMein_.default,
     loop: true,
     volume: 0.5
   });
@@ -102274,21 +102257,30 @@ function KaleidoscopeComponent(scene) {
   };
 
   this.start = function () {
+    // soundLeft.fade(0, 1, 1000);
+    // soundLeft.once("fade", () => {
+    //     soundLeft.play();
+    // });
+    // soundRight.fade(0, 1, 1000);
+    // soundRight.once("fade", () => {
+    //     soundRight.play();
+    // });
     soundLeft.play();
     soundRight.play();
   };
 
   this.stop = function () {
-    soundLeft.fade(1, 0, 1000);
-    soundLeft.once("fade", function () {
-      soundLeft.seek(0);
-      soundLeft.stop();
-    });
-    soundRight.fade(1, 0, 1000);
-    soundRight.once("fade", function () {
-      soundRight.seek(0);
-      soundRight.stop();
-    });
+    // soundLeft.fade(1, 0, 1000);
+    // soundLeft.once("fade", () => {
+    // soundLeft.stop();
+    // });
+    // 
+    // soundRight.fade(1, 0, 1000);
+    // soundRight.once("fade", () => {
+    // soundRight.stop();
+    // });
+    soundLeft.stop();
+    soundRight.stop();
   };
 
   this.helpers = function (gui) {
@@ -102326,7 +102318,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3":"audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102416,6 +102408,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var texture01 = new THREE.TextureLoader().load(_scratch.default);
   var texture02 = new THREE.TextureLoader().load(_test.default);
   var texture03 = new THREE.TextureLoader().load(_scratch3.default);
+  var texture04 = new THREE.TextureLoader().load(_test2.default);
   texture01.wrapS = THREE.RepeatWrapping;
   texture01.wrapT = THREE.RepeatWrapping;
   texture01.minFilter = THREE.LinearMipMapLinearFilter;
@@ -102442,24 +102435,21 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1") {
           if (child.name != "child.material" || child.name == "herbier-herbier") return;
           child.material = new THREE.MeshBasicMaterial({
-            // side: THREE.DoubleSide,
+            side: THREE.DoubleSide,
             map: child.material.map,
             transparent: true
           });
         } else {
-          if (child.name == "desk_haut_1") {
-            texture02.wrapS = 0.1;
-            texture02.wrapT = 0.1;
-          } else {
-            texture02.wrapS = THREE.RepeatWrapping;
-            texture02.wrapT = THREE.RepeatWrapping;
-          }
-
           child.material = new THREE.MeshToonMaterial({
             side: THREE.DoubleSide,
             gradientMap: fiveTone,
             map: texture02
           });
+
+          if (child.name == "desk_haut_1") {
+            child.material.map = texture04;
+          }
+
           if (child.name == 'wall') child.material.map = null; // if (
           //     child.name == 'desk_tiroirs001' ||
           //     child.name == 'desk_tiroirs002' ||
@@ -102512,22 +102502,22 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var spriteHover = new THREE.Sprite(materialPinHover);
     sprite.position.set(x, y, z);
     spriteHover.position.set(x, y, z);
-    sprite.scale.set(0.22, 0.22, 0.22);
-    spriteHover.scale.set(0.22, 0.22, 0.22);
+    sprite.scale.set(0.20, 0.20, 0.20);
+    spriteHover.scale.set(0.20, 0.20, 0.20);
     scene.add(sprite);
     scene.add(spriteHover);
     var isClick = false;
     sprite.addEventListener("mouseover", function (event) {
       if (isClick) return;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
       document.body.style.cursor = "pointer";
@@ -102535,14 +102525,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     sprite.addEventListener("mouseout", function (event) {
       if (isClick) return;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
       document.body.style.cursor = "default";
@@ -102550,14 +102540,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     sprite.addEventListener("click", function (event) {
       isClick = true;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
       document.body.style.cursor = "default";
@@ -102565,27 +102555,27 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.close-infos').addEventListener('click', function (event) {
       isClick = false;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
     });
     document.querySelector('.back-labo').addEventListener('click', function (event) {
       isClick = false;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
     });
     interactionManager.add(sprite);
@@ -102606,7 +102596,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       _gsap.TweenLite.to(camera.position, 1, {
         x: 0,
         y: 2.7,
-        z: 2.5,
+        z: 4.2,
         ease: _gsap.EaseInOut
       });
 
@@ -102698,7 +102688,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       x: target.position.x,
       y: target.position.y,
       z: target.position.z + 0.15,
-      ease: _gsap.EaseOut,
+      ease: _gsap.EaseInOut,
       onUpdate: function onUpdate(e) {
         if (camera.position.z < 1.8) {
           infos.classList.add('visible');
@@ -102737,7 +102727,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Britney
    */
 
-  var britneyPin = CreateSrpite(_Britney.default, -1.6, 3.3, 0);
+  var britneyPin = CreateSrpite(_Britney.default, -1.8, 3.2, -0.25);
   britneyPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Britney',
@@ -102759,7 +102749,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * DaftPunk
    */
 
-  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1.5, 2.5, -0.15);
+  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1.55, 2.5, -0.15);
   daftPunkPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'DaftPunk',
@@ -102781,7 +102771,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Gainsbourg
    */
 
-  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, 0.01, 3.3, -0.4);
+  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.04, 3.4, -0.4);
   gainsbourgPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Gainsbourg',
@@ -102845,7 +102835,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Renaud
    */
 
-  var renaudPin = CreateSrpite(_Renaud.default, -0.95, 1.9, -0.5);
+  var renaudPin = CreateSrpite(_Renaud.default, -0.95, 1.9, -0.67);
   renaudPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Renaud',
@@ -102868,7 +102858,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Retour
    */
 
-  var retourPin = CreateSrpite(_Retour.default, -1.2, 2.5, -1.2);
+  var retourPin = CreateSrpite(_Retour.default, -1, 2.5, -0.4);
   retourPin.addEventListener("click", function (event) {
     console.log("Retour");
   });
@@ -102934,7 +102924,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       }).to(camera.position, 2, {
         x: 0,
         y: 2.7,
-        z: 2.5,
+        z: 4.2,
         ease: _gsap.EaseOut
       }).to(aznavourPin.material, 0.15, {
         opacity: 1,
@@ -102986,11 +102976,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     camera.rotation.x += 0.1 * (target.y - camera.rotation.x);
     camera.rotation.y += 0.1 * (target.x - camera.rotation.y);
     interactionManager.update();
-  };
+  }; // Cursor animation
+
+
+  var cursor = document.querySelector('#cursor');
+  var cursorAction = document.querySelector('#cursor .actions');
 
   this.mousemove = function (event) {
     mouse.x = event.clientX - windowHalf.x;
     mouse.y = event.clientY - windowHalf.x;
+    cursor.style.left = event.pageX - 15 + 'px';
+    cursor.style.top = event.pageY - 15 + 'px';
   };
 
   this.keyup = function (e) {
@@ -102998,7 +102994,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       new _gsap.TimelineMax().to(camera.position, 1, {
         x: 0,
         y: 2.7,
-        z: 2.5,
+        z: 4.2,
         ease: _gsap.EaseOut
       }).to(aznavourPin.material, 0.25, {
         opacity: 1,
@@ -103466,7 +103462,6 @@ function Scene(canvas) {
   function createComponents(scene) {
     var components = [// Inserts all components here
     // new tearCanvas(scene, camera),
-    // new daftPunk(scene, camera, interactionManager),
     new _scrollTimeline.default(scene, camera), new _Labo.default(scene, camera, renderer, interactionManager) // new KaleidoscopeComponent(scene, camera, composer)
     ];
     return components;
@@ -103639,7 +103634,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62990" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64015" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

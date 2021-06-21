@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { InteractionManager } from "three.interactive";
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 
 import CardVerso from '../images/focus/memory/card-verso.jpeg';
@@ -8,6 +9,7 @@ function Component(sceneMain) {
     let isFinish = false;
     let nbCardsFound = 0;
     const soundDuration = 30000;
+    let badCards = [];
 
     let tutorial = document.querySelector('.focus-memory .tuto');
     let winScreen = document.querySelector('.focus-memory .win');
@@ -22,6 +24,11 @@ function Component(sceneMain) {
     renderer.setClearColor(0xEEF2FF, 0);
     document.querySelector('.focus-memory').appendChild(renderer.domElement);
 
+    const interactionManager = new InteractionManager(
+        renderer, camera, renderer.domElement
+    )
+
+
     const loader = new THREE.TextureLoader();
  
     let materialVerso = new THREE.MeshBasicMaterial({
@@ -33,72 +40,42 @@ function Component(sceneMain) {
 
     var asap = new Howl({
         src: ['./memory/sounds/1_AsapRocky.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var steve = new Howl({
         src: ['./memory/sounds/1_SteveJobs.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var bowie = new Howl({
         src: ['./memory/sounds/2_DavidBowie.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var lana = new Howl({
         src: ['./memory/sounds/2_LanaDelRey.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var fanfare = new Howl({
         src: ['./memory/sounds/3_Fanfare.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var queen = new Howl({
         src: ['./memory/sounds/3_Queen.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var david = new Howl({
         src: ['./memory/sounds/4_DavidGilmour.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var sncf = new Howl({
         src: ['./memory/sounds/4_SNCF.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var ketchup = new Howl({
         src: ['./memory/sounds/5_LasKetchup.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     var sugar = new Howl({
         src: ['./memory/sounds/5_TheSugarHill.mp3'],
-        sprite: {
-            sample: [0, soundDuration]
-        }
     });
 
     const data = [
@@ -158,7 +135,13 @@ function Component(sceneMain) {
     
         card.add(verso);
         card.add(recto);
+        
+        card.addEventListener('mouseover', (event) =>{
+            console.log(event);
+        });
+
         cards.add(card);
+        interactionManager.add(card);
     
         // Delete the used position
         if (random > -1) {
@@ -180,20 +163,31 @@ function Component(sceneMain) {
 
     function showCard(object) {
 
-        if (cardVisible.length < 2 && !object.parent.data.valid) {
+        if (cardVisible.length < 3 && !object.parent.data.valid) {
     
             cardVisible.push(object.parent);
+
             TweenLite.to(object.parent.rotation, .5, {
                 y: Math.PI, onStart: ()=> {
 
                     if(soundPlayed) {
+
                         soundPlayed.fade(1, 0, 300)
-                        
                         soundPlayed.once('fade', () => {
+
+                            console.log('stop');
+                            soundPlayed.stop();
                             soundPlayed.seek(0);
-                            soundPlayed = object.parent.data.sound;
-                            object.parent.data.sound.fade(0, 1, 300);
-                            object.parent.data.sound.play('sample');
+                            console.log(soundPlayed.seek());
+
+                            setTimeout(() => {
+
+                                soundPlayed = object.parent.data.sound;
+                                object.parent.data.sound.fade(0, 1, 300);
+                                object.parent.data.sound.play();
+
+                            }, 100)
+
                             console.log('play');
                         });
                         
@@ -201,13 +195,14 @@ function Component(sceneMain) {
                     }
 
                     soundPlayed = object.parent.data.sound;
+                    object.parent.data.sound.play();
                     object.parent.data.sound.fade(0, 1, 300);
-                    object.parent.data.sound.play('sample');
                     console.log('play');
                 }
             });
     
             if (cardVisible.length == 2 && cardVisible[0].data.same == cardVisible[1].data.id) {
+
                 cardVisible.forEach((card) => {
                     card.data.valid = true;
                     nbCardsFound++;
@@ -221,21 +216,42 @@ function Component(sceneMain) {
     
                 setTimeout(() => {
                     cardVisible.splice(0, 2);
-                }, 1000);
+                }, 100);
     
-            } else if (cardVisible.length == 2 && (cardVisible[0].data.same != cardVisible[1].data.id)) {
+            } else if (cardVisible.length === 2 && (cardVisible[0].data.same != cardVisible[1].data.id)) {
 
-                cardVisible.forEach((card) => {
+                // cardVisible.forEach((card) => {
+    
+                //     setTimeout(() => {
+                //         TweenLite.to(card.rotation, .5, {
+                //             y: 0,
+                //             onUpdate: () => {}
+                //         });
+                //     }, 1000)
+                // });
+                badCards.push(cardVisible[0]);
+                badCards.push(cardVisible[1]);
+                // cardVisible.splice(0, 2);
+                console.log(badCards);
+
+            } else if(cardVisible.length == 3 && (cardVisible[0].data.same != cardVisible[1].data.id)) {
+
+                 badCards.forEach((card) => {
+
+                    console.log(card);
     
                     setTimeout(() => {
                         TweenLite.to(card.rotation, .5, {
                             y: 0,
                             onUpdate: () => {}
                         });
-                    }, 1000)
+                    }, 1000);
+
                 });
-    
+
                 cardVisible.splice(0, 2);
+                badCards = [];
+             
             }
     
         }
@@ -265,6 +281,7 @@ function Component(sceneMain) {
     
     var render = function () {
         idAnimation = requestAnimationFrame(render);
+        interactionManager.update();
         renderer.render(scene, camera);
     }
 
@@ -280,6 +297,8 @@ function Component(sceneMain) {
     }
 
     this.stop = function() {
+
+        if (soundPlayed === null) return;
 
         setTimeout(() => {
             tutorial.classList.remove('hide');

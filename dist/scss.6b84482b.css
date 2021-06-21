@@ -132,6 +132,7 @@ html, body {
   cursor: pointer;
   border: none;
   outline: none;
+  background: none;
 }
 .container-infos .close-infos {
   position: absolute;

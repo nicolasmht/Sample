@@ -417,7 +417,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         folder.add(camera.position, "y");
         folder.add(camera.position, "z");
 
-        folder.add(light, 'intensity');
+        // folder.add(light, 'intensity');
     }
 
     this.wheel = function(Y) {
