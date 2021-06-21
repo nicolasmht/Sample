@@ -102143,7 +102143,8 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // import FacadeTexture from '../textures/facade.png';
 // Audios
 function KaleidoscopeComponent(scene) {
-  // Init kaleidoscope
+  var cursor = document.querySelector('#cursor .actions'); // Init kaleidoscope
+
   var image = new Image();
   var image2 = new Image();
   var soundLeft = new _howler.Howl({
@@ -102263,6 +102264,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     //     soundRight.play();
     // });
+    cursor.classList.add('move', 'show');
     soundLeft.play();
     soundRight.play();
   };
@@ -102277,6 +102279,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     // soundRight.stop();
     // });
+    cursor.classList.remove('show', 'move');
     soundLeft.stop();
     soundRight.stop();
   };
