@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Howl } from 'howler';
 
 // Textures
 // import FacadeTexture from '../textures/facade.png';
@@ -9,11 +10,27 @@ import { Kaleidoscope, DragDrop } from '../utils/Kaleidoscope';
 import IMG from '../images/focus/kaleidoscope/Bollywood.png';
 import IMG2 from '../images/focus/kaleidoscope/Britney.png';
 
+import Sound01 from '../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3';
+import Sound02 from '../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3';
+
 function KaleidoscopeComponent(scene) {
 
     // Init kaleidoscope
     let image = new Image();
     let image2 = new Image();
+
+    let soundLeft = new Howl({
+        src: Sound01,
+        autoplay: false,
+        volume: 0.5,
+    });
+
+    let soundRight = new Howl({
+        src: Sound02,
+        autoplay: false,
+        loop: true,
+        volume: 0.5,
+    });
 
     image.onload = () => {
         return kaleidoscope.draw();
@@ -42,14 +59,16 @@ function KaleidoscopeComponent(scene) {
     kaleidoscope.domElement.style.left = "0";
     kaleidoscope.domElement.style.top = "0";
     kaleidoscope.domElement.style.zIndex = "999";
-    kaleidoscope.domElement.style.width = window.innerWidth;
-    kaleidoscope.domElement.style.height = window.innerWidth;
+    // kaleidoscope.domElement.style.width = window.innerWidth * 2;
+    // kaleidoscope.domElement.style.height = window.innerWidth * 2;
     document.querySelector(".focus-kaleidoscope").appendChild(kaleidoscope.domElement);
 
     kaleidoscope2.domElement.style.position = "absolute";
     kaleidoscope2.domElement.style.left = "0";
     kaleidoscope2.domElement.style.top = "0";
     kaleidoscope2.domElement.style.zIndex = "999";
+    // kaleidoscope2.domElement.style.width = window.innerWidth * 2;
+    // kaleidoscope2.domElement.style.height = window.innerWidth * 2;
     document.querySelector(".focus-kaleidoscope").appendChild(kaleidoscope2.domElement);
 
     // Init drag & drop
@@ -66,7 +85,7 @@ function KaleidoscopeComponent(scene) {
     let ty = kaleidoscope.offsetY;
     let tr = kaleidoscope.offsetRotation;
 
-    document.addEventListener('mousemove', function(event) {
+    document.querySelector('.focus-kaleidoscope').addEventListener('mousemove', function(event) {
         var cx, cy, dx, dy, hx, hy;
         cx = window.innerWidth / 2;
         cy = window.innerHeight / 2;
@@ -82,6 +101,10 @@ function KaleidoscopeComponent(scene) {
 
         kaleidoscope2.domElement.style.opacity = 0.5 + mouseX;
         // kaleidoscope2.domElement.style.opacity = 1 * -mouseX + 0.25;
+
+        soundLeft.volume(1.2 * -mouseX);
+        soundRight.volume(mouseX);
+
         return (tr = Math.atan2(hy, hx));
     });
 
@@ -121,6 +144,27 @@ function KaleidoscopeComponent(scene) {
         // kaleidoscope2.offsetY += (ty - kaleidoscope2.offsetY) * 0.1;
         // kaleidoscope2.offsetRotation += (theta - kaleidoscope2.offsetRotation) * 0.1;
         // kaleidoscope2.draw();
+    }
+
+    this.start = () => {
+        soundLeft.play();
+        soundRight.play();
+    }
+
+    this.stop = () => {
+        soundLeft.fade(1, 0, 1000);
+        soundLeft.once("fade", () => {
+            soundLeft.seek(0);
+            soundLeft.stop();
+        });
+        
+
+        soundRight.fade(1, 0, 1000);
+        soundRight.once("fade", () => {
+            soundRight.seek(0);
+            soundRight.stop();
+        });
+
     }
 
     this.helpers = (gui) => {

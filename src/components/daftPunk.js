@@ -6,6 +6,7 @@ import {Howl, Howler} from 'howler';
 import { EffectComposer, EffectPass, RenderPass, BlendFunction, BloomEffect } from "postprocessing";
 import SoundAnalyser from '../utils/soundAnalyser';
 import { InteractionManager } from "three.interactive";
+import interpolate from 'interpolate-range';
 
 // Object
 import daftPunkModel from '../objects/focus_daft-punk_texture.gltf';
@@ -30,14 +31,17 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     let analyser = context.createAnalyser();
     let frequencyData = new Uint8Array(analyser.frequencyBinCount);
     
-    let arraySound = [sound0101, sound0201, sound0301, sound0401]
+    let arraySound = [sound0101, sound0201, sound0301, sound0401];
     let baseSound = 0;
 
-    let ambiantSound1 = new SoundAnalyser(context,sound0101, analyser, function (th) { th.play() })
-    let ambiantSound2 = new SoundAnalyser(context,sound0201, analyser, function () {})
-    let ambiantSound3 = new SoundAnalyser(context,sound0301, analyser, function () {})
-    let ambiantSound4 = new SoundAnalyser(context,sound0401, analyser, function () {})
+    let isStart = false;
 
+    let ambiantSound1 = new SoundAnalyser(context, sound0101, analyser, function (th) { /*th.play()*/ })
+    let ambiantSound2 = new SoundAnalyser(context, sound0201, analyser, function () {})
+    let ambiantSound3 = new SoundAnalyser(context, sound0301, analyser, function () {})
+    let ambiantSound4 = new SoundAnalyser(context, sound0401, analyser, function () {})
+
+    let winScreen = document.querySelector('.focus-daftpunk .win');
 
     //SCENE
     var scene = new THREE.Scene();
@@ -91,8 +95,10 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
      scene.add( pointLight3 );
     //  scene.add( pointLight3Helper );
 
-    let soundA = new Howl({ src: [sound1] });
-    let soundB = new Howl({ src: [sound2] });
+    let soundA = new Howl({ src: [sound0102] });
+    let soundB = new Howl({ src: [sound0202] });
+    let soundC = new Howl({ src: [sound0302] });
+    let soundD = new Howl({ src: [sound0402] });
 
 
     const loader = new GLTFLoader();
@@ -121,7 +127,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
             initInteraction();
         },
         ( xhr ) => {
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
         },
         ( error ) => {
             console.log( 'An error happened' );
@@ -143,7 +149,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
             cadrillage.scale.x = 1.5;
         },
         ( xhr ) => {
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
         },
         ( error ) => {
             console.log( 'An error happened' );
@@ -153,7 +159,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     //Floor
     const texture = new THREE.TextureLoader().load( mistTexture );
     const geoPlane = new THREE.CircleGeometry( 72, 30 );
-    const matPlane = new THREE.MeshBasicMaterial( {color: 0xeeeeee,transparent: true, opacity: .6, map:texture, side: THREE.FrontSide} );
+    const matPlane = new THREE.MeshBasicMaterial( {color: 0xeeeeee,transparent: true, opacity: .5, map:texture, side: THREE.FrontSide} );
     const plane = new THREE.Mesh( geoPlane, matPlane );
     plane.rotation.x = Math.PI/2
     plane.scale.x = 1.27
@@ -194,44 +200,47 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         let mouseDown = false
         let dragProgress = baseRotationBot;
 
-        //RAYCAST BOT FACE FOR SOUND
-        let faceTarget;
-        let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
-        interactionManager.add(pyramidB1);
-        interactionManager.add(pyramidB2);
-        interactionManager.add(pyramidB3);
-        interactionManager.add(pyramidB4);
+        // //RAYCAST BOT FACE FOR SOUND
+        // let faceTarget;
+        // let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
+        // interactionManager.add(pyramidB1);
+        // interactionManager.add(pyramidB2);
+        // interactionManager.add(pyramidB3);
+        // interactionManager.add(pyramidB4);
 
-        botArray.forEach(e => {
-            e.addEventListener('mouseover',(t)=> {
-                console.log('mouseover');
-                console.log(t.target.name)
-                t.stopPropagation()
-                faceTarget = t.target.name
-                setTimeout(()=> {
-                    soundA.stop()
-                    soundB.stop()
-                    switch (faceTarget) {
-                        case 'Pyramid_bas_1': //Dog
-                                console.log('Face 1: Dog')
-                                // soundA.play();
-                            break;
-                        case 'Pyramid_bas2': //Spatial
-                                console.log('Face 2: SPatial')
-                                // soundB.play();
-                            break;
-                        case 'Pyramid_bas3': //Hand
-                                console.log('Face 3: Hand')
-                            break;
-                        case 'Pyramid_bas4': //Phone
-                                console.log('Face 4: Phone')
-                            break;
-                        default:
-                            break;
-                    }
-                },500)
-            })
-        });
+        // botArray.forEach(e => {
+        //     e.addEventListener('mouseover',(t)=> {
+        //         // console.log(t.target.name)
+        //         t.stopPropagation()
+        //         faceTarget = t.target.name
+        //         setTimeout(()=> {
+        //             soundA.stop()
+        //             soundB.stop()
+        //             soundC.stop()
+        //             soundD.stop()
+        //             switch (faceTarget) {
+        //                 case 'Pyramid_bas_1': //Dog
+        //                         console.log('Face 1: Dog')
+        //                         // soundA.play();
+        //                     break;
+        //                 case 'Pyramid_bas2': //Spatial
+        //                         console.log('Face 2: SPatial')
+        //                         // soundB.play();
+        //                     break;
+        //                 case 'Pyramid_bas3': //Hand
+        //                         console.log('Face 3: Hand')
+        //                         // soundC.play();
+        //                     break;
+        //                 case 'Pyramid_bas4': //Phone
+        //                         console.log('Face 4: Phone')
+        //                         // soundD.play();
+        //                     break;
+        //                 default:
+        //                     break;
+        //             }
+        //         },500)
+        //     })
+        // });
 
         //RAYCAST TOP OR BOTTOM TARGET
         let targetPyramid = pyramidB
@@ -328,6 +337,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                             switch (baseSound) {
                                 case 0:
                                         ambiantSound4.stop();
+                                        winScreen.classList.add('show');
                                     break;
                                 case 1:
                                         ambiantSound1.stop();
@@ -336,7 +346,6 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                                 case 2:
                                         ambiantSound2.stop();
                                         ambiantSound3.play();
-                                       
                                     break;
                                 case 3:
                                         ambiantSound3.stop();
@@ -376,10 +385,24 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     }
 
     this.start = function() {
+
+        if (isStart) return;
+
+        ambiantSound1.play();
         render();
+
+        isStart = true;
     }
 
     this.stop = function() {
+
+        isStart = false;
+
+        ambiantSound1.stop();
+        ambiantSound2.stop();
+        ambiantSound3.stop();
+        ambiantSound4.stop();
+
         window.cancelAnimationFrame(idAnimation);
     }
 

@@ -6,7 +6,7 @@ import { TimelineMax, Power4, TweenLite, TweenMax } from 'gsap';
 import getPerspectiveSize from '../utils/getPerspectiveSize';
 
 // Object
-import TapeModel from '../objects/AudioTape/case_closed-m.gltf';
+import TapeModel from '../objects/AudioTape/case.gltf';
 
 // Sound
 import soundA from '../audios/timeline/sound01.mp3'
@@ -29,6 +29,7 @@ import textureC from  '../textures/tape/case03.png'
 import textureD from  '../textures/tape/case04.png'
 import textureE from  '../textures/tape/case05.png'
 import textureF from  '../textures/tape/case06.png'
+import TextureCase from '../textures/textures_gravure/test02.png';
 
 function ScrollTimeline(scene, camera) {
 
@@ -41,7 +42,13 @@ function ScrollTimeline(scene, camera) {
         let isBack = false;
         let isNotPlaying = false;
 
-        document.querySelector('#canvas').style.pointerEvents = 'none'
+        document.querySelector('#canvas').style.pointerEvents = 'none';
+
+        
+        const textureCaseLoad = new THREE.TextureLoader().load(TextureCase);
+        textureCaseLoad.wrapS = THREE.RepeatWrapping;
+        textureCaseLoad.wrapT = THREE.RepeatWrapping;
+        textureCaseLoad.repeat.set( 0.35, 0.35 );
 
         // let scrollY = 0;
 
@@ -51,14 +58,25 @@ function ScrollTimeline(scene, camera) {
 
             tape.traverse( (child) => {
                 let modelPart = child.name;
-                console.log(child.name)
+
                 switch(modelPart) {
-                    case 'Storage':
-                        // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
+                    case 'desk_haut':
+                    case 'desk_haut16':
+                    case 'desk_haut2':
+                    case 'desk_haut3':
+                        child.material = new THREE.MeshBasicMaterial({color:0xeccfb0, map: textureCaseLoad, side:THREE.DoubleSide});
                     break;
                     case 'Tape_obj':
                         // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
                         // child.position.x = -10
+                    break;
+                    case 'right':
+                        // console.log('MATERIAL',child.material);
+                        // child.material.lightMapIntensity = 2
+                        // child.material.envMapIntensity = 2
+                        // child.material.aoMapIntensity = 2
+                        child.material.brightness = 10;
+                        child.material.shininess = 5;
                     break;
                     case 'Wheel_left':
                         child.material = new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide});
@@ -82,6 +100,8 @@ function ScrollTimeline(scene, camera) {
                         child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
                     break;
                 }
+                
+                // console.log(child.name)
             });
 
             //Set Camera
@@ -91,9 +111,8 @@ function ScrollTimeline(scene, camera) {
 
             // tape.position.z = -5;
 
-            tape.scale.set(0.01125, 0.012, 0.012);
-            // tape.position.set(-2.5115, 2.37, -1.45);
-            tape.position.set(camera.position.x -0.0115 , camera.position.y -0.08, camera.position.z -0.2004);
+            tape.scale.set(0.0128, 0.0128, 0.0128);
+            tape.position.set(camera.position.x -0.0115 , camera.position.y -0.0825, camera.position.z -0.2004);
             tape.rotateY(Math.PI);
 
             scene.add(tape);
@@ -149,6 +168,7 @@ function ScrollTimeline(scene, camera) {
         let tapeGroup = tape.getObjectByName('case_tape')//Tape_obj
         let storage = tape.getObjectByName('shelves')//Storage
         let facade = tape.getObjectByName('flat_tapes')
+        let etiquette = tape.getObjectByName('etiquette')
         let caseObj = tape.getObjectByName('case')
         let tapeObj = tape.getObjectByName('Tape')
         let bobine = tape.getObjectByName('Tape-Mat1')
@@ -165,13 +185,13 @@ function ScrollTimeline(scene, camera) {
         const textureLoader = new THREE.TextureLoader()
         
         let vertShader = `
-        varying vec2 vUv;
-        
-        void main() {
-            vUv = uv;
+            varying vec2 vUv;
             
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-        }
+            void main() {
+                vUv = uv;
+                
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+            }
         `
         let fragShader = ` 
         uniform sampler2D texture1;
@@ -218,6 +238,7 @@ function ScrollTimeline(scene, camera) {
         .to(caseObj.position, 1, {x: -12},1.25) //eloignement case
         .to(caseT.material, .5, {opacity: 0},1.25) //degage case opacity
         .to(caseB.material, .5, {opacity: 0},1.25) //degage case opacity
+        .to(etiquette.material, .5, {opacity: 0},1.25) //degage case opacity
 
         // .to(tapeGroup.rotation, 2, {y:-1.75}, 2.5) //rotation cassette sur elle meme
         .to(tapeGroup.rotation, 4, {y:-4.75,x:4}, 2) //rotation cassette sur elle meme
@@ -233,6 +254,7 @@ function ScrollTimeline(scene, camera) {
         //Put back
         .to(caseT.material, .5, {opacity: .9},5) //degage case opacity
         .to(caseB.material, .5, {opacity: .9},5) //degage case opacity
+        .to(etiquette.material, .5, {opacity: .9},5) //degage case opacity
         .to(storage.position, 1, {y: 0}, 5.25) //etagere appear bot
         .to(facade.position, 1, {y: 8.804056167602539}, 5.25) //etagere appear bot
         .to(tapeGroup.position, 1, {x:8.560792922973633,y:8.795806884765625,z:-13}, 5) //rotation cassette sur elle meme
@@ -318,7 +340,7 @@ function ScrollTimeline(scene, camera) {
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
-        document.addEventListener("mousewheel", (e) => {
+        document.addEventListener("scroll", (e) => {
             let documentHeight = document.querySelector('.container').offsetHeight;
             let windowHeight = window.innerHeight;
 
@@ -383,8 +405,8 @@ function ScrollTimeline(scene, camera) {
     //SLIDER
     function initSlider() {
         
-        sound01.play();
-        sound02.play();
+        // sound01.play();
+        // sound02.play();
 
         let sliderPos;
         let currentPos = 0;

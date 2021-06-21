@@ -49,6 +49,7 @@ html, body {
   left: 0;
   z-index: 1;
   transition: opacity 3s;
+  z-index: 999;
 }
 
 .container-focus {
@@ -57,7 +58,7 @@ html, body {
   height: 100vh;
   transform: translateX(100vw);
   transition: transform 2s;
-  z-index: 2;
+  z-index: 10000;
   overflow: hidden;
 }
 .container-focus.full {
@@ -130,6 +131,7 @@ html, body {
   height: 5vw;
   cursor: pointer;
   border: none;
+  outline: none;
 }
 .container-infos .close-infos {
   position: absolute;
@@ -687,13 +689,13 @@ html, body {
   width: 100vw;
   height: 100vh;
   cursor: move;
-  background-image: url(/Fond_1.b3d8f70d.jpg);
+  background-image: url(/Fond_4.a3bb98b7.jpg);
   background-size: cover;
   background-position: center center;
 }
 .focus-kaleidoscope canvas {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .bounce {
@@ -727,7 +729,7 @@ html, body {
   background-attachment: fixed;
   padding-top: 250vh;
   padding-bottom: 250vh;
-  z-index: 999;
+  z-index: 998;
 }
 .container .cont_slider {
   position: fixed;
@@ -894,6 +896,12 @@ html, body {
   width: 25vw;
   position: relative;
 }
+.container_artist-right h1 {
+  transition: all 0.5s ease-out;
+}
+.container_artist-right p {
+  transition: all 0.5s ease-out;
+}
 .container_artist-panel {
   background: red;
   height: 100vh;
@@ -952,6 +960,9 @@ html, body {
   background-color: #43C6FE;
 }
 
+.focus-daftpunk {
+  cursor: grab;
+}
 .focus-daftpunk .push-cab {
   position: fixed;
   bottom: 50px;
