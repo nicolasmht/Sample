@@ -101236,6 +101236,8 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _three2 = require("three.interactive");
+
 var _gsap = require("gsap");
 
 var _cardVerso = _interopRequireDefault(require("../images/focus/memory/card-verso.jpeg"));
@@ -101250,6 +101252,7 @@ function Component(sceneMain) {
   var isFinish = false;
   var nbCardsFound = 0;
   var soundDuration = 30000;
+  var badCards = [];
   var tutorial = document.querySelector('.focus-memory .tuto');
   var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
@@ -101263,6 +101266,7 @@ function Component(sceneMain) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0xEEF2FF, 0);
   document.querySelector('.focus-memory').appendChild(renderer.domElement);
+  var interactionManager = new _three2.InteractionManager(renderer, camera, renderer.domElement);
   var loader = new THREE.TextureLoader();
   var materialVerso = new THREE.MeshBasicMaterial({
     side: THREE.FrontSide,
@@ -101270,64 +101274,34 @@ function Component(sceneMain) {
   });
   var geometry = new THREE.PlaneGeometry(8, 12, 32);
   var asap = new Howl({
-    src: ['./memory/sounds/1_AsapRocky.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/1_AsapRocky.mp3']
   });
   var steve = new Howl({
-    src: ['./memory/sounds/1_SteveJobs.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/1_SteveJobs.mp3']
   });
   var bowie = new Howl({
-    src: ['./memory/sounds/2_DavidBowie.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/2_DavidBowie.mp3']
   });
   var lana = new Howl({
-    src: ['./memory/sounds/2_LanaDelRey.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/2_LanaDelRey.mp3']
   });
   var fanfare = new Howl({
-    src: ['./memory/sounds/3_Fanfare.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/3_Fanfare.mp3']
   });
   var queen = new Howl({
-    src: ['./memory/sounds/3_Queen.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/3_Queen.mp3']
   });
   var david = new Howl({
-    src: ['./memory/sounds/4_DavidGilmour.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/4_DavidGilmour.mp3']
   });
   var sncf = new Howl({
-    src: ['./memory/sounds/4_SNCF.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/4_SNCF.mp3']
   });
   var ketchup = new Howl({
-    src: ['./memory/sounds/5_LasKetchup.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/5_LasKetchup.mp3']
   });
   var sugar = new Howl({
-    src: ['./memory/sounds/5_TheSugarHill.mp3'],
-    sprite: {
-      sample: [0, soundDuration]
-    }
+    src: ['./memory/sounds/5_TheSugarHill.mp3']
   });
   var data = [{
     id: 1,
@@ -101424,7 +101398,11 @@ function Component(sceneMain) {
     card.data = item;
     card.add(verso);
     card.add(recto);
-    cards.add(card); // Delete the used position
+    card.addEventListener('mouseover', function (event) {
+      console.log(event);
+    });
+    cards.add(card);
+    interactionManager.add(card); // Delete the used position
 
     if (random > -1) {
       positions.splice(random, 1);
@@ -101446,7 +101424,7 @@ function Component(sceneMain) {
   }
 
   function showCard(object) {
-    if (cardVisible.length < 2 && !object.parent.data.valid) {
+    if (cardVisible.length < 3 && !object.parent.data.valid) {
       cardVisible.push(object.parent);
 
       _gsap.TweenLite.to(object.parent.rotation, .5, {
@@ -101455,18 +101433,23 @@ function Component(sceneMain) {
           if (soundPlayed) {
             soundPlayed.fade(1, 0, 300);
             soundPlayed.once('fade', function () {
+              console.log('stop');
+              soundPlayed.stop();
               soundPlayed.seek(0);
-              soundPlayed = object.parent.data.sound;
-              object.parent.data.sound.fade(0, 1, 300);
-              object.parent.data.sound.play('sample');
+              console.log(soundPlayed.seek());
+              setTimeout(function () {
+                soundPlayed = object.parent.data.sound;
+                object.parent.data.sound.fade(0, 1, 300);
+                object.parent.data.sound.play();
+              }, 100);
               console.log('play');
             });
             return;
           }
 
           soundPlayed = object.parent.data.sound;
+          object.parent.data.sound.play();
           object.parent.data.sound.fade(0, 1, 300);
-          object.parent.data.sound.play('sample');
           console.log('play');
         }
       });
@@ -101483,9 +101466,23 @@ function Component(sceneMain) {
         });
         setTimeout(function () {
           cardVisible.splice(0, 2);
-        }, 1000);
-      } else if (cardVisible.length == 2 && cardVisible[0].data.same != cardVisible[1].data.id) {
-        cardVisible.forEach(function (card) {
+        }, 100);
+      } else if (cardVisible.length === 2 && cardVisible[0].data.same != cardVisible[1].data.id) {
+        // cardVisible.forEach((card) => {
+        //     setTimeout(() => {
+        //         TweenLite.to(card.rotation, .5, {
+        //             y: 0,
+        //             onUpdate: () => {}
+        //         });
+        //     }, 1000)
+        // });
+        badCards.push(cardVisible[0]);
+        badCards.push(cardVisible[1]); // cardVisible.splice(0, 2);
+
+        console.log(badCards);
+      } else if (cardVisible.length == 3 && cardVisible[0].data.same != cardVisible[1].data.id) {
+        badCards.forEach(function (card) {
+          console.log(card);
           setTimeout(function () {
             _gsap.TweenLite.to(card.rotation, .5, {
               y: 0,
@@ -101494,6 +101491,7 @@ function Component(sceneMain) {
           }, 1000);
         });
         cardVisible.splice(0, 2);
+        badCards = [];
       }
     }
   }
@@ -101522,6 +101520,7 @@ function Component(sceneMain) {
 
   var render = function render() {
     idAnimation = requestAnimationFrame(render);
+    interactionManager.update();
     renderer.render(scene, camera);
   };
 
@@ -101557,7 +101556,7 @@ function Component(sceneMain) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
 module.exports = "/Nana_Sample.562078ff.mp3";
 },{}],"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":[function(require,module,exports) {
 module.exports = "/Os_Tincoas_Cordeiro_Nana_Original.ca13f4e7.mp3";
@@ -103576,7 +103575,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55350" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55594" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
