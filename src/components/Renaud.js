@@ -39,6 +39,8 @@ function Component(scene, camera) {
     timeline.fromTo(imgs[13], .4, {opacity: 0} ,{opacity: 1});
     timeline.fromTo(imgs[14], .4, {opacity: 0} ,{opacity: 1});
     timeline.fromTo(imgs[15], .4, {opacity: 0} ,{opacity: 1});
+    timeline.fromTo(imgs[16], .4, {opacity: 0} ,{opacity: 1});
+    timeline.fromTo(imgs[17], .4, {opacity: 0} ,{opacity: 1});
 
     // Variables
     let intervalID = null;
@@ -113,6 +115,11 @@ function Component(scene, camera) {
     this.mousemove = function(e) {}
 
     this.start = function() {
+
+        setTimeout(() => {
+            spacebar.classList.add('show');
+        }, 4000);
+
         renaud.play();
         booba.play();
     }

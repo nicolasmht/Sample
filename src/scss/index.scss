@@ -57,7 +57,7 @@ html, body {
     height: 100vh;
     transform: translateX(100vw);
     transition: transform 2s;
-    z-index: 2;
+    z-index: 10000;
     overflow: hidden;
 
     &.full{
@@ -245,7 +245,7 @@ html, body {
     height: 100vh;
     -o-object-fit: contain;
     object-fit: contain;
-    background-image: url('../images/focus/renaud/background.png');
+    background-image: url('../assets/renaud/background.jpeg');
     background-position: center;
     background-size: cover;
     display: none;
@@ -255,13 +255,18 @@ html, body {
       bottom: 6%;
       left: 50%;
       transform: translate(-50%, 0px);
-      width: 450px;
+      width: 330px;
       height: 100px;
       background-image: url('../assets/renaud/hold.png');
       background-repeat: no-repeat;
       background-size: contain;
       background-position: center;
       transition: all 400ms;
+      opacity: 0;
+
+      &.show {
+        opacity: 1;
+      }
 
       &.holding {
         background-image: url('../assets/renaud/holding.png');
@@ -1074,4 +1079,72 @@ html, body {
             }
         }
     }
+}
+
+.focus-daftpunk {
+  .push-cab {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    height: 120px;
+    width: 120px;
+    .text-container {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      height: 116px;
+      width: 116px;
+      background: url('../images/PushCab/Dig_txt.png');
+      background-size: contain;
+      animation: rotation 5s linear infinite;
+      &.white {
+        filter: invert(1);
+      }
+    }
+    .circle-container {
+      position: absolute;
+      height: 120px;
+      width: 120px;
+      background: url('../images/PushCab/push_cabinet.png');
+      background-size: 120px;
+      background-position: center;
+      overflow: hidden;
+      top: 0px;
+      left: 0px;
+      transition: all .25s ease-out;
+      border-radius: 100%;
+      .cirlce-img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 120px;
+        width: 120px;
+        overflow: hidden;
+        border-radius: 100%;
+        transition: all .25s ease-out;
+      }
+      &:hover {
+        height: 80px;
+        width: 80px;
+        top: 20px;
+        left: 20px;
+        overflow: hidden;
+        border-radius: 100%;
+        cursor: pointer;
+        transition: all .25s ease-out;
+        .cirlce-img {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          height: 80px;
+          width: 80px;
+          transition: all .25s ease-out;
+        }
+      }
+    }
+  }
+  @keyframes rotation {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+  }
 }
