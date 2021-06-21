@@ -47,22 +47,25 @@ function Component(scene, camera) {
     let spaceDown = false;
     let spaceUp = false;
     let timer = 0;
-    let videoTimer = 0;
     let currentImage = 0;
 
     // Le temps de l'effet
     const DURATION = 25;
+    let videoFrames = null;
 
     // Interval
     intervalID = setInterval(function() {
 
-    let videoFrames = document.querySelectorAll('#video img');
         if(spaceDown && timer < DURATION) {
             timer++ * .05;
-            videoFrames[currentImage].style.display = "block";
-            currentImage++;
         } else if(!spaceDown && timer > 0) {
             timer-- * .05;
+        }
+
+        if(spaceDown && currentImage < videoFrames.length -1) {
+            videoFrames[currentImage].style.display = "block";
+            currentImage++;
+        } else if(!spaceDown && currentImage > 0) {
             videoFrames[currentImage].style.display = "none";
             currentImage--;
         }
@@ -95,14 +98,24 @@ function Component(scene, camera) {
     let videoContainer = document.querySelector('#video');
 
     function createVideo(nb){
-        for(let i = 0; i < nb; i++) {
-            let img = document.createElement('img');
-            img.src = `./renaud/video/Renaud${i < 10 ? '00' + i : '0' + i}.png`
-            videoContainer.appendChild(img);
-        }
+
+        return new Promise((resolve, reject) => {
+
+            for(let i = 0; i < nb; i++) {
+                let img = document.createElement('img');
+                img.src = `./renaud/video/Animation${i < 10 ? '00' + i : '0' + i}.png`
+                videoContainer.appendChild(img);
+            }
+
+            resolve();
+
+        });
     }
 
-    createVideo(100);
+    createVideo(100).then(() => { 
+        videoFrames = document.querySelectorAll('#video img')
+        console.log(videoFrames);
+    });
 
     this.update = function(time) {}
 
