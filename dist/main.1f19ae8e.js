@@ -101182,64 +101182,230 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _gsapCore = require("gsap/gsap-core");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function Component(scene) {
-  var iles = document.querySelectorAll('section');
   var map = document.querySelector('#map');
-  iles.forEach(function (ile) {
-    ile.addEventListener('click', function (e) {
-      // console.log(e);
-      // map.style.transformOrigin = `${e.clientX}px ${e.clientY}px`;
-      // setTimeout(() =>  {
-      //     map.style.transform = 'scale(2)';
-      // }, 1000);
-      //console.log(ile)
-      if (e.target.classList.contains('active')) return;
-      e.target.style.zIndex = 10;
-      e.target.classList.add('active');
+  var originals = document.querySelectorAll('.original');
+  var samples = document.querySelectorAll('.sample');
+  samples.forEach(function (sample) {
+    sample.addEventListener('mouseover', function () {
+      sample.classList.add('played');
+    });
+    sample.addEventListener('mouseout', function () {
+      sample.classList.remove('played');
     });
   });
-  var ele = document.querySelector('html');
-  ele.style.cursor = 'grab';
-  var pos = {
-    top: 0,
-    left: 0,
-    x: 0,
-    y: 0
-  };
-
-  var mouseDownHandler = function mouseDownHandler(e) {
-    ele.style.cursor = 'grabbing';
-    ele.style.userSelect = 'none';
-    pos = {
-      left: ele.scrollLeft,
-      top: ele.scrollTop,
-      // Get the current mouse position
-      x: e.clientX,
-      y: e.clientY
-    };
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
-  };
-
-  var mouseMoveHandler = function mouseMoveHandler(e) {
-    // How far the mouse has been moved
-    var dx = e.clientX - pos.x;
-    var dy = e.clientY - pos.y; // Scroll the element
-
-    ele.scrollTop = pos.top - dy;
-    ele.scrollLeft = pos.left - dx;
-  };
-
-  var mouseUpHandler = function mouseUpHandler() {
+  originals.forEach(function (original) {
+    original.addEventListener('mouseover', function () {
+      original.classList.add('played');
+    });
+    original.addEventListener('mouseout', function () {
+      original.classList.remove('played');
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var ele = document.querySelector('#ct-map');
+    ele.scrollLeft = window.innerWidth / 2;
+    ele.scrollTop = window.innerHeight / 2;
     ele.style.cursor = 'grab';
-    ele.style.removeProperty('user-select');
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
-  };
+    var pos = {
+      top: 0,
+      left: 0,
+      x: 0,
+      y: 0
+    };
+
+    var mouseDownHandler = function mouseDownHandler(e) {
+      ele.style.cursor = 'grabbing';
+      ele.style.userSelect = 'none';
+      pos = {
+        left: ele.scrollLeft,
+        top: ele.scrollTop,
+        // Get the current mouse position
+        x: e.clientX,
+        y: e.clientY
+      };
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    var mouseMoveHandler = function mouseMoveHandler(e) {
+      // How far the mouse has been moved
+      var dx = e.clientX - pos.x;
+      var dy = e.clientY - pos.y; // Scroll the element
+
+      _gsapCore.TweenMax.to(ele, 1.2, {
+        scrollTop: pos.top - dy,
+        scrollLeft: pos.left - dx
+      });
+    };
+
+    var mouseUpHandler = function mouseUpHandler() {
+      ele.style.cursor = 'grab';
+      ele.style.removeProperty('user-select');
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    }; // Attach the handler
+
+
+    ele.addEventListener('mousedown', mouseDownHandler);
+  }); //Get the position of element from top of the page
+
+  function offsetTop(element) {
+    var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    if (element.offsetTop) {
+      return offsetTop(element.offsetParent, acc + element.offsetTop);
+    }
+
+    return acc + element.offsetTop;
+  }
+
+  function offsetLeft(element) {
+    var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    if (element.offsetLeft) {
+      return offsetLeft(element.offsetParent, acc + element.offsetLeft);
+    }
+
+    return acc + element.offsetLeft;
+  }
+
+  var Parallax = /*#__PURE__*/function () {
+    function Parallax(element) {
+      var _element$dataset;
+
+      _classCallCheck(this, Parallax);
+
+      this.element = element;
+      var ratios = (_element$dataset = element.dataset) === null || _element$dataset === void 0 ? void 0 : _element$dataset.parallax.split('/');
+      this.ratio = parseFloat(ratios[0]);
+      this.ratioX = parseFloat(ratios[1]);
+      this.onScroll = this.onScroll.bind(this);
+      this.onIntersection = this.onIntersection.bind(this);
+      this.elementY = offsetTop(this.element) + this.element.offsetHeight / 2;
+      this.elementX = offsetLeft(this.element) + this.element.offsetWidth / 2;
+      var observer = new IntersectionObserver(this.onIntersection);
+      observer.observe(element);
+      this.onScroll();
+    } //Entries its IntersectionObserverEntry []
+
+
+    _createClass(Parallax, [{
+      key: "onIntersection",
+      value: function onIntersection(entries) {
+        var _iterator = _createForOfIteratorHelper(entries),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var entry = _step.value;
+
+            if (entry.isIntersecting) {
+              document.querySelector('#ct-map').addEventListener('scroll', this.onScroll);
+              this.elementY = offsetTop(this.element) + this.element.offsetHeight / 2;
+              this.elementX = offsetLeft(this.element) + this.element.offsetWidth / 2;
+            } else {
+              document.querySelector('#ct-map').removeEventListener('scroll', this.onScroll);
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+    }, {
+      key: "onScroll",
+      value: function onScroll() {
+        var _this = this;
+
+        window.requestAnimationFrame(function () {
+          var screenY = document.querySelector('#ct-map').scrollTop + window.innerHeight / 2;
+          var screenX = document.querySelector('#ct-map').scrollLeft + window.innerWidth / 2;
+          var diffY = _this.elementY - screenY;
+          var diffX = _this.elementX - screenX;
+
+          _this.element.style.setProperty("transform", "translate(".concat(diffX * -1 * _this.ratioX, "px, ").concat(diffY * -1 * _this.ratio, "px)"));
+        });
+      }
+    }], [{
+      key: "bind",
+      value: function bind() {
+        return Array.from(document.querySelectorAll('[data-parallax]')).map(function (element) {
+          return new Parallax(element);
+        });
+      }
+    }]);
+
+    return Parallax;
+  }();
+
+  Parallax.bind();
+  var currentSound = null;
+
+  function createSound(element, newSound) {
+    var sound = new Howl({
+      src: [newSound.path],
+      volume: 0
+    });
+    element.addEventListener('mouseover', function () {
+      if (currentSound === sound) return;
+      sound.seek(0);
+      sound.play();
+      sound.fade(0, 1, 1300);
+      currentSound = sound;
+    });
+    element.addEventListener('mouseleave', function () {
+      sound.once('fade', function () {
+        sound.stop();
+      });
+      sound.fade(sound.volume(), 0, 1000);
+      currentSound = null;
+    });
+  }
+
+  createSound(document.querySelector('#sound_01'), {
+    path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
+    title: 'Parce Que Tu Crois ',
+    artist: 'Charles Aznavour',
+    date: '1966'
+  });
+  createSound(document.querySelector('#sample_01'), {
+    path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
+    title: "What's the Difference",
+    artist: 'Dr. Dre feat. Eminem and Xzibit',
+    date: '1999'
+  });
+  createSound(document.querySelector('#sound_02'), {
+    path: './sounds/02_Aznavour_comme-ils-disent.mp3',
+    title: 'Comme ils disent',
+    artist: 'Charles Aznavour',
+    date: '1972'
+  });
+  createSound(document.querySelector('#sample_02'), {
+    path: './sounds/02_Bad-balance_Goroda.mp3',
+    title: "\u0413\u043E\u0440\u043E\u0434\u0430",
+    artist: 'Bad Balance',
+    date: '2013'
+  });
 
   this.start = function () {
     // Attach the handler
@@ -101259,7 +101425,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap/gsap-core":"../node_modules/gsap/gsap-core.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
 module.exports = "/card-verso.f3e52cab.jpeg";
 },{}],"components/Memory.js":[function(require,module,exports) {
 "use strict";
