@@ -21,6 +21,57 @@ html, body {
     cursor: default;
 }
 
+#disque {
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  background-image: url('../images/focus/polo/Disque.png');
+  z-index: 100000;
+  background-size: contain;
+  background-repeat: no-repeat;
+  bottom: 0px;
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%, 100%);
+
+  &.show {
+    transform: translate(-50%, 50%);
+    transition: transform 300ms;
+  }
+
+  &.rotate {
+    animation: rotate 2s ease-out forwards;
+  }
+
+  @keyframes rotate {
+    0% {transform: translate(-50%, 50%) rotateZ(0deg)}
+    100% {transform: translate(-50%, 50%) rotateZ(360deg)}
+  }
+
+
+  h3 {
+    margin: 0;
+    position: absolute;
+    color: white;
+    top: 65px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+
+  }
+
+  h4 {
+    margin: 0;
+    position: absolute;
+    color: black;
+    top: 110px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+
+  }
+}
+
 #cursor {
   position: fixed;
   z-index: 1000000;
@@ -568,59 +619,9 @@ html, body {
 .focus-polo {
   width: 100vw;
   height: 100vh;
-  // overflow: hidden;
   margin: 0;
   position: relative;
   display: none;
-
-  // Cursor
-  
-
-  #disque {
-    position: fixed;
-    width: 260px;
-    height: 260px;
-    background-image: url('../images/focus/polo/Disque.png');
-    z-index: 100000;
-    background-size: contain;
-    background-repeat: no-repeat;
-    bottom: 0px;
-    left: 50%;
-    transform-origin: center;
-    transform: translate(-50%, 50%);
-
-    &.rotate {
-      animation: rotate 2s ease-out forwards;
-    }
-
-    @keyframes rotate {
-      0% {transform: translate(-50%, 50%) rotateZ(0deg)}
-      100% {transform: translate(-50%, 50%) rotateZ(360deg)}
-    }
-
-
-    h3 {
-      margin: 0;
-      position: absolute;
-      color: white;
-      top: 65px;
-      width: 100%;
-      text-align: center;
-      font-size: 18px;
-
-    }
-
-    h4 {
-      margin: 0;
-      position: absolute;
-      color: black;
-      top: 110px;
-      width: 100%;
-      text-align: center;
-      font-size: 12px;
-
-    }
-  }
 
   #background {
     position: fixed;

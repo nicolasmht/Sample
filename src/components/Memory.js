@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { InteractionManager } from "three.interactive";
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
+import Player from './Player';
 
 import CardVerso from '../images/focus/memory/card-verso.jpeg';
 
@@ -11,6 +12,7 @@ function Component(sceneMain) {
     const soundDuration = 30000;
     let badCards = [];
     let cursor = document.querySelector('#cursor .actions');
+    let player = null;
 
     let tutorial = document.querySelector('.focus-memory .tuto');
     let winScreen = document.querySelector('.focus-memory .win');
@@ -295,6 +297,8 @@ function Component(sceneMain) {
 
     this.start = function() {
 
+        player = new Player();
+
         setTimeout(() => {
             tutorial.classList.add('hide');
         }, 3000 )
@@ -304,6 +308,8 @@ function Component(sceneMain) {
     }
 
     this.stop = function() {
+
+        player.toggle(false);
 
         if (soundPlayed === null) return;
 

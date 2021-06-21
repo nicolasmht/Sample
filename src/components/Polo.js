@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
+import Player from './Player';
 
 import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
 import OsTincoasCordeiroNanaOriginal from '../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3';
@@ -13,6 +14,7 @@ import AniKuniSample from '../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3';
 function Component(scene) {
 
     let cursor = document.querySelector('#cursor .actions');
+    let player = null;
 
     // Create and add sound on pin
     function createSound(pin, sunset, sunshine) {
@@ -43,7 +45,7 @@ function Component(scene) {
         // Play sound 1 if the sun is up
         if(sunIsUp && !isPlayed) {
     
-            if(currentSound != sunshineSound)  turnTheDisc(sunshine);
+            if(currentSound != sunshineSound)  player.playSound(sunshine);
             currentSound = sunshineSound;
             sunshineSound.play('sample');
             currentSound.fade(0, 1, 500);
@@ -52,7 +54,7 @@ function Component(scene) {
         // Play sound 2 if the sun us down
         } else if(!sunIsUp && !isPlayed) {
     
-            if(currentSound != sunsetSound)  turnTheDisc(sunset);
+            if(currentSound != sunsetSound)  player.playSound(sunset);
             currentSound = sunsetSound;
             sunsetSound.play('sample');
             currentSound.fade(0, 1, 500);
@@ -224,6 +226,8 @@ function Component(scene) {
 
     this.start = () => {
 
+        player = new Player();
+
          // When the mouse hover the sun
         sun.addEventListener('mouseover', () => {
             cursor.classList.add('drag', 'show')
@@ -245,6 +249,8 @@ function Component(scene) {
     };
 
     this.stop = () => {
+        
+        player?.toggle(false);
 
         setTimeout(() => {
             document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);

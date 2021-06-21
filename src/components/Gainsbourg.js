@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import Player from './Player';
 
 import ChopinPrelude from '../assets/gainsbourg/sounds/Chopin_Prelude.mp3';
 import Jtm from '../assets/gainsbourg/sounds/jtm.mp3';
@@ -14,7 +14,7 @@ import Dvorak from '../assets/gainsbourg/sounds/dvorak.mp3';
 
 function Component(scene) {
 
-    let tutorial = document.querySelector('.focus-gainsbourg .tuto');
+    let player = null;
     let canvas = document.getElementById('mask');
     var ctx = canvas.getContext('2d');
     let cursor = document.querySelector('#cursor .actions');
@@ -83,18 +83,12 @@ function Component(scene) {
         
         let paperSound = new Howl({
             src: [_paperSound.path],
-            volume: 0,
-            sprite: {
-                sample: [_paperSound.start ? _paperSound.start : 0, 30000]
-                }
+            volume: 0
         });
 
         let stampSound = new Howl({
             src: [_stampSound.path],
-            volume: 0,
-            sprite: {
-                sample: [_stampSound.start ? _stampSound.start : 0, 30000]
-                }
+            volume: 0
         });
 
         let isMouseover = false;
@@ -105,7 +99,8 @@ function Component(scene) {
             
             if (isMouseover || paperSoundStopped) return;
 
-            paperSound.play('sample');
+            player.playSound(_paperSound);
+            paperSound.play();
             paperSound.fade(0, 1, 700);
             isMouseover = true;
         });
@@ -150,14 +145,16 @@ function Component(scene) {
                 paperSound.once( 'fade', () => { paperSound.stop(); });
                 paperSound.fade( paperSound.volume(), 0, 1000 );
 
-                stampSound.play('sample');
+                player.playSound(_stampSound);
+                stampSound.play();
                 stampSound.fade(paperSound.volume(), 1, 1000);
 
                 paperSoundStopped = true;  
 
             } else if (!isVisible && paperSoundStopped) {
 
-                paperSound.play('sample');
+                player.playSound(_paperSound);
+                paperSound.play();
                 paperSound.fade(paperSound.volume(), 1, 1000);
 
                 stampSound.once( 'fade', () => { stampSound.stop(); });
@@ -227,10 +224,12 @@ function Component(scene) {
     }
 
     this.start = () => {
+        player = new Player();
         cursor.classList.add('drag');
     }
 
     this.stop = () => {
+        player.toggle(false);
         cursor.classList.remove('drag');
     }
 

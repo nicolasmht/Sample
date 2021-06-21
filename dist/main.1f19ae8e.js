@@ -100893,7 +100893,66 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"components/Player.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Player = /*#__PURE__*/function () {
+  function Player() {
+    _classCallCheck(this, Player);
+
+    this.sound = null;
+    this.disc = document.querySelector('#disque');
+    this.title = document.querySelector('#soundTitle');
+    this.date = document.querySelector('#soundDate');
+    this.toggle(true);
+  }
+
+  _createClass(Player, [{
+    key: "toggle",
+    value: function toggle(show) {
+      if (show) this.disc.classList.add('show');
+      if (!show) this.disc.classList.remove('show');
+      this.date.innerText = '';
+      this.title.innerText = '';
+    }
+  }, {
+    key: "playSound",
+    value: function playSound(sound) {
+      var _this = this;
+
+      this.sound = sound; // Animate the vinyle
+
+      this.disc.classList.add('rotate'); // Affichage du titre
+
+      setTimeout(function () {
+        // Edit the title of vinyle
+        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
+
+        _this.date.innerText = _this.sound.date;
+      }, 600); // Stop animation
+
+      setTimeout(function () {
+        _this.disc.classList.remove('rotate');
+      }, 2000);
+    }
+  }]);
+
+  return Player;
+}();
+
+exports.default = Player;
+},{}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
 module.exports = "/Chopin_Prelude.9d4786e9.mp3";
 },{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
 module.exports = "/jtm.7f7ef207.mp3";
@@ -100917,7 +100976,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var THREE = _interopRequireWildcard(require("three"));
+var _Player = _interopRequireDefault(require("./Player"));
 
 var _Chopin_Prelude = _interopRequireDefault(require("../assets/gainsbourg/sounds/Chopin_Prelude.mp3"));
 
@@ -100937,12 +100996,8 @@ var _dvorak = _interopRequireDefault(require("../assets/gainsbourg/sounds/dvorak
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function Component(scene) {
-  var tutorial = document.querySelector('.focus-gainsbourg .tuto');
+  var player = null;
   var canvas = document.getElementById('mask');
   var ctx = canvas.getContext('2d');
   var cursor = document.querySelector('#cursor .actions'); // Create a radial gradient
@@ -101004,23 +101059,18 @@ function Component(scene) {
   function CreateSound(paper, stamp, _paperSound, _stampSound) {
     var paperSound = new Howl({
       src: [_paperSound.path],
-      volume: 0,
-      sprite: {
-        sample: [_paperSound.start ? _paperSound.start : 0, 30000]
-      }
+      volume: 0
     });
     var stampSound = new Howl({
       src: [_stampSound.path],
-      volume: 0,
-      sprite: {
-        sample: [_stampSound.start ? _stampSound.start : 0, 30000]
-      }
+      volume: 0
     });
     var isMouseover = false;
     paper.addEventListener('mouseover', function () {
       cursor.classList.add('show');
       if (isMouseover || paperSoundStopped) return;
-      paperSound.play('sample');
+      player.playSound(_paperSound);
+      paperSound.play();
       paperSound.fade(0, 1, 700);
       isMouseover = true;
     });
@@ -101061,11 +101111,13 @@ function Component(scene) {
           paperSound.stop();
         });
         paperSound.fade(paperSound.volume(), 0, 1000);
-        stampSound.play('sample');
+        player.playSound(_stampSound);
+        stampSound.play();
         stampSound.fade(paperSound.volume(), 1, 1000);
         paperSoundStopped = true;
       } else if (!isVisible && paperSoundStopped) {
-        paperSound.play('sample');
+        player.playSound(_paperSound);
+        paperSound.play();
         paperSound.fade(paperSound.volume(), 1, 1000);
         stampSound.once('fade', function () {
           stampSound.stop();
@@ -101152,10 +101204,12 @@ function Component(scene) {
   }
 
   this.start = function () {
+    player = new _Player.default();
     cursor.classList.add('drag');
   };
 
   this.stop = function () {
+    player.toggle(false);
     cursor.classList.remove('drag');
   };
 
@@ -101172,7 +101226,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../assets/gainsbourg/sounds/Chopin_Prelude.mp3":"assets/gainsbourg/sounds/Chopin_Prelude.mp3","../assets/gainsbourg/sounds/jtm.mp3":"assets/gainsbourg/sounds/jtm.mp3","../assets/gainsbourg/sounds/charlotte.mp3":"assets/gainsbourg/sounds/charlotte.mp3","../assets/gainsbourg/sounds/aram.mp3":"assets/gainsbourg/sounds/aram.mp3","../assets/gainsbourg/sounds/lemon.mp3":"assets/gainsbourg/sounds/lemon.mp3","../assets/gainsbourg/sounds/Chopin_Etude.mp3":"assets/gainsbourg/sounds/Chopin_Etude.mp3","../assets/gainsbourg/sounds/bb.mp3":"assets/gainsbourg/sounds/bb.mp3","../assets/gainsbourg/sounds/dvorak.mp3":"assets/gainsbourg/sounds/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
+},{"./Player":"components/Player.js","../assets/gainsbourg/sounds/Chopin_Prelude.mp3":"assets/gainsbourg/sounds/Chopin_Prelude.mp3","../assets/gainsbourg/sounds/jtm.mp3":"assets/gainsbourg/sounds/jtm.mp3","../assets/gainsbourg/sounds/charlotte.mp3":"assets/gainsbourg/sounds/charlotte.mp3","../assets/gainsbourg/sounds/aram.mp3":"assets/gainsbourg/sounds/aram.mp3","../assets/gainsbourg/sounds/lemon.mp3":"assets/gainsbourg/sounds/lemon.mp3","../assets/gainsbourg/sounds/Chopin_Etude.mp3":"assets/gainsbourg/sounds/Chopin_Etude.mp3","../assets/gainsbourg/sounds/bb.mp3":"assets/gainsbourg/sounds/bb.mp3","../assets/gainsbourg/sounds/dvorak.mp3":"assets/gainsbourg/sounds/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101441,6 +101495,8 @@ var _three2 = require("three.interactive");
 
 var _gsap = require("gsap");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _cardVerso = _interopRequireDefault(require("../images/focus/memory/card-verso.jpeg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -101455,6 +101511,7 @@ function Component(sceneMain) {
   var soundDuration = 30000;
   var badCards = [];
   var cursor = document.querySelector('#cursor .actions');
+  var player = null;
   var tutorial = document.querySelector('.focus-memory .tuto');
   var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
@@ -101731,6 +101788,7 @@ function Component(sceneMain) {
   };
 
   this.start = function () {
+    player = new _Player.default();
     setTimeout(function () {
       tutorial.classList.add('hide');
     }, 3000);
@@ -101739,6 +101797,7 @@ function Component(sceneMain) {
   };
 
   this.stop = function () {
+    player.toggle(false);
     if (soundPlayed === null) return;
     setTimeout(function () {
       tutorial.classList.remove('hide');
@@ -101762,7 +101821,7 @@ function Component(sceneMain) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","./Player":"components/Player.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
 module.exports = "/Nana_Sample.562078ff.mp3";
 },{}],"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":[function(require,module,exports) {
 module.exports = "/Os_Tincoas_Cordeiro_Nana_Original.ca13f4e7.mp3";
@@ -101790,6 +101849,8 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _gsap = require("gsap");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _Nana_Sample = _interopRequireDefault(require("../audios/focus/polo/sirene/Nana_Sample.mp3"));
 
 var _Os_Tincoas_Cordeiro_Nana_Original = _interopRequireDefault(require("../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3"));
@@ -101813,7 +101874,8 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
-  var cursor = document.querySelector('#cursor .actions'); // Create and add sound on pin
+  var cursor = document.querySelector('#cursor .actions');
+  var player = null; // Create and add sound on pin
 
   function createSound(pin, sunset, sunshine) {
     // Sound 1 - volume on 0 for fade the song at the start
@@ -101837,13 +101899,13 @@ function Component(scene) {
     pin.addEventListener('mouseover', function () {
       // Play sound 1 if the sun is up
       if (sunIsUp && !isPlayed) {
-        if (currentSound != sunshineSound) turnTheDisc(sunshine);
+        if (currentSound != sunshineSound) player.playSound(sunshine);
         currentSound = sunshineSound;
         sunshineSound.play('sample');
         currentSound.fade(0, 1, 500);
         isPlayed = true; // Play sound 2 if the sun us down
       } else if (!sunIsUp && !isPlayed) {
-        if (currentSound != sunsetSound) turnTheDisc(sunset);
+        if (currentSound != sunsetSound) player.playSound(sunset);
         currentSound = sunsetSound;
         sunsetSound.play('sample');
         currentSound.fade(0, 1, 500);
@@ -102076,7 +102138,8 @@ function Component(scene) {
   }
 
   this.start = function () {
-    // When the mouse hover the sun
+    player = new _Player.default(); // When the mouse hover the sun
+
     sun.addEventListener('mouseover', function () {
       cursor.classList.add('drag', 'show');
     }); // When the mouse leave the sun
@@ -102094,6 +102157,9 @@ function Component(scene) {
   };
 
   this.stop = function () {
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     setTimeout(function () {
       document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);
       document.querySelector('.focus-polo .tuto').classList.remove('hide');
@@ -102123,7 +102189,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","../audios/focus/polo/sirene/Nana_Sample.mp3":"audios/focus/polo/sirene/Nana_Sample.mp3","../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3","../audios/focus/polo/papillon/Zum-Zum_Original.mp3":"audios/focus/polo/papillon/Zum-Zum_Original.mp3","../audios/focus/polo/papillon/Zoom-zoom-Sample.mp3":"audios/focus/polo/papillon/Zoom-zoom-Sample.mp3","../audios/focus/polo/main/Claire_de_lune_Original.mp3":"audios/focus/polo/main/Claire_de_lune_Original.mp3","../audios/focus/polo/main/Imaginaire_Sample.mp3":"audios/focus/polo/main/Imaginaire_Sample.mp3","../audios/focus/polo/carnivore/Ani_Couni_Original.mp3":"audios/focus/polo/carnivore/Ani_Couni_Original.mp3","../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3":"audios/focus/polo/carnivore/Ani_kuni_Sample.mp3"}],"utils/Kaleidoscope.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","./Player":"components/Player.js","../audios/focus/polo/sirene/Nana_Sample.mp3":"audios/focus/polo/sirene/Nana_Sample.mp3","../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3","../audios/focus/polo/papillon/Zum-Zum_Original.mp3":"audios/focus/polo/papillon/Zum-Zum_Original.mp3","../audios/focus/polo/papillon/Zoom-zoom-Sample.mp3":"audios/focus/polo/papillon/Zoom-zoom-Sample.mp3","../audios/focus/polo/main/Claire_de_lune_Original.mp3":"audios/focus/polo/main/Claire_de_lune_Original.mp3","../audios/focus/polo/main/Imaginaire_Sample.mp3":"audios/focus/polo/main/Imaginaire_Sample.mp3","../audios/focus/polo/carnivore/Ani_Couni_Original.mp3":"audios/focus/polo/carnivore/Ani_Couni_Original.mp3","../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3":"audios/focus/polo/carnivore/Ani_kuni_Sample.mp3"}],"utils/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102954,7 +103020,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         reset();
         document.querySelector('.focus-gainsbourg').style.display = 'block';
         gainsbourgFocus.start();
-        onClose(function () {});
+        onClose(function () {
+          gainsbourgFocus.stop();
+        });
       });
     });
   });
