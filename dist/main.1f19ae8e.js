@@ -100366,6 +100366,9 @@ function Component(scene, camera) {
   this.mousemove = function (e) {};
 
   this.start = function () {
+    setTimeout(function () {
+      spacebar.classList.add('show');
+    }, 4000);
     renaud.play();
     booba.play();
   };
@@ -103043,7 +103046,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52316" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55562" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

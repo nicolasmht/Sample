@@ -113,6 +113,11 @@ function Component(scene, camera) {
     this.mousemove = function(e) {}
 
     this.start = function() {
+
+        setTimeout(() => {
+            spacebar.classList.add('show');
+        }, 4000);
+
         renaud.play();
         booba.play();
     }
