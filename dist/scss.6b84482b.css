@@ -136,8 +136,8 @@ html, body {
   position: absolute;
   top: 2.5vh;
   right: 2.5vw;
-  width: 4vw;
-  height: 4vw;
+  width: 2.5vw;
+  height: 2.5vw;
   cursor: pointer;
 }
 
@@ -688,6 +688,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   cursor: move;
+  display: none;
   background-image: url(/Fond_4.a3bb98b7.jpg);
   background-size: cover;
   background-position: center center;
@@ -955,7 +956,7 @@ html, body {
 
 .focus-daftpunk .push-cab {
   position: fixed;
-  bottom: 50px;
+  top: 50px;
   right: 50px;
   height: 120px;
   width: 120px;

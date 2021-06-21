@@ -147,8 +147,15 @@ function KaleidoscopeComponent(scene) {
     }
 
     this.start = () => {
-        soundLeft.play();
-        soundRight.play();
+        soundLeft.fade(1, 0, 1000);
+        soundLeft.once("fade", () => {
+            soundLeft.play();
+        });
+
+        soundRight.fade(1, 0, 1000);
+        soundRight.once("fade", () => {
+            soundRight.play();
+        });
     }
 
     this.stop = () => {

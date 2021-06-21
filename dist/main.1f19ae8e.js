@@ -37055,7 +37055,7 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
-},{}],"../../../.config/yarn/global/node_modules/events/events.js":[function(require,module,exports) {
+},{}],"../node_modules/events/events.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -100153,8 +100153,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     var folder = gui.addFolder("DaftPunk");
     folder.add(camera.position, "x");
     folder.add(camera.position, "y");
-    folder.add(camera.position, "z");
-    folder.add(light, 'intensity');
+    folder.add(camera.position, "z"); // folder.add(light, 'intensity');
   };
 
   this.wheel = function (Y) {};
@@ -102247,8 +102246,14 @@ function KaleidoscopeComponent(scene) {
   };
 
   this.start = function () {
-    soundLeft.play();
-    soundRight.play();
+    soundLeft.fade(1, 0, 1000);
+    soundLeft.once("fade", function () {
+      soundLeft.play();
+    });
+    soundRight.fade(1, 0, 1000);
+    soundRight.once("fade", function () {
+      soundRight.play();
+    });
   };
 
   this.stop = function () {
@@ -102389,6 +102394,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var texture01 = new THREE.TextureLoader().load(_scratch.default);
   var texture02 = new THREE.TextureLoader().load(_test.default);
   var texture03 = new THREE.TextureLoader().load(_scratch3.default);
+  var texture04 = new THREE.TextureLoader().load(_test2.default);
   texture01.wrapS = THREE.RepeatWrapping;
   texture01.wrapT = THREE.RepeatWrapping;
   texture01.minFilter = THREE.LinearMipMapLinearFilter;
@@ -102415,24 +102421,21 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1") {
           if (child.name != "child.material" || child.name == "herbier-herbier") return;
           child.material = new THREE.MeshBasicMaterial({
-            // side: THREE.DoubleSide,
+            side: THREE.DoubleSide,
             map: child.material.map,
             transparent: true
           });
         } else {
-          if (child.name == "desk_haut_1") {
-            texture02.wrapS = 0.1;
-            texture02.wrapT = 0.1;
-          } else {
-            texture02.wrapS = THREE.RepeatWrapping;
-            texture02.wrapT = THREE.RepeatWrapping;
-          }
-
           child.material = new THREE.MeshToonMaterial({
             side: THREE.DoubleSide,
             gradientMap: fiveTone,
             map: texture02
           });
+
+          if (child.name == "desk_haut_1") {
+            child.material.map = texture04;
+          }
+
           if (child.name == 'wall') child.material.map = null; // if (
           //     child.name == 'desk_tiroirs001' ||
           //     child.name == 'desk_tiroirs002' ||
@@ -102493,14 +102496,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     sprite.addEventListener("mouseover", function (event) {
       if (isClick) return;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
       document.body.style.cursor = "pointer";
@@ -102508,14 +102511,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     sprite.addEventListener("mouseout", function (event) {
       if (isClick) return;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
       document.body.style.cursor = "default";
@@ -102523,14 +102526,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     sprite.addEventListener("click", function (event) {
       isClick = true;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
       document.body.style.cursor = "default";
@@ -102538,27 +102541,27 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.close-infos').addEventListener('click', function (event) {
       isClick = false;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
     });
     document.querySelector('.back-labo').addEventListener('click', function (event) {
       isClick = false;
 
-      _gsap.TweenLite.to(sprite.material, 0.6, {
+      _gsap.TweenLite.to(sprite.material, 0.2, {
         opacity: 1,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
 
-      _gsap.TweenLite.to(spriteHover.material, 0.6, {
+      _gsap.TweenLite.to(spriteHover.material, 0.2, {
         opacity: 0,
-        ease: _gsap.EaseInOut
+        ease: _gsap.EaseOut
       });
     });
     interactionManager.add(sprite);
@@ -102671,7 +102674,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       x: target.position.x,
       y: target.position.y,
       z: target.position.z + 0.15,
-      ease: _gsap.EaseOut,
+      ease: _gsap.EaseInOut,
       onUpdate: function onUpdate(e) {
         if (camera.position.z < 1.8) {
           infos.classList.add('visible');
@@ -103433,7 +103436,6 @@ function Scene(canvas) {
   function createComponents(scene) {
     var components = [// Inserts all components here
     // new tearCanvas(scene, camera),
-    // new daftPunk(scene, camera, interactionManager),
     new _scrollTimeline.default(scene, camera), new _Labo.default(scene, camera, renderer, interactionManager) // new KaleidoscopeComponent(scene, camera, composer)
     ];
     return components;
@@ -103578,7 +103580,7 @@ bindEventListeners01();
 render01();
 scene.helpers();
 scene.setStarted(true);
-},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../../../.config/yarn/global/node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -103606,7 +103608,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56722" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49968" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -103782,5 +103784,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map

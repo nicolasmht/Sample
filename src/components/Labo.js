@@ -60,6 +60,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const texture01 = new THREE.TextureLoader().load(TextureGravure01);
     const texture02 = new THREE.TextureLoader().load(TextureScene);
     const texture03 = new THREE.TextureLoader().load(TextureGravure03);
+    const texture04 = new THREE.TextureLoader().load(TextureScene04);
 
     texture01.wrapS = THREE.RepeatWrapping;
     texture01.wrapT = THREE.RepeatWrapping;
@@ -114,26 +115,22 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     if (child.name != "child.material" || child.name == "herbier-herbier") return;
 
                     child.material = new THREE.MeshBasicMaterial({
-                        // side: THREE.DoubleSide,
+                        side: THREE.DoubleSide,
                         map: child.material.map,
                         transparent: true
                     });
                     
                 } else {
 
-                    if (child.name == "desk_haut_1") {
-                        texture02.wrapS = 0.1;
-                        texture02.wrapT = 0.1;
-                    } else {
-                        texture02.wrapS = THREE.RepeatWrapping;
-                        texture02.wrapT = THREE.RepeatWrapping;
-                    }
-
                     child.material = new THREE.MeshToonMaterial({
                         side: THREE.DoubleSide,
                         gradientMap: fiveTone,
                         map: texture02,
                     });
+
+                    if (child.name == "desk_haut_1") {
+                        child.material.map = texture04;
+                    }
 
                     if (child.name == 'wall') child.material.map = null;
 
@@ -207,35 +204,35 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
         sprite.addEventListener("mouseover", (event) => {
             if (isClick) return;
-            TweenLite.to(sprite.material, 0.6, { opacity: 0, ease: EaseInOut });
-            TweenLite.to(spriteHover.material, 0.6, { opacity: 1, ease: EaseInOut });
+            TweenLite.to(sprite.material, 0.2, { opacity: 0, ease: EaseOut });
+            TweenLite.to(spriteHover.material, 0.2, { opacity: 1, ease: EaseOut });
             document.body.style.cursor = "pointer";
         });
 
         sprite.addEventListener("mouseout", (event) => {
             if (isClick) return;
-            TweenLite.to(sprite.material, 0.6, { opacity: 1, ease: EaseInOut });
-            TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
+            TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
+            TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
             document.body.style.cursor = "default";
         });
 
         sprite.addEventListener("click", (event) => {
             isClick = true;
-            TweenLite.to(sprite.material, 0.6, { opacity: 0, ease: EaseInOut });
-            TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
+            TweenLite.to(sprite.material, 0.2, { opacity: 0, ease: EaseOut });
+            TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
             document.body.style.cursor = "default";
         });
 
         document.querySelector('.close-infos').addEventListener('click', (event) => {
             isClick = false;
-            TweenLite.to(sprite.material, 0.6, { opacity: 1, ease: EaseInOut });
-            TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
+            TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
+            TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
         });
 
         document.querySelector('.back-labo').addEventListener('click', (event) => {
             isClick = false;
-            TweenLite.to(sprite.material, 0.6, { opacity: 1, ease: EaseInOut });
-            TweenLite.to(spriteHover.material, 0.6, { opacity: 0, ease: EaseInOut });
+            TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
+            TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
         });
 
         interactionManager.add(sprite);
@@ -346,7 +343,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             x: target.position.x,
             y: target.position.y,
             z: target.position.z + 0.15,
-            ease: EaseOut,
+            ease: EaseInOut,
             onUpdate: (e) => {
                 if (camera.position.z < 1.8) {
                     infos.classList.add('visible');

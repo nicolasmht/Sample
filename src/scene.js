@@ -183,7 +183,6 @@ function Scene(canvas, started = false) {
         const components = [
             // Inserts all components here
             // new tearCanvas(scene, camera),
-            // new daftPunk(scene, camera, interactionManager),
 
             new scrollTimeline(scene, camera),
             new LaboComponent(scene, camera, renderer, interactionManager),
