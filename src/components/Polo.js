@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
+import Player from './Player';
 
 import NanaSample from '../audios/focus/polo/sirene/Nana_Sample.mp3';
 import OsTincoasCordeiroNanaOriginal from '../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3';
@@ -11,6 +12,9 @@ import AniCouniOriginal from '../audios/focus/polo/carnivore/Ani_Couni_Original.
 import AniKuniSample from '../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3';
 
 function Component(scene) {
+
+    let cursor = document.querySelector('#cursor .actions');
+    let player = null;
 
     // Create and add sound on pin
     function createSound(pin, sunset, sunshine) {
@@ -41,7 +45,7 @@ function Component(scene) {
         // Play sound 1 if the sun is up
         if(sunIsUp && !isPlayed) {
     
-            if(currentSound != sunshineSound)  turnTheDisc(sunshine);
+            if(currentSound != sunshineSound)  player.playSound(sunshine);
             currentSound = sunshineSound;
             sunshineSound.play('sample');
             currentSound.fade(0, 1, 500);
@@ -50,7 +54,7 @@ function Component(scene) {
         // Play sound 2 if the sun us down
         } else if(!sunIsUp && !isPlayed) {
     
-            if(currentSound != sunsetSound)  turnTheDisc(sunset);
+            if(currentSound != sunsetSound)  player.playSound(sunset);
             currentSound = sunsetSound;
             sunsetSound.play('sample');
             currentSound.fade(0, 1, 500);
@@ -110,9 +114,6 @@ function Component(scene) {
     createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
 
     // Vinyle player
-    let discRotation = 0;
-    let last = 0;
-
     function turnTheDisc(sound) {
 
         // Animate the vinyle
@@ -129,7 +130,7 @@ function Component(scene) {
               let date = document.querySelector('#soundDate');
               date.innerText = sound.date;
 
-        }, 1000);
+        }, 600);
 
         setTimeout(() => {
 
@@ -137,11 +138,6 @@ function Component(scene) {
 
         }, 2000);
     }
-
-
-    // Cursor animation
-    let cursor = document.querySelector('#cursor');
-    let cursorAction = document.querySelector('#cursor .actions');
 
 
     // Make the sun draggable
@@ -230,24 +226,19 @@ function Component(scene) {
 
     this.start = () => {
 
+        player = new Player();
+
          // When the mouse hover the sun
         sun.addEventListener('mouseover', () => {
-            cursorAction.classList.add('drag', 'show')
+            cursor.classList.add('drag', 'show')
         });
 
         // When the mouse leave the sun
         sun.addEventListener('mouseout', () => {
-            cursorAction.classList.remove('show');
+            cursor.classList.remove('show');
             setTimeout(() => {
-                cursorAction.classList.remove('drag')
+                cursor.classList.remove('drag')
             }, 400)
-        });
-
-        // Classic cursor
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.pageX - 15 +'px';
-            cursor.style.top = e.pageY - 15 +'px';
-            //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
         });
 
         setTimeout(() => {
@@ -258,6 +249,8 @@ function Component(scene) {
     };
 
     this.stop = () => {
+        
+        player?.toggle(false);
 
         setTimeout(() => {
             document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);

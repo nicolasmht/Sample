@@ -100814,20 +100814,22 @@ function Component(scene, camera) {
   var spaceDown = false;
   var spaceUp = false;
   var timer = 0;
-  var videoTimer = 0;
   var currentImage = 0; // Le temps de l'effet
 
-  var DURATION = 25; // Interval
+  var DURATION = 25;
+  var videoFrames = null; // Interval
 
   intervalID = setInterval(function () {
-    var videoFrames = document.querySelectorAll('#video img');
-
     if (spaceDown && timer < DURATION) {
       timer++ * .05;
-      videoFrames[currentImage].style.display = "block";
-      currentImage++;
     } else if (!spaceDown && timer > 0) {
       timer-- * .05;
+    }
+
+    if (spaceDown && currentImage < videoFrames.length - 1) {
+      videoFrames[currentImage].style.display = "block";
+      currentImage++;
+    } else if (!spaceDown && currentImage > 0) {
       videoFrames[currentImage].style.display = "none";
       currentImage--;
     } // Gestion des sons
@@ -100855,14 +100857,21 @@ function Component(scene, camera) {
   var videoContainer = document.querySelector('#video');
 
   function createVideo(nb) {
-    for (var i = 0; i < nb; i++) {
-      var img = document.createElement('img');
-      img.src = "./renaud/video/Renaud".concat(i < 10 ? '00' + i : '0' + i, ".png");
-      videoContainer.appendChild(img);
-    }
+    return new Promise(function (resolve, reject) {
+      for (var i = 0; i < nb; i++) {
+        var img = document.createElement('img');
+        img.src = "./renaud/video/Animation".concat(i < 10 ? '00' + i : '0' + i, ".png");
+        videoContainer.appendChild(img);
+      }
+
+      resolve();
+    });
   }
 
-  createVideo(100);
+  createVideo(100).then(function () {
+    videoFrames = document.querySelectorAll('#video img');
+    console.log(videoFrames);
+  });
 
   this.update = function (time) {};
 
@@ -100890,7 +100899,66 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"components/Player.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Player = /*#__PURE__*/function () {
+  function Player() {
+    _classCallCheck(this, Player);
+
+    this.sound = null;
+    this.disc = document.querySelector('#disque');
+    this.title = document.querySelector('#soundTitle');
+    this.date = document.querySelector('#soundDate');
+    this.toggle(true);
+  }
+
+  _createClass(Player, [{
+    key: "toggle",
+    value: function toggle(show) {
+      if (show) this.disc.classList.add('show');
+      if (!show) this.disc.classList.remove('show');
+      this.date.innerText = '';
+      this.title.innerText = '';
+    }
+  }, {
+    key: "playSound",
+    value: function playSound(sound) {
+      var _this = this;
+
+      this.sound = sound; // Animate the vinyle
+
+      this.disc.classList.add('rotate'); // Affichage du titre
+
+      setTimeout(function () {
+        // Edit the title of vinyle
+        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
+
+        _this.date.innerText = _this.sound.date;
+      }, 600); // Stop animation
+
+      setTimeout(function () {
+        _this.disc.classList.remove('rotate');
+      }, 2000);
+    }
+  }]);
+
+  return Player;
+}();
+
+exports.default = Player;
+},{}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
 module.exports = "/Chopin_Prelude.9d4786e9.mp3";
 },{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
 module.exports = "/jtm.7f7ef207.mp3";
@@ -100914,7 +100982,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var THREE = _interopRequireWildcard(require("three"));
+var _Player = _interopRequireDefault(require("./Player"));
 
 var _Chopin_Prelude = _interopRequireDefault(require("../assets/gainsbourg/sounds/Chopin_Prelude.mp3"));
 
@@ -100934,14 +101002,11 @@ var _dvorak = _interopRequireDefault(require("../assets/gainsbourg/sounds/dvorak
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function Component(scene) {
-  var tutorial = document.querySelector('.focus-gainsbourg .tuto');
+  var player = null;
   var canvas = document.getElementById('mask');
-  var ctx = canvas.getContext('2d'); // Create a radial gradient
+  var ctx = canvas.getContext('2d');
+  var cursor = document.querySelector('#cursor .actions'); // Create a radial gradient
   // The inner circle is at x=110, y=90, with radius=30
   // The outer circle is at x=100, y=100, with radius=70
 
@@ -101000,27 +101065,24 @@ function Component(scene) {
   function CreateSound(paper, stamp, _paperSound, _stampSound) {
     var paperSound = new Howl({
       src: [_paperSound.path],
-      volume: 0,
-      sprite: {
-        sample: [_paperSound.start ? _paperSound.start : 0, 30000]
-      }
+      volume: 0
     });
     var stampSound = new Howl({
       src: [_stampSound.path],
-      volume: 0,
-      sprite: {
-        sample: [_stampSound.start ? _stampSound.start : 0, 30000]
-      }
+      volume: 0
     });
     var isMouseover = false;
     paper.addEventListener('mouseover', function () {
+      cursor.classList.add('show');
       if (isMouseover || paperSoundStopped) return;
-      paperSound.play('sample');
+      player.playSound(_paperSound);
+      paperSound.play();
       paperSound.fade(0, 1, 700);
       isMouseover = true;
     });
     paper.addEventListener('mouseout', function () {
-      // Stop the sound
+      cursor.classList.remove('show'); // Stop the sound
+
       paperSound.once('fade', function () {
         paperSound.stop();
       });
@@ -101055,11 +101117,13 @@ function Component(scene) {
           paperSound.stop();
         });
         paperSound.fade(paperSound.volume(), 0, 1000);
-        stampSound.play('sample');
+        player.playSound(_stampSound);
+        stampSound.play();
         stampSound.fade(paperSound.volume(), 1, 1000);
         paperSoundStopped = true;
       } else if (!isVisible && paperSoundStopped) {
-        paperSound.play('sample');
+        player.playSound(_paperSound);
+        paperSound.play();
         paperSound.fade(paperSound.volume(), 1, 1000);
         stampSound.once('fade', function () {
           stampSound.stop();
@@ -101146,15 +101210,13 @@ function Component(scene) {
   }
 
   this.start = function () {
-    setTimeout(function () {
-      tutorial.classList.add('hide');
-    }, 3000);
+    player = new _Player.default();
+    cursor.classList.add('drag');
   };
 
   this.stop = function () {
-    setTimeout(function () {
-      tutorial.classList.remove('hide');
-    }, 3000);
+    player.toggle(false);
+    cursor.classList.remove('drag');
   };
 
   this.update = function (time) {};
@@ -101170,7 +101232,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../assets/gainsbourg/sounds/Chopin_Prelude.mp3":"assets/gainsbourg/sounds/Chopin_Prelude.mp3","../assets/gainsbourg/sounds/jtm.mp3":"assets/gainsbourg/sounds/jtm.mp3","../assets/gainsbourg/sounds/charlotte.mp3":"assets/gainsbourg/sounds/charlotte.mp3","../assets/gainsbourg/sounds/aram.mp3":"assets/gainsbourg/sounds/aram.mp3","../assets/gainsbourg/sounds/lemon.mp3":"assets/gainsbourg/sounds/lemon.mp3","../assets/gainsbourg/sounds/Chopin_Etude.mp3":"assets/gainsbourg/sounds/Chopin_Etude.mp3","../assets/gainsbourg/sounds/bb.mp3":"assets/gainsbourg/sounds/bb.mp3","../assets/gainsbourg/sounds/dvorak.mp3":"assets/gainsbourg/sounds/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
+},{"./Player":"components/Player.js","../assets/gainsbourg/sounds/Chopin_Prelude.mp3":"assets/gainsbourg/sounds/Chopin_Prelude.mp3","../assets/gainsbourg/sounds/jtm.mp3":"assets/gainsbourg/sounds/jtm.mp3","../assets/gainsbourg/sounds/charlotte.mp3":"assets/gainsbourg/sounds/charlotte.mp3","../assets/gainsbourg/sounds/aram.mp3":"assets/gainsbourg/sounds/aram.mp3","../assets/gainsbourg/sounds/lemon.mp3":"assets/gainsbourg/sounds/lemon.mp3","../assets/gainsbourg/sounds/Chopin_Etude.mp3":"assets/gainsbourg/sounds/Chopin_Etude.mp3","../assets/gainsbourg/sounds/bb.mp3":"assets/gainsbourg/sounds/bb.mp3","../assets/gainsbourg/sounds/dvorak.mp3":"assets/gainsbourg/sounds/dvorak.mp3"}],"components/Aznavour.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -101180,64 +101242,230 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _gsapCore = require("gsap/gsap-core");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function Component(scene) {
-  var iles = document.querySelectorAll('section');
   var map = document.querySelector('#map');
-  iles.forEach(function (ile) {
-    ile.addEventListener('click', function (e) {
-      // console.log(e);
-      // map.style.transformOrigin = `${e.clientX}px ${e.clientY}px`;
-      // setTimeout(() =>  {
-      //     map.style.transform = 'scale(2)';
-      // }, 1000);
-      //console.log(ile)
-      if (e.target.classList.contains('active')) return;
-      e.target.style.zIndex = 10;
-      e.target.classList.add('active');
+  var originals = document.querySelectorAll('.original');
+  var samples = document.querySelectorAll('.sample');
+  samples.forEach(function (sample) {
+    sample.addEventListener('mouseover', function () {
+      sample.classList.add('played');
+    });
+    sample.addEventListener('mouseout', function () {
+      sample.classList.remove('played');
     });
   });
-  var ele = document.querySelector('html');
-  ele.style.cursor = 'grab';
-  var pos = {
-    top: 0,
-    left: 0,
-    x: 0,
-    y: 0
-  };
-
-  var mouseDownHandler = function mouseDownHandler(e) {
-    ele.style.cursor = 'grabbing';
-    ele.style.userSelect = 'none';
-    pos = {
-      left: ele.scrollLeft,
-      top: ele.scrollTop,
-      // Get the current mouse position
-      x: e.clientX,
-      y: e.clientY
-    };
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
-  };
-
-  var mouseMoveHandler = function mouseMoveHandler(e) {
-    // How far the mouse has been moved
-    var dx = e.clientX - pos.x;
-    var dy = e.clientY - pos.y; // Scroll the element
-
-    ele.scrollTop = pos.top - dy;
-    ele.scrollLeft = pos.left - dx;
-  };
-
-  var mouseUpHandler = function mouseUpHandler() {
+  originals.forEach(function (original) {
+    original.addEventListener('mouseover', function () {
+      original.classList.add('played');
+    });
+    original.addEventListener('mouseout', function () {
+      original.classList.remove('played');
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var ele = document.querySelector('#ct-map');
+    ele.scrollLeft = window.innerWidth / 2;
+    ele.scrollTop = window.innerHeight / 2;
     ele.style.cursor = 'grab';
-    ele.style.removeProperty('user-select');
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
-  };
+    var pos = {
+      top: 0,
+      left: 0,
+      x: 0,
+      y: 0
+    };
+
+    var mouseDownHandler = function mouseDownHandler(e) {
+      ele.style.cursor = 'grabbing';
+      ele.style.userSelect = 'none';
+      pos = {
+        left: ele.scrollLeft,
+        top: ele.scrollTop,
+        // Get the current mouse position
+        x: e.clientX,
+        y: e.clientY
+      };
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    var mouseMoveHandler = function mouseMoveHandler(e) {
+      // How far the mouse has been moved
+      var dx = e.clientX - pos.x;
+      var dy = e.clientY - pos.y; // Scroll the element
+
+      _gsapCore.TweenMax.to(ele, 1.2, {
+        scrollTop: pos.top - dy,
+        scrollLeft: pos.left - dx
+      });
+    };
+
+    var mouseUpHandler = function mouseUpHandler() {
+      ele.style.cursor = 'grab';
+      ele.style.removeProperty('user-select');
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    }; // Attach the handler
+
+
+    ele.addEventListener('mousedown', mouseDownHandler);
+  }); //Get the position of element from top of the page
+
+  function offsetTop(element) {
+    var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    if (element.offsetTop) {
+      return offsetTop(element.offsetParent, acc + element.offsetTop);
+    }
+
+    return acc + element.offsetTop;
+  }
+
+  function offsetLeft(element) {
+    var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    if (element.offsetLeft) {
+      return offsetLeft(element.offsetParent, acc + element.offsetLeft);
+    }
+
+    return acc + element.offsetLeft;
+  }
+
+  var Parallax = /*#__PURE__*/function () {
+    function Parallax(element) {
+      var _element$dataset;
+
+      _classCallCheck(this, Parallax);
+
+      this.element = element;
+      var ratios = (_element$dataset = element.dataset) === null || _element$dataset === void 0 ? void 0 : _element$dataset.parallax.split('/');
+      this.ratio = parseFloat(ratios[0]);
+      this.ratioX = parseFloat(ratios[1]);
+      this.onScroll = this.onScroll.bind(this);
+      this.onIntersection = this.onIntersection.bind(this);
+      this.elementY = offsetTop(this.element) + this.element.offsetHeight / 2;
+      this.elementX = offsetLeft(this.element) + this.element.offsetWidth / 2;
+      var observer = new IntersectionObserver(this.onIntersection);
+      observer.observe(element);
+      this.onScroll();
+    } //Entries its IntersectionObserverEntry []
+
+
+    _createClass(Parallax, [{
+      key: "onIntersection",
+      value: function onIntersection(entries) {
+        var _iterator = _createForOfIteratorHelper(entries),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var entry = _step.value;
+
+            if (entry.isIntersecting) {
+              document.querySelector('#ct-map').addEventListener('scroll', this.onScroll);
+              this.elementY = offsetTop(this.element) + this.element.offsetHeight / 2;
+              this.elementX = offsetLeft(this.element) + this.element.offsetWidth / 2;
+            } else {
+              document.querySelector('#ct-map').removeEventListener('scroll', this.onScroll);
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+    }, {
+      key: "onScroll",
+      value: function onScroll() {
+        var _this = this;
+
+        window.requestAnimationFrame(function () {
+          var screenY = document.querySelector('#ct-map').scrollTop + window.innerHeight / 2;
+          var screenX = document.querySelector('#ct-map').scrollLeft + window.innerWidth / 2;
+          var diffY = _this.elementY - screenY;
+          var diffX = _this.elementX - screenX;
+
+          _this.element.style.setProperty("transform", "translate(".concat(diffX * -1 * _this.ratioX, "px, ").concat(diffY * -1 * _this.ratio, "px)"));
+        });
+      }
+    }], [{
+      key: "bind",
+      value: function bind() {
+        return Array.from(document.querySelectorAll('[data-parallax]')).map(function (element) {
+          return new Parallax(element);
+        });
+      }
+    }]);
+
+    return Parallax;
+  }();
+
+  Parallax.bind();
+  var currentSound = null;
+
+  function createSound(element, newSound) {
+    var sound = new Howl({
+      src: [newSound.path],
+      volume: 0
+    });
+    element.addEventListener('mouseover', function () {
+      if (currentSound === sound) return;
+      sound.seek(0);
+      sound.play();
+      sound.fade(0, 1, 1300);
+      currentSound = sound;
+    });
+    element.addEventListener('mouseleave', function () {
+      sound.once('fade', function () {
+        sound.stop();
+      });
+      sound.fade(sound.volume(), 0, 1000);
+      currentSound = null;
+    });
+  }
+
+  createSound(document.querySelector('#sound_01'), {
+    path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
+    title: 'Parce Que Tu Crois ',
+    artist: 'Charles Aznavour',
+    date: '1966'
+  });
+  createSound(document.querySelector('#sample_01'), {
+    path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
+    title: "What's the Difference",
+    artist: 'Dr. Dre feat. Eminem and Xzibit',
+    date: '1999'
+  });
+  createSound(document.querySelector('#sound_02'), {
+    path: './sounds/02_Aznavour_comme-ils-disent.mp3',
+    title: 'Comme ils disent',
+    artist: 'Charles Aznavour',
+    date: '1972'
+  });
+  createSound(document.querySelector('#sample_02'), {
+    path: './sounds/02_Bad-balance_Goroda.mp3',
+    title: "\u0413\u043E\u0440\u043E\u0434\u0430",
+    artist: 'Bad Balance',
+    date: '2013'
+  });
 
   this.start = function () {
     // Attach the handler
@@ -101257,7 +101485,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap/gsap-core":"../node_modules/gsap/gsap-core.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
 module.exports = "/card-verso.f3e52cab.jpeg";
 },{}],"components/Memory.js":[function(require,module,exports) {
 "use strict";
@@ -101273,6 +101501,8 @@ var _three2 = require("three.interactive");
 
 var _gsap = require("gsap");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _cardVerso = _interopRequireDefault(require("../images/focus/memory/card-verso.jpeg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -101286,6 +101516,8 @@ function Component(sceneMain) {
   var nbCardsFound = 0;
   var soundDuration = 30000;
   var badCards = [];
+  var cursor = document.querySelector('#cursor .actions');
+  var player = null;
   var tutorial = document.querySelector('.focus-memory .tuto');
   var winScreen = document.querySelector('.focus-memory .win');
   var scene = new THREE.Scene();
@@ -101431,8 +101663,12 @@ function Component(sceneMain) {
     card.data = item;
     card.add(verso);
     card.add(recto);
+    var isHover = false;
     card.addEventListener('mouseover', function (event) {
-      console.log(event);
+      cursor.classList.add('click', 'show');
+    });
+    card.addEventListener('mouseout', function () {
+      cursor.classList.remove('show', 'click');
     });
     cards.add(card);
     interactionManager.add(card); // Delete the used position
@@ -101558,6 +101794,7 @@ function Component(sceneMain) {
   };
 
   this.start = function () {
+    player = new _Player.default();
     setTimeout(function () {
       tutorial.classList.add('hide');
     }, 3000);
@@ -101566,6 +101803,7 @@ function Component(sceneMain) {
   };
 
   this.stop = function () {
+    player.toggle(false);
     if (soundPlayed === null) return;
     setTimeout(function () {
       tutorial.classList.remove('hide');
@@ -101589,7 +101827,7 @@ function Component(sceneMain) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","gsap":"../node_modules/gsap/index.js","./Player":"components/Player.js","../images/focus/memory/card-verso.jpeg":"images/focus/memory/card-verso.jpeg"}],"audios/focus/polo/sirene/Nana_Sample.mp3":[function(require,module,exports) {
 module.exports = "/Nana_Sample.562078ff.mp3";
 },{}],"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":[function(require,module,exports) {
 module.exports = "/Os_Tincoas_Cordeiro_Nana_Original.ca13f4e7.mp3";
@@ -101617,6 +101855,8 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _gsap = require("gsap");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _Nana_Sample = _interopRequireDefault(require("../audios/focus/polo/sirene/Nana_Sample.mp3"));
 
 var _Os_Tincoas_Cordeiro_Nana_Original = _interopRequireDefault(require("../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3"));
@@ -101640,7 +101880,9 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene) {
-  // Create and add sound on pin
+  var cursor = document.querySelector('#cursor .actions');
+  var player = null; // Create and add sound on pin
+
   function createSound(pin, sunset, sunshine) {
     // Sound 1 - volume on 0 for fade the song at the start
     var sunsetSound = new Howl({
@@ -101663,13 +101905,13 @@ function Component(scene) {
     pin.addEventListener('mouseover', function () {
       // Play sound 1 if the sun is up
       if (sunIsUp && !isPlayed) {
-        if (currentSound != sunshineSound) turnTheDisc(sunshine);
+        if (currentSound != sunshineSound) player.playSound(sunshine);
         currentSound = sunshineSound;
         sunshineSound.play('sample');
         currentSound.fade(0, 1, 500);
         isPlayed = true; // Play sound 2 if the sun us down
       } else if (!sunIsUp && !isPlayed) {
-        if (currentSound != sunsetSound) turnTheDisc(sunset);
+        if (currentSound != sunsetSound) player.playSound(sunset);
         currentSound = sunsetSound;
         sunsetSound.play('sample');
         currentSound.fade(0, 1, 500);
@@ -101781,9 +102023,6 @@ function Component(scene) {
   };
   createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample); // Vinyle player
 
-  var discRotation = 0;
-  var last = 0;
-
   function turnTheDisc(sound) {
     // Animate the vinyle
     var disc = document.querySelector('#disque');
@@ -101795,15 +102034,12 @@ function Component(scene) {
 
       var date = document.querySelector('#soundDate');
       date.innerText = sound.date;
-    }, 1000);
+    }, 600);
     setTimeout(function () {
       disc.classList.remove('rotate');
     }, 2000);
-  } // Cursor animation
+  } // Make the sun draggable
 
-
-  var cursor = document.querySelector('#cursor');
-  var cursorAction = document.querySelector('#cursor .actions'); // Make the sun draggable
 
   dragElement(sun);
 
@@ -101908,21 +102144,17 @@ function Component(scene) {
   }
 
   this.start = function () {
-    // When the mouse hover the sun
+    player = new _Player.default(); // When the mouse hover the sun
+
     sun.addEventListener('mouseover', function () {
-      cursorAction.classList.add('drag', 'show');
+      cursor.classList.add('drag', 'show');
     }); // When the mouse leave the sun
 
     sun.addEventListener('mouseout', function () {
-      cursorAction.classList.remove('show');
+      cursor.classList.remove('show');
       setTimeout(function () {
-        cursorAction.classList.remove('drag');
+        cursor.classList.remove('drag');
       }, 400);
-    }); // Classic cursor
-
-    document.addEventListener('mousemove', function (e) {
-      cursor.style.left = e.pageX - 15 + 'px';
-      cursor.style.top = e.pageY - 15 + 'px'; //TweenLite.to(cursor, .0, {left: e.pageX -10, top: e.pageY - 10});
     });
     setTimeout(function () {
       document.querySelector('.focus-polo').addEventListener("mousemove", parallaxEffect, false);
@@ -101931,6 +102163,9 @@ function Component(scene) {
   };
 
   this.stop = function () {
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     setTimeout(function () {
       document.querySelector('.focus-polo').removeEventListener('mousemove', parallaxEffect);
       document.querySelector('.focus-polo .tuto').classList.remove('hide');
@@ -101960,7 +102195,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","../audios/focus/polo/sirene/Nana_Sample.mp3":"audios/focus/polo/sirene/Nana_Sample.mp3","../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3","../audios/focus/polo/papillon/Zum-Zum_Original.mp3":"audios/focus/polo/papillon/Zum-Zum_Original.mp3","../audios/focus/polo/papillon/Zoom-zoom-Sample.mp3":"audios/focus/polo/papillon/Zoom-zoom-Sample.mp3","../audios/focus/polo/main/Claire_de_lune_Original.mp3":"audios/focus/polo/main/Claire_de_lune_Original.mp3","../audios/focus/polo/main/Imaginaire_Sample.mp3":"audios/focus/polo/main/Imaginaire_Sample.mp3","../audios/focus/polo/carnivore/Ani_Couni_Original.mp3":"audios/focus/polo/carnivore/Ani_Couni_Original.mp3","../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3":"audios/focus/polo/carnivore/Ani_kuni_Sample.mp3"}],"utils/Kaleidoscope.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","./Player":"components/Player.js","../audios/focus/polo/sirene/Nana_Sample.mp3":"audios/focus/polo/sirene/Nana_Sample.mp3","../audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3":"audios/focus/polo/sirene/Os_Tincoas_Cordeiro_Nana_Original.mp3","../audios/focus/polo/papillon/Zum-Zum_Original.mp3":"audios/focus/polo/papillon/Zum-Zum_Original.mp3","../audios/focus/polo/papillon/Zoom-zoom-Sample.mp3":"audios/focus/polo/papillon/Zoom-zoom-Sample.mp3","../audios/focus/polo/main/Claire_de_lune_Original.mp3":"audios/focus/polo/main/Claire_de_lune_Original.mp3","../audios/focus/polo/main/Imaginaire_Sample.mp3":"audios/focus/polo/main/Imaginaire_Sample.mp3","../audios/focus/polo/carnivore/Ani_Couni_Original.mp3":"audios/focus/polo/carnivore/Ani_Couni_Original.mp3","../audios/focus/polo/carnivore/Ani_kuni_Sample.mp3":"audios/focus/polo/carnivore/Ani_kuni_Sample.mp3"}],"utils/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102151,7 +102386,8 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // import FacadeTexture from '../textures/facade.png';
 // Audios
 function KaleidoscopeComponent(scene) {
-  // Init kaleidoscope
+  var cursor = document.querySelector('#cursor .actions'); // Init kaleidoscope
+
   var image = new Image();
   var image2 = new Image();
   var soundLeft = new _howler.Howl({
@@ -102271,6 +102507,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     //     soundRight.play();
     // });
+    cursor.classList.add('move', 'show');
     soundLeft.play();
     soundRight.play();
   };
@@ -102285,6 +102522,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     // soundRight.stop();
     // });
+    cursor.classList.remove('show', 'move');
     soundLeft.stop();
     soundRight.stop();
   };
@@ -102788,7 +103026,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         reset();
         document.querySelector('.focus-gainsbourg').style.display = 'block';
         gainsbourgFocus.start();
-        onClose(function () {});
+        onClose(function () {
+          gainsbourgFocus.stop();
+        });
       });
     });
   });
@@ -103640,7 +103880,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54053" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50751" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -15,6 +15,7 @@ import Sound02 from '../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahm
 
 function KaleidoscopeComponent(scene) {
 
+    let cursor = document.querySelector('#cursor .actions');
     // Init kaleidoscope
     let image = new Image();
     let image2 = new Image();
@@ -155,6 +156,7 @@ function KaleidoscopeComponent(scene) {
         //     soundRight.play();
         // });
 
+        cursor.classList.add('move', 'show')
         soundLeft.play();
         soundRight.play();
     }
@@ -171,6 +173,7 @@ function KaleidoscopeComponent(scene) {
             // soundRight.stop();
         // });
 
+        cursor.classList.remove('show', 'move')
         soundLeft.stop();
         soundRight.stop();
 

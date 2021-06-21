@@ -450,7 +450,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
                 gainsbourgFocus.start();
 
-                onClose(() => {});
+                onClose(() => {
+                    gainsbourgFocus.stop();
+                });
             })
         });
     });

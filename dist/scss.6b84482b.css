@@ -23,6 +23,92 @@ html, body {
   cursor: default;
 }
 
+#disque {
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  background-image: url("/Disque.b130b3f0.png");
+  z-index: 100000;
+  background-size: contain;
+  background-repeat: no-repeat;
+  bottom: 0px;
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%, 100%);
+  transition: transform 400ms;
+}
+#disque.show {
+  transform: translate(-50%, 50%);
+  transition: transform 400ms;
+}
+#disque.rotate {
+  animation: rotate 2s ease-out forwards;
+}
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, 50%) rotateZ(0deg);
+  }
+  100% {
+    transform: translate(-50%, 50%) rotateZ(360deg);
+  }
+}
+#disque h3 {
+  margin: 0;
+  position: absolute;
+  color: white;
+  top: 65px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-family: "biotif-b";
+}
+#disque h4 {
+  margin: 0;
+  position: absolute;
+  color: black;
+  top: 110px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  font-family: "biotif-l";
+}
+
+#cursor {
+  position: fixed;
+  z-index: 1000000;
+  background-image: url("/cursor.fd2a68e9.svg");
+  width: 20px;
+  background-repeat: no-repeat;
+  height: 20px;
+  background-size: cover;
+  pointer-events: none;
+}
+#cursor .actions {
+  width: 60px;
+  height: 60px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transform: scale(0);
+  transition: transform 400ms ease-out;
+  left: -10px;
+  top: -10px;
+  position: absolute;
+  transform-origin: 20px 20px;
+}
+#cursor .actions.drag {
+  background-image: url("/cursor_drag.5cd1d4d2.svg");
+}
+#cursor .actions.move {
+  background-image: url("/cursor_move.faefe908.svg");
+}
+#cursor .actions.click {
+  background-image: url("/cursor_click.515c7e80.svg");
+}
+#cursor .actions.show {
+  transform: scale(1);
+}
+
 .kaki {
   color: #8C945B;
 }
@@ -475,62 +561,6 @@ html, body {
   position: relative;
   display: none;
 }
-.focus-polo #cursor {
-  position: fixed;
-  z-index: 10000;
-  background-image: url("/cursor.b6c0ac8d.png");
-  width: 20px;
-  height: 20px;
-  pointer-events: none;
-}
-.focus-polo #cursor.drag {
-  width: 66px;
-  height: 64px;
-  background-image: url("/drag.3edde612.png");
-  transform: rotate(-25deg);
-}
-.focus-polo #disque {
-  position: fixed;
-  width: 260px;
-  height: 260px;
-  background-image: url("/Disque.b130b3f0.png");
-  z-index: 100000;
-  background-size: contain;
-  background-repeat: no-repeat;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%) rotateZ(0deg);
-  transform-origin: center;
-}
-.focus-polo #disque.rotate {
-  animation: rotation 2s ease-out forwards;
-}
-@keyframes rotation {
-  0% {
-    transform: translate(-50%, 50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, 50%) rotate(360deg);
-  }
-}
-.focus-polo #disque h3 {
-  margin: 0;
-  position: absolute;
-  color: white;
-  top: 65px;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
-.focus-polo #disque h4 {
-  margin: 0;
-  position: absolute;
-  color: black;
-  top: 110px;
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-}
 .focus-polo #background {
   position: fixed;
   display: block;
@@ -703,6 +733,234 @@ html, body {
   height: 100vh;
 }
 
+.focus-aznavour #ct-map {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.focus-aznavour #ct-map::-webkit-scrollbar {
+  display: none;
+}
+.focus-aznavour #map {
+  position: relative;
+  left: 0;
+  top: 0;
+  transform: scale(0.15);
+  animation: dezoom 5s ease-out forwards;
+  background-image: url("/background.d577edbc.jpeg");
+  width: 200vw;
+  height: 200vh;
+  overflow: auto;
+}
+.focus-aznavour #map .deco {
+  pointer-events: none;
+}
+.focus-aznavour #map .city {
+  pointer-events: none;
+}
+.focus-aznavour section {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+}
+.focus-aznavour section#maurice {
+  top: 0;
+  left: 0;
+}
+.focus-aznavour section#maurice .deco {
+  position: absolute;
+  width: 14vw;
+}
+.focus-aznavour section#maurice .d1 {
+  top: 53vh;
+  left: 74vw;
+  width: 18vw;
+}
+.focus-aznavour section#maurice .d2 {
+  top: 70vh;
+  left: 59vw;
+  width: 16vw;
+}
+.focus-aznavour section#maurice .d3 {
+  top: 78vh;
+  left: 77vw;
+}
+.focus-aznavour section#maurice .city {
+  width: 300px;
+  position: absolute;
+  top: 29vh;
+  left: 58vw;
+  pointer-events: none;
+}
+.focus-aznavour section#ile2 {
+  transform: translate(100%, 0%);
+}
+.focus-aznavour section#ile2 .deco {
+  position: absolute;
+  width: 14vw;
+}
+.focus-aznavour section#ile2 .d1 {
+  top: 40vh;
+  left: 9vw;
+  width: 24vw;
+}
+.focus-aznavour section#ile2 .d2 {
+  top: 70vh;
+  left: 18vw;
+  width: 19vw;
+}
+.focus-aznavour section#ile2 .d3 {
+  top: 70vh;
+  left: 78vw;
+}
+.focus-aznavour section#ile2 .title {
+  max-width: 14vw;
+  position: absolute;
+  left: 24vw;
+  top: 1vh;
+  pointer-events: none;
+}
+.focus-aznavour section#ile2 .city {
+  width: 38vw;
+  position: absolute;
+  top: 7vh;
+  left: 10vw;
+  pointer-events: none;
+}
+.focus-aznavour section#ile3 {
+  transform: translate(0, 100%);
+}
+.focus-aznavour section#ile3 .deco {
+  position: absolute;
+  width: 14vw;
+}
+.focus-aznavour section#ile3 .d1 {
+  top: 89vh;
+  left: 9vw;
+  width: 11vw;
+}
+.focus-aznavour section#ile3 .d2 {
+  top: 30vh;
+  left: 22vw;
+  width: 12vw;
+}
+.focus-aznavour section#ile3 .d3 {
+  top: 50vh;
+  left: 78vw;
+}
+.focus-aznavour section#ile3 .city {
+  width: 20vw;
+  position: absolute;
+  top: 13vh;
+  left: 50vw;
+  pointer-events: none;
+}
+.focus-aznavour section#ile4 {
+  transform: translate(100%, 100%);
+  background-color: pink;
+}
+.focus-aznavour section .sample {
+  width: 40vw;
+  height: 40vh;
+  position: absolute;
+  top: 36vh;
+  left: 30vw;
+  transition: 1000ms;
+  background-image: url("/01_original.e8e99a1b.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.focus-aznavour section .sample.pettersbourg {
+  background-image: url("/02_sample.e2cf3038.png");
+  width: 30vw;
+  left: 43vw;
+  top: 50vh;
+  height: 30vh;
+}
+.focus-aznavour section .sample.pettersbourg.played {
+  transform: translateX(140px) rotate(3deg) !important;
+}
+.focus-aznavour section .sample.santiago {
+  background-image: url("/03_sample.7c30d484.png");
+  width: 30vw;
+  left: 20vw;
+  top: 60vh;
+  height: 25vh;
+}
+.focus-aznavour section .sample.santiago.played {
+  transform: translateX(-2px) rotate(-15deg) !important;
+}
+.focus-aznavour section .sample.santiago .title {
+  left: -7vw;
+  top: -1vh;
+}
+.focus-aznavour section .sample .title {
+  max-width: 14vw;
+  position: absolute;
+  left: -4vw;
+  top: 1vh;
+  pointer-events: none;
+}
+.focus-aznavour section .sample.played {
+  transform: translateX(50px) rotate(3deg) !important;
+}
+.focus-aznavour section .original {
+  width: 23vw;
+  height: 48vh;
+  background-image: url("/01_sample.b6d6ac7e.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 17vh;
+  left: 12vw;
+  transition: 1000ms;
+}
+.focus-aznavour section .original.pettersbourg {
+  background-image: url("/02_original.11b4256b.png");
+  width: 30vw;
+  left: 26vw;
+  height: 50vh;
+}
+.focus-aznavour section .original.pettersbourg.played {
+  transform: translateX(160px) rotate(-3deg) !important;
+}
+.focus-aznavour section .original.santiago {
+  background-image: url("/03_original.916858bb.png");
+  width: 30vw;
+  left: 40vw;
+  height: 50vh;
+}
+.focus-aznavour section .original.santiago .title {
+  left: 23vw;
+  top: 39vh;
+}
+.focus-aznavour section .original.santiago.played {
+  transform: translateX(160px) rotate(-3deg) !important;
+}
+.focus-aznavour section .original .title {
+  max-width: 14vw;
+  position: absolute;
+  left: -4vw;
+  top: -1vh;
+  pointer-events: none;
+}
+.focus-aznavour section .original.played {
+  transform: translateX(-40px) rotate(-10deg) !important;
+}
+
+@keyframes dezoom {
+  0% {
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .bounce {
   animation: bounce 1s ease-in-out forwards;
 }
