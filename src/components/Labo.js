@@ -9,7 +9,7 @@ import { TimelineMax, Power4, TweenLite, EaseInOut, EaseOut } from 'gsap';
 import getNDCCoordinates from '../utils/mouse';
 
 // Gltf
-import LaboGltf from '../objects/Cabinet_Objets_09.gltf';
+import LaboGltf from '../objects/Cabinet.gltf';
 
 // Pin
 import Aznavour from '../textures/Labo/Aznavour.png';
@@ -29,6 +29,7 @@ import TextureGravure02 from '../textures/scratch-02.png';
 import TextureGravure03 from '../textures/scratch-03.png';
 
 import TextureScene from '../textures/textures_gravure/test02.png';
+import TextureScene04 from '../textures/textures_gravure/test03.png';
 
 import fiveT from '../textures/fivetoner.jpg';
 
@@ -79,54 +80,87 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             if(child.material) {
                 mat = child.material;
 
-                if (child.name != 'plante') {
-                    if (
-                        child.name == 'cloche1' ||
-                        child.name == 'verre' ||
-                        child.name == 'cloche' ||
-                        child.name == 'cordes' ||
-                        child.name == 'cloche_1'
-                    ) {
-                        
+                if (child.name == "plante") return;
+
+                if (
+                    child.name == 'cloche1' ||
+                    child.name == 'verre' ||
+                    child.name == 'cloche' ||
+                    child.name == 'cordes' ||
+                    child.name == 'cloche_1'
+                ) {
+
+                    child.material = new THREE.MeshBasicMaterial({
+                        side: THREE.DoubleSide,
+                        color: 0xffffff,
+                        transparent: true,
+                        opacity: 0.08
+                    });
+                    
+                } else if (
+                    child.name == 'cadran_solaire-cadran' ||
+                    child.name == "herbier-herbier" ||
+                    child.name == "map" ||
+                    child.name == "Pochettes_Vinyle_Opti-vynils" ||
+                    child.name == "mistral_gagnant-mistral" ||
+                    child.name == "billet" ||
+                    child.name == "Wings_wings" || 
+                    child.name == "Cube012" ||
+                    child.name == "plume_1" ||
+                    child.name == "toxic" ||
+                    child.name == "cordes_1"
+                ) {
+
+                    if (child.name != "child.material" || child.name == "herbier-herbier") return;
+
+                    child.material = new THREE.MeshBasicMaterial({
+                        // side: THREE.DoubleSide,
+                        map: child.material.map,
+                        transparent: true
+                    });
+                    
+                } else {
+
+                    if (child.name == "desk_haut_1") {
+                        texture02.wrapS = 0.1;
+                        texture02.wrapT = 0.1;
                     } else {
-
-                        // texture02.rotation = Math.random() * 360 * (Math.PI/180);
-
-                        // console.log(texture02.rotation)
-
-                        child.material = new THREE.MeshToonMaterial({
-                            side: THREE.DoubleSide,
-                            gradientMap: fiveTone,
-                            // normalMap: texture02,
-                            // displacementMap: texture02,
-                            // bumpMap: texture02,
-                            map: texture02,
-                        });
-
-                        if (child.name == 'wall') {
-                            child.material.map = null;
-                        }
-
-                        if (
-                            child.name == 'desk_tiroirs001' ||
-                            child.name == 'desk_tiroirs002' ||
-                            child.name == 'desk_tiroirs003' ||
-                            child.name == 'desk_tiroirs004' ||
-                            child.name == 'desk_tiroirs005' ||
-                            child.name == 'desk_tiroirs006' ||
-                            child.name == 'desk_tiroirs009'
-                        ) {
-                            child.material.map = texture03;
-                        }
-
-                        child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
+                        texture02.wrapS = THREE.RepeatWrapping;
+                        texture02.wrapT = THREE.RepeatWrapping;
                     }
-                }
+
+                    child.material = new THREE.MeshToonMaterial({
+                        side: THREE.DoubleSide,
+                        gradientMap: fiveTone,
+                        map: texture02,
+                    });
+
+                    if (child.name == 'wall') child.material.map = null;
+
+                    // if (
+                    //     child.name == 'desk_tiroirs001' ||
+                    //     child.name == 'desk_tiroirs002' ||
+                    //     child.name == 'desk_tiroirs003' ||
+                    //     child.name == 'desk_tiroirs004' ||
+                    //     child.name == 'desk_tiroirs005' ||
+                    //     child.name == 'desk_tiroirs006' ||
+                    //     child.name == 'desk_tiroirs009'
+                    // ) {
+                    //     child.material.map = texture03;
+                    // }
+
+                    child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
+
+                    // console.log(child.name)
+                }                    
+
+                if (child.name == 'wall') child.material.map = null;
+                // console.log(child.name)
             }
+
         });
 
         labo.rotateY(Math.PI);
-        labo.scale.set(0.02, 0.02, 0.02);
 
         scene.add(labo);
     },
@@ -240,7 +274,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
         // Display tuto
         document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
-            tuto.style.display = 'block';
             tuto.style.opacity = 1;
         });
     }
@@ -255,7 +288,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             // Remove tuto
             setTimeout(() => {
                 document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
-                    TweenLite.to(tuto.style, .6, { opacity: 0, onComplete: () => { tuto.style.display = 'none' } });
+                    TweenLite.to(tuto.style, .6, { opacity: 0 });
                 });
             }, 4000);
         }, {
@@ -312,7 +345,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         const animate = TweenLite.to(camera.position, 3, {
             x: target.position.x,
             y: target.position.y,
-            z: target.position.z + 1,
+            z: target.position.z + 0.15,
             ease: EaseOut,
             onUpdate: (e) => {
                 if (camera.position.z < 1.8) {
@@ -333,7 +366,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Aznavour
      */
-    const aznavourPin = CreateSrpite(PinInactif, -0.15, 2.1, -1.1);
+    const aznavourPin = CreateSrpite(PinInactif, 0.37, 2, -0.21);
     aznavourPin.addEventListener("click", (event) => {
         onClick(event.target, {
             title: 'Aznavour',
@@ -356,7 +389,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Britney
      */
-    const britneyPin = CreateSrpite(Britney, -1.9, 3.2, -1.2);
+    const britneyPin = CreateSrpite(Britney, -1.6, 3.3, 0);
 
     britneyPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -366,8 +399,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         }, () => {
             onDiscover(() => {
                 reset();
+
+                kaleidoscopeFocus.start();
+
                 document.querySelector('.focus-kaleidoscope').style.display = 'block';
-                onClose(() => {});
+                onClose(() => {
+                    kaleidoscopeFocus.stop();
+                });
             })
         });
     });
@@ -377,7 +415,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * DaftPunk
      */
-    const daftPunkPin = CreateSrpite(DaftPunk, 1, 2.35, -1);
+    const daftPunkPin = CreateSrpite(DaftPunk, 1.5, 2.5, -0.15);
 
     daftPunkPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -401,7 +439,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Gainsbourg
      */
-    const gainsbourgPin = CreateSrpite(Gainsbourg, -0.39, 3.05, -1.5);
+    const gainsbourgPin = CreateSrpite(Gainsbourg, 0.01, 3.3, -0.4);
 
     gainsbourgPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -425,7 +463,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Memo
      */
-    const memoPin = CreateSrpite(Memo, -0.37, 1.75, -0.4);
+    const memoPin = CreateSrpite(Memo, 0.065, 1.8, 0.25);
 
     memoPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -449,7 +487,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Polo
      */
-    const poloPin = CreateSrpite(Polo, 0.65, 3.3, -1);
+    const poloPin = CreateSrpite(Polo, 1.4, 3.5, -0.4);
 
     poloPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -473,7 +511,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     /*
      * Renaud
      */
-    const renaudPin = CreateSrpite(Renaud, -1.38, 2.1, -0.9);
+    const renaudPin = CreateSrpite(Renaud, -0.95, 1.9, -0.5);
 
     renaudPin.addEventListener("click", (event) => {
         onClick(event.target, {
@@ -529,14 +567,16 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
         if (window.scrollY > bodyHeight - window.screen.height && !started) {
 
+            document.querySelector('#canvas').style.pointerEvents = 'auto';
+
             // Move to position
             const tape = scene.getObjectByName('Storage_group');
-            tape.position.set(-1.5, 2.45, -2);
+            tape.position.set(-1, 2.515, -0.5);
 
-            camera.position.set(-1.5, 2.45, -1.6);
+            camera.position.set(-0.99, 2.565, -0.305);
 
-            new TimelineMax()
-                .to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
+            new TimelineMax({ delay: 0.3 })
+                .to(camera.position, 2, { x: 0, y: 2.7, z: 2.5, ease: EaseOut })
                 .to(aznavourPin.material, 0.15, { opacity: 1, ease: EaseOut })
                 .to(britneyPin.material, 0.15, { opacity: 1, ease: EaseOut })
                 .to(daftPunkPin.material, 0.15, { opacity: 1, ease: EaseOut })
@@ -594,6 +634,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             .to(renaudPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(retourPin.material, 0.25, { opacity: 1, ease: EaseOut });
 
+            document.querySelector('#canvas').style.pointerEvents = 'auto';
             document.querySelector('.container').style.display = 'none';
         }
     }
@@ -645,6 +686,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         retourGUI.add(retourPin.position, 'x');
         retourGUI.add(retourPin.position, 'y');
         retourGUI.add(retourPin.position, 'z');
+
+        let laboGUI = gui.addFolder('Labo');
+        laboGUI.add(labo.position, 'x');
+        laboGUI.add(labo.position, 'y');
+        laboGUI.add(labo.position, 'z');
     }
 
 }

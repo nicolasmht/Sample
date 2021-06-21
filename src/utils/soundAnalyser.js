@@ -57,7 +57,7 @@ export default class SoundAnalyser {
 
     stop() {
         this.gainNode.gain.value = 0;
-        this.gainNode.disconnect(this.context.destination);//Deco
+        // this.gainNode.disconnect(this.context.destination);//Deco
         // this.url = url;
         // this.loadSound(this.url, this.onLoadSound.bind(this));
     }

@@ -48,6 +48,7 @@ html, body {
   top: 0; left: 0;
   z-index: 1;
   transition: opacity 3s;
+  z-index: 999;
 }
 
 .container-focus {
@@ -56,7 +57,7 @@ html, body {
     height: 100vh;
     transform: translateX(100vw);
     transition: transform 2s;
-    z-index: 2;
+    z-index: 10000;
     overflow: hidden;
 
     &.full{
@@ -797,13 +798,13 @@ html, body {
   height: 100vh;
   cursor: move;
 
-  background-image: url(../images/focus/kaleidoscope/Fond_1.jpg);
+  background-image: url(../images/focus/kaleidoscope/Fond_4.jpg);
   background-size: cover;
   background-position: center center;
   
   canvas{
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
   }
 }
 
@@ -841,7 +842,7 @@ html, body {
     background-attachment: fixed;
     padding-top: 250vh;
     padding-bottom: 250vh;
-    z-index: 999;
+    z-index: 998;
     .cont_slider {
         position: fixed;
         top: 40%;

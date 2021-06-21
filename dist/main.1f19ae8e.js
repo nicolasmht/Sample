@@ -37055,7 +37055,7 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
-},{}],"../node_modules/events/events.js":[function(require,module,exports) {
+},{}],"../../../.config/yarn/global/node_modules/events/events.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -95410,11 +95410,16 @@ function ScrollTimeline(scene, camera) {
     tape.name = "Storage_group";
     tape.traverse(function (child) {
       var modelPart = child.name;
-      console.log(child.name);
 
       switch (modelPart) {
-        case 'Storage':
-          // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
+        case 'desk_haut':
+        case 'desk_haut16':
+        case 'desk_haut2':
+        case 'desk_haut3':
+          child.material = new THREE.MeshBasicMaterial({
+            color: 0xEBD3BA,
+            side: THREE.DoubleSide
+          });
           break;
 
         case 'Tape_obj':
@@ -95484,14 +95489,15 @@ function ScrollTimeline(scene, camera) {
           });
           break;
       }
+
+      console.log(child.name);
     }); //Set Camera
 
     camera.position.x = -30;
     camera.position.y = -30;
     camera.position.z = -30; // tape.position.z = -5;
 
-    tape.scale.set(0.01125, 0.012, 0.012); // tape.position.set(-2.5115, 2.37, -1.45);
-
+    tape.scale.set(0.01125, 0.012, 0.012);
     tape.position.set(camera.position.x - 0.0115, camera.position.y - 0.08, camera.position.z - 0.2004);
     tape.rotateY(Math.PI);
     scene.add(tape); // console.log('cam-pos:',camera.position);
@@ -95567,7 +95573,7 @@ function ScrollTimeline(scene, camera) {
     var wheelsR = tape.getObjectByName('Wheel_right');
     tapeGroup.position.z = -0.4;
     var textureLoader = new THREE.TextureLoader();
-    var vertShader = "\n        varying vec2 vUv;\n        \n        void main() {\n            vUv = uv;\n            \n            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n        }\n        ";
+    var vertShader = "\n            varying vec2 vUv;\n            \n            void main() {\n                vUv = uv;\n                \n                gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n            }\n        ";
     var fragShader = " \n        uniform sampler2D texture1;\n        uniform sampler2D texture2;\n        uniform float progress;\n        \n        varying vec2 vUv;\n        \n        void main() {\n            gl_FragColor = vec4( mix( texture2D(texture1, vUv).xyz, texture2D(texture2, vUv).xyz, progress ), 1. );\n        }\n        ";
     var uniforms = {
       texture1: {
@@ -95864,7 +95870,7 @@ function ScrollTimeline(scene, camera) {
     }); //PROGRESS LINK TO THE PERCENT SCROLL PAGE
 
 
-    document.addEventListener("mousewheel", function (e) {
+    document.addEventListener("scroll", function (e) {
       var documentHeight = document.querySelector('.container').offsetHeight;
       var windowHeight = window.innerHeight;
       var scrollTop = window.pageYOffset;
@@ -95924,8 +95930,8 @@ function ScrollTimeline(scene, camera) {
 
 
   function initSlider() {
-    sound01.play();
-    sound02.play();
+    // sound01.play();
+    // sound02.play();
     var sliderPos;
     var currentPos = 0;
     var slider = document.querySelector('.slider');
@@ -99549,8 +99555,7 @@ var SoundAnalyser = /*#__PURE__*/function () {
   }, {
     key: "stop",
     value: function stop() {
-      this.gainNode.gain.value = 0;
-      this.gainNode.disconnect(this.context.destination); //Deco
+      this.gainNode.gain.value = 0; // this.gainNode.disconnect(this.context.destination);//Deco
       // this.url = url;
       // this.loadSound(this.url, this.onLoadSound.bind(this));
     }
@@ -99666,8 +99671,9 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var frequencyData = new Uint8Array(analyser.frequencyBinCount);
   var arraySound = [_Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, _Sister_sledge_IlMacquillageLady.default, _Daft_Punk_Voyager.default, _The_Sherbs_We_Ride_Tonight.default];
   var baseSound = 0;
+  var isStart = false;
   var ambiantSound1 = new _soundAnalyser.default(context, _Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, analyser, function (th) {
-    th.play();
+    /*th.play()*/
   });
   var ambiantSound2 = new _soundAnalyser.default(context, _Sister_sledge_IlMacquillageLady.default, analyser, function () {});
   var ambiantSound3 = new _soundAnalyser.default(context, _Daft_Punk_Voyager.default, analyser, function () {});
@@ -100052,10 +100058,18 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   };
 
   this.start = function () {
+    if (isStart) return;
+    ambiantSound1.play();
     render();
+    isStart = true;
   };
 
   this.stop = function () {
+    isStart = false;
+    ambiantSound1.stop();
+    ambiantSound2.stop();
+    ambiantSound3.stop();
+    ambiantSound4.stop();
     window.cancelAnimationFrame(idAnimation);
   };
 
@@ -100533,8 +100547,8 @@ function DRACOWorker() {
     }
   }
 }
-},{"three":"../node_modules/three/build/three.module.js"}],"objects/Cabinet_Objets_09.gltf":[function(require,module,exports) {
-module.exports = "/Cabinet_Objets_09.8f82d2fb.gltf";
+},{"three":"../node_modules/three/build/three.module.js"}],"objects/Cabinet.gltf":[function(require,module,exports) {
+module.exports = "/Cabinet.54a379d8.gltf";
 },{}],"textures/Labo/Aznavour.png":[function(require,module,exports) {
 module.exports = "/Aznavour.8961d268.png";
 },{}],"textures/Labo/Britney.png":[function(require,module,exports) {
@@ -100563,6 +100577,8 @@ module.exports = "/scratch-02.a1a548c1.png";
 module.exports = "/scratch-03.dbed141c.png";
 },{}],"textures/textures_gravure/test02.png":[function(require,module,exports) {
 module.exports = "/test02.82d0f8a7.png";
+},{}],"textures/textures_gravure/test03.png":[function(require,module,exports) {
+module.exports = "/test03.2767b2d0.png";
 },{}],"textures/fivetoner.jpg":[function(require,module,exports) {
 module.exports = "/fivetoner.cf2e630e.jpg";
 },{}],"components/Renaud.js":[function(require,module,exports) {
@@ -101932,7 +101948,7 @@ var Kaleidoscope = /*#__PURE__*/function () {
         this.context.rotate(index * step);
         this.context.beginPath();
         this.context.moveTo(-0.5, -0.5);
-        this.context.arc(0, 0, this.radius, step * -0.51, step * 0.51);
+        this.context.arc(0, 0, this.radius * 2, step * -0.51, step * 0.51);
         this.context.lineTo(0.5, 0.5);
         this.context.closePath();
         this.context.rotate(Math.PI / 2);
@@ -102009,6 +102025,10 @@ exports.DragDrop = DragDrop;
 module.exports = "/Bollywood.0d0fae15.png";
 },{}],"images/focus/kaleidoscope/Britney.png":[function(require,module,exports) {
 module.exports = "/Britney.9a60b423.png";
+},{}],"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":[function(require,module,exports) {
+module.exports = "/britney-spears-toxic-audio.e7177786.mp3";
+},{}],"audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3":[function(require,module,exports) {
+module.exports = "/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.5cd83197.mp3";
 },{}],"components/Kaleidoscope.js":[function(require,module,exports) {
 "use strict";
 
@@ -102019,11 +102039,17 @@ exports.default = void 0;
 
 var THREE = _interopRequireWildcard(require("three"));
 
+var _howler = require("howler");
+
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
 var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
 
 var _Britney = _interopRequireDefault(require("../images/focus/kaleidoscope/Britney.png"));
+
+var _britneySpearsToxicAudio = _interopRequireDefault(require("../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3"));
+
+var _tereMereBeechMeinFullSongShuddhDesiRomanceSushantSinghRajputParineetiChopra = _interopRequireDefault(require("../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -102038,6 +102064,17 @@ function KaleidoscopeComponent(scene) {
   // Init kaleidoscope
   var image = new Image();
   var image2 = new Image();
+  var soundLeft = new _howler.Howl({
+    src: _britneySpearsToxicAudio.default,
+    autoplay: false,
+    volume: 0.5
+  });
+  var soundRight = new _howler.Howl({
+    src: _tereMereBeechMeinFullSongShuddhDesiRomanceSushantSinghRajputParineetiChopra.default,
+    autoplay: false,
+    loop: true,
+    volume: 0.5
+  });
 
   image.onload = function () {
     return kaleidoscope.draw();
@@ -102062,14 +102099,16 @@ function KaleidoscopeComponent(scene) {
   kaleidoscope.domElement.style.position = "absolute";
   kaleidoscope.domElement.style.left = "0";
   kaleidoscope.domElement.style.top = "0";
-  kaleidoscope.domElement.style.zIndex = "999";
-  kaleidoscope.domElement.style.width = window.innerWidth;
-  kaleidoscope.domElement.style.height = window.innerWidth;
+  kaleidoscope.domElement.style.zIndex = "999"; // kaleidoscope.domElement.style.width = window.innerWidth * 2;
+  // kaleidoscope.domElement.style.height = window.innerWidth * 2;
+
   document.querySelector(".focus-kaleidoscope").appendChild(kaleidoscope.domElement);
   kaleidoscope2.domElement.style.position = "absolute";
   kaleidoscope2.domElement.style.left = "0";
   kaleidoscope2.domElement.style.top = "0";
-  kaleidoscope2.domElement.style.zIndex = "999";
+  kaleidoscope2.domElement.style.zIndex = "999"; // kaleidoscope2.domElement.style.width = window.innerWidth * 2;
+  // kaleidoscope2.domElement.style.height = window.innerWidth * 2;
+
   document.querySelector(".focus-kaleidoscope").appendChild(kaleidoscope2.domElement); // Init drag & drop
 
   var dragger = new _Kaleidoscope.DragDrop(function (data) {
@@ -102082,7 +102121,7 @@ function KaleidoscopeComponent(scene) {
   var tx = kaleidoscope.offsetX;
   var ty = kaleidoscope.offsetY;
   var tr = kaleidoscope.offsetRotation;
-  document.addEventListener('mousemove', function (event) {
+  document.querySelector('.focus-kaleidoscope').addEventListener('mousemove', function (event) {
     var cx, cy, dx, dy, hx, hy;
     cx = window.innerWidth / 2;
     cy = window.innerHeight / 2;
@@ -102096,6 +102135,8 @@ function KaleidoscopeComponent(scene) {
     var mouseY = -(event.clientY / window.innerHeight * 2 + 1);
     kaleidoscope2.domElement.style.opacity = 0.5 + mouseX; // kaleidoscope2.domElement.style.opacity = 1 * -mouseX + 0.25;
 
+    soundLeft.volume(1.2 * -mouseX);
+    soundRight.volume(mouseX);
     return tr = Math.atan2(hy, hx);
   });
 
@@ -102133,6 +102174,24 @@ function KaleidoscopeComponent(scene) {
     // kaleidoscope2.draw();
   };
 
+  this.start = function () {
+    soundLeft.play();
+    soundRight.play();
+  };
+
+  this.stop = function () {
+    soundLeft.fade(1, 0, 1000);
+    soundLeft.once("fade", function () {
+      soundLeft.seek(0);
+      soundLeft.stop();
+    });
+    soundRight.fade(1, 0, 1000);
+    soundRight.once("fade", function () {
+      soundRight.seek(0);
+      soundRight.stop();
+    });
+  };
+
   this.helpers = function (gui) {
     var kali = gui.addFolder("Kaleidoscope");
     kali.add(kaleidoscope, "zoom").min(0.25).max(2.0);
@@ -102168,7 +102227,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3":"audios/focus/kaleidoscope/tere-mere-beech-mein-full-song-shuddh-desi-romance-sushant-singh-rajput-parineeti-chopra.mp3"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102186,7 +102245,7 @@ var _gsap = require("gsap");
 
 var _mouse = _interopRequireDefault(require("../utils/mouse"));
 
-var _Cabinet_Objets_ = _interopRequireDefault(require("../objects/Cabinet_Objets_09.gltf"));
+var _Cabinet = _interopRequireDefault(require("../objects/Cabinet.gltf"));
 
 var _Aznavour = _interopRequireDefault(require("../textures/Labo/Aznavour.png"));
 
@@ -102215,6 +102274,8 @@ var _scratch2 = _interopRequireDefault(require("../textures/scratch-02.png"));
 var _scratch3 = _interopRequireDefault(require("../textures/scratch-03.png"));
 
 var _test = _interopRequireDefault(require("../textures/textures_gravure/test02.png"));
+
+var _test2 = _interopRequireDefault(require("../textures/textures_gravure/test03.png"));
 
 var _fivetoner = _interopRequireDefault(require("../textures/fivetoner.jpg"));
 
@@ -102261,7 +102322,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   texture01.minFilter = THREE.LinearMipMapLinearFilter;
   texture01.magFilter = THREE.LinearFilter;
   texture01.magFilter = THREE.CubeUVReflectionMapping;
-  loader.load(_Cabinet_Objets_.default, function (gltf) {
+  loader.load(_Cabinet.default, function (gltf) {
     var mat;
     labo = gltf.scene;
     labo.name = "labo";
@@ -102270,35 +102331,55 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       //GET OLD COLOR AND USE IT WITH TOON MATERIAL
       if (child.material) {
         mat = child.material;
+        if (child.name == "plante") return;
 
-        if (child.name != 'plante') {
-          if (child.name == 'cloche1' || child.name == 'verre' || child.name == 'cloche' || child.name == 'cordes' || child.name == 'cloche_1') {} else {
-            // texture02.rotation = Math.random() * 360 * (Math.PI/180);
-            // console.log(texture02.rotation)
-            child.material = new THREE.MeshToonMaterial({
-              side: THREE.DoubleSide,
-              gradientMap: fiveTone,
-              // normalMap: texture02,
-              // displacementMap: texture02,
-              // bumpMap: texture02,
-              map: texture02
-            });
-
-            if (child.name == 'wall') {
-              child.material.map = null;
-            }
-
-            if (child.name == 'desk_tiroirs001' || child.name == 'desk_tiroirs002' || child.name == 'desk_tiroirs003' || child.name == 'desk_tiroirs004' || child.name == 'desk_tiroirs005' || child.name == 'desk_tiroirs006' || child.name == 'desk_tiroirs009') {
-              child.material.map = texture03;
-            }
-
-            child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b);
+        if (child.name == 'cloche1' || child.name == 'verre' || child.name == 'cloche' || child.name == 'cordes' || child.name == 'cloche_1') {
+          child.material = new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.08
+          });
+        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1") {
+          if (child.name != "child.material" || child.name == "herbier-herbier") return;
+          child.material = new THREE.MeshBasicMaterial({
+            // side: THREE.DoubleSide,
+            map: child.material.map,
+            transparent: true
+          });
+        } else {
+          if (child.name == "desk_haut_1") {
+            texture02.wrapS = 0.1;
+            texture02.wrapT = 0.1;
+          } else {
+            texture02.wrapS = THREE.RepeatWrapping;
+            texture02.wrapT = THREE.RepeatWrapping;
           }
+
+          child.material = new THREE.MeshToonMaterial({
+            side: THREE.DoubleSide,
+            gradientMap: fiveTone,
+            map: texture02
+          });
+          if (child.name == 'wall') child.material.map = null; // if (
+          //     child.name == 'desk_tiroirs001' ||
+          //     child.name == 'desk_tiroirs002' ||
+          //     child.name == 'desk_tiroirs003' ||
+          //     child.name == 'desk_tiroirs004' ||
+          //     child.name == 'desk_tiroirs005' ||
+          //     child.name == 'desk_tiroirs006' ||
+          //     child.name == 'desk_tiroirs009'
+          // ) {
+          //     child.material.map = texture03;
+          // }
+
+          child.material.color.setRGB(mat.emissive.r, mat.emissive.g, mat.emissive.b); // console.log(child.name)
         }
+
+        if (child.name == 'wall') child.material.map = null; // console.log(child.name)
       }
     });
     labo.rotateY(Math.PI);
-    labo.scale.set(0.02, 0.02, 0.02);
     scene.add(labo);
   }, function (xhr) {// console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
   }, function (error) {
@@ -102445,7 +102526,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.focus-kaleidoscope').style.display = 'none'; // Display tuto
 
     document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
-      tuto.style.display = 'block';
       tuto.style.opacity = 1;
     });
   }
@@ -102460,10 +102540,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       setTimeout(function () {
         document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
           _gsap.TweenLite.to(tuto.style, .6, {
-            opacity: 0,
-            onComplete: function onComplete() {
-              tuto.style.display = 'none';
-            }
+            opacity: 0
           });
         });
       }, 4000);
@@ -102521,7 +102598,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var animate = _gsap.TweenLite.to(camera.position, 3, {
       x: target.position.x,
       y: target.position.y,
-      z: target.position.z + 1,
+      z: target.position.z + 0.15,
       ease: _gsap.EaseOut,
       onUpdate: function onUpdate(e) {
         if (camera.position.z < 1.8) {
@@ -102542,7 +102619,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    */
 
 
-  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, -0.15, 2.1, -1.1);
+  var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, 0.37, 2, -0.21);
   aznavourPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Aznavour',
@@ -102561,7 +102638,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Britney
    */
 
-  var britneyPin = CreateSrpite(_Britney.default, -1.9, 3.2, -1.2);
+  var britneyPin = CreateSrpite(_Britney.default, -1.6, 3.3, 0);
   britneyPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Britney',
@@ -102570,8 +102647,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }, function () {
       onDiscover(function () {
         reset();
+        kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
-        onClose(function () {});
+        onClose(function () {
+          kaleidoscopeFocus.stop();
+        });
       });
     });
   });
@@ -102580,7 +102660,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * DaftPunk
    */
 
-  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1, 2.35, -1);
+  var daftPunkPin = CreateSrpite(_DaftPunk.default, 1.5, 2.5, -0.15);
   daftPunkPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'DaftPunk',
@@ -102602,7 +102682,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Gainsbourg
    */
 
-  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.39, 3.05, -1.5);
+  var gainsbourgPin = CreateSrpite(_Gainsbourg.default, 0.01, 3.3, -0.4);
   gainsbourgPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Gainsbourg',
@@ -102622,7 +102702,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Memo
    */
 
-  var memoPin = CreateSrpite(_Memo.default, -0.37, 1.75, -0.4);
+  var memoPin = CreateSrpite(_Memo.default, 0.065, 1.8, 0.25);
   memoPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Memo',
@@ -102644,7 +102724,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Polo
    */
 
-  var poloPin = CreateSrpite(_Polo.default, 0.65, 3.3, -1);
+  var poloPin = CreateSrpite(_Polo.default, 1.4, 3.5, -0.4);
   poloPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Polo et Pan',
@@ -102666,7 +102746,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
    * Renaud
    */
 
-  var renaudPin = CreateSrpite(_Renaud.default, -1.38, 2.1, -0.9);
+  var renaudPin = CreateSrpite(_Renaud.default, -0.95, 1.9, -0.5);
   renaudPin.addEventListener("click", function (event) {
     onClick(event.target, {
       title: 'Renaud',
@@ -102739,11 +102819,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var bodyHeight = document.documentElement.scrollHeight;
 
     if (window.scrollY > bodyHeight - window.screen.height && !started) {
-      // Move to position
+      document.querySelector('#canvas').style.pointerEvents = 'auto'; // Move to position
+
       var tape = scene.getObjectByName('Storage_group');
-      tape.position.set(-1.5, 2.45, -2);
-      camera.position.set(-1.5, 2.45, -1.6);
-      new _gsap.TimelineMax().to(camera.position, 1, {
+      tape.position.set(-1, 2.515, -0.5);
+      camera.position.set(-0.99, 2.565, -0.305);
+      new _gsap.TimelineMax({
+        delay: 0.3
+      }).to(camera.position, 2, {
         x: 0,
         y: 2.7,
         z: 2.5,
@@ -102837,6 +102920,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         opacity: 1,
         ease: _gsap.EaseOut
       });
+      document.querySelector('#canvas').style.pointerEvents = 'auto';
       document.querySelector('.container').style.display = 'none';
     }
   };
@@ -102879,12 +102963,16 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     retourGUI.add(retourPin.position, 'x');
     retourGUI.add(retourPin.position, 'y');
     retourGUI.add(retourPin.position, 'z');
+    var laboGUI = gui.addFolder('Labo');
+    laboGUI.add(labo.position, 'x');
+    laboGUI.add(labo.position, 'y');
+    laboGUI.add(labo.position, 'z');
   };
 }
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet_Objets_09.gltf":"objects/Cabinet_Objets_09.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet.gltf":"objects/Cabinet.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/textures_gravure/test03.png":"textures/textures_gravure/test03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -103251,7 +103339,7 @@ function Scene(canvas) {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
     renderer.gammaOutput = true;
-    renderer.setClearColor(0xEDE3E1, 1);
+    renderer.setClearColor(0xEDE3E1, 0);
     var DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
     renderer.setPixelRatio(DPR); // renderer.setPixelRatio(1);
 
@@ -103274,8 +103362,7 @@ function Scene(canvas) {
     var components = [// Inserts all components here
     // new tearCanvas(scene, camera),
     // new daftPunk(scene, camera, interactionManager),
-    // new scrollTimeline(scene, camera),
-    new _Labo.default(scene, camera, renderer, interactionManager) // new KaleidoscopeComponent(scene, camera, composer)
+    new _scrollTimeline.default(scene, camera), new _Labo.default(scene, camera, renderer, interactionManager) // new KaleidoscopeComponent(scene, camera, composer)
     ];
     return components;
   }
@@ -103419,7 +103506,7 @@ bindEventListeners01();
 render01();
 scene.helpers();
 scene.setStarted(true);
-},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../../../.config/yarn/global/node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -103447,7 +103534,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "50963" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56722" + '/');
+>>>>>>> 974b504716b0345f30adcb81b67dadf4e1da31e7
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -103623,5 +103714,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map

@@ -30,13 +30,15 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     let analyser = context.createAnalyser();
     let frequencyData = new Uint8Array(analyser.frequencyBinCount);
     
-    let arraySound = [sound0101, sound0201, sound0301, sound0401]
+    let arraySound = [sound0101, sound0201, sound0301, sound0401];
     let baseSound = 0;
 
-    let ambiantSound1 = new SoundAnalyser(context,sound0101, analyser, function (th) { th.play() })
-    let ambiantSound2 = new SoundAnalyser(context,sound0201, analyser, function () {})
-    let ambiantSound3 = new SoundAnalyser(context,sound0301, analyser, function () {})
-    let ambiantSound4 = new SoundAnalyser(context,sound0401, analyser, function () {})
+    let isStart = false;
+
+    let ambiantSound1 = new SoundAnalyser(context, sound0101, analyser, function (th) { /*th.play()*/ })
+    let ambiantSound2 = new SoundAnalyser(context, sound0201, analyser, function () {})
+    let ambiantSound3 = new SoundAnalyser(context, sound0301, analyser, function () {})
+    let ambiantSound4 = new SoundAnalyser(context, sound0401, analyser, function () {})
 
 
     //SCENE
@@ -376,10 +378,24 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     }
 
     this.start = function() {
+
+        if (isStart) return;
+
+        ambiantSound1.play();
         render();
+
+        isStart = true;
     }
 
     this.stop = function() {
+
+        isStart = false;
+
+        ambiantSound1.stop();
+        ambiantSound2.stop();
+        ambiantSound3.stop();
+        ambiantSound4.stop();
+
         window.cancelAnimationFrame(idAnimation);
     }
 

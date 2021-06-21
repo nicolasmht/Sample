@@ -41,7 +41,7 @@ function ScrollTimeline(scene, camera) {
         let isBack = false;
         let isNotPlaying = false;
 
-        document.querySelector('#canvas').style.pointerEvents = 'none'
+        document.querySelector('#canvas').style.pointerEvents = 'none';
 
         // let scrollY = 0;
 
@@ -51,10 +51,13 @@ function ScrollTimeline(scene, camera) {
 
             tape.traverse( (child) => {
                 let modelPart = child.name;
-                console.log(child.name)
+
                 switch(modelPart) {
-                    case 'Storage':
-                        // child.material = new THREE.MeshNormalMaterial({color:0xff0, side:THREE.DoubleSide});
+                    case 'desk_haut':
+                    case 'desk_haut16':
+                    case 'desk_haut2':
+                    case 'desk_haut3':
+                        child.material = new THREE.MeshBasicMaterial({color:0xEBD3BA, side:THREE.DoubleSide});
                     break;
                     case 'Tape_obj':
                         // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
@@ -82,6 +85,8 @@ function ScrollTimeline(scene, camera) {
                         child.material = new THREE.MeshBasicMaterial({color:0x111111, transparent: true, opacity: .9, side:THREE.DoubleSide});
                     break;
                 }
+                
+                console.log(child.name)
             });
 
             //Set Camera
@@ -92,7 +97,6 @@ function ScrollTimeline(scene, camera) {
             // tape.position.z = -5;
 
             tape.scale.set(0.01125, 0.012, 0.012);
-            // tape.position.set(-2.5115, 2.37, -1.45);
             tape.position.set(camera.position.x -0.0115 , camera.position.y -0.08, camera.position.z -0.2004);
             tape.rotateY(Math.PI);
 
@@ -165,13 +169,13 @@ function ScrollTimeline(scene, camera) {
         const textureLoader = new THREE.TextureLoader()
         
         let vertShader = `
-        varying vec2 vUv;
-        
-        void main() {
-            vUv = uv;
+            varying vec2 vUv;
             
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-        }
+            void main() {
+                vUv = uv;
+                
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+            }
         `
         let fragShader = ` 
         uniform sampler2D texture1;
@@ -318,7 +322,7 @@ function ScrollTimeline(scene, camera) {
         let proxyTween = TweenLite.to({}, 1, {paused: true});
 
         //PROGRESS LINK TO THE PERCENT SCROLL PAGE
-        document.addEventListener("mousewheel", (e) => {
+        document.addEventListener("scroll", (e) => {
             let documentHeight = document.querySelector('.container').offsetHeight;
             let windowHeight = window.innerHeight;
 
@@ -383,8 +387,8 @@ function ScrollTimeline(scene, camera) {
     //SLIDER
     function initSlider() {
         
-        sound01.play();
-        sound02.play();
+        // sound01.play();
+        // sound02.play();
 
         let sliderPos;
         let currentPos = 0;

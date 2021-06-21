@@ -55,7 +55,7 @@ export class Kaleidoscope {
             this.context.rotate(index * step);
             this.context.beginPath();
             this.context.moveTo(-0.5, -0.5);
-            this.context.arc(0, 0, this.radius, step * -0.51, step * 0.51);
+            this.context.arc(0, 0, this.radius * 2, step * -0.51, step * 0.51);
             this.context.lineTo(0.5, 0.5);
             this.context.closePath();
             this.context.rotate(Math.PI / 2);
