@@ -26,7 +26,7 @@ export default class Player {
         this.disc.classList.add('rotate');
 
         console.log(this.title.length)
-        if(this.sound.title.length > 13) {
+        if(this.sound.title.length > 21) {
             this.title.classList.add('long');
         } else {
             this.title.classList.remove('long');
