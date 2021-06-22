@@ -99759,8 +99759,7 @@ var Player = /*#__PURE__*/function () {
 
       this.sound = sound; // Animate the vinyle
 
-      this.disc.classList.add('rotate');
-      console.log(this.title.length);
+      this.disc.classList.add('rotate'); //console.log(this.title.length)
 
       if (this.sound.title.length > 21) {
         this.title.classList.add('long');
@@ -101507,8 +101506,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function Component(scene) {
-  var player = null;
-  var map = document.querySelector('#map');
+  var player = null; // Effects
+
   var originals = document.querySelectorAll('.original');
   var samples = document.querySelectorAll('.sample');
   samples.forEach(function (sample) {
@@ -101528,9 +101527,7 @@ function Component(scene) {
     });
   });
   var ele = document.querySelector('#ct-map');
-  ele.scrollLeft = window.innerWidth / 2;
-  ele.scrollTop = window.innerHeight / 2;
-  ele.style.cursor = 'grab';
+  console.log('scrollTop ' + ele.scrollTop);
   var pos = {
     top: 0,
     left: 0,
@@ -101548,8 +101545,8 @@ function Component(scene) {
       x: e.clientX,
       y: e.clientY
     };
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
+    ele.addEventListener('mousemove', mouseMoveHandler);
+    ele.addEventListener('mouseup', mouseUpHandler);
   };
 
   var mouseMoveHandler = function mouseMoveHandler(e) {
@@ -101566,8 +101563,8 @@ function Component(scene) {
   var mouseUpHandler = function mouseUpHandler() {
     ele.style.cursor = 'grab';
     ele.style.removeProperty('user-select');
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
+    ele.removeEventListener('mousemove', mouseMoveHandler);
+    ele.removeEventListener('mouseup', mouseUpHandler);
   }; // Attach the handler
 
 
@@ -101672,10 +101669,12 @@ function Component(scene) {
       volume: 0
     });
     element.addEventListener('mouseover', function () {
+      var _player;
+
       if (currentSound === sound) return;
       sound.seek(0);
-      player.playSound(newSound);
       sound.play();
+      (_player = player) === null || _player === void 0 ? void 0 : _player.playSound(newSound);
       sound.fade(0, 1, 1300);
       currentSound = sound;
     });
@@ -101689,49 +101688,49 @@ function Component(scene) {
   }
 
   createSound(document.querySelector('#sound_01'), {
-    path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
+    path: './aznavour/sounds/01_Aznavour_parce-que-tu-crois.mp3',
     title: 'Parce Que Tu Crois ',
     artist: 'Charles Aznavour',
     date: '1966'
   });
   createSound(document.querySelector('#sample_01'), {
-    path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
+    path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: "What's the Difference",
     artist: 'Dr. Dre feat. Eminem and Xzibit',
     date: '1999'
   });
   createSound(document.querySelector('#sound_02'), {
-    path: './sounds/02_Aznavour_comme-ils-disent.mp3',
+    path: './aznavour/sounds/02_Aznavour_comme-ils-disent.mp3',
     title: 'Comme ils disent',
     artist: 'Charles Aznavour',
     date: '1972'
   });
   createSound(document.querySelector('#sample_02'), {
-    path: './sounds/02_Bad-balance_Goroda.mp3',
+    path: './aznavour/sounds/02_Bad-balance_Goroda.mp3',
     title: "\u0413\u043E\u0440\u043E\u0434\u0430",
     artist: 'Bad Balance',
     date: '2013'
   });
   createSound(document.querySelector('#sound_03'), {
-    path: './sounds/03_Aznavour_A-ma-fille.mp3',
+    path: './aznavour/sounds/03_Aznavour_A-ma-fille.mp3',
     title: "A ma fille",
     artist: 'Charles Aznavour',
     date: '1964'
   });
   createSound(document.querySelector('#sample_03'), {
-    path: './sounds/03_Movimiento-original_En-reconocimiento.mp3',
+    path: './aznavour/sounds/03_Movimiento-original_En-reconocimiento.mp3',
     title: "En Reconocimiento",
     artist: 'Movimiento Original',
     date: '2008'
   });
   createSound(document.querySelector('#sound_04'), {
-    path: './sounds/04_Aznavour_she.mp3',
+    path: './aznavour/sounds/04_Aznavour_she.mp3',
     title: "She",
     artist: 'Charles Aznavour',
     date: '1974'
   });
   createSound(document.querySelector('#sample_04'), {
-    path: './sounds/04_The-Cure_Hot-hot-hot.mp3',
+    path: './aznavour/sounds/04_The-Cure_Hot-hot-hot.mp3',
     title: "Hot hot hot !!!",
     artist: 'The Cure',
     date: '1987'
@@ -101740,6 +101739,9 @@ function Component(scene) {
   this.start = function () {
     // Attach the handler
     player = new _Player.default();
+    ele.scrollLeft = window.innerWidth / 2;
+    ele.scrollTop = window.innerHeight / 2;
+    ele.style.cursor = 'grab';
     ele.addEventListener('mousedown', mouseDownHandler);
   };
 
@@ -104219,7 +104221,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "64276" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50979" + '/');
+>>>>>>> 964de5a43fde2cc2a4a3cbbe2995a2cbfcfa7cb2
 
   ws.onmessage = function (event) {
     checkedAssets = {};

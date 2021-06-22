@@ -858,13 +858,14 @@ body {
   width: 14vw;
 }
 .focus-aznavour section#ile2 .d1 {
-  top: 40vh;
-  left: 9vw;
-  width: 24vw;
+  width: 25vw;
+  left: -4vw;
+  height: 13vh;
+  top: 41vh;
 }
 .focus-aznavour section#ile2 .d2 {
   top: 70vh;
-  left: 18vw;
+  left: 8vw;
   width: 19vw;
 }
 .focus-aznavour section#ile2 .d3 {
@@ -909,13 +910,12 @@ body {
 .focus-aznavour section#ile3 .city {
   width: 20vw;
   position: absolute;
-  top: 13vh;
-  left: 50vw;
+  top: 5vh;
+  left: 56vw;
   pointer-events: none;
 }
 .focus-aznavour section#ile4 {
   transform: translate(100%, 100%);
-  background-color: pink;
 }
 .focus-aznavour section .deco {
   position: absolute;
@@ -957,20 +957,21 @@ body {
 }
 .focus-aznavour .sample.pettersbourg {
   background-image: url("/02_sample.e2cf3038.png");
-  width: 30vw;
-  left: 43vw;
+  width: 33vw;
+  left: 41vw;
   top: 50vh;
-  height: 30vh;
+  height: 40vh;
 }
 .focus-aznavour .sample.pettersbourg.played {
   transform: translateX(140px) rotate(3deg) !important;
 }
 .focus-aznavour .sample.santiago {
   background-image: url("/03_sample.7c30d484.png");
-  width: 30vw;
+  width: 31vw;
   left: 20vw;
-  top: 60vh;
-  height: 25vh;
+  top: 50vh;
+  height: 37vh;
+  transform: rotate(-15deg);
 }
 .focus-aznavour .sample.santiago.played {
   transform: translateX(-2px) rotate(-15deg) !important;
@@ -1018,9 +1019,10 @@ body {
 }
 .focus-aznavour .original.pettersbourg {
   background-image: url("/02_original.11b4256b.png");
-  width: 30vw;
+  width: 25vw;
   left: 26vw;
-  height: 50vh;
+  height: 70vh;
+  top: 4vh;
 }
 .focus-aznavour .original.pettersbourg.played {
   transform: translateX(160px) rotate(-3deg) !important;
@@ -1029,7 +1031,9 @@ body {
   background-image: url("/03_original.916858bb.png");
   width: 30vw;
   left: 40vw;
-  height: 50vh;
+  height: 70vh;
+  top: 4vh;
+  transform: rotate(17deg) !important;
 }
 .focus-aznavour .original.santiago .title {
   left: 23vw;

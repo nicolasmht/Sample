@@ -1018,14 +1018,15 @@ body {
       }
 
       .d1 {
-        top: 40vh;
-        left: 9vw;
-        width: 24vw;
+        width: 25vw;
+        left: -4vw;
+        height: 13vh;
+        top: 41vh;
       }
 
       .d2 {
         top: 70vh;
-        left: 18vw;
+        left: 8vw;
         width: 19vw;
       }
 
@@ -1081,16 +1082,21 @@ body {
       .city {
         width: 20vw;
         position: absolute;
-        top: 13vh;
-        left: 50vw;
+        top: 5vh;
+        left: 56vw;
         pointer-events: none;
       }
     }
 
     &#ile4 {
+<<<<<<< HEAD
         transform: translate(100%, 100%);
         background-color: pink;
     }
+=======
+      transform: translate(100%, 100%);
+      //background-color: pink;
+>>>>>>> 964de5a43fde2cc2a4a3cbbe2995a2cbfcfa7cb2
 
       .deco {
         position: absolute;
@@ -1138,10 +1144,10 @@ body {
 
       &.pettersbourg {
         background-image: url('../assets/aznavour/02_sample.png');
-        width: 30vw;
-        left: 43vw;
+        width: 33vw;
+        left: 41vw;
         top: 50vh;
-        height: 30vh;
+        height: 40vh;
 
         &.played {
           transform: translateX(140px) rotate(3deg) !important;
@@ -1150,10 +1156,11 @@ body {
 
       &.santiago {
         background-image: url('../assets/aznavour/03_sample.png');
-        width: 30vw;
+        width: 31vw;
         left: 20vw;
-        top: 60vh;
-        height: 25vh;
+        top: 50vh;
+        height: 37vh;
+        transform: rotate(-15deg);
 
         &.played {
           transform: translateX(-2px) rotate(-15deg) !important;
@@ -1210,9 +1217,10 @@ body {
 
       &.pettersbourg {
         background-image: url('../assets/aznavour/02_original.png');
-        width: 30vw;
+        width: 25vw;
         left: 26vw;
-        height: 50vh;
+        height: 70vh;
+        top: 4vh;
 
         &.played {
           transform: translateX(160px) rotate(-3deg) !important;
@@ -1223,7 +1231,9 @@ body {
         background-image: url('../assets/aznavour/03_original.png');
         width: 30vw;
         left: 40vw;
-        height: 50vh;
+        height: 70vh;
+        top: 4vh;
+        transform: rotate(17deg) !important;
 
         .title {
           left: 23vw;
