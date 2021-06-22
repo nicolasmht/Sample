@@ -70,11 +70,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const texture03 = new THREE.TextureLoader().load(TextureGravure03);
     const texture04 = new THREE.TextureLoader().load(TextureScene04);
 
-    texture01.wrapS = THREE.RepeatWrapping;
-    texture01.wrapT = THREE.RepeatWrapping;
+    texture04.wrapS = THREE.RepeatWrapping;
+    texture04.wrapT = THREE.RepeatWrapping;
     texture01.minFilter = THREE.LinearMipMapLinearFilter;
     texture01.magFilter = THREE.LinearFilter;
     texture01.magFilter = THREE.CubeUVReflectionMapping;
+
+    texture04.rotation = 45;
 
     loader.load( LaboGltf, ( gltf ) => {
 
@@ -85,7 +87,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         const fiveTone = new THREE.TextureLoader().load(fiveT)
 
         labo.traverse( (child) => {
-            //GET OLD COLOR AND USE IT WITH TOON MATERIAL
             if(child.material) {
                 mat = child.material;
 
@@ -117,7 +118,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     child.name == "Cube012" ||
                     child.name == "plume_1" ||
                     child.name == "toxic" ||
-                    child.name == "cordes_1"
+                    child.name == "cordes_1" ||
+                    child.name == "Plane2" ||
+                    child.name == "carte_dessus" ||
+                    child.name == "Cube_4"
                 ) {
 
                     if (child.name != "child.material" || child.name == "herbier-herbier") return;
@@ -237,7 +241,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
         });
 
-        document.querySelector('.back-labo').addEventListener('click', (event) => {
+        document.querySelector('.push-cab').addEventListener('click', (event) => {
             isClick = false;
             TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
             TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
@@ -296,7 +300,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             infos.classList.add('full');
             document.querySelector('.container-focus').classList.add('full');
-            sound.stop();
+            sound.pause();
 
             callback();
 
@@ -312,7 +316,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const onClose = (callback) => {
 
         discover.addEventListener('click', callback, false);
-        document.querySelector('.back-labo').addEventListener('click', function() {
+        document.querySelector('.push-cab').addEventListener('click', function() {
             infos.classList.remove('visible');
             infos.classList.remove('full');
             containerFocus.classList.remove('full');
@@ -385,9 +389,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      */
     const aznavourPin = CreateSrpite(PinInactif, 0.37, 2, -0.21);
     aznavourPin.addEventListener("click", (event) => {
-
         event.stopPropagation();
-        
         onClick(event.target, {
             title: 'Aznavour',
             subTitle: 'Music has no borders',

@@ -50,7 +50,7 @@ function Component(scene, camera) {
     let currentImage = 0;
 
     // Le temps de l'effet
-    const DURATION = 25;
+    const DURATION = 50;
     let videoFrames = null;
 
     // Interval
