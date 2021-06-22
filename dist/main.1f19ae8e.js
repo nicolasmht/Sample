@@ -101746,7 +101746,7 @@ function Component(scene) {
   createSound(document.querySelector('#sample_01'), {
     path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: "What's the Difference",
-    artist: 'Dr. Dre feat. Eminem and Xzibit',
+    artist: 'Dr. Dre ft. Eminem',
     date: '1999'
   });
   createSound(document.querySelector('#sound_02'), {
@@ -104291,7 +104291,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59952" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58038" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
