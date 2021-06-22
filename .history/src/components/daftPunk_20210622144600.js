@@ -76,8 +76,8 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     // const effectPass = new EffectPass(camera, new BloomEffect())
     // effectPass.renderToScreen = true;
     // composer.addPass(effectPass);
-    // // console.log('POS PROCESS',effectPass);
-    // // effectPass.effects[0].intensity = 100;
+    // console.log('POS PROCESS',effectPass);
+    // effectPass.effects[0].intensity = 100;
  
 
     // LIGHT
@@ -444,7 +444,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     var render = function () {
         idAnimation = requestAnimationFrame(render);
-        // composer.render(clock.getDelta());
+        composer.render(clock.getDelta());
 
         //POINTLIGHT SOUND INTENSITY
         analyser.getByteFrequencyData(frequencyData);

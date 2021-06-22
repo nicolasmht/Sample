@@ -68,17 +68,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         renderer.domElement
     );
 
-    // // POST PROCESSING
-    // const composer = new EffectComposer(renderer);
-    // composer.addPass(new RenderPass(scene, camera));
-    // composer.setSize(window.innerWidth, window.innerHeight);
+    // POST PROCESSING
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.setSize(window.innerWidth, window.innerHeight);
 
-    // const effectPass = new EffectPass(camera, new BloomEffect())
-    // effectPass.renderToScreen = true;
-    // composer.addPass(effectPass);
-    // // console.log('POS PROCESS',effectPass);
-    // // effectPass.effects[0].intensity = 100;
- 
+    composer.addPass(new EffectPass(camera, new BloomEffect()));
 
     // LIGHT
     // const light = new THREE.AmbientLight({ color: 0x404040, intensity: 1 });
@@ -444,31 +439,35 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     var render = function () {
         idAnimation = requestAnimationFrame(render);
-        // composer.render(clock.getDelta());
+        composer.render(clock.getDelta());
 
         //POINTLIGHT SOUND INTENSITY
         analyser.getByteFrequencyData(frequencyData);
         pointLight.intensity = frequencyData[0]/20;
+        console.log(frequencyData[0]/20)
         if(frequencyData[0]/20 < 4) {
-            pointLight.intensity = 2
+            // pointLight.intensity = 2
+            gsap.to(pointLight, .1, {intensity: 2})
         }
         if(frequencyData[0]/20 > 4 && frequencyData[0]/20 < 6) {
-            pointLight.intensity = 4
+            // pointLight.intensity = 4
+            gsap.to(pointLight, .1, {intensity: 4})
         }
         if(frequencyData[0]/20 > 6 && frequencyData[0]/20 < 6.5) {
-            pointLight.intensity = 8
+            // pointLight.intensity = 8
+            gsap.to(pointLight, .1, {intensity: 8})
         }
         if(frequencyData[0]/20 > 6.5 && frequencyData[0]/20 < 7) {
-            pointLight.intensity = 15
+            // pointLight.intensity = 17
+            gsap.to(pointLight, .1, {intensity: 17})
         }
-        if(frequencyData[0]/20 > 7 && frequencyData[0]/20 < 7.3) {
-            pointLight.intensity = 22
-        }
-        if(frequencyData[0]/20 > 7.3 && frequencyData[0]/20 < 9) {
-            pointLight.intensity = 26
+        if(frequencyData[0]/20 > 7 && frequencyData[0]/20 < 9) {
+            // pointLight.intensity = 22
+            gsap.to(pointLight, .1, {intensity: 22})
         }
         if(frequencyData[0]/20 > 9 ) {
-            pointLight.intensity = 30
+            // pointLight.intensity = 30
+            gsap.to(pointLight, .1, {intensity: 30})
         }
 
         interactionManager.update();

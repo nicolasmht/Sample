@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Reflector } from 'three/examples/jsm/objects/Reflector';
+// import 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { gsap, TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
 import {Howl, Howler} from 'howler';
 import { EffectComposer, EffectPass, RenderPass, BlendFunction, BloomEffect } from "postprocessing";
@@ -68,7 +70,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         renderer.domElement
     );
 
-    // // POST PROCESSING
+    // POST PROCESSING
     // const composer = new EffectComposer(renderer);
     // composer.addPass(new RenderPass(scene, camera));
     // composer.setSize(window.innerWidth, window.innerHeight);
@@ -76,8 +78,20 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     // const effectPass = new EffectPass(camera, new BloomEffect())
     // effectPass.renderToScreen = true;
     // composer.addPass(effectPass);
-    // // console.log('POS PROCESS',effectPass);
-    // // effectPass.effects[0].intensity = 100;
+
+    // console.log('POS PROCESS',effectPass);
+    // effectPass.effects[0].intensity = 100;
+
+    var renderScene = new RenderPass( scene, camera );
+    var bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+    //bloomPass.renderToScreen = true;
+    bloomPass.threshold = 0.9;
+    bloomPass.strength = 0.7;
+    bloomPass.radius = 0;
+    let composer = new THREE.EffectComposer( renderer );
+    composer.setSize( window.innerWidth, window.innerHeight );
+    composer.addPass( renderScene );
+    composer.addPass( bloomPass );
  
 
     // LIGHT
@@ -444,7 +458,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     var render = function () {
         idAnimation = requestAnimationFrame(render);
-        // composer.render(clock.getDelta());
+        composer.render(clock.getDelta());
 
         //POINTLIGHT SOUND INTENSITY
         analyser.getByteFrequencyData(frequencyData);
@@ -473,7 +487,9 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
         interactionManager.update();
 
-        renderer.render(scene, camera);
+        // renderer.render(scene, camera);
+        composer.render(); //Bloom
+
     }
 
     this.start = function() {

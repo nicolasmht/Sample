@@ -68,17 +68,15 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         renderer.domElement
     );
 
-    // // POST PROCESSING
-    // const composer = new EffectComposer(renderer);
-    // composer.addPass(new RenderPass(scene, camera));
-    // composer.setSize(window.innerWidth, window.innerHeight);
+    // POST PROCESSING
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.setSize(window.innerWidth, window.innerHeight);
 
-    // const effectPass = new EffectPass(camera, new BloomEffect())
-    // effectPass.renderToScreen = true;
-    // composer.addPass(effectPass);
-    // // console.log('POS PROCESS',effectPass);
-    // // effectPass.effects[0].intensity = 100;
- 
+    composer.addPass(new EffectPass(camera, new BloomEffect()));
+    BloomEffect.threshold = params.bloomThreshold;
+    BloomEffect.strength = 10;
+    BloomEffect.radius = 2;
 
     // LIGHT
     // const light = new THREE.AmbientLight({ color: 0x404040, intensity: 1 });
@@ -444,7 +442,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     var render = function () {
         idAnimation = requestAnimationFrame(render);
-        // composer.render(clock.getDelta());
+        composer.render(clock.getDelta());
 
         //POINTLIGHT SOUND INTENSITY
         analyser.getByteFrequencyData(frequencyData);

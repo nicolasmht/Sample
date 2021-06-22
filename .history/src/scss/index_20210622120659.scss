@@ -1495,7 +1495,7 @@ section {
   height: 100vh;
   width: 100%;
   z-index: 9999;
-  // display: none;
+  display: none;
   &-part1 {
     animation: removeIntro 1s linear 5s forwards;
     position: absolute;

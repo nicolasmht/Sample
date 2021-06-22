@@ -340,10 +340,6 @@ html, body {
     background-image: url('../../dist/tutorials/gainsbourg.png');
     z-index: 10020;
   }
-  &.daft {
-    background-image: url('../../dist/tutorials/daft.png');
-    z-index: 10020;
-  }
 }
 
 .focus-renaud {
@@ -675,7 +671,6 @@ html, body {
     width: 100%;
     height: 100%;
     background-image: url('../assets/polo/05.png');
-    background-size: contain;
     margin: 0;
     position: fixed;
     top: 0;
@@ -1495,7 +1490,7 @@ section {
   height: 100vh;
   width: 100%;
   z-index: 9999;
-  // display: none;
+  display: none;
   &-part1 {
     animation: removeIntro 1s linear 5s forwards;
     position: absolute;

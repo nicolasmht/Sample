@@ -68,17 +68,12 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         renderer.domElement
     );
 
-    // // POST PROCESSING
-    // const composer = new EffectComposer(renderer);
-    // composer.addPass(new RenderPass(scene, camera));
-    // composer.setSize(window.innerWidth, window.innerHeight);
+    // POST PROCESSING
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.setSize(window.innerWidth, window.innerHeight);
 
-    // const effectPass = new EffectPass(camera, new BloomEffect())
-    // effectPass.renderToScreen = true;
-    // composer.addPass(effectPass);
-    // // console.log('POS PROCESS',effectPass);
-    // // effectPass.effects[0].intensity = 100;
- 
+    composer.addPass(new EffectPass(camera, new BloomEffect()));
 
     // LIGHT
     // const light = new THREE.AmbientLight({ color: 0x404040, intensity: 1 });
@@ -212,12 +207,11 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
         //RAYCAST BOT FACE FOR SOUND
         let faceTarget;
-        let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4,pyramidT];
+        let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
         interactionManager.add(pyramidB1);
         interactionManager.add(pyramidB2);
         interactionManager.add(pyramidB3);
         interactionManager.add(pyramidB4);
-        interactionManager.add(pyramidT);
 
         botArray.forEach(e => {
             e.addEventListener('mouseover',(t)=> {
@@ -230,12 +224,6 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                     soundC.stop()
                     soundD.stop()
                     switch (faceTarget) {
-                        case 'haut': //Dog
-                            if(ambiantSound = 1) { ambiantSound4.upVolume(); }
-                            if(ambiantSound = 2) { ambiantSound1.upVolume(); }
-                            if(ambiantSound = 3) { ambiantSound2.upVolume(); }
-                            if(ambiantSound = 4) { ambiantSound3.upVolume(); }
-                            break;
                         case 'Pyramid_bas_1': //Dog
                                 // console.log('Face 1: Dog')
                                 soundA.play();
@@ -378,49 +366,29 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                                         soundC.stop()
                                         soundD.stop()
                                         ambiantSound4.stop();
-                                        setTimeout(()=>{
-                                            winScreen.classList.add('show');
-                                            ambiantSound = 1;
-                                        },200)
+                                        winScreen.classList.add('show');
+                                        ambiantSound = 1;
                                     break;
                                 case 1:
-                                        soundA.stop()
-                                        soundB.stop()
-                                        soundC.stop()
-                                        soundD.stop()
+                                    
                                         ambiantSound1.stop();
-                                        setTimeout(()=>{
-                                            ambiantSound2.play();
-                                            ambiantSound2.upVolume();
-                                            player.playSound({title: 'Il Macquillage lady', artist: 'Sister sledge ', date: '1982'})//0201
-                                            ambiantSound = 2;
-                                        },200)
+                                        ambiantSound2.play();
+                                        player.playSound({title: 'Il Macquillage lady', artist: 'Sister sledge ', date: '1982'})//0201
+                                        ambiantSound = 2;
                                     break;
                                 case 2:
-                                        soundA.stop()
-                                        soundB.stop()
-                                        soundC.stop()
-                                        soundD.stop()
+                                    
                                         ambiantSound2.stop();
-                                        setTimeout(()=>{
-                                            ambiantSound3.play();
-                                            ambiantSound3.upVolume();
-                                            player.playSound({title: 'Voyager', artist: 'Daft Punk', date: '2001'})//0301
-                                            ambiantSound = 3;
-                                        },200)
+                                        ambiantSound3.play();
+                                        player.playSound({title: 'Voyager', artist: 'Daft Punk', date: '2001'})//0301
+                                        ambiantSound = 3;
                                     break;
                                 case 3:
-                                        soundA.stop()
-                                        soundB.stop()
-                                        soundC.stop()
-                                        soundD.stop()
+                                    
                                         ambiantSound3.stop();
-                                        setTimeout(()=>{
-                                            ambiantSound4.play();
-                                            ambiantSound4.upVolume();
-                                            player.playSound({title: 'We Ride Tonight', artist: 'The Sherbs', date: '1972'})//0401
-                                            ambiantSound = 4;
-                                        },200)
+                                        ambiantSound4.play();
+                                        player.playSound({title: 'We Ride Tonight', artist: 'The Sherbs', date: '1972'})//0401
+                                        ambiantSound = 4;
                                     break;
                                 default:
                                     break;
@@ -444,32 +412,11 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     var render = function () {
         idAnimation = requestAnimationFrame(render);
-        // composer.render(clock.getDelta());
+        composer.render(clock.getDelta());
 
         //POINTLIGHT SOUND INTENSITY
         analyser.getByteFrequencyData(frequencyData);
         pointLight.intensity = frequencyData[0]/20;
-        if(frequencyData[0]/20 < 4) {
-            pointLight.intensity = 2
-        }
-        if(frequencyData[0]/20 > 4 && frequencyData[0]/20 < 6) {
-            pointLight.intensity = 4
-        }
-        if(frequencyData[0]/20 > 6 && frequencyData[0]/20 < 6.5) {
-            pointLight.intensity = 8
-        }
-        if(frequencyData[0]/20 > 6.5 && frequencyData[0]/20 < 7) {
-            pointLight.intensity = 15
-        }
-        if(frequencyData[0]/20 > 7 && frequencyData[0]/20 < 7.3) {
-            pointLight.intensity = 22
-        }
-        if(frequencyData[0]/20 > 7.3 && frequencyData[0]/20 < 9) {
-            pointLight.intensity = 26
-        }
-        if(frequencyData[0]/20 > 9 ) {
-            pointLight.intensity = 30
-        }
 
         interactionManager.update();
 

@@ -99711,6 +99711,65 @@ module.exports = "/03-2_Daft_Punk_Technologic.4313073f.mp3";
 module.exports = "/04_The_Sherbs_We_Ride_Tonight.c0c5eba1.mp3";
 },{}],"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":[function(require,module,exports) {
 module.exports = "/04-2_Daft_Punk_Contact.b49946a9.mp3";
+},{}],"components/Player.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Player = /*#__PURE__*/function () {
+  function Player() {
+    _classCallCheck(this, Player);
+
+    this.sound = null;
+    this.disc = document.querySelector('#disque');
+    this.title = document.querySelector('#soundTitle');
+    this.date = document.querySelector('#soundDate');
+    this.toggle(true);
+  }
+
+  _createClass(Player, [{
+    key: "toggle",
+    value: function toggle(show) {
+      if (show) this.disc.classList.add('show');
+      if (!show) this.disc.classList.remove('show');
+      this.date.innerText = '';
+      this.title.innerText = '';
+    }
+  }, {
+    key: "playSound",
+    value: function playSound(sound) {
+      var _this = this;
+
+      this.sound = sound; // Animate the vinyle
+
+      this.disc.classList.add('rotate'); // Affichage du titre
+
+      setTimeout(function () {
+        // Edit the title of vinyle
+        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
+
+        _this.date.innerText = _this.sound.date;
+      }, 600); // Stop animation
+
+      setTimeout(function () {
+        _this.disc.classList.remove('rotate');
+      }, 2000);
+    }
+  }]);
+
+  return Player;
+}();
+
+exports.default = Player;
 },{}],"components/daftPunk.js":[function(require,module,exports) {
 "use strict";
 
@@ -99763,6 +99822,8 @@ var _The_Sherbs_We_Ride_Tonight = _interopRequireDefault(require("../audios/focu
 
 var _Daft_Punk_Contact = _interopRequireDefault(require("../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"));
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -99771,7 +99832,8 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 // Object
 function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
-  //AUDIO ANALYSER
+  var player = null; //AUDIO ANALYSER
+
   var context = new (window.AudioContext || window.webkitAudioContext)(); // Création de l'instance
 
   var analyser = context.createAnalyser();
@@ -99801,12 +99863,16 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   camera.position.set(0, 15, 40);
   camera.lookAt(new THREE.Vector3(0, 0, 0)); //INIT INTERACTIONMANAGER
 
-  var interactionManager = new _three2.InteractionManager(renderer, camera, renderer.domElement); // POST PROCESSING
-
-  var composer = new _postprocessing.EffectComposer(renderer);
-  composer.addPass(new _postprocessing.RenderPass(scene, camera));
-  composer.setSize(window.innerWidth, window.innerHeight);
-  composer.addPass(new _postprocessing.EffectPass(camera, new _postprocessing.BloomEffect())); // LIGHT
+  var interactionManager = new _three2.InteractionManager(renderer, camera, renderer.domElement); // // POST PROCESSING
+  // const composer = new EffectComposer(renderer);
+  // composer.addPass(new RenderPass(scene, camera));
+  // composer.setSize(window.innerWidth, window.innerHeight);
+  // const effectPass = new EffectPass(camera, new BloomEffect())
+  // effectPass.renderToScreen = true;
+  // composer.addPass(effectPass);
+  // // console.log('POS PROCESS',effectPass);
+  // // effectPass.effects[0].intensity = 100;
+  // LIGHT
   // const light = new THREE.AmbientLight({ color: 0x404040, intensity: 1 });
   // scene.add(light);
   //POINTLIGHT
@@ -99923,49 +99989,168 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     var firstClick = true;
     var isComplete = false;
     var faceFind = 0;
+    var ambiantSound = 1;
     var drag = false;
     var mouseDown = false;
-    var dragProgress = baseRotationBot; // //RAYCAST BOT FACE FOR SOUND
-    // let faceTarget;
-    // let botArray = [pyramidB1,pyramidB2,pyramidB3,pyramidB4];
-    // interactionManager.add(pyramidB1);
-    // interactionManager.add(pyramidB2);
-    // interactionManager.add(pyramidB3);
-    // interactionManager.add(pyramidB4);
-    // botArray.forEach(e => {
-    //     e.addEventListener('mouseover',(t)=> {
-    //         // console.log(t.target.name)
-    //         t.stopPropagation()
-    //         faceTarget = t.target.name
-    //         setTimeout(()=> {
-    //             soundA.stop()
-    //             soundB.stop()
-    //             soundC.stop()
-    //             soundD.stop()
-    //             switch (faceTarget) {
-    //                 case 'Pyramid_bas_1': //Dog
-    //                         console.log('Face 1: Dog')
-    //                         // soundA.play();
-    //                     break;
-    //                 case 'Pyramid_bas2': //Spatial
-    //                         console.log('Face 2: SPatial')
-    //                         // soundB.play();
-    //                     break;
-    //                 case 'Pyramid_bas3': //Hand
-    //                         console.log('Face 3: Hand')
-    //                         // soundC.play();
-    //                     break;
-    //                 case 'Pyramid_bas4': //Phone
-    //                         console.log('Face 4: Phone')
-    //                         // soundD.play();
-    //                     break;
-    //                 default:
-    //                     break;
-    //             }
-    //         },500)
-    //     })
-    // });
-    //RAYCAST TOP OR BOTTOM TARGET
+    var dragProgress = baseRotationBot; //RAYCAST BOT FACE FOR SOUND
+
+    var faceTarget;
+    var botArray = [pyramidB1, pyramidB2, pyramidB3, pyramidB4, pyramidT];
+    interactionManager.add(pyramidB1);
+    interactionManager.add(pyramidB2);
+    interactionManager.add(pyramidB3);
+    interactionManager.add(pyramidB4);
+    interactionManager.add(pyramidT);
+    botArray.forEach(function (e) {
+      e.addEventListener('mouseover', function (t) {
+        // console.log(t.target.name)
+        t.stopPropagation();
+        faceTarget = t.target.name;
+        setTimeout(function () {
+          soundA.stop();
+          soundB.stop();
+          soundC.stop();
+          soundD.stop();
+
+          switch (faceTarget) {
+            case 'haut':
+              //Dog
+              if (ambiantSound = 1) {
+                ambiantSound4.upVolume();
+              }
+
+              if (ambiantSound = 2) {
+                ambiantSound1.upVolume();
+              }
+
+              if (ambiantSound = 3) {
+                ambiantSound2.upVolume();
+              }
+
+              if (ambiantSound = 4) {
+                ambiantSound3.upVolume();
+              }
+
+              break;
+
+            case 'Pyramid_bas_1':
+              //Dog
+              // console.log('Face 1: Dog')
+              soundA.play();
+              player.playSound({
+                title: 'Da Funk',
+                artist: 'Daft Punk',
+                date: '1995'
+              }); //0102
+
+              if (ambiantSound = 1) {
+                ambiantSound4.stop();
+              }
+
+              if (ambiantSound = 2) {
+                ambiantSound1.stop();
+              }
+
+              if (ambiantSound = 3) {
+                ambiantSound2.stop();
+              }
+
+              if (ambiantSound = 4) {
+                ambiantSound3.stop();
+              }
+
+              break;
+
+            case 'Pyramid_bas2':
+              //Spatial
+              // console.log('Face 2: SPatial')
+              soundB.play();
+              player.playSound({
+                title: 'Aerodynamic',
+                artist: 'Daft Punk',
+                date: '2001'
+              }); //0202
+
+              if (ambiantSound = 1) {
+                ambiantSound4.stop();
+              }
+
+              if (ambiantSound = 2) {
+                ambiantSound1.stop();
+              }
+
+              if (ambiantSound = 3) {
+                ambiantSound2.stop();
+              }
+
+              if (ambiantSound = 4) {
+                ambiantSound3.stop();
+              }
+
+              break;
+
+            case 'Pyramid_bas3':
+              //Hand
+              // console.log('Face 3: Hand')
+              soundC.play();
+              player.playSound({
+                title: 'Touch it / Technologic (Alive 2007)',
+                artist: 'Daft Punk',
+                date: '2007'
+              }); //0302
+
+              if (ambiantSound = 1) {
+                ambiantSound4.stop();
+              }
+
+              if (ambiantSound = 2) {
+                ambiantSound1.stop();
+              }
+
+              if (ambiantSound = 3) {
+                ambiantSound2.stop();
+              }
+
+              if (ambiantSound = 4) {
+                ambiantSound3.stop();
+              }
+
+              break;
+
+            case 'Pyramid_bas4':
+              //Phone
+              // console.log('Face 4: Phone')
+              soundD.play();
+              player.playSound({
+                title: 'Contact',
+                artist: 'Daft Punk',
+                date: '2013'
+              }); //0402
+
+              if (ambiantSound = 1) {
+                ambiantSound4.stop();
+              }
+
+              if (ambiantSound = 2) {
+                ambiantSound1.stop();
+              }
+
+              if (ambiantSound = 3) {
+                ambiantSound2.stop();
+              }
+
+              if (ambiantSound = 4) {
+                ambiantSound3.stop();
+              }
+
+              break;
+
+            default:
+              break;
+          }
+        }, 500);
+      });
+    }); //RAYCAST TOP OR BOTTOM TARGET
 
     var targetPyramid = pyramidB; // let modelArray = [pyramidB,pyramidT];
     // interactionManager.add(pyramidB);
@@ -99986,11 +100171,11 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     //     })
     // })
 
-    document.addEventListener('mousedown', function () {
+    var mousedown = document.addEventListener('mousedown', function () {
       drag = false;
       mouseDown = true;
     });
-    document.addEventListener('mousemove', function (e) {
+    var mousemove = document.addEventListener('mousemove', function (e) {
       drag = true;
 
       if (mouseDown) {
@@ -100056,7 +100241,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         }
       }
     });
-    document.addEventListener('mouseup', function () {
+    var mouseup = document.addEventListener('mouseup', function () {
       var nextFace = baseRotationTop + Math.PI / 2 * multiplicateur + Math.PI * 2 * turn;
       var tlRotation = new _gsap.TimelineMax({}).to(targetPyramid.rotation, 1, {
         ease: _gsap.Elastic.easeOut.config(2, 1),
@@ -100105,23 +100290,72 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
           switch (baseSound) {
             case 0:
+              soundA.stop();
+              soundB.stop();
+              soundC.stop();
+              soundD.stop();
               ambiantSound4.stop();
-              winScreen.classList.add('show');
+              setTimeout(function () {
+                winScreen.classList.add('show');
+                ambiantSound = 1;
+              }, 200);
               break;
 
             case 1:
+              soundA.stop();
+              soundB.stop();
+              soundC.stop();
+              soundD.stop();
               ambiantSound1.stop();
-              ambiantSound2.play();
+              setTimeout(function () {
+                ambiantSound2.play();
+                ambiantSound2.upVolume();
+                player.playSound({
+                  title: 'Il Macquillage lady',
+                  artist: 'Sister sledge ',
+                  date: '1982'
+                }); //0201
+
+                ambiantSound = 2;
+              }, 200);
               break;
 
             case 2:
+              soundA.stop();
+              soundB.stop();
+              soundC.stop();
+              soundD.stop();
               ambiantSound2.stop();
-              ambiantSound3.play();
+              setTimeout(function () {
+                ambiantSound3.play();
+                ambiantSound3.upVolume();
+                player.playSound({
+                  title: 'Voyager',
+                  artist: 'Daft Punk',
+                  date: '2001'
+                }); //0301
+
+                ambiantSound = 3;
+              }, 200);
               break;
 
             case 3:
+              soundA.stop();
+              soundB.stop();
+              soundC.stop();
+              soundD.stop();
               ambiantSound3.stop();
-              ambiantSound4.play();
+              setTimeout(function () {
+                ambiantSound4.play();
+                ambiantSound4.upVolume();
+                player.playSound({
+                  title: 'We Ride Tonight',
+                  artist: 'The Sherbs',
+                  date: '1972'
+                }); //0401
+
+                ambiantSound = 4;
+              }, 200);
               break;
 
             default:
@@ -100155,16 +100389,52 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var idAnimation = null;
 
   var render = function render() {
-    idAnimation = requestAnimationFrame(render);
-    composer.render(clock.getDelta()); //POINTLIGHT SOUND INTENSITY
+    idAnimation = requestAnimationFrame(render); // composer.render(clock.getDelta());
+    //POINTLIGHT SOUND INTENSITY
 
     analyser.getByteFrequencyData(frequencyData);
     pointLight.intensity = frequencyData[0] / 20;
+
+    if (frequencyData[0] / 20 < 4) {
+      pointLight.intensity = 2;
+    }
+
+    if (frequencyData[0] / 20 > 4 && frequencyData[0] / 20 < 6) {
+      pointLight.intensity = 4;
+    }
+
+    if (frequencyData[0] / 20 > 6 && frequencyData[0] / 20 < 6.5) {
+      pointLight.intensity = 8;
+    }
+
+    if (frequencyData[0] / 20 > 6.5 && frequencyData[0] / 20 < 7) {
+      pointLight.intensity = 15;
+    }
+
+    if (frequencyData[0] / 20 > 7 && frequencyData[0] / 20 < 7.3) {
+      pointLight.intensity = 22;
+    }
+
+    if (frequencyData[0] / 20 > 7.3 && frequencyData[0] / 20 < 9) {
+      pointLight.intensity = 26;
+    }
+
+    if (frequencyData[0] / 20 > 9) {
+      pointLight.intensity = 30;
+    }
+
     interactionManager.update();
     renderer.render(scene, camera);
   };
 
   this.start = function () {
+    player = new _Player.default();
+    player.playSound({
+      title: 'Im gonna love you just a little more baby',
+      artist: 'Barry White',
+      date: '1973'
+    }); //0101
+
     if (isStart) return;
     ambiantSound1.play();
     render();
@@ -100172,11 +100442,19 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   };
 
   this.stop = function () {
+    player.toggle(false);
     isStart = false;
     ambiantSound1.stop();
     ambiantSound2.stop();
     ambiantSound3.stop();
     ambiantSound4.stop();
+    mousemove.removeEventListener();
+    mousedown.removeEventListener();
+    mouseup.removeEventListener();
+    soundA.stop();
+    soundB.stop();
+    soundC.stop();
+    soundD.stop();
     window.cancelAnimationFrame(idAnimation);
   };
 
@@ -100198,7 +100476,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","interpolate-range":"../node_modules/interpolate-range/bundle.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","interpolate-range":"../node_modules/interpolate-range/bundle.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3","./Player":"components/Player.js"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100899,66 +101177,7 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"components/Player.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var Player = /*#__PURE__*/function () {
-  function Player() {
-    _classCallCheck(this, Player);
-
-    this.sound = null;
-    this.disc = document.querySelector('#disque');
-    this.title = document.querySelector('#soundTitle');
-    this.date = document.querySelector('#soundDate');
-    this.toggle(true);
-  }
-
-  _createClass(Player, [{
-    key: "toggle",
-    value: function toggle(show) {
-      if (show) this.disc.classList.add('show');
-      if (!show) this.disc.classList.remove('show');
-      this.date.innerText = '';
-      this.title.innerText = '';
-    }
-  }, {
-    key: "playSound",
-    value: function playSound(sound) {
-      var _this = this;
-
-      this.sound = sound; // Animate the vinyle
-
-      this.disc.classList.add('rotate'); // Affichage du titre
-
-      setTimeout(function () {
-        // Edit the title of vinyle
-        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
-
-        _this.date.innerText = _this.sound.date;
-      }, 600); // Stop animation
-
-      setTimeout(function () {
-        _this.disc.classList.remove('rotate');
-      }, 2000);
-    }
-  }]);
-
-  return Player;
-}();
-
-exports.default = Player;
-},{}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
 module.exports = "/Chopin_Prelude.9d4786e9.mp3";
 },{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
 module.exports = "/jtm.7f7ef207.mp3";
@@ -103880,7 +104099,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54289" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54610" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

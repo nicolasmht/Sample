@@ -310,6 +310,10 @@ html, body {
   background-image: url("/gainsbourg.f1494bf7.png");
   z-index: 10020;
 }
+.tuto.daft {
+  background-image: url("/daft.8f286180.png");
+  z-index: 10020;
+}
 
 .focus-renaud {
   width: 100vw;
@@ -578,6 +582,7 @@ html, body {
   width: 100%;
   height: 100%;
   background-image: url("/05.44963e58.png");
+  background-size: contain;
   margin: 0;
   position: fixed;
   top: 0;
