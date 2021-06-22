@@ -100945,7 +100945,7 @@ var Player = /*#__PURE__*/function () {
       this.disc.classList.add('rotate');
       console.log(this.title.length);
 
-      if (this.sound.title.length > 13) {
+      if (this.sound.title.length > 21) {
         this.title.classList.add('long');
       } else {
         this.title.classList.remove('long');
@@ -103940,7 +103940,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56107" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52791" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
