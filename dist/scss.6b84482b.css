@@ -916,26 +916,26 @@ body {
 .focus-aznavour section#ile4 {
   transform: translate(100%, 100%);
 }
-.focus-aznavour section .deco {
+.focus-aznavour section#ile4 .deco {
   position: absolute;
   width: 14vw;
 }
-.focus-aznavour section .d1 {
+.focus-aznavour section#ile4 .d1 {
   top: 40vh;
   left: 9vw;
   width: 14vw;
 }
-.focus-aznavour section .d2 {
+.focus-aznavour section#ile4 .d2 {
   top: 70vh;
   left: 18vw;
   width: 13vw;
 }
-.focus-aznavour section .d3 {
+.focus-aznavour section#ile4 .d3 {
   top: 70vh;
   left: 80vw;
   width: 12vw;
 }
-.focus-aznavour section .city {
+.focus-aznavour section#ile4 .city {
   width: 26vw;
   position: absolute;
   top: 6vh;

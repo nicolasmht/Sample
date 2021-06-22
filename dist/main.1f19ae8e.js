@@ -96034,17 +96034,12 @@ function ScrollTimeline(scene, camera) {
 
 
   function initSlider() {
-<<<<<<< HEAD
     document.querySelector('.begin-btn').addEventListener('click', function () {
       document.querySelector('.intro_timeline').classList.add('remove-intro');
       document.querySelector('.intro_timeline-part1').classList.add('remove-intro');
       sound01.play();
       sound02.play();
     });
-=======
-    sound01.play();
-    sound02.play();
->>>>>>> 6803e3b05624f580ceb0951583abd07b329f429b
     var sliderPos;
     var currentPos = 0;
     var slider = document.querySelector('.slider');
@@ -99868,6 +99863,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var frequencyData = new Uint8Array(analyser.frequencyBinCount);
   var arraySound = [_Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, _Sister_sledge_IlMacquillageLady.default, _Daft_Punk_Voyager.default, _The_Sherbs_We_Ride_Tonight.default];
   var baseSound = 0;
+  var container = document.querySelector('.focus-daftpunk');
   var isStart = false;
   var ambiantSound1 = new _soundAnalyser.default(context, _Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, analyser, function (th) {
     /*th.play()*/
@@ -100199,11 +100195,11 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
     //     })
     // })
 
-    var mousedown = document.addEventListener('mousedown', function () {
+    var mousedown = container.addEventListener('mousedown', function () {
       drag = false;
       mouseDown = true;
     });
-    var mousemove = document.addEventListener('mousemove', function (e) {
+    var mousemove = container.addEventListener('mousemove', function (e) {
       drag = true;
 
       if (mouseDown) {
@@ -100269,7 +100265,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         }
       }
     });
-    var mouseup = document.addEventListener('mouseup', function () {
+    var mouseup = container.addEventListener('mouseup', function () {
       var nextFace = baseRotationTop + Math.PI / 2 * multiplicateur + Math.PI * 2 * turn;
       var tlRotation = new _gsap.TimelineMax({}).to(targetPyramid.rotation, 1, {
         ease: _gsap.Elastic.easeOut.config(2, 1),
@@ -101755,9 +101751,9 @@ function Component(scene) {
   };
 
   this.stop = function () {
-    var _player, _currentSound;
+    var _player2, _currentSound;
 
-    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
+    (_player2 = player) === null || _player2 === void 0 ? void 0 : _player2.toggle(false);
     (_currentSound = currentSound) === null || _currentSound === void 0 ? void 0 : _currentSound.stop();
   };
 
@@ -104230,15 +104226,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59171" + '/');
-=======
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64276" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50979" + '/');
->>>>>>> 964de5a43fde2cc2a4a3cbbe2995a2cbfcfa7cb2
->>>>>>> 6803e3b05624f580ceb0951583abd07b329f429b
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56752" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
