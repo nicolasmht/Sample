@@ -101746,9 +101746,9 @@ function Component(scene) {
   };
 
   this.stop = function () {
-    var _player, _currentSound;
+    var _player2, _currentSound;
 
-    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
+    (_player2 = player) === null || _player2 === void 0 ? void 0 : _player2.toggle(false);
     (_currentSound = currentSound) === null || _currentSound === void 0 ? void 0 : _currentSound.stop();
   };
 
@@ -104221,11 +104221,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64276" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50979" + '/');
->>>>>>> 964de5a43fde2cc2a4a3cbbe2995a2cbfcfa7cb2
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54734" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
