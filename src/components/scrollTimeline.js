@@ -36,8 +36,8 @@ function ScrollTimeline(scene, camera) {
         const loader = new GLTFLoader();
         let tape = new THREE.Object3D();
 
-        let sound01 = new Howl({src: [soundA]});
-        let sound02 = new Howl({src: [soundB], volume:0});
+        let sound01 = new Howl({src: [soundA], loop: true });
+        let sound02 = new Howl({src: [soundB], volume:0, loop: true });
         let initialPose = 0;
         let isBack = false;
         let isNotPlaying = false;

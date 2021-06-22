@@ -183,7 +183,7 @@ html, body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(/background.0063873b.png);
+  background-image: url(/background-info.f8229202.png);
   background-size: cover;
   background-position: center center;
   background-repeat: repeat;
@@ -202,19 +202,24 @@ html, body {
 .container-infos .title-infos {
   margin: 0;
   margin-bottom: 2.5vh;
-  font-size: 4vw;
+  font-size: 3vw;
+  font-family: "bely-display";
+  text-align: center;
+  font-weight: 400;
 }
 .container-infos .subTitle-infos {
   text-align: center;
   margin: 0;
-  margin-bottom: 3vh;
-  font-size: 2vw;
+  margin-bottom: 2.2vh;
+  font-size: 1.9vw;
+  font-family: "biotif";
 }
 .container-infos .description-infos {
-  margin-bottom: 10vh;
+  margin-bottom: 2.5vh;
   text-align: left;
   font-size: 1.2vw;
   line-height: 2vw;
+  font-family: "biotif-light";
 }
 .container-infos .btn-infos {
   width: 13vw;
@@ -227,16 +232,16 @@ html, body {
 .container-infos .close-infos {
   position: absolute;
   top: 2.5vh;
-  right: 2.5vw;
-  width: 4vw;
-  height: 4vw;
+  right: 1.5vw;
+  width: 2.5vw;
+  height: 2.5vw;
   cursor: pointer;
 }
 
 .gui {
   position: fixed;
   right: 0;
-  z-index: 999;
+  z-index: 99999;
 }
 
 .box {
@@ -988,16 +993,17 @@ html, body {
 .container {
   position: absolute;
   width: 100vw;
+  background-image: url("/timeline_background.69c654b4.png");
   background-size: 100%;
   background-attachment: fixed;
-  padding-top: 250vh;
-  padding-bottom: 250vh;
+  padding-top: 300vh;
+  padding-bottom: 300vh;
   z-index: 998;
 }
 .container .cont_slider {
   position: fixed;
   top: 40%;
-  right: 60px;
+  right: 6vw;
   height: 200px;
   width: 20px;
   background-image: url("/Ligne.c14da6af.png");
@@ -1075,7 +1081,7 @@ html, body {
 .container .cta::before {
   content: "";
   position: absolute;
-  width: 85px;
+  width: 100px;
   background: url("/Underline.914d32f1.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -1168,12 +1174,12 @@ html, body {
 .container_artist-panel {
   background: red;
   height: 100vh;
-  width: 250px;
+  width: 450px;
   padding: 40px;
   padding-right: 100px;
   position: fixed;
   top: 0;
-  right: -390px;
+  right: -605px;
   background: url("/background-more.9a70676b.png");
   background-size: contain;
   color: white;
@@ -1298,19 +1304,19 @@ html, body {
 
 @keyframes removeIntro {
   0% {
-    opacity: 1;
+    transform: translateY(0);
   }
   99% {
-    opacity: 0;
+    transform: translateY(-100vh);
   }
   100% {
-    opacity: 0;
+    transform: translateY(-100vh);
     pointer-events: none;
     visibility: hidden;
   }
 }
 .intro_timeline {
-  animation: removeIntro 1s linear 12s forwards;
+  animation: removeIntro 0.3s ease-in 12s forwards;
   position: fixed;
   top: 0;
   left: 0;
@@ -1319,7 +1325,7 @@ html, body {
   z-index: 9999;
 }
 .intro_timeline-part1 {
-  animation: removeIntro 1s linear 5s forwards;
+  animation: removeIntro 0.3s ease-in 5s forwards;
   position: absolute;
   top: 0;
   left: 0;
