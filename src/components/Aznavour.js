@@ -184,37 +184,41 @@ function createSound(element, newSound){
     
 }
 
-createSound(document.querySelector('#sound_01') , {
-    path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
-    title: 'Parce Que Tu Crois ',
-    artist: 'Charles Aznavour',
-    date: '1966'
-});
+    createSound(document.querySelector('#sound_01') , {
+        path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
+        title: 'Parce Que Tu Crois ',
+        artist: 'Charles Aznavour',
+        date: '1966'
+    });
 
-createSound(document.querySelector('#sample_01') , {
-    path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
-    title: `What's the Difference`,
-    artist: 'Dr. Dre feat. Eminem and Xzibit',
-    date: '1999'
-});
+    createSound(document.querySelector('#sample_01') , {
+        path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
+        title: `What's the Difference`,
+        artist: 'Dr. Dre feat. Eminem and Xzibit',
+        date: '1999'
+    });
 
-createSound(document.querySelector('#sound_02') , {
-    path: './sounds/02_Aznavour_comme-ils-disent.mp3',
-    title: 'Comme ils disent',
-    artist: 'Charles Aznavour',
-    date: '1972'
-});
+    createSound(document.querySelector('#sound_02') , {
+        path: './sounds/02_Aznavour_comme-ils-disent.mp3',
+        title: 'Comme ils disent',
+        artist: 'Charles Aznavour',
+        date: '1972'
+    });
 
-createSound(document.querySelector('#sample_02') , {
-    path: './sounds/02_Bad-balance_Goroda.mp3',
-    title: `Города`,
-    artist: 'Bad Balance',
-    date: '2013'
-});
+    createSound(document.querySelector('#sample_02') , {
+        path: './sounds/02_Bad-balance_Goroda.mp3',
+        title: `Города`,
+        artist: 'Bad Balance',
+        date: '2013'
+    });
 
     this.start = function() {
         // Attach the handler
         ele.addEventListener('mousedown', mouseDownHandler);
+    }
+
+    this.stop = function() {
+        sound.stop();
     }
 
     this.update = function(time) {}

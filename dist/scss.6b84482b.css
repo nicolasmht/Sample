@@ -181,7 +181,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   transform: translateX(100vw);
-  transition: transform 2s;
+  transition: transform 0.5s ease-in-out;
   z-index: 10000;
   overflow: hidden;
 }
@@ -193,7 +193,7 @@ html, body {
   top: 0;
   left: 0;
   z-index: 1;
-  transition: opacity 3s;
+  transition: opacity 3s ease-in-out;
   display: none;
 }
 .container-focus .back-labo {
@@ -223,14 +223,14 @@ html, body {
   background-repeat: repeat;
   z-index: 999;
   transform: translateX(100%);
-  transition: all 2s;
+  transition: all 0.5s ease-in-out;
 }
 .container-infos.visible {
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
   transform: translateX(0);
 }
 .container-infos.full {
-  transition: all 2s;
+  transition: all 0.5s ease-in-out;
   transform: translateX(-100vw);
 }
 .container-infos .title-infos {
@@ -900,13 +900,6 @@ html, body {
   transform: translate(100%, 100%);
   background-color: pink;
 }
-.focus-aznavour section#ile4 .city {
-  width: 20vw;
-  position: absolute;
-  top: 13vh;
-  left: 50vw;
-  pointer-events: none;
-}
 .focus-aznavour section .sample {
   width: 40vw;
   height: 40vh;
@@ -940,20 +933,6 @@ html, body {
   transform: translateX(-2px) rotate(-15deg) !important;
 }
 .focus-aznavour section .sample.santiago .title {
-  left: -7vw;
-  top: -1vh;
-}
-.focus-aznavour section .sample.crawley {
-  background-image: url("/04_sample.09acdd58.png");
-  width: 50vw;
-  left: 20vw;
-  top: 40vh;
-  height: 45vh;
-}
-.focus-aznavour section .sample.crawley.played {
-  transform: translateX(-2px) rotate(-15deg) !important;
-}
-.focus-aznavour section .sample.crawley .title {
   left: -7vw;
   top: -1vh;
 }
@@ -999,19 +978,6 @@ html, body {
   top: 39vh;
 }
 .focus-aznavour section .original.santiago.played {
-  transform: translateX(160px) rotate(-3deg) !important;
-}
-.focus-aznavour section .original.crawley {
-  background-image: url("/04_original.645e3504.png");
-  width: 47vw;
-  left: 40vw;
-  height: 50vh;
-}
-.focus-aznavour section .original.crawley .title {
-  left: 23vw;
-  top: 39vh;
-}
-.focus-aznavour section .original.crawley.played {
   transform: translateX(160px) rotate(-3deg) !important;
 }
 .focus-aznavour section .original .title {
@@ -1306,14 +1272,17 @@ html, body {
 @keyframes removeIntro {
   0% {
     transform: translateY(0);
+    opacity: 1;
   }
   99% {
     transform: translateY(-100vh);
+    opacity: 0;
   }
   100% {
     transform: translateY(-100vh);
     pointer-events: none;
     visibility: hidden;
+    opacity: 0;
   }
 }
 .intro_timeline {
@@ -1408,7 +1377,7 @@ html, body {
   top: 45px;
   left: 50px;
   width: 120px;
-  z-index: 999;
+  z-index: 99999;
 }
 
 .push-cab {
@@ -1417,7 +1386,7 @@ html, body {
   right: 50px;
   height: 120px;
   width: 120px;
-  z-index: 999;
+  z-index: 99999;
 }
 .push-cab .text-container {
   position: absolute;

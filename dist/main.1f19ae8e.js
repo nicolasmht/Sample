@@ -101486,6 +101486,10 @@ function Component(scene) {
     ele.addEventListener('mousedown', mouseDownHandler);
   };
 
+  this.stop = function () {
+    sound.stop();
+  };
+
   this.update = function (time) {};
 
   this.helpers = function (gui) {};
@@ -102733,7 +102737,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             transparent: true,
             opacity: 0.08
           });
-        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1" || child.name == "Plane2" || child.name == "carte_dessus" || child.name == "Cube_4") {
+        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1" || child.name == "Plane2" || child.name == "carte_dessus" || child.name == "Cube_4" || child.name == "paquet") {
           if (child.name != "child.material" || child.name == "herbier-herbier") return;
           child.material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
@@ -102942,7 +102946,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   };
 
   var onClose = function onClose(callback) {
-    discover.addEventListener('click', callback, false);
     document.querySelector('.push-cab').addEventListener('click', function () {
       infos.classList.remove('visible');
       infos.classList.remove('full');
@@ -102951,7 +102954,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       sound.play();
       setTimeout(function () {
         reset();
-      }, 2000);
+      }, 500);
       callback();
     });
   }; // FOCUS
@@ -102977,11 +102980,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   // daftFocus.start();
 
   function onClick(target, item, callback) {
-    reset(); // Assign content to info container
-
+    // Assign content to info container
     document.querySelector('.title-infos').innerText = item.title;
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
     document.querySelector('.description-infos').innerHTML = item.description;
+    reset();
 
     var animate = _gsap.TweenLite.to(camera.position, 3, {
       x: target.position.x,
@@ -103939,7 +103942,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62575" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56804" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

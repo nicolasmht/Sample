@@ -121,7 +121,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     child.name == "cordes_1" ||
                     child.name == "Plane2" ||
                     child.name == "carte_dessus" ||
-                    child.name == "Cube_4"
+                    child.name == "Cube_4" ||
+                    child.name == "paquet"
                 ) {
 
                     if (child.name != "child.material" || child.name == "herbier-herbier") return;
@@ -314,8 +315,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }
 
     const onClose = (callback) => {
-
-        discover.addEventListener('click', callback, false);
         document.querySelector('.push-cab').addEventListener('click', function() {
             infos.classList.remove('visible');
             infos.classList.remove('full');
@@ -326,7 +325,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             setTimeout(() => {
                 reset();
-            }, 2000);
+            }, 500);
 
             callback();
         });
@@ -356,12 +355,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     
     function onClick (target, item, callback) {
 
-        reset();
-
         // Assign content to info container
         document.querySelector('.title-infos').innerText = item.title;
         document.querySelector('.subTitle-infos').innerText = item.subTitle;
         document.querySelector('.description-infos').innerHTML = item.description;
+
+        reset();
 
         const animate = TweenLite.to(camera.position, 3, {
             x: target.position.x,

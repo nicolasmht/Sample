@@ -191,7 +191,7 @@ html, body {
     width: 100vw;
     height: 100vh;
     transform: translateX(100vw);
-    transition: transform 2s;
+    transition: transform 0.5s ease-in-out;
     z-index: 10000;
     overflow: hidden;
 
@@ -203,7 +203,7 @@ html, body {
       position: absolute;
       top: 0; left: 0;
       z-index: 1;
-      transition: opacity 3s;
+      transition: opacity 3s ease-in-out;
       display: none;
     }
     
@@ -234,15 +234,15 @@ html, body {
     z-index: 999;
 
     transform: translateX(100%);
-    transition: all 2s;
+    transition: all 0.5s ease-in-out;
 
     &.visible {
-        transition: all 0.3s;
+        transition: all 0.3s ease-in-out;
         transform: translateX(0);
     }
 
     &.full {
-        transition: all 2s;
+        transition: all 0.5s ease-in-out;
         transform: translateX(-100vw);
     }
 
@@ -1043,14 +1043,6 @@ section {
     &#ile4 {
         transform: translate(100%, 100%);
         background-color: pink;
-
-        .city {
-          width: 20vw;
-          position: absolute;
-          top: 13vh;
-          left: 50vw;
-          pointer-events: none;
-      }
     }
 
     .sample {
@@ -1093,23 +1085,6 @@ section {
                 top: -1vh;
             }
         }
-
-        &.crawley {
-          background-image: url('../assets/aznavour/04_sample.png');
-          width: 50vw;
-          left: 20vw;
-          top: 40vh;
-          height: 45vh;
-
-          &.played {
-              transform: translateX(-2px) rotate(-15deg) !important;
-          }
-
-          .title {
-              left: -7vw;
-              top: -1vh;
-          }
-      }
 
         .title {
             max-width: 14vw;
@@ -1162,24 +1137,6 @@ section {
                 transform: translateX(160px) rotate(-3deg) !important;
             }
         }
-
-        &.crawley {
-          background-image: url('../assets/aznavour/04_original.png');
-          width: 47vw;
-          left: 40vw;
-          height: 50vh;
-
-          .title {
-              left: 23vw;
-              top: 39vh;
-          }
-
-          &.played {
-              transform: translateX(160px) rotate(-3deg) !important;
-          }
-      }
-
-        
 
 
 
@@ -1497,9 +1454,9 @@ section {
 }
 
 @keyframes removeIntro {
-  0% { transform: translateY(0); }
-  99% { transform: translateY(-100vh);} 
-  100% {transform: translateY(-100vh); pointer-events: none; visibility: hidden;}
+  0% { transform: translateY(0); opacity: 1; }
+  99% { transform: translateY(-100vh); opacity: 0; } 
+  100% {transform: translateY(-100vh); pointer-events: none; visibility: hidden; opacity: 0; }
 }
 
 //INTRO TIMELINE
@@ -1595,7 +1552,7 @@ section {
   top: 45px;
   left: 50px;
   width: 120px;
-  z-index: 999;
+  z-index: 99999;
 }
 
 .push-cab {
@@ -1604,7 +1561,7 @@ section {
   right: 50px;
   height: 120px;
   width: 120px;
-  z-index: 999;
+  z-index: 99999;
   .text-container {
     position: absolute;
     top: 2px;
