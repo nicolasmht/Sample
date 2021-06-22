@@ -40,6 +40,14 @@ html, body {
   transform: translate(-50%, 100%);
   transition: transform 400ms;
 
+  >div {
+    width: 80%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    transform: translateX(12%);
+  }
+
   &.show {
     transform: translate(-50%, 50%);
     transition: transform 400ms;
@@ -52,6 +60,10 @@ html, body {
   @keyframes rotate {
     0% {transform: translate(-50%, 50%) rotateZ(0deg)}
     100% {transform: translate(-50%, 50%) rotateZ(360deg)}
+  }
+
+  h2, h3, h4 {
+    white-space: nowrap;
   }
 
   h2 {
@@ -78,6 +90,15 @@ html, body {
     font-family: 'biotif-l';
     color: #EBD3BA;
 
+    &.long {
+      animation: toTheMars 5s linear infinite;
+    }
+
+  }
+
+  @keyframes toTheMars {
+    0% {transform: translateX(100%)}
+    100% { transform: translateX(-120%)}
   }
 
   h4 {

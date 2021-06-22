@@ -100942,7 +100942,15 @@ var Player = /*#__PURE__*/function () {
 
       this.sound = sound; // Animate the vinyle
 
-      this.disc.classList.add('rotate'); // Affichage du titre
+      this.disc.classList.add('rotate');
+      console.log(this.title.length);
+
+      if (this.sound.title.length > 13) {
+        this.title.classList.add('long');
+      } else {
+        this.title.classList.remove('long');
+      } // Affichage du titre
+
 
       setTimeout(function () {
         var _this$sound, _this$sound2, _this$sound3;
@@ -103932,7 +103940,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "62468" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56107" + '/');
+>>>>>>> 5f14419e80c2442fc8f7193e318fcdeed11f1f07
 
   ws.onmessage = function (event) {
     checkedAssets = {};

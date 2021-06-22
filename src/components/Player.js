@@ -25,18 +25,25 @@ export default class Player {
         // Animate the vinyle
         this.disc.classList.add('rotate');
 
+        console.log(this.title.length)
+        if(this.sound.title.length > 13) {
+            this.title.classList.add('long');
+        } else {
+            this.title.classList.remove('long');
+        }
+
         // Affichage du titre
         setTimeout(() => {
 
 
             // Edit the artist of vinyle
-
             this.artist.innerText = this.sound?.artist;
-              // Edit the title of vinyle
-              this.title.innerText = this.sound?.title;
+            
+            // Edit the title of vinyle
+            this.title.innerText = this.sound?.title;
   
-              // Edit the date of the vinyle
-             this.date.innerText = this.sound?.date;
+            // Edit the date of the vinyle
+            this.date.innerText = this.sound?.date;
 
         }, 600);
 
