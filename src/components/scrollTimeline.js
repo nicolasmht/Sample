@@ -277,11 +277,14 @@ function ScrollTimeline(scene, camera) {
 
 
         //PLAY SOUND AND CHANGE TEXTURE
-        .add(()=> { //console.log('Step 1 t:1')
+        .add(()=> { console.log('Step 1 t:1')
             if(isBack && isNotPlaying) {
                 switchSound(soundA, soundB)
                 switchSoundText('1948','Pierre Schaeffer','Études de bruits','1948','Pierre Schaeffer','Études aux chemins de fer')
                 isNotPlaying = false
+            } else {
+                sound01.play();
+                sound02.play();
             }
         },1) // STEP 1
         .add(()=> { //console.log('Step 2 t:1.75')
@@ -418,8 +421,8 @@ function ScrollTimeline(scene, camera) {
         document.querySelector('.begin-btn').addEventListener('click',()=>{
             document.querySelector('.intro_timeline').classList.add('remove-intro')
             document.querySelector('.intro_timeline-part1').classList.add('remove-intro')
-            sound01.play();
-            sound02.play();
+            // sound01.play();
+            // sound02.play();
         })
 
         let sliderPos;

@@ -95823,11 +95823,15 @@ function ScrollTimeline(scene, camera) {
     }, 6) //rotation cassette sur elle meme
     //PLAY SOUND AND CHANGE TEXTURE
     .add(function () {
-      //console.log('Step 1 t:1')
+      console.log('Step 1 t:1');
+
       if (isBack && isNotPlaying) {
         switchSound(_sound.default, _sound2.default);
         switchSoundText('1948', 'Pierre Schaeffer', 'Études de bruits', '1948', 'Pierre Schaeffer', 'Études aux chemins de fer');
         isNotPlaying = false;
+      } else {
+        sound01.play();
+        sound02.play();
       }
     }, 1) // STEP 1
     .add(function () {
@@ -96040,9 +96044,8 @@ function ScrollTimeline(scene, camera) {
   function initSlider() {
     document.querySelector('.begin-btn').addEventListener('click', function () {
       document.querySelector('.intro_timeline').classList.add('remove-intro');
-      document.querySelector('.intro_timeline-part1').classList.add('remove-intro');
-      sound01.play();
-      sound02.play();
+      document.querySelector('.intro_timeline-part1').classList.add('remove-intro'); // sound01.play();
+      // sound02.play();
     });
     var sliderPos;
     var currentPos = 0;
@@ -99714,16 +99717,16 @@ module.exports = "/RFL.8aab60d0.mp3";
 module.exports = "/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.403841be.mp3";
 },{}],"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":[function(require,module,exports) {
 module.exports = "/01-2_Daft_Punk_Da_Funk.cb1af04a.mp3";
-},{}],"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":[function(require,module,exports) {
-module.exports = "/02_Sister_sledge_Il-macquillage-lady.602fc4f6.mp3";
+},{}],"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":[function(require,module,exports) {
+module.exports = "/04_The_Sherbs_We_Ride_Tonight.c0c5eba1.mp3";
 },{}],"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":[function(require,module,exports) {
 module.exports = "/02-2_Daft_Punk_Aerodynamic.de253640.mp3";
 },{}],"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":[function(require,module,exports) {
 module.exports = "/03_Daft_Punk_Voyager.ff56375b.mp3";
 },{}],"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":[function(require,module,exports) {
 module.exports = "/03-2_Daft_Punk_Technologic.4313073f.mp3";
-},{}],"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":[function(require,module,exports) {
-module.exports = "/04_The_Sherbs_We_Ride_Tonight.c0c5eba1.mp3";
+},{}],"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":[function(require,module,exports) {
+module.exports = "/02_Sister_sledge_Il-macquillage-lady.602fc4f6.mp3";
 },{}],"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":[function(require,module,exports) {
 module.exports = "/04-2_Daft_Punk_Contact.b49946a9.mp3";
 },{}],"components/Player.js":[function(require,module,exports) {
@@ -99844,7 +99847,7 @@ var _Barry_White_imGonnaLoveYouJustALittleMoreBaby = _interopRequireDefault(requ
 
 var _Daft_Punk_Da_Funk = _interopRequireDefault(require("../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3"));
 
-var _Sister_sledge_IlMacquillageLady = _interopRequireDefault(require("../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3"));
+var _The_Sherbs_We_Ride_Tonight = _interopRequireDefault(require("../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3"));
 
 var _Daft_Punk_Aerodynamic = _interopRequireDefault(require("../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3"));
 
@@ -99852,7 +99855,7 @@ var _Daft_Punk_Voyager = _interopRequireDefault(require("../audios/focus/daftPun
 
 var _Daft_Punk_Technologic = _interopRequireDefault(require("../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3"));
 
-var _The_Sherbs_We_Ride_Tonight = _interopRequireDefault(require("../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3"));
+var _Sister_sledge_IlMacquillageLady = _interopRequireDefault(require("../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3"));
 
 var _Daft_Punk_Contact = _interopRequireDefault(require("../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3"));
 
@@ -99865,6 +99868,13 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // Object
+//Piano
+//dog
+//moto
+// soucoupe
+//hand
+//Poudrier
+//talkie
 function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   var player = null; //AUDIO ANALYSER
 
@@ -99872,16 +99882,16 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
   var analyser = context.createAnalyser();
   var frequencyData = new Uint8Array(analyser.frequencyBinCount);
-  var arraySound = [_Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, _Sister_sledge_IlMacquillageLady.default, _Daft_Punk_Voyager.default, _The_Sherbs_We_Ride_Tonight.default];
+  var arraySound = [_Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, _The_Sherbs_We_Ride_Tonight.default, _Daft_Punk_Voyager.default, _Sister_sledge_IlMacquillageLady.default];
   var baseSound = 0;
   var container = document.querySelector('.focus-daftpunk');
   var isStart = false;
   var ambiantSound1 = new _soundAnalyser.default(context, _Barry_White_imGonnaLoveYouJustALittleMoreBaby.default, analyser, function (th) {
     /*th.play()*/
   });
-  var ambiantSound2 = new _soundAnalyser.default(context, _Sister_sledge_IlMacquillageLady.default, analyser, function () {});
+  var ambiantSound2 = new _soundAnalyser.default(context, _The_Sherbs_We_Ride_Tonight.default, analyser, function () {});
   var ambiantSound3 = new _soundAnalyser.default(context, _Daft_Punk_Voyager.default, analyser, function () {});
-  var ambiantSound4 = new _soundAnalyser.default(context, _The_Sherbs_We_Ride_Tonight.default, analyser, function () {});
+  var ambiantSound4 = new _soundAnalyser.default(context, _Sister_sledge_IlMacquillageLady.default, analyser, function () {});
   var winScreen = document.querySelector('.focus-daftpunk .win'); //SCENE
 
   var scene = new THREE.Scene();
@@ -100049,21 +100059,41 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
           switch (faceTarget) {
             case 'haut':
-              //Dog
-              if (ambiantSound = 1) {
-                ambiantSound4.upVolume();
-              }
-
-              if (ambiantSound = 2) {
+              //Top pyramid
+              if (ambiantSound == 1) {
                 ambiantSound1.upVolume();
+                player.playSound({
+                  title: 'Im gonna love you just a little more baby',
+                  artist: 'Barry White',
+                  date: '1973'
+                }); //0101
               }
 
-              if (ambiantSound = 3) {
+              if (ambiantSound == 2) {
                 ambiantSound2.upVolume();
+                player.playSound({
+                  title: 'We Ride Tonight',
+                  artist: 'The Sherbs',
+                  date: '1972'
+                }); //0401
               }
 
-              if (ambiantSound = 4) {
+              if (ambiantSound == 3) {
                 ambiantSound3.upVolume();
+                player.playSound({
+                  title: 'Voyager',
+                  artist: 'Daft Punk',
+                  date: '2001'
+                }); //0301
+              }
+
+              if (ambiantSound == 4) {
+                ambiantSound4.upVolume();
+                player.playSound({
+                  title: 'Il Macquillage lady',
+                  artist: 'Sister sledge ',
+                  date: '1982'
+                }); //0201
               }
 
               break;
@@ -100078,20 +100108,20 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                 date: '1995'
               }); //0102
 
-              if (ambiantSound = 1) {
-                ambiantSound4.stop();
-              }
-
-              if (ambiantSound = 2) {
+              if (ambiantSound == 1) {
                 ambiantSound1.stop();
               }
 
-              if (ambiantSound = 3) {
+              if (ambiantSound == 2) {
                 ambiantSound2.stop();
               }
 
-              if (ambiantSound = 4) {
+              if (ambiantSound == 3) {
                 ambiantSound3.stop();
+              }
+
+              if (ambiantSound == 4) {
+                ambiantSound4.stop();
               }
 
               break;
@@ -100106,20 +100136,20 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                 date: '2001'
               }); //0202
 
-              if (ambiantSound = 1) {
-                ambiantSound4.stop();
-              }
-
-              if (ambiantSound = 2) {
+              if (ambiantSound == 1) {
                 ambiantSound1.stop();
               }
 
-              if (ambiantSound = 3) {
+              if (ambiantSound == 2) {
                 ambiantSound2.stop();
               }
 
-              if (ambiantSound = 4) {
+              if (ambiantSound == 3) {
                 ambiantSound3.stop();
+              }
+
+              if (ambiantSound == 4) {
+                ambiantSound4.stop();
               }
 
               break;
@@ -100134,20 +100164,20 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                 date: '2007'
               }); //0302
 
-              if (ambiantSound = 1) {
-                ambiantSound4.stop();
-              }
-
-              if (ambiantSound = 2) {
+              if (ambiantSound == 1) {
                 ambiantSound1.stop();
               }
 
-              if (ambiantSound = 3) {
+              if (ambiantSound == 2) {
                 ambiantSound2.stop();
               }
 
-              if (ambiantSound = 4) {
+              if (ambiantSound == 3) {
                 ambiantSound3.stop();
+              }
+
+              if (ambiantSound == 4) {
+                ambiantSound4.stop();
               }
 
               break;
@@ -100162,20 +100192,20 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                 date: '2013'
               }); //0402
 
-              if (ambiantSound = 1) {
-                ambiantSound4.stop();
-              }
-
-              if (ambiantSound = 2) {
+              if (ambiantSound == 1) {
                 ambiantSound1.stop();
               }
 
-              if (ambiantSound = 3) {
+              if (ambiantSound == 2) {
                 ambiantSound2.stop();
               }
 
-              if (ambiantSound = 4) {
+              if (ambiantSound == 3) {
                 ambiantSound3.stop();
+              }
+
+              if (ambiantSound == 4) {
+                ambiantSound4.stop();
               }
 
               break;
@@ -100346,10 +100376,10 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                 ambiantSound2.play();
                 ambiantSound2.upVolume();
                 player.playSound({
-                  title: 'Il Macquillage lady',
-                  artist: 'Sister sledge ',
-                  date: '1982'
-                }); //0201
+                  title: 'We Ride Tonight',
+                  artist: 'The Sherbs',
+                  date: '1972'
+                }); //0401
 
                 ambiantSound = 2;
               }, 200);
@@ -100384,10 +100414,10 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                 ambiantSound4.play();
                 ambiantSound4.upVolume();
                 player.playSound({
-                  title: 'We Ride Tonight',
-                  artist: 'The Sherbs',
-                  date: '1972'
-                }); //0401
+                  title: 'Il Macquillage lady',
+                  artist: 'Sister sledge ',
+                  date: '1982'
+                }); //0201
 
                 ambiantSound = 4;
               }, 200);
@@ -100513,7 +100543,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
 var _default = DaftPunk;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","interpolate-range":"../node_modules/interpolate-range/bundle.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3","./Player":"components/Player.js"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/objects/Reflector":"../node_modules/three/examples/jsm/objects/Reflector.js","gsap":"../node_modules/gsap/index.js","howler":"../node_modules/howler/dist/howler.js","postprocessing":"../node_modules/postprocessing/build/postprocessing.esm.js","../utils/soundAnalyser":"utils/soundAnalyser.js","three.interactive":"../node_modules/three.interactive/build/three.interactive.module.js","interpolate-range":"../node_modules/interpolate-range/bundle.js","../objects/focus_daft-punk_texture.gltf":"objects/focus_daft-punk_texture.gltf","../objects/focus_daft-punk_cadrillage.gltf":"objects/focus_daft-punk_cadrillage.gltf","../textures/mist2.jpg":"textures/mist2.jpg","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3","../audios/RFL.mp3":"audios/RFL.mp3","../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3":"audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3","../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3":"audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3","../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3":"audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3","../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3":"audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3","../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3":"audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3","../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3":"audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3","../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3":"audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3","../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3":"audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3","./Player":"components/Player.js"}],"../node_modules/three/examples/jsm/loaders/DRACOLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -104260,7 +104290,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59952" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61559" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

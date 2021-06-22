@@ -15,14 +15,14 @@ import mistTexture from '../textures/mist2.jpg';
 import sound1 from '../audios/tundra-beats.mp3';
 import sound2 from '../audios/RFL.mp3';
 
-import sound0101 from '../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3';
-import sound0102 from '../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3';
-import sound0201 from '../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3';
-import sound0202 from '../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3';
+import sound0101 from '../audios/focus/daftPunk/01_Barry_White_im-gonna-love-you-just-a-little-more-baby.mp3';//Piano
+import sound0102 from '../audios/focus/daftPunk/01-2_Daft_Punk_Da_Funk.mp3';//dog
+import sound0201 from '../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3';//moto
+import sound0202 from '../audios/focus/daftPunk/02-2_Daft_Punk_Aerodynamic.mp3';// soucoupe
 import sound0301 from '../audios/focus/daftPunk/03_Daft_Punk_Voyager.mp3';
-import sound0302 from '../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3';
-import sound0401 from '../audios/focus/daftPunk/04_The_Sherbs_We_Ride_Tonight.mp3';
-import sound0402 from '../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3';
+import sound0302 from '../audios/focus/daftPunk/03-2_Daft_Punk_Technologic.mp3';//hand
+import sound0401 from '../audios/focus/daftPunk/02_Sister_sledge_Il-macquillage-lady.mp3';//Poudrier
+import sound0402 from '../audios/focus/daftPunk/04-2_Daft_Punk_Contact.mp3';//talkie
 import Player from './Player';
 
 function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
@@ -232,47 +232,59 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                     soundC.stop()
                     soundD.stop()
                     switch (faceTarget) {
-                        case 'haut': //Dog
-                            if(ambiantSound = 1) { ambiantSound4.upVolume(); }
-                            if(ambiantSound = 2) { ambiantSound1.upVolume(); }
-                            if(ambiantSound = 3) { ambiantSound2.upVolume(); }
-                            if(ambiantSound = 4) { ambiantSound3.upVolume(); }
+                        case 'haut': //Top pyramid
+                            if(ambiantSound == 1) { 
+                                ambiantSound1.upVolume(); 
+                                player.playSound({title: 'Im gonna love you just a little more baby', artist: 'Barry White', date: '1973'})//0101
+                            }
+                            if(ambiantSound == 2) { 
+                                ambiantSound2.upVolume(); 
+                                player.playSound({title: 'We Ride Tonight', artist: 'The Sherbs', date: '1972'})//0401
+                            }
+                            if(ambiantSound == 3) { 
+                                ambiantSound3.upVolume(); 
+                                player.playSound({title: 'Voyager', artist: 'Daft Punk', date: '2001'})//0301
+                            }
+                            if(ambiantSound == 4) { 
+                                ambiantSound4.upVolume(); 
+                                player.playSound({title: 'Il Macquillage lady', artist: 'Sister sledge ', date: '1982'})//0201
+                            }
                             break;
                         case 'Pyramid_bas_1': //Dog
                                 // console.log('Face 1: Dog')
                                 soundA.play();
                                 player.playSound({title: 'Da Funk', artist: 'Daft Punk', date: '1995'})//0102
-                                if(ambiantSound = 1) { ambiantSound4.stop(); }
-                                if(ambiantSound = 2) { ambiantSound1.stop(); }
-                                if(ambiantSound = 3) { ambiantSound2.stop(); }
-                                if(ambiantSound = 4) { ambiantSound3.stop(); }
+                                if(ambiantSound == 1) { ambiantSound1.stop(); }
+                                if(ambiantSound == 2) { ambiantSound2.stop(); }
+                                if(ambiantSound == 3) { ambiantSound3.stop(); }
+                                if(ambiantSound == 4) { ambiantSound4.stop(); }
                             break;
                         case 'Pyramid_bas2': //Spatial
                                 // console.log('Face 2: SPatial')
                                 soundB.play();
                                 player.playSound({title: 'Aerodynamic', artist: 'Daft Punk', date: '2001'})//0202
-                                if(ambiantSound = 1) { ambiantSound4.stop(); }
-                                if(ambiantSound = 2) { ambiantSound1.stop(); }
-                                if(ambiantSound = 3) { ambiantSound2.stop(); }
-                                if(ambiantSound = 4) { ambiantSound3.stop(); }
+                                if(ambiantSound == 1) { ambiantSound1.stop(); }
+                                if(ambiantSound == 2) { ambiantSound2.stop(); }
+                                if(ambiantSound == 3) { ambiantSound3.stop(); }
+                                if(ambiantSound == 4) { ambiantSound4.stop(); }
                             break;
                         case 'Pyramid_bas3': //Hand
                                 // console.log('Face 3: Hand')
                                 soundC.play();
                                 player.playSound({title: 'Touch it / Technologic (Alive 2007)', artist: 'Daft Punk', date: '2007'})//0302
-                                if(ambiantSound = 1) { ambiantSound4.stop(); }
-                                if(ambiantSound = 2) { ambiantSound1.stop(); }
-                                if(ambiantSound = 3) { ambiantSound2.stop(); }
-                                if(ambiantSound = 4) { ambiantSound3.stop(); }
+                                if(ambiantSound == 1) { ambiantSound1.stop(); }
+                                if(ambiantSound == 2) { ambiantSound2.stop(); }
+                                if(ambiantSound == 3) { ambiantSound3.stop(); }
+                                if(ambiantSound == 4) { ambiantSound4.stop(); }
                             break;
                         case 'Pyramid_bas4': //Phone
                                 // console.log('Face 4: Phone')
                                 soundD.play();
                                 player.playSound({title: 'Contact', artist: 'Daft Punk', date: '2013'})//0402
-                                if(ambiantSound = 1) { ambiantSound4.stop(); }
-                                if(ambiantSound = 2) { ambiantSound1.stop(); }
-                                if(ambiantSound = 3) { ambiantSound2.stop(); }
-                                if(ambiantSound = 4) { ambiantSound3.stop(); }
+                                if(ambiantSound == 1) { ambiantSound1.stop(); }
+                                if(ambiantSound == 2) { ambiantSound2.stop(); }
+                                if(ambiantSound == 3) { ambiantSound3.stop(); }
+                                if(ambiantSound == 4) { ambiantSound4.stop(); }
                             break;
                         default:
                             break;
@@ -394,7 +406,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                                         setTimeout(()=>{
                                             ambiantSound2.play();
                                             ambiantSound2.upVolume();
-                                            player.playSound({title: 'Il Macquillage lady', artist: 'Sister sledge ', date: '1982'})//0201
+                                            player.playSound({title: 'We Ride Tonight', artist: 'The Sherbs', date: '1972'})//0401
                                             ambiantSound = 2;
                                         },200)
                                     break;
@@ -420,7 +432,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
                                         setTimeout(()=>{
                                             ambiantSound4.play();
                                             ambiantSound4.upVolume();
-                                            player.playSound({title: 'We Ride Tonight', artist: 'The Sherbs', date: '1972'})//0401
+                                            player.playSound({title: 'Il Macquillage lady', artist: 'Sister sledge ', date: '1982'})//0201
                                             ambiantSound = 4;
                                         },200)
                                     break;
