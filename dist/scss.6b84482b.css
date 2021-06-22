@@ -657,12 +657,14 @@ body {
 }
 .focus-polo #layer-2 .pin {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 60px;
   border-radius: 100%;
-  background-color: white;
   cursor: pointer;
   pointer-events: all;
+  background-image: url("/pin_polo.47e87899.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .focus-polo #layer-2 .pin#sirene {
   top: 50vh;
@@ -700,12 +702,14 @@ body {
 }
 .focus-polo #layer-3 .pin {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 60px;
   border-radius: 100%;
-  background-color: white;
   cursor: pointer;
   pointer-events: all;
+  background-image: url("/pin_polo.47e87899.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .focus-polo #layer-3 .pin#papillon {
   top: 68vh;
@@ -731,12 +735,14 @@ body {
 }
 .focus-polo #layer-4 .pin {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 60px;
   border-radius: 100%;
-  background-color: white;
   cursor: pointer;
   pointer-events: all;
+  background-image: url("/pin_polo.47e87899.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .focus-polo #layer-4 .pin#poisson {
   top: 10vh;

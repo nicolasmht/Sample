@@ -782,12 +782,14 @@ body {
 
     .pin {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 100px;
+      height: 60px;
       border-radius: 100%;
-      background-color: white;
       cursor: pointer;
       pointer-events: all;
+      background-image: url('../assets/polo/pin_polo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
 
       &#sirene {
         top: 50vh;
@@ -832,12 +834,14 @@ body {
 
     .pin {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 100px;
+      height: 60px;
       border-radius: 100%;
-      background-color: white;
       cursor: pointer;
       pointer-events: all;
+      background-image: url('../assets/polo/pin_polo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
 
       &#papillon {
         top: 68vh;
@@ -867,13 +871,15 @@ body {
 
     .pin {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 100px;
+      height: 60px;
       border-radius: 100%;
-      background-color: white;
       cursor: pointer;
       pointer-events: all;
-
+      background-image: url('../assets/polo/pin_polo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      
     &#poisson {
       top: 10vh;
       left: 20vw;
