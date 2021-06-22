@@ -29,7 +29,7 @@
             <p class="part1-text">Get on board to discover the univers of sampling</br>music & go over some iconic tracks!</p>
             <img class="part1-sound" src="./images/intro/son.gif" alt="sound img"/>
             <p class="part1-text">Turn the sound on</p>
-            <div class="begin-btn">hola</div>
+            <div class="begin-btn"></div>
         </div>
     </div>
 
@@ -44,6 +44,14 @@
         </div> -->
 
         <!-- <canvas class="tear-canvas" width="427" height="240" style="border-style:solid;">Canvas non supportee</canvas>  -->
+
+        <div class="push-cab">
+            <div class="text-container dig"><!-- text -->
+            </div>
+            <div class="circle-container"><!-- circle background to scale -->
+                <img class="cirlce-img" src="./images/PushCab/Push_Cabinet_Contours.png" alt="Img vynile"><!-- img -->
+            </div>
+        </div>
 
         <!-- SLIDER -->
         <div class="cont_slider">
@@ -318,7 +326,9 @@
 
             <div id="sun" class="cursor-drag"></div>
 
-            <section id="layer-4"></section>
+            <section id="layer-4">
+                    <div class="pin" id="poisson"></div>
+            </section>
 
             <section id="layer-3">
                 <div class="pin" id="papillon"></div>
@@ -327,7 +337,6 @@
 
             <section id="layer-2">
                 <div class="pin" id="sirene"></div>
-                <!-- <div class="pin" id="poisson"></div> -->
                 <div class="pin" id="main"></div>
             </section>
             
@@ -407,6 +416,8 @@
     <div id="cursor">
         <div class="actions"></div>
     </div>
+
+    <img src="./images/intro/intro_logo.png" class="logo-cabinet">
 
     <script src="./main.js"></script>
     <script src="./utils/parallax.js" defer></script>

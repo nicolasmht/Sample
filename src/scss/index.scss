@@ -425,7 +425,7 @@ body {
 
   .spacebar {
     position: fixed;
-    bottom: 6%;
+    bottom: 16%;
     left: 50%;
     transform: translate(-50%, 0px);
     width: 330px;
@@ -782,12 +782,14 @@ body {
 
     .pin {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 100px;
+      height: 60px;
       border-radius: 100%;
-      background-color: white;
       cursor: pointer;
       pointer-events: all;
+      background-image: url('../assets/polo/pin_polo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
 
       &#sirene {
         top: 50vh;
@@ -832,12 +834,14 @@ body {
 
     .pin {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 100px;
+      height: 60px;
       border-radius: 100%;
-      background-color: white;
       cursor: pointer;
       pointer-events: all;
+      background-image: url('../assets/polo/pin_polo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
 
       &#papillon {
         top: 68vh;
@@ -864,6 +868,23 @@ body {
     transform: translate(-50%, -50%);
     transition: filter 0.8s ease-in-out;
     pointer-events: none;
+
+    .pin {
+      position: absolute;
+      width: 100px;
+      height: 60px;
+      border-radius: 100%;
+      cursor: pointer;
+      pointer-events: all;
+      background-image: url('../assets/polo/pin_polo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      
+    &#poisson {
+      top: 10vh;
+      left: 20vw;
+    }
+  }
   }
 }
 
@@ -1766,17 +1787,29 @@ body {
   height: 120px;
   width: 120px;
   z-index: 99999;
+
   .text-container {
     position: absolute;
     top: 2px;
     left: 2px;
     height: 116px;
     width: 116px;
-    background: url('../images/PushCab/Back_Txt_Beige.png');
+    background-image: url('../images/PushCab/Back_Txt.png');
     background-size: contain;
+    background-position: center center;
     animation: rotation 5s linear infinite;
+    
     &.black {
       filter: invert(1) contrast(2);
+    }
+
+    &.beige {
+      background-image: url('../images/PushCab/Back_Txt_Beige.png')!important;
+    }
+
+    &.dig{
+      background-image: url('../images/PushCab/Dig_txt.png')!important;
+      background-size: contain;
     }
   }
   .circle-container {
@@ -1824,4 +1857,11 @@ body {
 @keyframes rotation {
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
+}
+
+.logo-cabinet{
+  position: fixed;
+  top: 50px; left: 50px;
+  width: 160px;
+  z-index: 999;
 }

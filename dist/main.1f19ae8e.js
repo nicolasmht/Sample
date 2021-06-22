@@ -101001,13 +101001,19 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _gsap = require("gsap");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene, camera) {
   // Video
-  var video = document.querySelector('video'); // Spacebar
+  var video = document.querySelector('video'); //  Vinyle
+
+  var player = null; // Spacebar
 
   var spacebar = document.querySelector('.focus-renaud .spacebar'); // Sounds
 
@@ -101118,7 +101124,8 @@ function Component(scene, camera) {
   var spaceDown = false;
   var spaceUp = false;
   var timer = 0;
-  var currentImage = 0; // Le temps de l'effet
+  var currentImage = 0;
+  var renaudPlayed = true; // Le temps de l'effet
 
   var DURATION = 50;
   var videoFrames = null; // Interval
@@ -101126,8 +101133,26 @@ function Component(scene, camera) {
   intervalID = setInterval(function () {
     if (spaceDown && timer < DURATION) {
       timer++ * .05;
+
+      if (renaudPlayed) {
+        renaudPlayed = false;
+        player.playSound({
+          title: 'Pitbull',
+          date: '2006',
+          artist: 'Booba'
+        });
+      }
     } else if (!spaceDown && timer > 0) {
       timer-- * .05;
+
+      if (!renaudPlayed) {
+        renaudPlayed = true;
+        player.playSound({
+          title: 'Mistral Gagnat',
+          date: '1985',
+          artist: 'Renaud'
+        });
+      }
     }
 
     if (spaceDown && currentImage < videoFrames.length - 1) {
@@ -101187,6 +101212,12 @@ function Component(scene, camera) {
   this.mousemove = function (e) {};
 
   this.start = function () {
+    player = new _Player.default();
+    player.playSound({
+      title: 'Mistral Gagnat',
+      date: '1985',
+      artist: 'Renaud'
+    });
     setTimeout(function () {
       spacebar.classList.add('show');
     }, 4000);
@@ -101195,6 +101226,9 @@ function Component(scene, camera) {
   };
 
   this.stop = function () {
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     renaud.stop();
     booba.stop();
   };
@@ -101202,7 +101236,7 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","./Player":"components/Player.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
 module.exports = "/Chopin_Prelude.9d4786e9.mp3";
 },{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
 module.exports = "/jtm.7f7ef207.mp3";
@@ -102209,33 +102243,27 @@ function Component(scene) {
     // Sound 1 - volume on 0 for fade the song at the start
     var sunsetSound = new Howl({
       src: [sunset.path],
-      volume: 0,
-      sprite: {
-        sample: [sunset.start ? sunset.start : 0, 30000]
-      }
+      volume: 0
     }); // Sound 2
 
     var sunshineSound = new Howl({
       src: [sunshine.path],
-      volume: 0,
-      sprite: {
-        sample: [sunset.start ? sunset.start : 0, 30000]
-      }
+      volume: 0
     });
     var isPlayed = false; // When the pin is hover by the mouse
 
     pin.addEventListener('mouseover', function () {
       // Play sound 1 if the sun is up
       if (sunIsUp && !isPlayed) {
-        if (currentSound != sunshineSound) player.playSound(sunshine);
-        currentSound = sunshineSound;
-        sunshineSound.play('sample');
+        if (currentSound != sunsetSound) player.playSound(sunset);
+        currentSound = sunsetSound;
+        sunsetSound.play();
         currentSound.fade(0, 1, 500);
         isPlayed = true; // Play sound 2 if the sun us down
       } else if (!sunIsUp && !isPlayed) {
-        if (currentSound != sunsetSound) player.playSound(sunset);
-        currentSound = sunsetSound;
-        sunsetSound.play('sample');
+        if (currentSound != sunshineSound) player.playSound(sunshine);
+        currentSound = sunshineSound;
+        sunshineSound.play();
         currentSound.fade(0, 1, 500);
         isPlayed = true;
       }
@@ -102343,25 +102371,20 @@ function Component(scene) {
     date: '?',
     artist: 'Traditional Folk'
   };
-  createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample); // Vinyle player
-
-  function turnTheDisc(sound) {
-    // Animate the vinyle
-    var disc = document.querySelector('#disque');
-    disc.classList.add('rotate');
-    setTimeout(function () {
-      // Edit the title of vinyle
-      var title = document.querySelector('#soundTitle');
-      title.innerText = sound.title; // Edit the date of the vinyle
-
-      var date = document.querySelector('#soundDate');
-      date.innerText = sound.date;
-    }, 600);
-    setTimeout(function () {
-      disc.classList.remove('rotate');
-    }, 2000);
-  } // Make the sun draggable
-
+  createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
+  var poissonSound = {
+    path: '/polo/sounds/poisson/Rivolta_Sample.mp3',
+    title: 'Rivolta',
+    date: '2013',
+    artist: 'Polo & Pan'
+  };
+  var poissonSample = {
+    path: '/polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3',
+    title: 'Crapa Pelada',
+    date: '1945',
+    artist: 'Quartetto Cetra'
+  };
+  createSound(document.querySelector('#poisson'), poissonSound, poissonSample); // Make the sun draggable
 
   dragElement(sun);
 
@@ -102440,7 +102463,7 @@ function Component(scene) {
     });
 
     _gsap.TweenLite.to(fish, 1, {
-      transform: "translate3d(".concat(-50 + positions.x * parallaxFish.x, "%, ").concat(-50 + positions.y * parallaxFish.y, "%, 0px)")
+      transform: "translate3d(".concat(-60 + positions.x * parallaxFish.x, "%, ").concat(-50 + positions.y * parallaxFish.y, "%, 0px)")
     });
   } // Variables
 
@@ -103189,7 +103212,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.focus-memory').style.display = 'none';
     document.querySelector('.focus-polo').style.display = 'none';
     document.querySelector('.focus-daftpunk').style.display = 'none';
-    document.querySelector('.focus-kaleidoscope').style.display = 'none'; // Display tuto
+    document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    document.querySelector('.text-container').classList.remove('beige'); // Display tuto
 
     document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
       tuto.style.opacity = 1;
@@ -103321,6 +103345,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }, function () {
       onDiscover(function () {
         console.log('Britney');
+        document.querySelector('.text-container').classList.add('beige');
+        console.log(document.querySelector('.text-container').classList);
         kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
         onClose(function () {
@@ -104226,7 +104252,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50882" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51033" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

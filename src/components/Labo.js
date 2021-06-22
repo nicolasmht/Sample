@@ -287,6 +287,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelector('.focus-daftpunk').style.display = 'none';
         document.querySelector('.focus-kaleidoscope').style.display = 'none';
 
+        document.querySelector('.text-container').classList.remove('beige');
+
         // Display tuto
         document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
             tuto.style.opacity = 1;
@@ -438,6 +440,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             onDiscover(() => {
                 
                 console.log('Britney');
+
+                document.querySelector('.text-container').classList.add('beige');
+                console.log(document.querySelector('.text-container').classList);
 
                 kaleidoscopeFocus.start();
 

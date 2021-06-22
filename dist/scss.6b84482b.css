@@ -369,7 +369,7 @@ body {
 }
 .focus-renaud .spacebar {
   position: fixed;
-  bottom: 6%;
+  bottom: 16%;
   left: 50%;
   transform: translate(-50%, 0px);
   width: 330px;
@@ -657,12 +657,14 @@ body {
 }
 .focus-polo #layer-2 .pin {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 60px;
   border-radius: 100%;
-  background-color: white;
   cursor: pointer;
   pointer-events: all;
+  background-image: url("/pin_polo.47e87899.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .focus-polo #layer-2 .pin#sirene {
   top: 50vh;
@@ -700,12 +702,14 @@ body {
 }
 .focus-polo #layer-3 .pin {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 60px;
   border-radius: 100%;
-  background-color: white;
   cursor: pointer;
   pointer-events: all;
+  background-image: url("/pin_polo.47e87899.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .focus-polo #layer-3 .pin#papillon {
   top: 68vh;
@@ -728,6 +732,21 @@ body {
   transform: translate(-50%, -50%);
   transition: filter 0.8s ease-in-out;
   pointer-events: none;
+}
+.focus-polo #layer-4 .pin {
+  position: absolute;
+  width: 100px;
+  height: 60px;
+  border-radius: 100%;
+  cursor: pointer;
+  pointer-events: all;
+  background-image: url("/pin_polo.47e87899.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.focus-polo #layer-4 .pin#poisson {
+  top: 10vh;
+  left: 20vw;
 }
 
 #sun {
@@ -1482,12 +1501,20 @@ body {
   left: 2px;
   height: 116px;
   width: 116px;
-  background: url("/Back_Txt_Beige.237132ad.png");
+  background-image: url("/Back_Txt.76ff78fa.png");
   background-size: contain;
+  background-position: center center;
   animation: rotation 5s linear infinite;
 }
 .push-cab .text-container.black {
   filter: invert(1) contrast(2);
+}
+.push-cab .text-container.beige {
+  background-image: url("/Back_Txt_Beige.237132ad.png") !important;
+}
+.push-cab .text-container.dig {
+  background-image: url("/Dig_txt.2944d6aa.png") !important;
+  background-size: contain;
 }
 .push-cab .circle-container {
   position: absolute;
@@ -1538,6 +1565,13 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+.logo-cabinet {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 160px;
+  z-index: 999;
 }
 
 /*# sourceMappingURL=/scss.6b84482b.css.map */
