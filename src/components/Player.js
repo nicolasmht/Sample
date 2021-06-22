@@ -16,6 +16,7 @@ export default class Player {
 
         this.date.innerText = '';
         this.title.innerText = '';
+        this.artist.innerText = '';
     }
 
     playSound(sound) {
@@ -30,6 +31,12 @@ export default class Player {
             this.title.classList.add('long');
         } else {
             this.title.classList.remove('long');
+        }
+
+        if(this.sound.artist.length > 15) {
+            this.artist.classList.add('long');
+        } else {
+            this.artist.classList.remove('long');
         }
 
         // Affichage du titre

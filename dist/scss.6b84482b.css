@@ -43,7 +43,8 @@ body {
   height: 100%;
   overflow: hidden;
   position: relative;
-  transform: translateX(12%);
+  transform: translateX(11%);
+  border-radius: 101px;
 }
 #disque.show {
   transform: translate(-50%, 50%);
@@ -75,6 +76,9 @@ body {
   font-size: 18px;
   font-family: "biotif";
   color: #EBD3BA;
+}
+#disque h2.long {
+  animation: toTheMars 5s linear infinite;
 }
 #disque h3 {
   margin: 0;

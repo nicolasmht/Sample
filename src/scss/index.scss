@@ -49,7 +49,8 @@ body {
     height: 100%;
     overflow: hidden;
     position: relative;
-    transform: translateX(12%);
+    transform: translateX(11%);
+    border-radius: 101px;
   }
 
   &.show {
@@ -87,6 +88,11 @@ body {
     font-size: 18px;
     font-family: "biotif";
     color: #EBD3BA;
+
+    &.long {
+      animation: toTheMars 5s linear infinite;
+    }
+
   }
 
 
