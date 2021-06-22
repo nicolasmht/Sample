@@ -16,11 +16,13 @@ function Component(scene, camera) {
     // Sounds
     let booba = new Howl({
         src: ['./renaud/sounds/booba.mp3'],
-        volume: 0
+        volume: 0,
+        loop: true
     });
 
     let renaud = new Howl({
         src: ['./renaud/sounds/renaud.mp3'],
+        loop: true
     });
 
     // Timeline

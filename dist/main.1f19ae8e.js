@@ -101030,10 +101030,12 @@ function Component(scene, camera) {
 
   var booba = new Howl({
     src: ['./renaud/sounds/booba.mp3'],
-    volume: 0
+    volume: 0,
+    loop: true
   });
   var renaud = new Howl({
-    src: ['./renaud/sounds/renaud.mp3']
+    src: ['./renaud/sounds/renaud.mp3'],
+    loop: true
   }); // Timeline
 
   var imgs = document.querySelectorAll(".focus-renaud img");
