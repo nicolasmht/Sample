@@ -101660,10 +101660,12 @@ function Component(scene) {
       volume: 0
     });
     element.addEventListener('mouseover', function () {
-      if (currentSound === sound) return;
-      sound.seek(0); // player.playSound(newSound);
+      var _player;
 
+      if (currentSound === sound) return;
+      sound.seek(0);
       sound.play();
+      (_player = player) === null || _player === void 0 ? void 0 : _player.playSound(newSound);
       sound.fade(0, 1, 1300);
       currentSound = sound;
     });
@@ -101677,49 +101679,49 @@ function Component(scene) {
   }
 
   createSound(document.querySelector('#sound_01'), {
-    path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
+    path: './aznavour/sounds/01_Aznavour_parce-que-tu-crois.mp3',
     title: 'Parce Que Tu Crois ',
     artist: 'Charles Aznavour',
     date: '1966'
   });
   createSound(document.querySelector('#sample_01'), {
-    path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
+    path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: "What's the Difference",
     artist: 'Dr. Dre feat. Eminem and Xzibit',
     date: '1999'
   });
   createSound(document.querySelector('#sound_02'), {
-    path: './sounds/02_Aznavour_comme-ils-disent.mp3',
+    path: './aznavour/sounds/02_Aznavour_comme-ils-disent.mp3',
     title: 'Comme ils disent',
     artist: 'Charles Aznavour',
     date: '1972'
   });
   createSound(document.querySelector('#sample_02'), {
-    path: './sounds/02_Bad-balance_Goroda.mp3',
+    path: './aznavour/sounds/02_Bad-balance_Goroda.mp3',
     title: "\u0413\u043E\u0440\u043E\u0434\u0430",
     artist: 'Bad Balance',
     date: '2013'
   });
   createSound(document.querySelector('#sound_03'), {
-    path: './sounds/03_Aznavour_A-ma-fille.mp3',
+    path: './aznavour/sounds/03_Aznavour_A-ma-fille.mp3',
     title: "A ma fille",
     artist: 'Charles Aznavour',
     date: '1964'
   });
   createSound(document.querySelector('#sample_03'), {
-    path: './sounds/03_Movimiento-original_En-reconocimiento.mp3',
+    path: './aznavour/sounds/03_Movimiento-original_En-reconocimiento.mp3',
     title: "En Reconocimiento",
     artist: 'Movimiento Original',
     date: '2008'
   });
   createSound(document.querySelector('#sound_04'), {
-    path: './sounds/04_Aznavour_she.mp3',
+    path: './aznavour/sounds/04_Aznavour_she.mp3',
     title: "She",
     artist: 'Charles Aznavour',
     date: '1974'
   });
   createSound(document.querySelector('#sample_04'), {
-    path: './sounds/04_The-Cure_Hot-hot-hot.mp3',
+    path: './aznavour/sounds/04_The-Cure_Hot-hot-hot.mp3',
     title: "Hot hot hot !!!",
     artist: 'The Cure',
     date: '1987'
