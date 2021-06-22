@@ -95470,11 +95470,13 @@ function ScrollTimeline(scene, camera) {
   var loader = new _GLTFLoader.GLTFLoader();
   var tape = new THREE.Object3D();
   var sound01 = new Howl({
-    src: [_sound.default]
+    src: [_sound.default],
+    loop: true
   });
   var sound02 = new Howl({
     src: [_sound2.default],
-    volume: 0
+    volume: 0,
+    loop: true
   });
   var initialPose = 0;
   var isBack = false;
@@ -99627,10 +99629,10 @@ var SoundAnalyser = /*#__PURE__*/function () {
 
       this.source.buffer = this.soundBuffer; // Source to play
 
-      this.source.connect(this.gainNode); //Connexion au enceinte
+      this.source.connect(this.gainNode); // Connexion au enceinte
 
       this.gainNode.gain.value = 1;
-      this.gainNode.connect(this.context.destination); //Connexion au enceinte
+      this.gainNode.connect(this.context.destination); // Connexion au enceinte
 
       this.source.connect(this.analyser); // relier a l'analyser sur une autre branche
 
@@ -102624,6 +102626,8 @@ var _GLTFLoader = require("three/examples/jsm/loaders/GLTFLoader");
 
 var _DRACOLoader = require("three/examples/jsm/loaders/DRACOLoader");
 
+var _howler = require("howler");
+
 var _gsap = require("gsap");
 
 var _mouse = _interopRequireDefault(require("../utils/mouse"));
@@ -102676,6 +102680,8 @@ var _daftPunk = _interopRequireDefault(require("./daftPunk"));
 
 var _Kaleidoscope = _interopRequireDefault(require("./Kaleidoscope"));
 
+var _tundraBeats = _interopRequireDefault(require("../audios/tundra-beats.mp3"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -102687,6 +102693,10 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Gltf
 // Pin
 function LaboComponent(scene, camera, renderer, interactionManager) {
+  var sound = new Howl({
+    src: [_tundraBeats.default],
+    loop: true
+  });
   var mouse = new THREE.Vector2();
   var target = new THREE.Vector2();
   var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2); // Instantiate a loader
@@ -102876,7 +102886,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var infos = document.querySelector('.container-infos');
   var containerFocus = document.querySelector('.container-focus');
-  var discover = document.querySelector('.btn-infos'); // Close info
+  var discover = document.querySelector('.btn-infos');
+
+  function resetCameraPosition() {
+    _gsap.TweenLite.to(camera.position, 1, {
+      x: 0,
+      y: 2.2,
+      z: 3.9,
+      ease: _gsap.EaseInOut
+    });
+  } // Close info
+
 
   var onInfoClose = function onInfoClose(callback) {
     document.querySelector('.close-infos').addEventListener('click', function () {
@@ -102884,14 +102904,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       infos.classList.remove('visible');
       infos.classList.remove('full');
       containerFocus.classList.remove('full');
-
-      _gsap.TweenLite.to(camera.position, 1, {
-        x: 0,
-        y: 2.7,
-        z: 4.2,
-        ease: _gsap.EaseInOut
-      });
-
+      resetCameraPosition();
       callback();
     });
   };
@@ -102912,10 +102925,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   }
 
   var onDiscover = function onDiscover(callback) {
-    reset();
     discover.addEventListener('click', function () {
+      reset();
       infos.classList.add('full');
       document.querySelector('.container-focus').classList.add('full');
+      sound.stop();
       callback(); // Remove tuto
 
       setTimeout(function () {
@@ -102925,26 +102939,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
           });
         });
       }, 4000);
-    }, {
-      once: true
-    });
+    }, false);
   };
 
   var onClose = function onClose(callback) {
-    // reset();
     discover.addEventListener('click', callback, false);
     document.querySelector('.back-labo').addEventListener('click', function () {
       infos.classList.remove('visible');
       infos.classList.remove('full');
       containerFocus.classList.remove('full');
-
-      _gsap.TweenLite.to(camera.position, 1, {
-        x: 0,
-        y: 2.7,
-        z: 2.5,
-        ease: _gsap.EaseInOut
-      });
-
+      resetCameraPosition();
+      sound.play();
+      setTimeout(function () {
+        reset();
+      }, 2000);
       callback();
     });
   }; // FOCUS
@@ -102970,8 +102978,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   // daftFocus.start();
 
   function onClick(target, item, callback) {
-    // reset();
-    // Assign content to info container
+    reset(); // Assign content to info container
+
     document.querySelector('.title-infos').innerText = item.title;
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
     document.querySelector('.description-infos').innerHTML = item.description;
@@ -102988,7 +102996,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       },
       onStart: function onStart() {// camera.lookAt(event.target.position);
       },
-      onComplete: callback()
+      onComplete: callback
     });
 
     onInfoClose(function () {
@@ -103002,13 +103010,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, 0.37, 2, -0.21);
   aznavourPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Aznavour',
-      subTitle: 'Music has no boarders',
-      description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
+      subTitle: 'Music has no borders',
+      description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”... who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-aznavour').style.display = 'block';
         onClose(function () {});
       });
@@ -103021,13 +103029,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var britneyPin = CreateSrpite(_Britney.default, -1.8, 3.2, -0.25);
   britneyPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Britney',
       subTitle: 'From Bollywood to Hollywood',
       description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
     }, function () {
       onDiscover(function () {
-        reset();
         kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
         onClose(function () {
@@ -103043,13 +103051,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var daftPunkPin = CreateSrpite(_DaftPunk.default, 1.55, 2.5, -0.15);
   daftPunkPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
-      title: 'DaftPunk',
+      title: 'Daft Punk',
       subTitle: 'French touch zooooone',
-      description: 'Flash back on the iconic french touch duo! It’s time to challenge yourself, how much do you you know about them two? Will you be able to link their influences to their songs...?'
+      description: 'Flash back on the iconic french touch duo ! It’s time to challenge yourself, how much do you you know about them two ? Will you be able to link their influences to their songs... ?'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-daftpunk').style.display = 'block';
         daftFocus.start();
         onClose(function () {
@@ -103065,13 +103073,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.04, 3.4, -0.4);
   gainsbourgPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Gainsbourg',
       subTitle: 'A hint of classic behind an iconoclast spirit',
       description: 'Well known for his music, his romances but also because of his <b>scandalous</b> spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a <b>classical music lover<b/>?'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-gainsbourg').style.display = 'block';
         gainsbourgFocus.start();
         onClose(function () {
@@ -103087,13 +103095,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var memoPin = CreateSrpite(_Memo.default, 0.065, 1.8, 0.25);
   memoPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Memo',
       subTitle: 'Play around with some nice ex-samples',
       description: 'Weeeeeeell, are you now a great sample tracker? Try to match those card by two then! It works juste like a memory, really intuitivly, we promise!'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-memory').style.display = 'block';
         memoryFocus.start();
         onClose(function () {
@@ -103109,13 +103117,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var poloPin = CreateSrpite(_Polo.default, 1.4, 3.5, -0.4);
   poloPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
-      title: 'Polo et Pan',
+      title: 'Polo & Pan',
       subTitle: 'From tropics to hits!',
       description: 'Let go of the stress, we take you on a trip to explore Polo & Pan’s inspirations. To give you a little preview: a bresilian lullaby might get in your way.'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-polo').style.display = 'block';
         poloFocus.start();
         onClose(function () {
@@ -103131,13 +103139,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var renaudPin = CreateSrpite(_Renaud.default, -0.95, 1.9, -0.67);
   renaudPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Renaud',
       subTitle: 'Melody under muscles',
-      description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba! The rapper has proved it a few times... Take a look!'
+      description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba!'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-renaud').style.display = 'block';
         renaudFocus.start();
         console.log(renaudFocus);
@@ -103154,6 +103162,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var retourPin = CreateSrpite(_Retour.default, -1, 2.5, -0.4);
   retourPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     console.log("Retour");
   });
   interactionManager.add(retourPin); // Move camera
@@ -103162,7 +103171,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     paused: true
   }).to(camera.position, {
     x: 0,
-    y: 2.7,
+    y: 2.5,
     z: 2.5,
     onComplete: function onComplete() {
       new _gsap.TimelineMax().to(camera.position, 1, {
@@ -103208,6 +103217,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var bodyHeight = document.documentElement.scrollHeight;
 
     if (window.scrollY > bodyHeight - window.screen.height && !started) {
+      sound.play();
       document.querySelector('#canvas').style.pointerEvents = 'auto'; // Move to position
 
       var tape = scene.getObjectByName('Storage_group');
@@ -103217,7 +103227,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         delay: 0.3
       }).to(camera.position, 2, {
         x: 0,
-        y: 2.7,
+        y: 2.5,
         z: 4.2,
         ease: _gsap.EaseOut
       }).to(aznavourPin.material, 0.15, {
@@ -103285,9 +103295,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   this.keyup = function (e) {
     if (e.key === 'Enter') {
+      sound.play();
       new _gsap.TimelineMax().to(camera.position, 1, {
         x: 0,
-        y: 2.7,
+        y: 2.5,
         z: 4.2,
         ease: _gsap.EaseOut
       }).to(aznavourPin.material, 0.25, {
@@ -103317,6 +103328,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       });
       document.querySelector('#canvas').style.pointerEvents = 'auto';
       document.querySelector('.container').style.display = 'none';
+      document.querySelector('.intro_timeline').style.display = 'none';
     }
   };
 
@@ -103367,7 +103379,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet.gltf":"objects/Cabinet.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/textures_gravure/test03.png":"textures/textures_gravure/test03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","howler":"../node_modules/howler/dist/howler.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet.gltf":"objects/Cabinet.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/textures_gravure/test03.png":"textures/textures_gravure/test03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
