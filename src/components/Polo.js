@@ -179,7 +179,7 @@ function Component(scene) {
 
         TweenLite.to(background, 1, {transform: `translate3d(${-50 + positions.x * parallaxMer.x}%, ${-50 + positions.y * parallaxMer.y}%, 0px)`});
         TweenLite.to(flowers, 1, {transform: `translate3d(${-50 + positions.x * parallaxFlowers.x}%, ${-50 + positions.y * parallaxFlowers.y}%, 0px)`});
-        TweenLite.to(fish, 1, {transform: `translate3d(${-50 + positions.x * parallaxFish.x}%, ${-50 + positions.y * parallaxFish.y}%, 0px)`});
+        TweenLite.to(fish, 1, {transform: `translate3d(${-60 + positions.x * parallaxFish.x}%, ${-50 + positions.y * parallaxFish.y}%, 0px)`});
     }
 
     // Variables

@@ -1,10 +1,14 @@
 import * as THREE from 'three';
 import { TimelineMax, Power4, TweenLite, Elastic, Bounce } from 'gsap';
+import Player from './Player';
 
 function Component(scene, camera) {
 
     // Video
     let video = document.querySelector('video');
+
+    //  Vinyle
+    let player = null;
 
     // Spacebar
     let spacebar = document.querySelector('.focus-renaud .spacebar');
@@ -48,6 +52,7 @@ function Component(scene, camera) {
     let spaceUp = false;
     let timer = 0;
     let currentImage = 0;
+    let renaudPlayed = true;
 
     // Le temps de l'effet
     const DURATION = 50;
@@ -58,8 +63,16 @@ function Component(scene, camera) {
 
         if(spaceDown && timer < DURATION) {
             timer++ * .05;
+            if(renaudPlayed) {
+                renaudPlayed = false;
+                player.playSound({title: 'Pitbull', date: '2006', artist: 'Booba'})
+            }
         } else if(!spaceDown && timer > 0) {
             timer-- * .05;
+            if(!renaudPlayed) {
+                renaudPlayed = true;
+                player.playSound({title: 'Mistral Gagnat', date: '1985', artist: 'Renaud'})
+            }
         }
 
         if(spaceDown && currentImage < videoFrames.length -1) {
@@ -128,6 +141,9 @@ function Component(scene, camera) {
 
     this.start = function() {
 
+        player = new Player();
+        player.playSound({title: 'Mistral Gagnat', date: '1985', artist: 'Renaud'})
+
         setTimeout(() => {
             spacebar.classList.add('show');
         }, 4000);
@@ -137,6 +153,9 @@ function Component(scene, camera) {
     }
 
     this.stop = function() {
+
+        player?.toggle(false);
+
         renaud.stop();
         booba.stop();
     }

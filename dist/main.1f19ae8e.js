@@ -101001,13 +101001,19 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _gsap = require("gsap");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Component(scene, camera) {
   // Video
-  var video = document.querySelector('video'); // Spacebar
+  var video = document.querySelector('video'); //  Vinyle
+
+  var player = null; // Spacebar
 
   var spacebar = document.querySelector('.focus-renaud .spacebar'); // Sounds
 
@@ -101118,7 +101124,8 @@ function Component(scene, camera) {
   var spaceDown = false;
   var spaceUp = false;
   var timer = 0;
-  var currentImage = 0; // Le temps de l'effet
+  var currentImage = 0;
+  var renaudPlayed = true; // Le temps de l'effet
 
   var DURATION = 50;
   var videoFrames = null; // Interval
@@ -101126,8 +101133,26 @@ function Component(scene, camera) {
   intervalID = setInterval(function () {
     if (spaceDown && timer < DURATION) {
       timer++ * .05;
+
+      if (renaudPlayed) {
+        renaudPlayed = false;
+        player.playSound({
+          title: 'Pitbull',
+          date: '2006',
+          artist: 'Booba'
+        });
+      }
     } else if (!spaceDown && timer > 0) {
       timer-- * .05;
+
+      if (!renaudPlayed) {
+        renaudPlayed = true;
+        player.playSound({
+          title: 'Mistral Gagnat',
+          date: '1985',
+          artist: 'Renaud'
+        });
+      }
     }
 
     if (spaceDown && currentImage < videoFrames.length - 1) {
@@ -101187,6 +101212,12 @@ function Component(scene, camera) {
   this.mousemove = function (e) {};
 
   this.start = function () {
+    player = new _Player.default();
+    player.playSound({
+      title: 'Mistral Gagnat',
+      date: '1985',
+      artist: 'Renaud'
+    });
     setTimeout(function () {
       spacebar.classList.add('show');
     }, 4000);
@@ -101195,6 +101226,9 @@ function Component(scene, camera) {
   };
 
   this.stop = function () {
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     renaud.stop();
     booba.stop();
   };
@@ -101202,7 +101236,7 @@ function Component(scene, camera) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap":"../node_modules/gsap/index.js","./Player":"components/Player.js"}],"assets/gainsbourg/sounds/Chopin_Prelude.mp3":[function(require,module,exports) {
 module.exports = "/Chopin_Prelude.9d4786e9.mp3";
 },{}],"assets/gainsbourg/sounds/jtm.mp3":[function(require,module,exports) {
 module.exports = "/jtm.7f7ef207.mp3";
@@ -102429,7 +102463,7 @@ function Component(scene) {
     });
 
     _gsap.TweenLite.to(fish, 1, {
-      transform: "translate3d(".concat(-50 + positions.x * parallaxFish.x, "%, ").concat(-50 + positions.y * parallaxFish.y, "%, 0px)")
+      transform: "translate3d(".concat(-60 + positions.x * parallaxFish.x, "%, ").concat(-50 + positions.y * parallaxFish.y, "%, 0px)")
     });
   } // Variables
 
