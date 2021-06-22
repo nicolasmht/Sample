@@ -408,16 +408,19 @@ function ScrollTimeline(scene, camera) {
 
         initialPose = 0
     }
-    
+
+    document.querySelector('.part1-logo').addEventListener('clicl',()=>{
+        console.log('bruh');
+    }
+    document.querySelector('.begin-btn').addEventListener('clicl',()=>{
+        console.log('hola')
+        document.querySelector('.intro_timeline').classList.add('remove-intro')
+        document.querySelector('.intro_timeline-part1').classList.add('remove-intro')
+        sound01.play();
+        sound02.play();
+    })
     //SLIDER
     function initSlider() {
-
-        document.querySelector('.begin-btn').addEventListener('click',()=>{
-            document.querySelector('.intro_timeline').classList.add('remove-intro')
-            document.querySelector('.intro_timeline-part1').classList.add('remove-intro')
-            sound01.play();
-            sound02.play();
-        })
 
         let sliderPos;
         let currentPos = 0;

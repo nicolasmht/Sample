@@ -279,8 +279,9 @@ function ScrollTimeline(scene, camera) {
                 switchSound(soundA, soundB)
                 switchSoundText('1948','Pierre Schaeffer','Études de bruits','1948','Pierre Schaeffer','Études aux chemins de fer')
                 isNotPlaying = false
+                console.log('HOLALALA');
             }
-        },1) // STEP 1
+        },.5) // STEP 1
         .add(()=> { //console.log('Step 2 t:1.75')
             switchSound(soundC, soundD)
             switchSoundText('1966','The Beatles','Tomorrow Never Knows','1967','The Beatles','Flying')
@@ -408,16 +409,16 @@ function ScrollTimeline(scene, camera) {
 
         initialPose = 0
     }
-    
+
+    document.querySelector('.begin-btn').addEventListener('click',()=>{
+        console.log('hola')
+        document.querySelector('.intro_timeline').classList.add('remove-intro')
+        document.querySelector('.intro_timeline-part1').classList.add('remove-intro')
+        // sound01.play();
+        // sound02.play();
+    })
     //SLIDER
     function initSlider() {
-
-        document.querySelector('.begin-btn').addEventListener('click',()=>{
-            document.querySelector('.intro_timeline').classList.add('remove-intro')
-            document.querySelector('.intro_timeline-part1').classList.add('remove-intro')
-            sound01.play();
-            sound02.play();
-        })
 
         let sliderPos;
         let currentPos = 0;

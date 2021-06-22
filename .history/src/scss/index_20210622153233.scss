@@ -130,48 +130,48 @@ body {
   }
 }
 
-#cursor {
-  position: fixed;
-  z-index: 1000000;
-  background-image: url('../assets/polo/cursors/cursor.svg');
-  width: 20px;
-  background-repeat: no-repeat;
-  height: 20px;
-  background-size: cover;
-  pointer-events: none;
+// #cursor {
+//   position: fixed;
+//   z-index: 1000000;
+//   background-image: url('../assets/polo/cursors/cursor.svg');
+//   width: 20px;
+//   background-repeat: no-repeat;
+//   height: 20px;
+//   background-size: cover;
+//   pointer-events: none;
 
-  .actions {
-    width: 60px;
-    height: 60px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    pointer-events: none;
-    transform: scale(0);
-    transition: transform 400ms ease-out;
-    left: -10px;
-    top: -10px;
-    position: absolute;
-    transform-origin: 20px 20px;
+//   .actions {
+//     width: 60px;
+//     height: 60px;
+//     background-size: cover;
+//     background-repeat: no-repeat;
+//     pointer-events: none;
+//     transform: scale(0);
+//     transition: transform 400ms ease-out;
+//     left: -10px;
+//     top: -10px;
+//     position: absolute;
+//     transform-origin: 20px 20px;
 
-    &.drag {
-      background-image: url('../assets/polo/cursors/cursor_drag.svg');
-    }
+//     &.drag {
+//       background-image: url('../assets/polo/cursors/cursor_drag.svg');
+//     }
 
-    &.move {
-      background-image: url('../assets/polo/cursors/cursor_move.svg');
-    }
+//     &.move {
+//       background-image: url('../assets/polo/cursors/cursor_move.svg');
+//     }
 
-    &.click {
-      background-image: url('../assets/polo/cursors/cursor_click.svg');
-    }
+//     &.click {
+//       background-image: url('../assets/polo/cursors/cursor_click.svg');
+//     }
 
-    &.show {
-      transform: scale(1);
-    }
+//     &.show {
+//       transform: scale(1);
+//     }
 
-    // transform: rotate(-25deg);
-  }
-}
+//     // transform: rotate(-25deg);
+//   }
+// }
 
 ////    COLOR    ////
 .kaki {
@@ -1637,10 +1637,11 @@ body {
   0% {
     transform: translateY(0);
   }
+
   99% {
     transform: translateY(-100vh);
-    opacity: 0;
   }
+
   100% {
     transform: translateY(-100vh);
     pointer-events: none;
@@ -1658,7 +1659,7 @@ body {
   z-index: 9999;
   // display: none;
   &.remove-intro {
-    animation: removeIntro 0.3s ease-in 4s forwards;
+    animation: removeIntro 0.3s ease-in 12s forwards;
   }
   &-part1 {
     position: absolute;
@@ -1673,7 +1674,7 @@ body {
     align-items: center;
     flex-direction: column;
     &.remove-intro {
-      animation: removeIntro 0.3s ease-in 1s forwards;
+      animation: removeIntro 0.3s ease-in 5s forwards;
     }
 
     .part1-vinyle {
@@ -1699,12 +1700,9 @@ body {
     }
     .begin-btn {
       background: red;
-      width: 150px;
-      height: 50px;
+      height: 200px;
+      width: 200px;
       cursor: pointer;
-      background: url('../images/CTA_Discover.png');
-      background-size: contain;
-      background-repeat: no-repeat;
     }
   }
 

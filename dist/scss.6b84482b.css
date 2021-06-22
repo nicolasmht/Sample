@@ -22,7 +22,6 @@ body {
   overflow-x: hidden;
   background-color: transparent;
   cursor: default;
-  user-select: none;
 }
 
 #disque {
@@ -1347,6 +1346,7 @@ body {
   }
   99% {
     transform: translateY(-100vh);
+    opacity: 0;
   }
   100% {
     transform: translateY(-100vh);
@@ -1355,7 +1355,6 @@ body {
   }
 }
 .intro_timeline {
-  animation: removeIntro 0.3s ease-in 12s forwards;
   position: fixed;
   top: 0;
   left: 0;
@@ -1363,8 +1362,10 @@ body {
   width: 100%;
   z-index: 9999;
 }
+.intro_timeline.remove-intro {
+  animation: removeIntro 0.3s ease-in 4s forwards;
+}
 .intro_timeline-part1 {
-  animation: removeIntro 0.3s ease-in 5s forwards;
   position: absolute;
   top: 0;
   left: 0;
@@ -1376,6 +1377,9 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.intro_timeline-part1.remove-intro {
+  animation: removeIntro 0.3s ease-in 1s forwards;
 }
 .intro_timeline-part1 .part1-vinyle {
   mix-blend-mode: difference;
@@ -1394,6 +1398,15 @@ body {
 .intro_timeline-part1 .part1-sound {
   mix-blend-mode: multiply;
   width: 80px;
+}
+.intro_timeline-part1 .begin-btn {
+  background: red;
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+  background: url("/CTA_Discover.cfead27a.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .intro_timeline-part2 {
   position: absolute;

@@ -408,11 +408,10 @@ function ScrollTimeline(scene, camera) {
 
         initialPose = 0
     }
-    
+
     //SLIDER
     function initSlider() {
-
-        document.querySelector('.begin-btn').addEventListener('click',()=>{
+        document.querySelector('.begin-btn').addEventListener('clicl',()=>{
             document.querySelector('.intro_timeline').classList.add('remove-intro')
             document.querySelector('.intro_timeline-part1').classList.add('remove-intro')
             sound01.play();

@@ -96034,8 +96034,12 @@ function ScrollTimeline(scene, camera) {
 
 
   function initSlider() {
-    // sound01.play();
-    // sound02.play();
+    document.querySelector('.begin-btn').addEventListener('click', function () {
+      document.querySelector('.intro_timeline').classList.add('remove-intro');
+      document.querySelector('.intro_timeline-part1').classList.add('remove-intro');
+      sound01.play();
+      sound02.play();
+    });
     var sliderPos;
     var currentPos = 0;
     var slider = document.querySelector('.slider');
@@ -104194,7 +104198,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53054" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59171" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
