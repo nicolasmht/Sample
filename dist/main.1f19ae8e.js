@@ -102209,18 +102209,12 @@ function Component(scene) {
     // Sound 1 - volume on 0 for fade the song at the start
     var sunsetSound = new Howl({
       src: [sunset.path],
-      volume: 0,
-      sprite: {
-        sample: [sunset.start ? sunset.start : 0, 30000]
-      }
+      volume: 0
     }); // Sound 2
 
     var sunshineSound = new Howl({
       src: [sunshine.path],
-      volume: 0,
-      sprite: {
-        sample: [sunset.start ? sunset.start : 0, 30000]
-      }
+      volume: 0
     });
     var isPlayed = false; // When the pin is hover by the mouse
 
@@ -102229,13 +102223,13 @@ function Component(scene) {
       if (sunIsUp && !isPlayed) {
         if (currentSound != sunshineSound) player.playSound(sunshine);
         currentSound = sunshineSound;
-        sunshineSound.play('sample');
+        sunshineSound.play();
         currentSound.fade(0, 1, 500);
         isPlayed = true; // Play sound 2 if the sun us down
       } else if (!sunIsUp && !isPlayed) {
         if (currentSound != sunsetSound) player.playSound(sunset);
         currentSound = sunsetSound;
-        sunsetSound.play('sample');
+        sunsetSound.play();
         currentSound.fade(0, 1, 500);
         isPlayed = true;
       }
@@ -102343,25 +102337,20 @@ function Component(scene) {
     date: '?',
     artist: 'Traditional Folk'
   };
-  createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample); // Vinyle player
-
-  function turnTheDisc(sound) {
-    // Animate the vinyle
-    var disc = document.querySelector('#disque');
-    disc.classList.add('rotate');
-    setTimeout(function () {
-      // Edit the title of vinyle
-      var title = document.querySelector('#soundTitle');
-      title.innerText = sound.title; // Edit the date of the vinyle
-
-      var date = document.querySelector('#soundDate');
-      date.innerText = sound.date;
-    }, 600);
-    setTimeout(function () {
-      disc.classList.remove('rotate');
-    }, 2000);
-  } // Make the sun draggable
-
+  createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
+  var poissonSound = {
+    path: '/polo/sounds/poisson/Rivolta_Sample.mp3',
+    title: 'Rivolta',
+    date: '2013',
+    artist: 'Polo & Pan'
+  };
+  var poissonSample = {
+    path: '/polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3',
+    title: 'Crapa Pelada',
+    date: '1945',
+    artist: 'Quartetto Cetra'
+  };
+  createSound(document.querySelector('#poisson'), poissonSound, poissonSample); // Make the sun draggable
 
   dragElement(sun);
 
@@ -104226,7 +104215,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56752" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54734" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

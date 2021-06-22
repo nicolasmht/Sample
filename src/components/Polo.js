@@ -22,19 +22,13 @@ function Component(scene) {
         // Sound 1 - volume on 0 for fade the song at the start
         let sunsetSound = new Howl({
             src: [sunset.path],
-            volume: 0,
-            sprite: {
-            sample: [sunset.start ? sunset.start : 0, 30000]
-            }
+            volume: 0
         });
         
         // Sound 2
         let sunshineSound = new Howl({
             src: [sunshine.path],
-            volume: 0,
-            sprite: {
-            sample: [sunset.start ? sunset.start : 0, 30000]
-            }
+            volume: 0
         });
     
         let isPlayed = false;
@@ -47,7 +41,7 @@ function Component(scene) {
     
             if(currentSound != sunshineSound)  player.playSound(sunshine);
             currentSound = sunshineSound;
-            sunshineSound.play('sample');
+            sunshineSound.play();
             currentSound.fade(0, 1, 500);
             isPlayed = true;
     
@@ -56,7 +50,7 @@ function Component(scene) {
     
             if(currentSound != sunsetSound)  player.playSound(sunset);
             currentSound = sunsetSound;
-            sunsetSound.play('sample');
+            sunsetSound.play();
             currentSound.fade(0, 1, 500);
             isPlayed = true;
     
@@ -113,31 +107,9 @@ function Component(scene) {
     let carnivoreSample = {path: AniKuniSample, title: 'Ani Kuni', date: '?', artist: 'Traditional Folk'};
     createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
 
-    // Vinyle player
-    function turnTheDisc(sound) {
-
-        // Animate the vinyle
-        let disc = document.querySelector('#disque');
-        disc.classList.add('rotate');
-
-        setTimeout(() => {
-
-              // Edit the title of vinyle
-              let title = document.querySelector('#soundTitle');
-              title.innerText = sound.title;
-  
-              // Edit the date of the vinyle
-              let date = document.querySelector('#soundDate');
-              date.innerText = sound.date;
-
-        }, 600);
-
-        setTimeout(() => {
-
-            disc.classList.remove('rotate');
-
-        }, 2000);
-    }
+    let poissonSound = {path: '/polo/sounds/poisson/Rivolta_Sample.mp3', title: 'Rivolta', date: '2013', artist: 'Polo & Pan'};
+    let poissonSample = {path: '/polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3', title: 'Crapa Pelada', date: '1945', artist: 'Quartetto Cetra'};
+    createSound(document.querySelector('#poisson'), poissonSound, poissonSample);
 
 
     // Make the sun draggable

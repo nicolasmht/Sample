@@ -729,6 +729,19 @@ body {
   transition: filter 0.8s ease-in-out;
   pointer-events: none;
 }
+.focus-polo #layer-4 .pin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  cursor: pointer;
+  pointer-events: all;
+}
+.focus-polo #layer-4 .pin#poisson {
+  top: 10vh;
+  left: 20vw;
+}
 
 #sun {
   position: fixed;

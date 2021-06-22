@@ -864,6 +864,21 @@ body {
     transform: translate(-50%, -50%);
     transition: filter 0.8s ease-in-out;
     pointer-events: none;
+
+    .pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background-color: white;
+      cursor: pointer;
+      pointer-events: all;
+
+    &#poisson {
+      top: 10vh;
+      left: 20vw;
+    }
+  }
   }
 }
 
