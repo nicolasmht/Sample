@@ -58,7 +58,7 @@ function ScrollTimeline(scene, camera) {
 
             tape.traverse( (child) => {
                 let modelPart = child.name;
-
+                
                 switch(modelPart) {
                     case 'desk_haut':
                     case 'desk_haut16':
@@ -69,6 +69,9 @@ function ScrollTimeline(scene, camera) {
                     case 'Tape_obj':
                         // child.material.emissive = new THREE.Color('rgb(193, 145, 51)');
                         // child.position.x = -10
+                    break;
+                    case 'etiquette':
+                        child.material.transparent = true;
                     break;
                     case 'right':
                         // console.log('MATERIAL',child.material);
