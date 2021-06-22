@@ -82,16 +82,16 @@ function Component(sceneMain) {
     });
 
     const data = [
-        {id: 1, same: 2, sound: asap},
-        {id: 2, same: 1, sound: steve},
-        {id: 3, same: 4, sound: bowie},
-        {id: 4, same: 3, sound: lana},
-        {id: 5, same: 6, sound: fanfare},
-        {id: 6, same: 5, sound: queen},
-        {id: 7, same: 8, sound: david},
-        {id: 8, same: 7, sound: sncf},
-        {id: 9, same: 10, sound: ketchup},
-        {id: 10, same: 9, sound: sugar},
+        {id: 1, same: 2, sound: asap, artist: 'A$AP Rocky', title: 'Praise the Lord', date: '2018'},
+        {id: 2, same: 1, sound: steve, artist: 'Apple Inc.', title: 'Andrean Stroll Panpipe 02', date:'2006'},
+        {id: 3, same: 4, sound: bowie, artist: 'David Bowie', title : 'Space Oddity', date : '1969'},
+        {id: 4, same: 3, sound: lana, artist: 'Lana Del Rey ', title: 'Terrence Loves You', date: '2015'},
+        {id: 5, same: 6, sound: fanfare, artist: 'Aaron Copland', title: 'Fanfare for the Common Man', date: '1942'},
+        {id: 6, same: 5, sound: queen, artist: 'Queen', title: 'We will rock you', date: '1977'},
+        {id: 7, same: 8, sound: david, artist: 'David Gilmour', title: 'Rattle That Lock', date: '2015'},
+        {id: 8, same: 7, sound: sncf, artist: 'Michaël Boumendil', title: 'SNCF Jingle', date: '2005'},
+        {id: 9, same: 10, sound: ketchup, artist: 'Las Ketchup', title: 'The Ketchup Song', date: '2002'},
+        {id: 10, same: 9, sound: sugar, artist: 'Sugarhill Gang', title: `Rapper's Delight`, date: '1979'},
     ];
     
     // Create sounds
@@ -193,6 +193,7 @@ function Component(sceneMain) {
 
                                 soundPlayed = object.parent.data.sound;
                                 object.parent.data.sound.fade(0, 1, 300);
+                                player.playSound({artist: object.parent.data.artist ,title: object.parent.data.title, date:  object.parent.data.date})
                                 object.parent.data.sound.play();
 
                             }, 100)
