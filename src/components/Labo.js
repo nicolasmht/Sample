@@ -121,7 +121,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     child.name == "cordes_1" ||
                     child.name == "Plane2" ||
                     child.name == "carte_dessus" ||
-                    child.name == "Cube_4"
+                    child.name == "Cube_4" ||
+                    child.name == "paquet"
                 ) {
 
                     if (child.name != "child.material" || child.name == "herbier-herbier") return;
@@ -290,6 +291,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
             tuto.style.opacity = 1;
         });
+
+        renaudFocus?.stop();
+        gainsbourgFocus?.stop();
+        aznavourFocus?.stop();
+        memoryFocus?.stop();
+        poloFocus?.stop();
+        // daftFocus?.stop();
+        kaleidoscopeFocus?.stop();
     }
 
     const onDiscover = (callback) => {
@@ -300,7 +309,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             infos.classList.add('full');
             document.querySelector('.container-focus').classList.add('full');
-            sound.pause();
+            sound.stop();
 
             callback();
 
@@ -310,12 +319,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     TweenLite.to(tuto.style, .6, { opacity: 0 });
                 });
             }, 4000);
-        }, false);
+        }, {
+            once: true
+        });
     }
 
     const onClose = (callback) => {
-
-        discover.addEventListener('click', callback, false);
         document.querySelector('.push-cab').addEventListener('click', function() {
             infos.classList.remove('visible');
             infos.classList.remove('full');
@@ -326,7 +335,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             setTimeout(() => {
                 reset();
-            }, 2000);
+            }, 500);
 
             callback();
         });
@@ -356,12 +365,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     
     function onClick (target, item, callback) {
 
-        reset();
-
         // Assign content to info container
         document.querySelector('.title-infos').innerText = item.title;
         document.querySelector('.subTitle-infos').innerText = item.subTitle;
         document.querySelector('.description-infos').innerHTML = item.description;
+
+        reset();
 
         const animate = TweenLite.to(camera.position, 3, {
             x: target.position.x,
@@ -397,6 +406,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         }, () => {
 
             onDiscover(() => {
+
+                console.log('Aznavour');
+
                 document.querySelector('.focus-aznavour').style.display = 'block';
                 
                 aznavourFocus.start();
@@ -425,6 +437,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         }, () => {
             onDiscover(() => {
                 
+                console.log('Britney');
 
                 kaleidoscopeFocus.start();
 
@@ -452,8 +465,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Flash back on the iconic french touch duo ! It’s time to challenge yourself, how much do you you know about them two ? Will you be able to link their influences to their songs... ?'
         }, () => {
             onDiscover(() => {
+
                 document.querySelector('.focus-daftpunk').style.display = 'block';
+
                 daftFocus.start();
+
+                console.log('DaftPunk');
+
                 onClose(() => {
                     daftFocus.stop();
                 });
@@ -668,7 +686,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     this.keyup = function(e) {
         if (e.key === 'Enter') {
+
             sound.play();
+
             new TimelineMax()
             .to(camera.position, 1, { x: 0, y: 2.5, z: 4.2, ease: EaseOut })
             .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })

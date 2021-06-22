@@ -310,7 +310,7 @@ function Component(sceneMain) {
 
     this.stop = function() {
 
-        player.toggle(false);
+        player?.toggle(false);
 
         if (soundPlayed === null) return;
 
@@ -321,7 +321,7 @@ function Component(sceneMain) {
 
         window.cancelAnimationFrame(idAnimation);
         document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
-        soundPlayed.stop();
+        soundPlayed?.stop();
     }
 
     this.update = function(time) {

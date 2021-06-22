@@ -25,7 +25,7 @@ export default class Player {
         // Animate the vinyle
         this.disc.classList.add('rotate');
 
-        console.log(this.title.length)
+        //console.log(this.title.length)
         if(this.sound.title.length > 21) {
             this.title.classList.add('long');
         } else {

@@ -229,7 +229,7 @@ function Component(scene) {
     }
 
     this.stop = () => {
-        player.toggle(false);
+        player?.toggle(false);
         cursor.classList.remove('drag');
     }
 

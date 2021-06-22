@@ -183,7 +183,7 @@ body {
   width: 100vw;
   height: 100vh;
   transform: translateX(100vw);
-  transition: transform 2s;
+  transition: transform 0.5s ease-in-out;
   z-index: 10000;
   overflow: hidden;
 }
@@ -195,7 +195,7 @@ body {
   top: 0;
   left: 0;
   z-index: 1;
-  transition: opacity 3s;
+  transition: opacity 3s ease-in-out;
   display: none;
 }
 .container-focus .back-labo {
@@ -225,14 +225,14 @@ body {
   background-repeat: repeat;
   z-index: 999;
   transform: translateX(100%);
-  transition: all 2s;
+  transition: all 0.5s ease-in-out;
 }
 .container-infos.visible {
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
   transform: translateX(0);
 }
 .container-infos.full {
-  transition: all 2s;
+  transition: all 0.5s ease-in-out;
   transform: translateX(-100vw);
 }
 .container-infos .title-infos {
@@ -857,13 +857,14 @@ body {
   width: 14vw;
 }
 .focus-aznavour section#ile2 .d1 {
-  top: 40vh;
-  left: 9vw;
-  width: 24vw;
+  width: 25vw;
+  left: -4vw;
+  height: 13vh;
+  top: 41vh;
 }
 .focus-aznavour section#ile2 .d2 {
   top: 70vh;
-  left: 18vw;
+  left: 8vw;
   width: 19vw;
 }
 .focus-aznavour section#ile2 .d3 {
@@ -908,41 +909,40 @@ body {
 .focus-aznavour section#ile3 .city {
   width: 20vw;
   position: absolute;
-  top: 13vh;
-  left: 50vw;
+  top: 5vh;
+  left: 56vw;
   pointer-events: none;
 }
 .focus-aznavour section#ile4 {
   transform: translate(100%, 100%);
-  background-color: pink;
 }
-.focus-aznavour section#ile4 .deco {
+.focus-aznavour section .deco {
   position: absolute;
   width: 14vw;
 }
-.focus-aznavour section#ile4 .d1 {
+.focus-aznavour section .d1 {
   top: 40vh;
   left: 9vw;
   width: 14vw;
 }
-.focus-aznavour section#ile4 .d2 {
+.focus-aznavour section .d2 {
   top: 70vh;
   left: 18vw;
   width: 13vw;
 }
-.focus-aznavour section#ile4 .d3 {
+.focus-aznavour section .d3 {
   top: 70vh;
   left: 80vw;
   width: 12vw;
 }
-.focus-aznavour section#ile4 .city {
+.focus-aznavour section .city {
   width: 26vw;
   position: absolute;
   top: 6vh;
   left: 30vw;
   pointer-events: none;
 }
-.focus-aznavour section .sample {
+.focus-aznavour .sample {
   width: 40vw;
   height: 40vh;
   position: absolute;
@@ -954,56 +954,57 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
-.focus-aznavour section .sample.pettersbourg {
+.focus-aznavour .sample.pettersbourg {
   background-image: url("/02_sample.e2cf3038.png");
-  width: 30vw;
-  left: 43vw;
+  width: 33vw;
+  left: 41vw;
   top: 50vh;
-  height: 30vh;
+  height: 40vh;
 }
-.focus-aznavour section .sample.pettersbourg.played {
+.focus-aznavour .sample.pettersbourg.played {
   transform: translateX(140px) rotate(3deg) !important;
 }
-.focus-aznavour section .sample.santiago {
+.focus-aznavour .sample.santiago {
   background-image: url("/03_sample.7c30d484.png");
-  width: 30vw;
+  width: 31vw;
   left: 20vw;
-  top: 60vh;
-  height: 25vh;
+  top: 50vh;
+  height: 37vh;
+  transform: rotate(-15deg);
 }
-.focus-aznavour section .sample.santiago.played {
+.focus-aznavour .sample.santiago.played {
   transform: translateX(-2px) rotate(-15deg) !important;
 }
-.focus-aznavour section .sample.santiago .title {
+.focus-aznavour .sample.santiago .title {
   left: -7vw;
   top: -1vh;
 }
-.focus-aznavour section .sample.crawley {
+.focus-aznavour .sample.crawley {
   background-image: url("/04_sample.09acdd58.png");
   width: 50vw;
   left: 20vw;
   top: 40vh;
   height: 45vh;
 }
-.focus-aznavour section .sample.crawley.played {
+.focus-aznavour .sample.crawley.played {
   transform: translateX(-2px) rotate(-15deg) !important;
 }
-.focus-aznavour section .sample.crawley .title {
+.focus-aznavour .sample.crawley .title {
   left: 39vw;
   top: 34vh;
   max-width: 18vw;
 }
-.focus-aznavour section .sample .title {
+.focus-aznavour .sample .title {
   max-width: 14vw;
   position: absolute;
   left: -4vw;
   top: 1vh;
   pointer-events: none;
 }
-.focus-aznavour section .sample.played {
+.focus-aznavour .sample.played {
   transform: translateX(50px) rotate(3deg) !important;
 }
-.focus-aznavour section .original {
+.focus-aznavour .original {
   width: 23vw;
   height: 48vh;
   background-image: url("/01_sample.b6d6ac7e.png");
@@ -1015,50 +1016,53 @@ body {
   left: 12vw;
   transition: 1000ms;
 }
-.focus-aznavour section .original.pettersbourg {
+.focus-aznavour .original.pettersbourg {
   background-image: url("/02_original.11b4256b.png");
-  width: 30vw;
+  width: 25vw;
   left: 26vw;
-  height: 50vh;
+  height: 70vh;
+  top: 4vh;
 }
-.focus-aznavour section .original.pettersbourg.played {
+.focus-aznavour .original.pettersbourg.played {
   transform: translateX(160px) rotate(-3deg) !important;
 }
-.focus-aznavour section .original.santiago {
+.focus-aznavour .original.santiago {
   background-image: url("/03_original.916858bb.png");
   width: 30vw;
   left: 40vw;
-  height: 50vh;
+  height: 70vh;
+  top: 4vh;
+  transform: rotate(17deg) !important;
 }
-.focus-aznavour section .original.santiago .title {
+.focus-aznavour .original.santiago .title {
   left: 23vw;
   top: 39vh;
 }
-.focus-aznavour section .original.santiago.played {
+.focus-aznavour .original.santiago.played {
   transform: translateX(160px) rotate(-3deg) !important;
 }
-.focus-aznavour section .original.crawley {
+.focus-aznavour .original.crawley {
   background-image: url("/04_original.645e3504.png");
   width: 47vw;
   left: 40vw;
   height: 50vh;
 }
-.focus-aznavour section .original.crawley .title {
+.focus-aznavour .original.crawley .title {
   left: 34vw;
   top: 7vh;
   max-width: 16vw;
 }
-.focus-aznavour section .original.crawley.played {
+.focus-aznavour .original.crawley.played {
   transform: translateX(160px) rotate(-3deg) translateY(-80px) !important;
 }
-.focus-aznavour section .original .title {
+.focus-aznavour .original .title {
   max-width: 14vw;
   position: absolute;
   left: -4vw;
   top: -1vh;
   pointer-events: none;
 }
-.focus-aznavour section .original.played {
+.focus-aznavour .original.played {
   transform: translateX(-40px) rotate(-10deg) !important;
 }
 
@@ -1343,6 +1347,7 @@ body {
 @keyframes removeIntro {
   0% {
     transform: translateY(0);
+    opacity: 1;
   }
   99% {
     transform: translateY(-100vh);
@@ -1352,6 +1357,7 @@ body {
     transform: translateY(-100vh);
     pointer-events: none;
     visibility: hidden;
+    opacity: 0;
   }
 }
 .intro_timeline {
@@ -1459,7 +1465,7 @@ body {
   top: 45px;
   left: 50px;
   width: 120px;
-  z-index: 999;
+  z-index: 99999;
 }
 
 .push-cab {
@@ -1468,7 +1474,7 @@ body {
   right: 50px;
   height: 120px;
   width: 120px;
-  z-index: 999;
+  z-index: 99999;
 }
 .push-cab .text-container {
   position: absolute;

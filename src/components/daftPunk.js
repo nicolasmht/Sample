@@ -492,7 +492,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
 
     this.stop = function() {
 
-        player.toggle(false);
+        player?.toggle(false);
 
         isStart = false;
 
@@ -501,9 +501,9 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         ambiantSound3.stop();
         ambiantSound4.stop();
 
-        mousemove.removeEventListener();
-        mousedown.removeEventListener();
-        mouseup.removeEventListener();
+        // mousemove?.removeEventListener();
+        // mousedown?.removeEventListener();
+        // mouseup?.removeEventListener();
 
         soundA.stop();
         soundB.stop();

@@ -96034,12 +96034,17 @@ function ScrollTimeline(scene, camera) {
 
 
   function initSlider() {
+<<<<<<< HEAD
     document.querySelector('.begin-btn').addEventListener('click', function () {
       document.querySelector('.intro_timeline').classList.add('remove-intro');
       document.querySelector('.intro_timeline-part1').classList.add('remove-intro');
       sound01.play();
       sound02.play();
     });
+=======
+    sound01.play();
+    sound02.play();
+>>>>>>> 6803e3b05624f580ceb0951583abd07b329f429b
     var sliderPos;
     var currentPos = 0;
     var slider = document.querySelector('.slider');
@@ -96087,7 +96092,12 @@ function ScrollTimeline(scene, camera) {
 
   this.mousemove = function (event) {};
 
-  this.keyup = function (e) {};
+  this.keyup = function (e) {
+    if (e.key === 'Enter') {
+      sound01.stop();
+      sound02.stop();
+    }
+  };
 }
 
 var _default = ScrollTimeline;
@@ -99663,7 +99673,7 @@ var SoundAnalyser = /*#__PURE__*/function () {
   }, {
     key: "stop",
     value: function stop() {
-      this.gainNode.gain.value = 0; // this.gainNode.disconnect(this.context.destination);//Deco
+      this.gainNode.gain.value = 0; // this.source.disconnect(this.context.destination); //Deco
       // this.url = url;
       // this.loadSound(this.url, this.onLoadSound.bind(this));
     }
@@ -99758,8 +99768,7 @@ var Player = /*#__PURE__*/function () {
 
       this.sound = sound; // Animate the vinyle
 
-      this.disc.classList.add('rotate');
-      console.log(this.title.length);
+      this.disc.classList.add('rotate'); //console.log(this.title.length)
 
       if (this.sound.title.length > 21) {
         this.title.classList.add('long');
@@ -100461,15 +100470,17 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
   };
 
   this.stop = function () {
-    player.toggle(false);
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     isStart = false;
     ambiantSound1.stop();
     ambiantSound2.stop();
     ambiantSound3.stop();
-    ambiantSound4.stop();
-    mousemove.removeEventListener();
-    mousedown.removeEventListener();
-    mouseup.removeEventListener();
+    ambiantSound4.stop(); // mousemove?.removeEventListener();
+    // mousedown?.removeEventListener();
+    // mouseup?.removeEventListener();
+
     soundA.stop();
     soundB.stop();
     soundC.stop();
@@ -101452,7 +101463,9 @@ function Component(scene) {
   };
 
   this.stop = function () {
-    player.toggle(false);
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     cursor.classList.remove('drag');
   };
 
@@ -101502,8 +101515,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function Component(scene) {
-  var player = null;
-  var map = document.querySelector('#map');
+  var player = null; // Effects
+
   var originals = document.querySelectorAll('.original');
   var samples = document.querySelectorAll('.sample');
   samples.forEach(function (sample) {
@@ -101523,9 +101536,7 @@ function Component(scene) {
     });
   });
   var ele = document.querySelector('#ct-map');
-  ele.scrollLeft = window.innerWidth / 2;
-  ele.scrollTop = window.innerHeight / 2;
-  ele.style.cursor = 'grab';
+  console.log('scrollTop ' + ele.scrollTop);
   var pos = {
     top: 0,
     left: 0,
@@ -101543,8 +101554,8 @@ function Component(scene) {
       x: e.clientX,
       y: e.clientY
     };
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
+    ele.addEventListener('mousemove', mouseMoveHandler);
+    ele.addEventListener('mouseup', mouseUpHandler);
   };
 
   var mouseMoveHandler = function mouseMoveHandler(e) {
@@ -101561,8 +101572,8 @@ function Component(scene) {
   var mouseUpHandler = function mouseUpHandler() {
     ele.style.cursor = 'grab';
     ele.style.removeProperty('user-select');
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
+    ele.removeEventListener('mousemove', mouseMoveHandler);
+    ele.removeEventListener('mouseup', mouseUpHandler);
   }; // Attach the handler
 
 
@@ -101667,10 +101678,12 @@ function Component(scene) {
       volume: 0
     });
     element.addEventListener('mouseover', function () {
+      var _player;
+
       if (currentSound === sound) return;
       sound.seek(0);
-      player.playSound(newSound);
       sound.play();
+      (_player = player) === null || _player === void 0 ? void 0 : _player.playSound(newSound);
       sound.fade(0, 1, 1300);
       currentSound = sound;
     });
@@ -101684,49 +101697,49 @@ function Component(scene) {
   }
 
   createSound(document.querySelector('#sound_01'), {
-    path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
+    path: './aznavour/sounds/01_Aznavour_parce-que-tu-crois.mp3',
     title: 'Parce Que Tu Crois ',
     artist: 'Charles Aznavour',
     date: '1966'
   });
   createSound(document.querySelector('#sample_01'), {
-    path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
+    path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: "What's the Difference",
     artist: 'Dr. Dre feat. Eminem and Xzibit',
     date: '1999'
   });
   createSound(document.querySelector('#sound_02'), {
-    path: './sounds/02_Aznavour_comme-ils-disent.mp3',
+    path: './aznavour/sounds/02_Aznavour_comme-ils-disent.mp3',
     title: 'Comme ils disent',
     artist: 'Charles Aznavour',
     date: '1972'
   });
   createSound(document.querySelector('#sample_02'), {
-    path: './sounds/02_Bad-balance_Goroda.mp3',
+    path: './aznavour/sounds/02_Bad-balance_Goroda.mp3',
     title: "\u0413\u043E\u0440\u043E\u0434\u0430",
     artist: 'Bad Balance',
     date: '2013'
   });
   createSound(document.querySelector('#sound_03'), {
-    path: './sounds/03_Aznavour_A-ma-fille.mp3',
+    path: './aznavour/sounds/03_Aznavour_A-ma-fille.mp3',
     title: "A ma fille",
     artist: 'Charles Aznavour',
     date: '1964'
   });
   createSound(document.querySelector('#sample_03'), {
-    path: './sounds/03_Movimiento-original_En-reconocimiento.mp3',
+    path: './aznavour/sounds/03_Movimiento-original_En-reconocimiento.mp3',
     title: "En Reconocimiento",
     artist: 'Movimiento Original',
     date: '2008'
   });
   createSound(document.querySelector('#sound_04'), {
-    path: './sounds/04_Aznavour_she.mp3',
+    path: './aznavour/sounds/04_Aznavour_she.mp3',
     title: "She",
     artist: 'Charles Aznavour',
     date: '1974'
   });
   createSound(document.querySelector('#sample_04'), {
-    path: './sounds/04_The-Cure_Hot-hot-hot.mp3',
+    path: './aznavour/sounds/04_The-Cure_Hot-hot-hot.mp3',
     title: "Hot hot hot !!!",
     artist: 'The Cure',
     date: '1987'
@@ -101735,11 +101748,17 @@ function Component(scene) {
   this.start = function () {
     // Attach the handler
     player = new _Player.default();
+    ele.scrollLeft = window.innerWidth / 2;
+    ele.scrollTop = window.innerHeight / 2;
+    ele.style.cursor = 'grab';
     ele.addEventListener('mousedown', mouseDownHandler);
   };
 
   this.stop = function () {
-    player.toggle(false);
+    var _player, _currentSound;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
+    (_currentSound = currentSound) === null || _currentSound === void 0 ? void 0 : _currentSound.stop();
   };
 
   this.update = function (time) {};
@@ -102108,7 +102127,9 @@ function Component(sceneMain) {
   };
 
   this.stop = function () {
-    player.toggle(false);
+    var _player, _soundPlayed;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false);
     if (soundPlayed === null) return;
     setTimeout(function () {
       tutorial.classList.remove('hide');
@@ -102116,7 +102137,7 @@ function Component(sceneMain) {
     }, 3000);
     window.cancelAnimationFrame(idAnimation);
     document.querySelector('.focus-memory').removeEventListener('mousedown', onMouseDown);
-    soundPlayed.stop();
+    (_soundPlayed = soundPlayed) === null || _soundPlayed === void 0 ? void 0 : _soundPlayed.stop();
   };
 
   this.update = function (time) {};
@@ -102989,7 +103010,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             transparent: true,
             opacity: 0.08
           });
-        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1" || child.name == "Plane2" || child.name == "carte_dessus" || child.name == "Cube_4") {
+        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1" || child.name == "Plane2" || child.name == "carte_dessus" || child.name == "Cube_4" || child.name == "paquet") {
           if (child.name != "child.material" || child.name == "herbier-herbier") return;
           child.material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
@@ -103177,6 +103198,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
       tuto.style.opacity = 1;
     });
+    renaudFocus === null || renaudFocus === void 0 ? void 0 : renaudFocus.stop();
+    gainsbourgFocus === null || gainsbourgFocus === void 0 ? void 0 : gainsbourgFocus.stop();
+    aznavourFocus === null || aznavourFocus === void 0 ? void 0 : aznavourFocus.stop();
+    memoryFocus === null || memoryFocus === void 0 ? void 0 : memoryFocus.stop();
+    poloFocus === null || poloFocus === void 0 ? void 0 : poloFocus.stop(); // daftFocus?.stop();
+
+    kaleidoscopeFocus === null || kaleidoscopeFocus === void 0 ? void 0 : kaleidoscopeFocus.stop();
   }
 
   var onDiscover = function onDiscover(callback) {
@@ -103184,7 +103212,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       reset();
       infos.classList.add('full');
       document.querySelector('.container-focus').classList.add('full');
-      sound.pause();
+      sound.stop();
       callback(); // Remove tuto
 
       setTimeout(function () {
@@ -103194,11 +103222,12 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
           });
         });
       }, 4000);
-    }, false);
+    }, {
+      once: true
+    });
   };
 
   var onClose = function onClose(callback) {
-    discover.addEventListener('click', callback, false);
     document.querySelector('.push-cab').addEventListener('click', function () {
       infos.classList.remove('visible');
       infos.classList.remove('full');
@@ -103207,7 +103236,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       sound.play();
       setTimeout(function () {
         reset();
-      }, 2000);
+      }, 500);
       callback();
     });
   }; // FOCUS
@@ -103233,11 +103262,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   // daftFocus.start();
 
   function onClick(target, item, callback) {
-    reset(); // Assign content to info container
-
+    // Assign content to info container
     document.querySelector('.title-infos').innerText = item.title;
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
     document.querySelector('.description-infos').innerHTML = item.description;
+    reset();
 
     var animate = _gsap.TweenLite.to(camera.position, 3, {
       x: target.position.x,
@@ -103272,6 +103301,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”... who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
     }, function () {
       onDiscover(function () {
+        console.log('Aznavour');
         document.querySelector('.focus-aznavour').style.display = 'block';
         aznavourFocus.start();
         onClose(function () {
@@ -103294,6 +103324,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
     }, function () {
       onDiscover(function () {
+        console.log('Britney');
         kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
         onClose(function () {
@@ -103318,6 +103349,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       onDiscover(function () {
         document.querySelector('.focus-daftpunk').style.display = 'block';
         daftFocus.start();
+        console.log('DaftPunk');
         onClose(function () {
           daftFocus.stop();
         });
@@ -104198,7 +104230,15 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "59171" + '/');
+=======
+<<<<<<< HEAD
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64276" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50979" + '/');
+>>>>>>> 964de5a43fde2cc2a4a3cbbe2995a2cbfcfa7cb2
+>>>>>>> 6803e3b05624f580ceb0951583abd07b329f429b
 
   ws.onmessage = function (event) {
     checkedAssets = {};

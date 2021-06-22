@@ -441,7 +441,6 @@ function ScrollTimeline(scene, camera) {
             window.removeEventListener( 'pointerup', onPointerUp );
             // initialPose = slider.style.top
             initialPose = parseFloat(slider.style.top.replace('px','')) + 10
-
         }
 
         function onPointerMove( e ) {
@@ -485,7 +484,12 @@ function ScrollTimeline(scene, camera) {
 
     this.mousemove = function(event) {}
 
-    this.keyup = function(e) {}
+    this.keyup = function(e) {
+        if (e.key === 'Enter') {
+            sound01.stop();
+            sound02.stop();
+        }
+    }
 }
 
 export default ScrollTimeline;
