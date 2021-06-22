@@ -369,7 +369,7 @@ body {
 }
 .focus-renaud .spacebar {
   position: fixed;
-  bottom: 6%;
+  bottom: 16%;
   left: 50%;
   transform: translate(-50%, 0px);
   width: 330px;
