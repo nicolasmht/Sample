@@ -67,15 +67,14 @@ body {
   white-space: nowrap;
 }
 #disque h2 {
-  margin: 0;
+  margin: 0px;
   position: absolute;
-  color: white;
-  top: 40px;
+  top: 43px;
   width: 100%;
   text-align: center;
-  font-size: 18px;
-  font-family: "biotif";
-  color: #EBD3BA;
+  font-size: 16px;
+  font-family: biotif;
+  color: #ebd3ba;
 }
 #disque h2.long {
   animation: toTheMars 5s linear infinite;
@@ -87,7 +86,7 @@ body {
   top: 65px;
   width: 100%;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-family: "biotif-l";
   color: #EBD3BA;
 }
@@ -504,8 +503,8 @@ body {
   left: 22%;
 }
 .focus-gainsbourg img.charlotte {
-  width: 10%;
-  bottom: 20vw;
+  width: 8vw;
+  bottom: 0vh;
   left: 10vw;
 }
 .focus-gainsbourg img.lemon {
@@ -1505,12 +1504,20 @@ body {
   left: 2px;
   height: 116px;
   width: 116px;
-  background: url("/Back_Txt_Beige.237132ad.png");
+  background-image: url("/Back_Txt.76ff78fa.png");
   background-size: contain;
+  background-position: center center;
   animation: rotation 5s linear infinite;
 }
 .push-cab .text-container.black {
   filter: invert(1) contrast(2);
+}
+.push-cab .text-container.beige {
+  background-image: url("/Back_Txt_Beige.237132ad.png") !important;
+}
+.push-cab .text-container.dig {
+  background-image: url("/Dig_txt.2944d6aa.png") !important;
+  background-size: contain;
 }
 .push-cab .circle-container {
   position: absolute;
@@ -1561,6 +1568,13 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+.logo-cabinet {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 160px;
+  z-index: 999;
 }
 
 /*# sourceMappingURL=/scss.6b84482b.css.map */

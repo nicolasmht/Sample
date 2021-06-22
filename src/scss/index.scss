@@ -79,15 +79,14 @@ body {
   }
 
   h2 {
-    margin: 0;
+    margin: 0px;
     position: absolute;
-    color: white;
-    top: 40px;
+    top: 43px;
     width: 100%;
     text-align: center;
-    font-size: 18px;
-    font-family: "biotif";
-    color: #EBD3BA;
+    font-size: 16px;
+    font-family: biotif;
+    color: rgb(235, 211, 186);
 
     &.long {
       animation: toTheMars 5s linear infinite;
@@ -103,7 +102,7 @@ body {
     top: 65px;
     width: 100%;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'biotif-l';
     color: #EBD3BA;
 
@@ -584,9 +583,10 @@ body {
     }
 
     &.charlotte {
-      width: 10%;
-      bottom: 20vw;
+      width: 8vw;
+      bottom: 0vh;
       left: 10vw;
+      
     }
 
     &.lemon {
@@ -1793,17 +1793,29 @@ body {
   height: 120px;
   width: 120px;
   z-index: 99999;
+
   .text-container {
     position: absolute;
     top: 2px;
     left: 2px;
     height: 116px;
     width: 116px;
-    background: url('../images/PushCab/Back_Txt_Beige.png');
+    background-image: url('../images/PushCab/Back_Txt.png');
     background-size: contain;
+    background-position: center center;
     animation: rotation 5s linear infinite;
+    
     &.black {
       filter: invert(1) contrast(2);
+    }
+
+    &.beige {
+      background-image: url('../images/PushCab/Back_Txt_Beige.png')!important;
+    }
+
+    &.dig{
+      background-image: url('../images/PushCab/Dig_txt.png')!important;
+      background-size: contain;
     }
   }
   .circle-container {
@@ -1851,4 +1863,11 @@ body {
 @keyframes rotation {
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
+}
+
+.logo-cabinet{
+  position: fixed;
+  top: 50px; left: 50px;
+  width: 160px;
+  z-index: 999;
 }

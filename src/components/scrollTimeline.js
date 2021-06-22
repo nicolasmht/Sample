@@ -277,7 +277,7 @@ function ScrollTimeline(scene, camera) {
 
 
         //PLAY SOUND AND CHANGE TEXTURE
-        .add(()=> { console.log('Step 1 t:1')
+        .add(()=> { //console.log('Step 1 t:1')
             if(isBack && isNotPlaying) {
                 switchSound(soundA, soundB)
                 switchSoundText('1948','Pierre Schaeffer','Études de bruits','1948','Pierre Schaeffer','Études aux chemins de fer')

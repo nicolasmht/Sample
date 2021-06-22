@@ -287,6 +287,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelector('.focus-daftpunk').style.display = 'none';
         document.querySelector('.focus-kaleidoscope').style.display = 'none';
 
+        document.querySelector('.text-container').classList.remove('beige');
+
         // Display tuto
         document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
             tuto.style.opacity = 1;
@@ -325,20 +327,43 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }
 
     const onClose = (callback) => {
-        document.querySelector('.push-cab').addEventListener('click', function() {
-            infos.classList.remove('visible');
-            infos.classList.remove('full');
-            containerFocus.classList.remove('full');
 
-            resetCameraPosition();
-            sound.play();
+        document.addEventListener('click', (event) => {
+            const className = event.target.className;
+            if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+                infos.classList.remove('visible');
+                infos.classList.remove('full');
+                containerFocus.classList.remove('full');
 
-            setTimeout(() => {
-                reset();
-            }, 500);
+                console.log('pass HERE');
 
-            callback();
-        });
+                resetCameraPosition();
+                sound.play();
+
+                setTimeout(() => {
+                    reset();
+                }, 500);
+
+                callback();
+            }
+        }, false);
+
+        // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
+        //     infos.classList.remove('visible');
+        //     infos.classList.remove('full');
+        //     containerFocus.classList.remove('full');
+
+        //     console.log('pass HERE');
+
+        //     resetCameraPosition();
+        //     sound.play();
+
+        //     setTimeout(() => {
+        //         reset();
+        //     }, 500);
+
+        //     callback();
+        // });
     }
 
     // FOCUS
@@ -438,6 +463,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             onDiscover(() => {
                 
                 console.log('Britney');
+
+                document.querySelector('.text-container').classList.add('beige');
+                console.log(document.querySelector('.text-container').classList);
 
                 kaleidoscopeFocus.start();
 

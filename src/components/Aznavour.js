@@ -191,7 +191,7 @@ createSound(document.querySelector('#sound_01') , {
 createSound(document.querySelector('#sample_01') , {
     path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: `What's the Difference`,
-    artist: 'Dr. Dre feat. Eminem and Xzibit',
+    artist: 'Dr. Dre ft. Eminem',
     date: '1999'
 });
 

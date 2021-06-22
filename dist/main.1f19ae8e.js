@@ -95823,8 +95823,7 @@ function ScrollTimeline(scene, camera) {
     }, 6) //rotation cassette sur elle meme
     //PLAY SOUND AND CHANGE TEXTURE
     .add(function () {
-      console.log('Step 1 t:1');
-
+      //console.log('Step 1 t:1')
       if (isBack && isNotPlaying) {
         switchSound(_sound.default, _sound2.default);
         switchSoundText('1948', 'Pierre Schaeffer', 'Études de bruits', '1948', 'Pierre Schaeffer', 'Études aux chemins de fer');
@@ -99779,7 +99778,7 @@ var Player = /*#__PURE__*/function () {
         this.title.classList.remove('long');
       }
 
-      if (this.sound.artist.length > 15) {
+      if (this.sound.artist.length > 18) {
         this.artist.classList.add('long');
       } else {
         this.artist.classList.remove('long');
@@ -101060,10 +101059,12 @@ function Component(scene, camera) {
 
   var booba = new Howl({
     src: ['./renaud/sounds/booba.mp3'],
-    volume: 0
+    volume: 0,
+    loop: true
   });
   var renaud = new Howl({
-    src: ['./renaud/sounds/renaud.mp3']
+    src: ['./renaud/sounds/renaud.mp3'],
+    loop: true
   }); // Timeline
 
   var imgs = document.querySelectorAll(".focus-renaud img");
@@ -101776,7 +101777,7 @@ function Component(scene) {
   createSound(document.querySelector('#sample_01'), {
     path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: "What's the Difference",
-    artist: 'Dr. Dre feat. Eminem and Xzibit',
+    artist: 'Dr. Dre ft. Eminem',
     date: '1999'
   });
   createSound(document.querySelector('#sound_02'), {
@@ -102752,6 +102753,8 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _howler = require("howler");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
 var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
@@ -102772,7 +102775,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // import FacadeTexture from '../textures/facade.png';
 // Audios
 function KaleidoscopeComponent(scene) {
-  var cursor = document.querySelector('#cursor .actions'); // Init kaleidoscope
+  var cursor = document.querySelector('#cursor .actions');
+  var player = null;
+  var isLeft = false; // Init kaleidoscope
 
   var image = new Image();
   var image2 = new Image();
@@ -102847,6 +102852,24 @@ function KaleidoscopeComponent(scene) {
 
     soundLeft.volume(1.2 * -mouseX);
     soundRight.volume(mouseX);
+    console.log(Math.sign(mouseX));
+
+    if (Math.sign(mouseX) === -1 && !isLeft) {
+      player.playSound({
+        title: 'Toxic',
+        date: '2003',
+        artist: 'Britney Spears'
+      });
+      isLeft = true;
+    } else if (Math.sign(mouseX) === 1 && isLeft) {
+      player.playSound({
+        title: 'Tere Mere Beech Mein',
+        date: '1981',
+        artist: 'Lata Mangeshkar'
+      });
+      isLeft = false;
+    }
+
     return tr = Math.atan2(hy, hx);
   });
 
@@ -102885,7 +102908,12 @@ function KaleidoscopeComponent(scene) {
   };
 
   this.start = function () {
-    // soundLeft.fade(0, 1, 1000);
+    player = new _Player.default();
+    player.playSound({
+      title: 'Tere Mere Beech Mein',
+      date: '1981',
+      artist: 'Lata Mangeshkar'
+    }); // soundLeft.fade(0, 1, 1000);
     // soundLeft.once("fade", () => {
     //     soundLeft.play();
     // });
@@ -102893,13 +102921,16 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     //     soundRight.play();
     // });
+
     cursor.classList.add('move', 'show');
     soundLeft.play();
     soundRight.play();
   };
 
   this.stop = function () {
-    // soundLeft.fade(1, 0, 1000);
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false); // soundLeft.fade(1, 0, 1000);
     // soundLeft.once("fade", () => {
     // soundLeft.stop();
     // });
@@ -102908,6 +102939,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     // soundRight.stop();
     // });
+
     cursor.classList.remove('show', 'move');
     soundLeft.stop();
     soundRight.stop();
@@ -102948,7 +102980,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","./Player":"components/Player.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -103253,7 +103285,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     document.querySelector('.focus-memory').style.display = 'none';
     document.querySelector('.focus-polo').style.display = 'none';
     document.querySelector('.focus-daftpunk').style.display = 'none';
-    document.querySelector('.focus-kaleidoscope').style.display = 'none'; // Display tuto
+    document.querySelector('.focus-kaleidoscope').style.display = 'none';
+    document.querySelector('.text-container').classList.remove('beige'); // Display tuto
 
     document.querySelectorAll('.container-focus .tuto').forEach(function (tuto) {
       tuto.style.opacity = 1;
@@ -103288,17 +103321,33 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   };
 
   var onClose = function onClose(callback) {
-    document.querySelector('.push-cab').addEventListener('click', function () {
-      infos.classList.remove('visible');
-      infos.classList.remove('full');
-      containerFocus.classList.remove('full');
-      resetCameraPosition();
-      sound.play();
-      setTimeout(function () {
-        reset();
-      }, 500);
-      callback();
-    });
+    document.addEventListener('click', function (event) {
+      var className = event.target.className;
+
+      if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+        infos.classList.remove('visible');
+        infos.classList.remove('full');
+        containerFocus.classList.remove('full');
+        console.log('pass HERE');
+        resetCameraPosition();
+        sound.play();
+        setTimeout(function () {
+          reset();
+        }, 500);
+        callback();
+      }
+    }, false); // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
+    //     infos.classList.remove('visible');
+    //     infos.classList.remove('full');
+    //     containerFocus.classList.remove('full');
+    //     console.log('pass HERE');
+    //     resetCameraPosition();
+    //     sound.play();
+    //     setTimeout(() => {
+    //         reset();
+    //     }, 500);
+    //     callback();
+    // });
   }; // FOCUS
 
 
@@ -103385,6 +103434,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }, function () {
       onDiscover(function () {
         console.log('Britney');
+        document.querySelector('.text-container').classList.add('beige');
+        console.log(document.querySelector('.text-container').classList);
         kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
         onClose(function () {
@@ -104290,7 +104341,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61559" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58006" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
