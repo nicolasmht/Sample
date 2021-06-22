@@ -100921,6 +100921,7 @@ var Player = /*#__PURE__*/function () {
     this.disc = document.querySelector('#disque');
     this.title = document.querySelector('#soundTitle');
     this.date = document.querySelector('#soundDate');
+    this.artist = document.querySelector('#soundArtist');
     this.toggle(true);
   }
 
@@ -100942,10 +100943,14 @@ var Player = /*#__PURE__*/function () {
       this.disc.classList.add('rotate'); // Affichage du titre
 
       setTimeout(function () {
-        // Edit the title of vinyle
-        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
+        var _this$sound, _this$sound2, _this$sound3;
 
-        _this.date.innerText = _this.sound.date;
+        // Edit the artist of vinyle
+        _this.artist.innerText = (_this$sound = _this.sound) === null || _this$sound === void 0 ? void 0 : _this$sound.artist; // Edit the title of vinyle
+
+        _this.title.innerText = (_this$sound2 = _this.sound) === null || _this$sound2 === void 0 ? void 0 : _this$sound2.title; // Edit the date of the vinyle
+
+        _this.date.innerText = (_this$sound3 = _this.sound) === null || _this$sound3 === void 0 ? void 0 : _this$sound3.date;
       }, 600); // Stop animation
 
       setTimeout(function () {
@@ -103880,7 +103885,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50751" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56107" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
