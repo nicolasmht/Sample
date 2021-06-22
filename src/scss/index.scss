@@ -355,6 +355,7 @@ html, body {
   transition: 400ms;
   z-index: 10000;
   pointer-events: none;
+  background-size: 28%;
 
   &.hide {
     opacity: 0;
@@ -872,6 +873,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   cursor: move;
+  display: none;
 
   background-image: url(../images/focus/kaleidoscope/Fond_4.jpg);
   background-size: cover;
@@ -1449,71 +1451,6 @@ section {
 
 .focus-daftpunk {
   cursor: grab;
-  .push-cab {
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    height: 120px;
-    width: 120px;
-    .text-container {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      height: 116px;
-      width: 116px;
-      background: url('../images/PushCab/Back_Txt_Beige.png');
-      background-size: contain;
-      animation: rotation 5s linear infinite;
-      &.black {
-        filter: invert(1) contrast(2);
-      }
-    }
-    .circle-container {
-      position: absolute;
-      height: 120px;
-      width: 120px;
-      background: url('../images/PushCab/push_cabinet.png');
-      background-size: 120px;
-      background-position: center;
-      overflow: hidden;
-      top: 0px;
-      left: 0px;
-      transition: all .25s ease-out;
-      border-radius: 100%;
-      .cirlce-img {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        height: 120px;
-        width: 120px;
-        overflow: hidden;
-        border-radius: 100%;
-        transition: all .25s ease-out;
-      }
-      &:hover {
-        height: 80px;
-        width: 80px;
-        top: 20px;
-        left: 20px;
-        overflow: hidden;
-        border-radius: 100%;
-        cursor: pointer;
-        transition: all .25s ease-out;
-        .cirlce-img {
-          position: absolute;
-          top: 0px;
-          left: 0px;
-          height: 80px;
-          width: 80px;
-          transition: all .25s ease-out;
-        }
-      }
-    }
-  }
-  @keyframes rotation {
-    0% {transform: rotate(0deg);}
-    100% {transform: rotate(360deg);}
-  }
 }
 
 @keyframes removeIntro {
@@ -1609,3 +1546,79 @@ section {
     }
   }
 }
+
+.focus-logo {
+  position: fixed;
+  top: 45px;
+  left: 50px;
+  width: 120px;
+  z-index: 999;
+}
+
+.push-cab {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  height: 120px;
+  width: 120px;
+  z-index: 999;
+  .text-container {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: 116px;
+    width: 116px;
+    background: url('../images/PushCab/Back_Txt_Beige.png');
+    background-size: contain;
+    animation: rotation 5s linear infinite;
+    &.black {
+      filter: invert(1) contrast(2);
+    }
+  }
+  .circle-container {
+    position: absolute;
+    height: 120px;
+    width: 120px;
+    background: url('../images/PushCab/push_cabinet.png');
+    background-size: 120px;
+    background-position: center;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    transition: all .25s ease-out;
+    border-radius: 100%;
+    .cirlce-img {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 120px;
+      width: 120px;
+      overflow: hidden;
+      border-radius: 100%;
+      transition: all .25s ease-out;
+    }
+    &:hover {
+      height: 80px;
+      width: 80px;
+      top: 20px;
+      left: 20px;
+      overflow: hidden;
+      border-radius: 100%;
+      cursor: pointer;
+      transition: all .25s ease-out;
+      .cirlce-img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 80px;
+        width: 80px;
+        transition: all .25s ease-out;
+      }
+    }
+  }
+}
+@keyframes rotation {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+

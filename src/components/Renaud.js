@@ -50,7 +50,7 @@ function Component(scene, camera) {
     let currentImage = 0;
 
     // Le temps de l'effet
-    const DURATION = 25;
+    const DURATION = 50;
     let videoFrames = null;
 
     // Interval
@@ -114,7 +114,6 @@ function Component(scene, camera) {
 
     createVideo(100).then(() => { 
         videoFrames = document.querySelectorAll('#video img')
-        console.log(videoFrames);
     });
 
     this.update = function(time) {}

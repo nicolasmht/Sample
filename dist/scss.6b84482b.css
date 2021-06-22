@@ -329,6 +329,7 @@ html, body {
   transition: 400ms;
   z-index: 10000;
   pointer-events: none;
+  background-size: 28%;
 }
 .tuto.hide {
   opacity: 0;
@@ -763,6 +764,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   cursor: move;
+  display: none;
   background-image: url(/Fond_4.a3bb98b7.jpg);
   background-size: cover;
   background-position: center center;
@@ -1266,75 +1268,6 @@ html, body {
 .focus-daftpunk {
   cursor: grab;
 }
-.focus-daftpunk .push-cab {
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  height: 120px;
-  width: 120px;
-}
-.focus-daftpunk .push-cab .text-container {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  height: 116px;
-  width: 116px;
-  background: url("/Back_Txt_Beige.237132ad.png");
-  background-size: contain;
-  animation: rotation 5s linear infinite;
-}
-.focus-daftpunk .push-cab .text-container.black {
-  filter: invert(1) contrast(2);
-}
-.focus-daftpunk .push-cab .circle-container {
-  position: absolute;
-  height: 120px;
-  width: 120px;
-  background: url("/push_cabinet.02cc12c3.png");
-  background-size: 120px;
-  background-position: center;
-  overflow: hidden;
-  top: 0px;
-  left: 0px;
-  transition: all 0.25s ease-out;
-  border-radius: 100%;
-}
-.focus-daftpunk .push-cab .circle-container .cirlce-img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 120px;
-  width: 120px;
-  overflow: hidden;
-  border-radius: 100%;
-  transition: all 0.25s ease-out;
-}
-.focus-daftpunk .push-cab .circle-container:hover {
-  height: 80px;
-  width: 80px;
-  top: 20px;
-  left: 20px;
-  overflow: hidden;
-  border-radius: 100%;
-  cursor: pointer;
-  transition: all 0.25s ease-out;
-}
-.focus-daftpunk .push-cab .circle-container:hover .cirlce-img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 80px;
-  width: 80px;
-  transition: all 0.25s ease-out;
-}
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 @keyframes removeIntro {
   0% {
@@ -1434,6 +1367,86 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   max-width: 400px;
+}
+
+.focus-logo {
+  position: fixed;
+  top: 45px;
+  left: 50px;
+  width: 120px;
+  z-index: 999;
+}
+
+.push-cab {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  height: 120px;
+  width: 120px;
+  z-index: 999;
+}
+.push-cab .text-container {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 116px;
+  width: 116px;
+  background: url("/Back_Txt_Beige.237132ad.png");
+  background-size: contain;
+  animation: rotation 5s linear infinite;
+}
+.push-cab .text-container.black {
+  filter: invert(1) contrast(2);
+}
+.push-cab .circle-container {
+  position: absolute;
+  height: 120px;
+  width: 120px;
+  background: url("/push_cabinet.02cc12c3.png");
+  background-size: 120px;
+  background-position: center;
+  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  transition: all 0.25s ease-out;
+  border-radius: 100%;
+}
+.push-cab .circle-container .cirlce-img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 120px;
+  width: 120px;
+  overflow: hidden;
+  border-radius: 100%;
+  transition: all 0.25s ease-out;
+}
+.push-cab .circle-container:hover {
+  height: 80px;
+  width: 80px;
+  top: 20px;
+  left: 20px;
+  overflow: hidden;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+.push-cab .circle-container:hover .cirlce-img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 80px;
+  width: 80px;
+  transition: all 0.25s ease-out;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*# sourceMappingURL=/scss.6b84482b.css.map */

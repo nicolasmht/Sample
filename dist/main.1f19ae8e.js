@@ -100818,7 +100818,7 @@ function Component(scene, camera) {
   var timer = 0;
   var currentImage = 0; // Le temps de l'effet
 
-  var DURATION = 25;
+  var DURATION = 50;
   var videoFrames = null; // Interval
 
   intervalID = setInterval(function () {
@@ -100872,7 +100872,6 @@ function Component(scene, camera) {
 
   createVideo(100).then(function () {
     videoFrames = document.querySelectorAll('#video img');
-    console.log(videoFrames);
   });
 
   this.update = function (time) {};
@@ -102711,18 +102710,18 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var texture02 = new THREE.TextureLoader().load(_test.default);
   var texture03 = new THREE.TextureLoader().load(_scratch3.default);
   var texture04 = new THREE.TextureLoader().load(_test2.default);
-  texture01.wrapS = THREE.RepeatWrapping;
-  texture01.wrapT = THREE.RepeatWrapping;
+  texture04.wrapS = THREE.RepeatWrapping;
+  texture04.wrapT = THREE.RepeatWrapping;
   texture01.minFilter = THREE.LinearMipMapLinearFilter;
   texture01.magFilter = THREE.LinearFilter;
   texture01.magFilter = THREE.CubeUVReflectionMapping;
+  texture04.rotation = 45;
   loader.load(_Cabinet.default, function (gltf) {
     var mat;
     labo = gltf.scene;
     labo.name = "labo";
     var fiveTone = new THREE.TextureLoader().load(_fivetoner.default);
     labo.traverse(function (child) {
-      //GET OLD COLOR AND USE IT WITH TOON MATERIAL
       if (child.material) {
         mat = child.material;
         if (child.name == "plante") return;
@@ -102734,7 +102733,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             transparent: true,
             opacity: 0.08
           });
-        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1") {
+        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1" || child.name == "Plane2" || child.name == "carte_dessus" || child.name == "Cube_4") {
           if (child.name != "child.material" || child.name == "herbier-herbier") return;
           child.material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
@@ -102867,7 +102866,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         ease: _gsap.EaseOut
       });
     });
-    document.querySelector('.back-labo').addEventListener('click', function (event) {
+    document.querySelector('.push-cab').addEventListener('click', function (event) {
       isClick = false;
 
       _gsap.TweenLite.to(sprite.material, 0.2, {
@@ -102929,7 +102928,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       reset();
       infos.classList.add('full');
       document.querySelector('.container-focus').classList.add('full');
-      sound.stop();
+      sound.pause();
       callback(); // Remove tuto
 
       setTimeout(function () {
@@ -102944,7 +102943,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var onClose = function onClose(callback) {
     discover.addEventListener('click', callback, false);
-    document.querySelector('.back-labo').addEventListener('click', function () {
+    document.querySelector('.push-cab').addEventListener('click', function () {
       infos.classList.remove('visible');
       infos.classList.remove('full');
       containerFocus.classList.remove('full');
@@ -103940,15 +103939,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62468" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56107" + '/');
->>>>>>> 5f14419e80c2442fc8f7193e318fcdeed11f1f07
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52791" + '/');
->>>>>>> c6b0a3cdbd2cc0c063933ad0ae0b51e8c704cd92
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62575" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
