@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { TweenMax } from 'gsap/gsap-core';
+import Player from './Player';
 
 function Component(scene) {
 
     
+    let player = null;
     let map = document.querySelector('#map');
 
 let originals = document.querySelectorAll('.original')
@@ -32,8 +34,6 @@ originals.forEach((original) => {
     });
 
 });
-
-document.addEventListener('DOMContentLoaded', function() {
 
 
     let ele = document.querySelector('#ct-map');
@@ -80,8 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Attach the handler
     ele.addEventListener('mousedown', mouseDownHandler);
-
-});
 
 //Get the position of element from top of the page
 function offsetTop(element, acc = 0) {
@@ -168,6 +166,7 @@ function createSound(element, newSound){
         if(currentSound === sound) return;
 
         sound.seek(0);
+        player.playSound(newSound);
         sound.play();
         sound.fade(0, 1,1300);
         currentSound = sound;
@@ -212,13 +211,43 @@ function createSound(element, newSound){
         date: '2013'
     });
 
+createSound(document.querySelector('#sound_03') , {
+    path: './sounds/03_Aznavour_A-ma-fille.mp3',
+    title: `A ma fille`,
+    artist: 'Charles Aznavour',
+    date: '1964'
+});
+
+createSound(document.querySelector('#sample_03') , {
+    path: './sounds/03_Movimiento-original_En-reconocimiento.mp3',
+    title: `En Reconocimiento`,
+    artist: 'Movimiento Original',
+    date: '2008'
+});
+
+createSound(document.querySelector('#sound_04') , {
+    path: './sounds/04_Aznavour_she.mp3',
+    title: `She`,
+    artist: 'Charles Aznavour',
+    date: '1974'
+});
+
+createSound(document.querySelector('#sample_04') , {
+    path: './sounds/04_The-Cure_Hot-hot-hot.mp3',
+    title: `Hot hot hot !!!`,
+    artist: 'The Cure',
+    date: '1987'
+});
+
     this.start = function() {
         // Attach the handler
+        player = new Player();
         ele.addEventListener('mousedown', mouseDownHandler);
     }
 
-    this.stop = function() {
-        sound.stop();
+    this.stop = () => {
+        player?.toggle(false);
+        currentSound?.stop();
     }
 
     this.update = function(time) {}

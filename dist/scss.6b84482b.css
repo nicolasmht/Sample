@@ -14,7 +14,8 @@
   font-family: "biotif-light";
   src: url("/Biotif-Light.adb0b3fc.ttf");
 }
-html, body {
+html,
+body {
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -60,7 +61,9 @@ html, body {
     transform: translate(-50%, 50%) rotateZ(360deg);
   }
 }
-#disque h2, #disque h3, #disque h4 {
+#disque h2,
+#disque h3,
+#disque h4 {
   white-space: nowrap;
 }
 #disque h2 {
@@ -350,6 +353,10 @@ html, body {
   background-image: url("/gainsbourg.f1494bf7.png");
   z-index: 10020;
 }
+.tuto.daft {
+  background-image: url("/daft.8f286180.png");
+  z-index: 10020;
+}
 
 .focus-renaud {
   width: 100vw;
@@ -543,8 +550,17 @@ html, body {
   height: 100vh;
   background-color: #fff;
   display: none;
+  overflow: hidden;
 }
 .focus-aznavour::-webkit-scrollbar {
+  display: none;
+}
+.focus-aznavour #ct-map {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.focus-aznavour #ct-map::-webkit-scrollbar {
   display: none;
 }
 .focus-aznavour #map {
@@ -618,6 +634,7 @@ html, body {
   width: 100%;
   height: 100%;
   background-image: url("/05.44963e58.png");
+  background-size: contain;
   margin: 0;
   position: fixed;
   top: 0;
@@ -900,7 +917,33 @@ html, body {
   transform: translate(100%, 100%);
   background-color: pink;
 }
-.focus-aznavour section .sample {
+.focus-aznavour section .deco {
+  position: absolute;
+  width: 14vw;
+}
+.focus-aznavour section .d1 {
+  top: 40vh;
+  left: 9vw;
+  width: 14vw;
+}
+.focus-aznavour section .d2 {
+  top: 70vh;
+  left: 18vw;
+  width: 13vw;
+}
+.focus-aznavour section .d3 {
+  top: 70vh;
+  left: 80vw;
+  width: 12vw;
+}
+.focus-aznavour section .city {
+  width: 26vw;
+  position: absolute;
+  top: 6vh;
+  left: 30vw;
+  pointer-events: none;
+}
+.focus-aznavour .sample {
   width: 40vw;
   height: 40vh;
   position: absolute;
@@ -912,41 +955,56 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
 }
-.focus-aznavour section .sample.pettersbourg {
+.focus-aznavour .sample.pettersbourg {
   background-image: url("/02_sample.e2cf3038.png");
   width: 30vw;
   left: 43vw;
   top: 50vh;
   height: 30vh;
 }
-.focus-aznavour section .sample.pettersbourg.played {
+.focus-aznavour .sample.pettersbourg.played {
   transform: translateX(140px) rotate(3deg) !important;
 }
-.focus-aznavour section .sample.santiago {
+.focus-aznavour .sample.santiago {
   background-image: url("/03_sample.7c30d484.png");
   width: 30vw;
   left: 20vw;
   top: 60vh;
   height: 25vh;
 }
-.focus-aznavour section .sample.santiago.played {
+.focus-aznavour .sample.santiago.played {
   transform: translateX(-2px) rotate(-15deg) !important;
 }
-.focus-aznavour section .sample.santiago .title {
+.focus-aznavour .sample.santiago .title {
   left: -7vw;
   top: -1vh;
 }
-.focus-aznavour section .sample .title {
+.focus-aznavour .sample.crawley {
+  background-image: url("/04_sample.09acdd58.png");
+  width: 50vw;
+  left: 20vw;
+  top: 40vh;
+  height: 45vh;
+}
+.focus-aznavour .sample.crawley.played {
+  transform: translateX(-2px) rotate(-15deg) !important;
+}
+.focus-aznavour .sample.crawley .title {
+  left: 39vw;
+  top: 34vh;
+  max-width: 18vw;
+}
+.focus-aznavour .sample .title {
   max-width: 14vw;
   position: absolute;
   left: -4vw;
   top: 1vh;
   pointer-events: none;
 }
-.focus-aznavour section .sample.played {
+.focus-aznavour .sample.played {
   transform: translateX(50px) rotate(3deg) !important;
 }
-.focus-aznavour section .original {
+.focus-aznavour .original {
   width: 23vw;
   height: 48vh;
   background-image: url("/01_sample.b6d6ac7e.png");
@@ -958,36 +1016,50 @@ html, body {
   left: 12vw;
   transition: 1000ms;
 }
-.focus-aznavour section .original.pettersbourg {
+.focus-aznavour .original.pettersbourg {
   background-image: url("/02_original.11b4256b.png");
   width: 30vw;
   left: 26vw;
   height: 50vh;
 }
-.focus-aznavour section .original.pettersbourg.played {
+.focus-aznavour .original.pettersbourg.played {
   transform: translateX(160px) rotate(-3deg) !important;
 }
-.focus-aznavour section .original.santiago {
+.focus-aznavour .original.santiago {
   background-image: url("/03_original.916858bb.png");
   width: 30vw;
   left: 40vw;
   height: 50vh;
 }
-.focus-aznavour section .original.santiago .title {
+.focus-aznavour .original.santiago .title {
   left: 23vw;
   top: 39vh;
 }
-.focus-aznavour section .original.santiago.played {
+.focus-aznavour .original.santiago.played {
   transform: translateX(160px) rotate(-3deg) !important;
 }
-.focus-aznavour section .original .title {
+.focus-aznavour .original.crawley {
+  background-image: url("/04_original.645e3504.png");
+  width: 47vw;
+  left: 40vw;
+  height: 50vh;
+}
+.focus-aznavour .original.crawley .title {
+  left: 34vw;
+  top: 7vh;
+  max-width: 16vw;
+}
+.focus-aznavour .original.crawley.played {
+  transform: translateX(160px) rotate(-3deg) translateY(-80px) !important;
+}
+.focus-aznavour .original .title {
   max-width: 14vw;
   position: absolute;
   left: -4vw;
   top: -1vh;
   pointer-events: none;
 }
-.focus-aznavour section .original.played {
+.focus-aznavour .original.played {
   transform: translateX(-40px) rotate(-10deg) !important;
 }
 

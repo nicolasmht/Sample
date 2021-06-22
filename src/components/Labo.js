@@ -291,6 +291,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         document.querySelectorAll('.container-focus .tuto').forEach(tuto => {
             tuto.style.opacity = 1;
         });
+
+        renaudFocus?.stop();
+        gainsbourgFocus?.stop();
+        aznavourFocus?.stop();
+        memoryFocus?.stop();
+        poloFocus?.stop();
+        // daftFocus?.stop();
+        kaleidoscopeFocus?.stop();
     }
 
     const onDiscover = (callback) => {
@@ -301,7 +309,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             infos.classList.add('full');
             document.querySelector('.container-focus').classList.add('full');
-            sound.pause();
+            sound.stop();
 
             callback();
 
@@ -311,7 +319,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     TweenLite.to(tuto.style, .6, { opacity: 0 });
                 });
             }, 4000);
-        }, false);
+        }, {
+            once: true
+        });
     }
 
     const onClose = (callback) => {
@@ -334,7 +344,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     // FOCUS
     const renaudFocus = new RenaudComponent(scene, camera);
     const gainsbourgFocus = new GainsbourgComponent(scene, camera);
-    const anavourFocus = new AznavourComponent(scene, camera);
+    const aznavourFocus = new AznavourComponent(scene, camera);
     const memoryFocus = new MemoryComponent(scene);
     const poloFocus = new PoloComponent(scene);
     const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
@@ -396,9 +406,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         }, () => {
 
             onDiscover(() => {
+
+                console.log('Aznavour');
+
                 document.querySelector('.focus-aznavour').style.display = 'block';
+                
+                aznavourFocus.start();
+
                 onClose(() => {
-                    
+                    aznavourFocus.stop();
                 });
             })
         });
@@ -421,6 +437,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         }, () => {
             onDiscover(() => {
                 
+                console.log('Britney');
 
                 kaleidoscopeFocus.start();
 
@@ -448,8 +465,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             description: 'Flash back on the iconic french touch duo ! It’s time to challenge yourself, how much do you you know about them two ? Will you be able to link their influences to their songs... ?'
         }, () => {
             onDiscover(() => {
+
                 document.querySelector('.focus-daftpunk').style.display = 'block';
+
                 daftFocus.start();
+
+                console.log('DaftPunk');
+
                 onClose(() => {
                     daftFocus.stop();
                 });
@@ -664,7 +686,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     this.keyup = function(e) {
         if (e.key === 'Enter') {
+
             sound.play();
+
             new TimelineMax()
             .to(camera.position, 1, { x: 0, y: 2.5, z: 4.2, ease: EaseOut })
             .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })
