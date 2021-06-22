@@ -14,7 +14,8 @@
   font-family: "biotif-light";
   src: url("/Biotif-Light.adb0b3fc.ttf");
 }
-html, body {
+html,
+body {
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -60,7 +61,9 @@ html, body {
     transform: translate(-50%, 50%) rotateZ(360deg);
   }
 }
-#disque h2, #disque h3, #disque h4 {
+#disque h2,
+#disque h3,
+#disque h4 {
   white-space: nowrap;
 }
 #disque h2 {
@@ -542,8 +545,17 @@ html, body {
   height: 100vh;
   background-color: #fff;
   display: none;
+  overflow: hidden;
 }
 .focus-aznavour::-webkit-scrollbar {
+  display: none;
+}
+.focus-aznavour #ct-map {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.focus-aznavour #ct-map::-webkit-scrollbar {
   display: none;
 }
 .focus-aznavour #map {
@@ -898,11 +910,30 @@ html, body {
   transform: translate(100%, 100%);
   background-color: pink;
 }
-.focus-aznavour section#ile4 .city {
-  width: 20vw;
+.focus-aznavour section#ile4 .deco {
   position: absolute;
-  top: 13vh;
-  left: 50vw;
+  width: 14vw;
+}
+.focus-aznavour section#ile4 .d1 {
+  top: 40vh;
+  left: 9vw;
+  width: 14vw;
+}
+.focus-aznavour section#ile4 .d2 {
+  top: 70vh;
+  left: 18vw;
+  width: 13vw;
+}
+.focus-aznavour section#ile4 .d3 {
+  top: 70vh;
+  left: 80vw;
+  width: 12vw;
+}
+.focus-aznavour section#ile4 .city {
+  width: 26vw;
+  position: absolute;
+  top: 6vh;
+  left: 30vw;
   pointer-events: none;
 }
 .focus-aznavour section .sample {
@@ -952,8 +983,9 @@ html, body {
   transform: translateX(-2px) rotate(-15deg) !important;
 }
 .focus-aznavour section .sample.crawley .title {
-  left: -7vw;
-  top: -1vh;
+  left: 39vw;
+  top: 34vh;
+  max-width: 18vw;
 }
 .focus-aznavour section .sample .title {
   max-width: 14vw;
@@ -1006,11 +1038,12 @@ html, body {
   height: 50vh;
 }
 .focus-aznavour section .original.crawley .title {
-  left: 23vw;
-  top: 39vh;
+  left: 34vw;
+  top: 7vh;
+  max-width: 16vw;
 }
 .focus-aznavour section .original.crawley.played {
-  transform: translateX(160px) rotate(-3deg) !important;
+  transform: translateX(160px) rotate(-3deg) translateY(-80px) !important;
 }
 .focus-aznavour section .original .title {
   max-width: 14vw;

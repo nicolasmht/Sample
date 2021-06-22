@@ -331,7 +331,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     // FOCUS
     const renaudFocus = new RenaudComponent(scene, camera);
     const gainsbourgFocus = new GainsbourgComponent(scene, camera);
-    const anavourFocus = new AznavourComponent(scene, camera);
+    const aznavourFocus = new AznavourComponent(scene, camera);
     const memoryFocus = new MemoryComponent(scene);
     const poloFocus = new PoloComponent(scene);
     const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
@@ -396,8 +396,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             onDiscover(() => {
                 document.querySelector('.focus-aznavour').style.display = 'block';
+                
+                aznavourFocus.start();
+
                 onClose(() => {
-                    
+                    aznavourFocus.stop();
                 });
             })
         });

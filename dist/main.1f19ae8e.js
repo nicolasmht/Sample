@@ -101258,6 +101258,10 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _gsapCore = require("gsap/gsap-core");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -101275,6 +101279,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function Component(scene) {
+  var player = null;
   var map = document.querySelector('#map');
   var originals = document.querySelectorAll('.original');
   var samples = document.querySelectorAll('.sample');
@@ -101294,53 +101299,51 @@ function Component(scene) {
       original.classList.remove('played');
     });
   });
-  document.addEventListener('DOMContentLoaded', function () {
-    var ele = document.querySelector('#ct-map');
-    ele.scrollLeft = window.innerWidth / 2;
-    ele.scrollTop = window.innerHeight / 2;
+  var ele = document.querySelector('#ct-map');
+  ele.scrollLeft = window.innerWidth / 2;
+  ele.scrollTop = window.innerHeight / 2;
+  ele.style.cursor = 'grab';
+  var pos = {
+    top: 0,
+    left: 0,
+    x: 0,
+    y: 0
+  };
+
+  var mouseDownHandler = function mouseDownHandler(e) {
+    ele.style.cursor = 'grabbing';
+    ele.style.userSelect = 'none';
+    pos = {
+      left: ele.scrollLeft,
+      top: ele.scrollTop,
+      // Get the current mouse position
+      x: e.clientX,
+      y: e.clientY
+    };
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  };
+
+  var mouseMoveHandler = function mouseMoveHandler(e) {
+    // How far the mouse has been moved
+    var dx = e.clientX - pos.x;
+    var dy = e.clientY - pos.y; // Scroll the element
+
+    _gsapCore.TweenMax.to(ele, 1.2, {
+      scrollTop: pos.top - dy,
+      scrollLeft: pos.left - dx
+    });
+  };
+
+  var mouseUpHandler = function mouseUpHandler() {
     ele.style.cursor = 'grab';
-    var pos = {
-      top: 0,
-      left: 0,
-      x: 0,
-      y: 0
-    };
-
-    var mouseDownHandler = function mouseDownHandler(e) {
-      ele.style.cursor = 'grabbing';
-      ele.style.userSelect = 'none';
-      pos = {
-        left: ele.scrollLeft,
-        top: ele.scrollTop,
-        // Get the current mouse position
-        x: e.clientX,
-        y: e.clientY
-      };
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
-    };
-
-    var mouseMoveHandler = function mouseMoveHandler(e) {
-      // How far the mouse has been moved
-      var dx = e.clientX - pos.x;
-      var dy = e.clientY - pos.y; // Scroll the element
-
-      _gsapCore.TweenMax.to(ele, 1.2, {
-        scrollTop: pos.top - dy,
-        scrollLeft: pos.left - dx
-      });
-    };
-
-    var mouseUpHandler = function mouseUpHandler() {
-      ele.style.cursor = 'grab';
-      ele.style.removeProperty('user-select');
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
-    }; // Attach the handler
+    ele.style.removeProperty('user-select');
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+  }; // Attach the handler
 
 
-    ele.addEventListener('mousedown', mouseDownHandler);
-  }); //Get the position of element from top of the page
+  ele.addEventListener('mousedown', mouseDownHandler); //Get the position of element from top of the page
 
   function offsetTop(element) {
     var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -101443,6 +101446,7 @@ function Component(scene) {
     element.addEventListener('mouseover', function () {
       if (currentSound === sound) return;
       sound.seek(0);
+      player.playSound(newSound);
       sound.play();
       sound.fade(0, 1, 1300);
       currentSound = sound;
@@ -101480,10 +101484,39 @@ function Component(scene) {
     artist: 'Bad Balance',
     date: '2013'
   });
+  createSound(document.querySelector('#sound_03'), {
+    path: './sounds/03_Aznavour_A-ma-fille.mp3',
+    title: "A ma fille",
+    artist: 'Charles Aznavour',
+    date: '1964'
+  });
+  createSound(document.querySelector('#sample_03'), {
+    path: './sounds/03_Movimiento-original_En-reconocimiento.mp3',
+    title: "En Reconocimiento",
+    artist: 'Movimiento Original',
+    date: '2008'
+  });
+  createSound(document.querySelector('#sound_04'), {
+    path: './sounds/04_Aznavour_she.mp3',
+    title: "She",
+    artist: 'Charles Aznavour',
+    date: '1974'
+  });
+  createSound(document.querySelector('#sample_04'), {
+    path: './sounds/04_The-Cure_Hot-hot-hot.mp3',
+    title: "Hot hot hot !!!",
+    artist: 'The Cure',
+    date: '1987'
+  });
 
   this.start = function () {
     // Attach the handler
+    player = new _Player.default();
     ele.addEventListener('mousedown', mouseDownHandler);
+  };
+
+  this.stop = function () {
+    player.toggle(false);
   };
 
   this.update = function (time) {};
@@ -101499,7 +101532,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap/gsap-core":"../node_modules/gsap/gsap-core.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap/gsap-core":"../node_modules/gsap/gsap-core.js","./Player":"components/Player.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
 module.exports = "/card-verso.f3e52cab.jpeg";
 },{}],"components/Memory.js":[function(require,module,exports) {
 "use strict";
@@ -102959,7 +102992,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var renaudFocus = new _Renaud2.default(scene, camera);
   var gainsbourgFocus = new _Gainsbourg2.default(scene, camera);
-  var anavourFocus = new _Aznavour2.default(scene, camera);
+  var aznavourFocus = new _Aznavour2.default(scene, camera);
   var memoryFocus = new _Memory.default(scene);
   var poloFocus = new _Polo2.default(scene);
   var daftFocus = new _daftPunk.default(scene, camera, interactionManager);
@@ -103017,7 +103050,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }, function () {
       onDiscover(function () {
         document.querySelector('.focus-aznavour').style.display = 'block';
-        onClose(function () {});
+        aznavourFocus.start();
+        onClose(function () {
+          aznavourFocus.stop();
+        });
       });
     });
   });
@@ -103939,15 +103975,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62468" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56107" + '/');
->>>>>>> 5f14419e80c2442fc8f7193e318fcdeed11f1f07
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52791" + '/');
->>>>>>> c6b0a3cdbd2cc0c063933ad0ae0b51e8c704cd92
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56521" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
