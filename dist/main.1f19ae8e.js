@@ -100872,7 +100872,6 @@ function Component(scene, camera) {
 
   createVideo(100).then(function () {
     videoFrames = document.querySelectorAll('#video img');
-    console.log(videoFrames);
   });
 
   this.update = function (time) {};
