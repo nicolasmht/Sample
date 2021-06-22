@@ -99754,8 +99754,7 @@ var Player = /*#__PURE__*/function () {
 
       this.sound = sound; // Animate the vinyle
 
-      this.disc.classList.add('rotate');
-      console.log(this.title.length);
+      this.disc.classList.add('rotate'); //console.log(this.title.length)
 
       if (this.sound.title.length > 21) {
         this.title.classList.add('long');
@@ -101498,8 +101497,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function Component(scene) {
-  var player = null;
-  var map = document.querySelector('#map');
+  var player = null; // Effects
+
   var originals = document.querySelectorAll('.original');
   var samples = document.querySelectorAll('.sample');
   samples.forEach(function (sample) {
@@ -101519,9 +101518,7 @@ function Component(scene) {
     });
   });
   var ele = document.querySelector('#ct-map');
-  ele.scrollLeft = window.innerWidth / 2;
-  ele.scrollTop = window.innerHeight / 2;
-  ele.style.cursor = 'grab';
+  console.log('scrollTop ' + ele.scrollTop);
   var pos = {
     top: 0,
     left: 0,
@@ -101539,8 +101536,8 @@ function Component(scene) {
       x: e.clientX,
       y: e.clientY
     };
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
+    ele.addEventListener('mousemove', mouseMoveHandler);
+    ele.addEventListener('mouseup', mouseUpHandler);
   };
 
   var mouseMoveHandler = function mouseMoveHandler(e) {
@@ -101557,8 +101554,8 @@ function Component(scene) {
   var mouseUpHandler = function mouseUpHandler() {
     ele.style.cursor = 'grab';
     ele.style.removeProperty('user-select');
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
+    ele.removeEventListener('mousemove', mouseMoveHandler);
+    ele.removeEventListener('mouseup', mouseUpHandler);
   }; // Attach the handler
 
 
@@ -101664,8 +101661,8 @@ function Component(scene) {
     });
     element.addEventListener('mouseover', function () {
       if (currentSound === sound) return;
-      sound.seek(0);
-      player.playSound(newSound);
+      sound.seek(0); // player.playSound(newSound);
+
       sound.play();
       sound.fade(0, 1, 1300);
       currentSound = sound;
@@ -101731,6 +101728,9 @@ function Component(scene) {
   this.start = function () {
     // Attach the handler
     player = new _Player.default();
+    ele.scrollLeft = window.innerWidth / 2;
+    ele.scrollTop = window.innerHeight / 2;
+    ele.style.cursor = 'grab';
     ele.addEventListener('mousedown', mouseDownHandler);
   };
 
@@ -104194,7 +104194,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53054" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50979" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

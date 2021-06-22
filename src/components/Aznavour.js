@@ -6,42 +6,40 @@ function Component(scene) {
 
     
     let player = null;
-    let map = document.querySelector('#map');
 
-let originals = document.querySelectorAll('.original')
-let samples = document.querySelectorAll('.sample');
+    // Effects
+    let originals = document.querySelectorAll('.original')
+    let samples = document.querySelectorAll('.sample');
 
-samples.forEach((sample) => {
+    samples.forEach((sample) => {
 
-    sample.addEventListener('mouseover', () => {
-        sample.classList.add('played');
+        sample.addEventListener('mouseover', () => {
+            sample.classList.add('played');
+        });
+
+        sample.addEventListener('mouseout', () => {
+            sample.classList.remove('played')
+        });
+
     });
 
-    sample.addEventListener('mouseout', () => {
-        sample.classList.remove('played')
+    originals.forEach((original) => {
+
+        original.addEventListener('mouseover', () => {
+            original.classList.add('played');
+        });
+
+        original.addEventListener('mouseout', () => {
+            original.classList.remove('played')
+        });
+
     });
-
-});
-
-originals.forEach((original) => {
-
-    original.addEventListener('mouseover', () => {
-        original.classList.add('played');
-    });
-
-    original.addEventListener('mouseout', () => {
-        original.classList.remove('played')
-    });
-
-});
 
 
     let ele = document.querySelector('#ct-map');
 
-    ele.scrollLeft = window.innerWidth /2;
-    ele.scrollTop = window.innerHeight /2;
+    console.log('scrollTop ' + ele.scrollTop);
 
-    ele.style.cursor = 'grab';
 
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -57,8 +55,8 @@ originals.forEach((original) => {
             y: e.clientY,
         };
 
-        document.addEventListener('mousemove', mouseMoveHandler);
-        document.addEventListener('mouseup', mouseUpHandler);
+        ele.addEventListener('mousemove', mouseMoveHandler);
+        ele.addEventListener('mouseup', mouseUpHandler);
     };
 
     const mouseMoveHandler = function(e) {
@@ -74,8 +72,8 @@ originals.forEach((original) => {
         ele.style.cursor = 'grab';
         ele.style.removeProperty('user-select');
 
-        document.removeEventListener('mousemove', mouseMoveHandler);
-        document.removeEventListener('mouseup', mouseUpHandler);
+        ele.removeEventListener('mousemove', mouseMoveHandler);
+        ele.removeEventListener('mouseup', mouseUpHandler);
     };
 
     // Attach the handler
@@ -166,7 +164,7 @@ function createSound(element, newSound){
         if(currentSound === sound) return;
 
         sound.seek(0);
-        player.playSound(newSound);
+       // player.playSound(newSound);
         sound.play();
         sound.fade(0, 1,1300);
         currentSound = sound;
@@ -242,6 +240,11 @@ createSound(document.querySelector('#sample_04') , {
     this.start = function() {
         // Attach the handler
         player = new Player();
+        
+        ele.scrollLeft = window.innerWidth /2;
+        ele.scrollTop = window.innerHeight /2;
+        ele.style.cursor = 'grab';
+
         ele.addEventListener('mousedown', mouseDownHandler);
     }
 
