@@ -1043,6 +1043,14 @@ section {
     &#ile4 {
         transform: translate(100%, 100%);
         background-color: pink;
+
+        .city {
+          width: 20vw;
+          position: absolute;
+          top: 13vh;
+          left: 50vw;
+          pointer-events: none;
+      }
     }
 
     .sample {
@@ -1085,6 +1093,23 @@ section {
                 top: -1vh;
             }
         }
+
+        &.crawley {
+          background-image: url('../assets/aznavour/04_sample.png');
+          width: 50vw;
+          left: 20vw;
+          top: 40vh;
+          height: 45vh;
+
+          &.played {
+              transform: translateX(-2px) rotate(-15deg) !important;
+          }
+
+          .title {
+              left: -7vw;
+              top: -1vh;
+          }
+      }
 
         .title {
             max-width: 14vw;
@@ -1137,6 +1162,24 @@ section {
                 transform: translateX(160px) rotate(-3deg) !important;
             }
         }
+
+        &.crawley {
+          background-image: url('../assets/aznavour/04_original.png');
+          width: 47vw;
+          left: 40vw;
+          height: 50vh;
+
+          .title {
+              left: 23vw;
+              top: 39vh;
+          }
+
+          &.played {
+              transform: translateX(160px) rotate(-3deg) !important;
+          }
+      }
+
+        
 
 
 
