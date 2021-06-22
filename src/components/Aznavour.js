@@ -181,35 +181,6 @@ function createSound(element, newSound){
     
 }
 
-<<<<<<< HEAD
-    createSound(document.querySelector('#sound_01') , {
-        path: './sounds/01_Aznavour_parce-que-tu-crois.mp3',
-        title: 'Parce Que Tu Crois ',
-        artist: 'Charles Aznavour',
-        date: '1966'
-    });
-
-    createSound(document.querySelector('#sample_01') , {
-        path: './sounds/01_Dr-Dre_whats-the-difference.mp3',
-        title: `What's the Difference`,
-        artist: 'Dr. Dre feat. Eminem and Xzibit',
-        date: '1999'
-    });
-
-    createSound(document.querySelector('#sound_02') , {
-        path: './sounds/02_Aznavour_comme-ils-disent.mp3',
-        title: 'Comme ils disent',
-        artist: 'Charles Aznavour',
-        date: '1972'
-    });
-
-    createSound(document.querySelector('#sample_02') , {
-        path: './sounds/02_Bad-balance_Goroda.mp3',
-        title: `Города`,
-        artist: 'Bad Balance',
-        date: '2013'
-    });
-=======
 createSound(document.querySelector('#sound_01') , {
     path: './aznavour/sounds/01_Aznavour_parce-que-tu-crois.mp3',
     title: 'Parce Que Tu Crois ',
@@ -237,7 +208,6 @@ createSound(document.querySelector('#sample_02') , {
     artist: 'Bad Balance',
     date: '2013'
 });
->>>>>>> 964de5a43fde2cc2a4a3cbbe2995a2cbfcfa7cb2
 
 createSound(document.querySelector('#sound_03') , {
     path: './aznavour/sounds/03_Aznavour_A-ma-fille.mp3',
