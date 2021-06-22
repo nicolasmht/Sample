@@ -79,15 +79,14 @@ body {
   }
 
   h2 {
-    margin: 0;
+    margin: 0px;
     position: absolute;
-    color: white;
-    top: 40px;
+    top: 43px;
     width: 100%;
     text-align: center;
-    font-size: 18px;
-    font-family: "biotif";
-    color: #EBD3BA;
+    font-size: 16px;
+    font-family: biotif;
+    color: rgb(235, 211, 186);
 
     &.long {
       animation: toTheMars 5s linear infinite;
@@ -103,7 +102,7 @@ body {
     top: 65px;
     width: 100%;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'biotif-l';
     color: #EBD3BA;
 
@@ -584,9 +583,10 @@ body {
     }
 
     &.charlotte {
-      width: 10%;
-      bottom: 20vw;
+      width: 8vw;
+      bottom: 0vh;
       left: 10vw;
+      
     }
 
     &.lemon {

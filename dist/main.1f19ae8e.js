@@ -99772,7 +99772,7 @@ var Player = /*#__PURE__*/function () {
         this.title.classList.remove('long');
       }
 
-      if (this.sound.artist.length > 15) {
+      if (this.sound.artist.length > 18) {
         this.artist.classList.add('long');
       } else {
         this.artist.classList.remove('long');
@@ -102718,6 +102718,8 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _howler = require("howler");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
 var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
@@ -102738,7 +102740,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // import FacadeTexture from '../textures/facade.png';
 // Audios
 function KaleidoscopeComponent(scene) {
-  var cursor = document.querySelector('#cursor .actions'); // Init kaleidoscope
+  var cursor = document.querySelector('#cursor .actions');
+  var player = null;
+  var isLeft = false; // Init kaleidoscope
 
   var image = new Image();
   var image2 = new Image();
@@ -102813,6 +102817,24 @@ function KaleidoscopeComponent(scene) {
 
     soundLeft.volume(1.2 * -mouseX);
     soundRight.volume(mouseX);
+    console.log(Math.sign(mouseX));
+
+    if (Math.sign(mouseX) === -1 && !isLeft) {
+      player.playSound({
+        title: 'Toxic',
+        date: '2003',
+        artist: 'Britney Spears'
+      });
+      isLeft = true;
+    } else if (Math.sign(mouseX) === 1 && isLeft) {
+      player.playSound({
+        title: 'Tere Mere Beech Mein',
+        date: '1981',
+        artist: 'Lata Mangeshkar'
+      });
+      isLeft = false;
+    }
+
     return tr = Math.atan2(hy, hx);
   });
 
@@ -102851,7 +102873,12 @@ function KaleidoscopeComponent(scene) {
   };
 
   this.start = function () {
-    // soundLeft.fade(0, 1, 1000);
+    player = new _Player.default();
+    player.playSound({
+      title: 'Tere Mere Beech Mein',
+      date: '1981',
+      artist: 'Lata Mangeshkar'
+    }); // soundLeft.fade(0, 1, 1000);
     // soundLeft.once("fade", () => {
     //     soundLeft.play();
     // });
@@ -102859,13 +102886,16 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     //     soundRight.play();
     // });
+
     cursor.classList.add('move', 'show');
     soundLeft.play();
     soundRight.play();
   };
 
   this.stop = function () {
-    // soundLeft.fade(1, 0, 1000);
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false); // soundLeft.fade(1, 0, 1000);
     // soundLeft.once("fade", () => {
     // soundLeft.stop();
     // });
@@ -102874,6 +102904,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     // soundRight.stop();
     // });
+
     cursor.classList.remove('show', 'move');
     soundLeft.stop();
     soundRight.stop();
@@ -102914,7 +102945,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","./Player":"components/Player.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

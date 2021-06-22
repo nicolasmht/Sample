@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Howl } from 'howler';
+import Player from './Player'
 
 // Textures
 // import FacadeTexture from '../textures/facade.png';
@@ -16,6 +17,9 @@ import Sound02 from '../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahm
 function KaleidoscopeComponent(scene) {
 
     let cursor = document.querySelector('#cursor .actions');
+    let player = null;
+    let isLeft = false;
+
     // Init kaleidoscope
     let image = new Image();
     let image2 = new Image();
@@ -104,6 +108,16 @@ function KaleidoscopeComponent(scene) {
         soundLeft.volume(1.2 * -mouseX);
         soundRight.volume(mouseX);
 
+        console.log(Math.sign(mouseX))
+        if(Math.sign(mouseX) === -1 && !isLeft) {
+            player.playSound({title: 'Toxic', date: '2003', artist: 'Britney Spears'})
+            isLeft = true;
+
+        } else if(Math.sign(mouseX) === 1 && isLeft) {
+            player.playSound({title: 'Tere Mere Beech Mein', date: '1981', artist: 'Lata Mangeshkar'})
+            isLeft = false;
+        }
+
         return (tr = Math.atan2(hy, hx));
     });
 
@@ -146,6 +160,9 @@ function KaleidoscopeComponent(scene) {
     }
 
     this.start = () => {
+
+        player = new Player();
+        player.playSound({title: 'Tere Mere Beech Mein', date: '1981', artist: 'Lata Mangeshkar'})
         // soundLeft.fade(0, 1, 1000);
         // soundLeft.once("fade", () => {
         //     soundLeft.play();
@@ -162,6 +179,8 @@ function KaleidoscopeComponent(scene) {
     }
 
     this.stop = () => {
+        
+        player?.toggle(false);
         // soundLeft.fade(1, 0, 1000);
         // soundLeft.once("fade", () => {
             // soundLeft.stop();
