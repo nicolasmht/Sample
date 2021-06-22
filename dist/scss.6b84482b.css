@@ -37,6 +37,13 @@ html, body {
   transform: translate(-50%, 100%);
   transition: transform 400ms;
 }
+#disque > div {
+  width: 80%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  transform: translateX(12%);
+}
 #disque.show {
   transform: translate(-50%, 50%);
   transition: transform 400ms;
@@ -51,6 +58,9 @@ html, body {
   100% {
     transform: translate(-50%, 50%) rotateZ(360deg);
   }
+}
+#disque h2, #disque h3, #disque h4 {
+  white-space: nowrap;
 }
 #disque h2 {
   margin: 0;
@@ -73,6 +83,17 @@ html, body {
   font-size: 18px;
   font-family: "biotif-l";
   color: #EBD3BA;
+}
+#disque h3.long {
+  animation: toTheMars 5s linear infinite;
+}
+@keyframes toTheMars {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-120%);
+  }
 }
 #disque h4 {
   margin: 0;

@@ -100940,7 +100940,15 @@ var Player = /*#__PURE__*/function () {
 
       this.sound = sound; // Animate the vinyle
 
-      this.disc.classList.add('rotate'); // Affichage du titre
+      this.disc.classList.add('rotate');
+      console.log(this.title.length);
+
+      if (this.sound.title.length > 13) {
+        this.title.classList.add('long');
+      } else {
+        this.title.classList.remove('long');
+      } // Affichage du titre
+
 
       setTimeout(function () {
         var _this$sound, _this$sound2, _this$sound3;
