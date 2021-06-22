@@ -102221,15 +102221,15 @@ function Component(scene) {
     pin.addEventListener('mouseover', function () {
       // Play sound 1 if the sun is up
       if (sunIsUp && !isPlayed) {
-        if (currentSound != sunshineSound) player.playSound(sunshine);
-        currentSound = sunshineSound;
-        sunshineSound.play();
-        currentSound.fade(0, 1, 500);
-        isPlayed = true; // Play sound 2 if the sun us down
-      } else if (!sunIsUp && !isPlayed) {
         if (currentSound != sunsetSound) player.playSound(sunset);
         currentSound = sunsetSound;
         sunsetSound.play();
+        currentSound.fade(0, 1, 500);
+        isPlayed = true; // Play sound 2 if the sun us down
+      } else if (!sunIsUp && !isPlayed) {
+        if (currentSound != sunshineSound) player.playSound(sunshine);
+        currentSound = sunshineSound;
+        sunshineSound.play();
         currentSound.fade(0, 1, 500);
         isPlayed = true;
       }
