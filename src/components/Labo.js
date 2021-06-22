@@ -327,20 +327,43 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }
 
     const onClose = (callback) => {
-        document.querySelector('.push-cab').addEventListener('click', function() {
-            infos.classList.remove('visible');
-            infos.classList.remove('full');
-            containerFocus.classList.remove('full');
 
-            resetCameraPosition();
-            sound.play();
+        document.addEventListener('click', (event) => {
+            const className = event.target.className;
+            if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+                infos.classList.remove('visible');
+                infos.classList.remove('full');
+                containerFocus.classList.remove('full');
 
-            setTimeout(() => {
-                reset();
-            }, 500);
+                console.log('pass HERE');
 
-            callback();
-        });
+                resetCameraPosition();
+                sound.play();
+
+                setTimeout(() => {
+                    reset();
+                }, 500);
+
+                callback();
+            }
+        }, false);
+
+        // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
+        //     infos.classList.remove('visible');
+        //     infos.classList.remove('full');
+        //     containerFocus.classList.remove('full');
+
+        //     console.log('pass HERE');
+
+        //     resetCameraPosition();
+        //     sound.play();
+
+        //     setTimeout(() => {
+        //         reset();
+        //     }, 500);
+
+        //     callback();
+        // });
     }
 
     // FOCUS

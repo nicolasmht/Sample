@@ -103290,17 +103290,33 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   };
 
   var onClose = function onClose(callback) {
-    document.querySelector('.push-cab').addEventListener('click', function () {
-      infos.classList.remove('visible');
-      infos.classList.remove('full');
-      containerFocus.classList.remove('full');
-      resetCameraPosition();
-      sound.play();
-      setTimeout(function () {
-        reset();
-      }, 500);
-      callback();
-    });
+    document.addEventListener('click', function (event) {
+      var className = event.target.className;
+
+      if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+        infos.classList.remove('visible');
+        infos.classList.remove('full');
+        containerFocus.classList.remove('full');
+        console.log('pass HERE');
+        resetCameraPosition();
+        sound.play();
+        setTimeout(function () {
+          reset();
+        }, 500);
+        callback();
+      }
+    }, false); // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
+    //     infos.classList.remove('visible');
+    //     infos.classList.remove('full');
+    //     containerFocus.classList.remove('full');
+    //     console.log('pass HERE');
+    //     resetCameraPosition();
+    //     sound.play();
+    //     setTimeout(() => {
+    //         reset();
+    //     }, 500);
+    //     callback();
+    // });
   }; // FOCUS
 
 
@@ -104294,7 +104310,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50100" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63437" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
