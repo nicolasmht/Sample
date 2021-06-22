@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { Howler } from 'howler';
 
 // Packages
 import { TimelineMax, Power4, TweenLite, EaseInOut, EaseOut } from 'gsap';
@@ -41,7 +42,14 @@ import PoloComponent from './Polo';
 import DaftPunkComponent from './daftPunk';
 import KaleidoscopeComponent from './Kaleidoscope';
 
+import AmbientSound from '../audios/tundra-beats.mp3';
+
 function LaboComponent(scene, camera, renderer, interactionManager) {
+
+    var sound = new Howl({
+        src: [AmbientSound],
+        loop: true,
+    });
 
     const mouse = new THREE.Vector2();
     const target = new THREE.Vector2();
@@ -62,11 +70,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const texture03 = new THREE.TextureLoader().load(TextureGravure03);
     const texture04 = new THREE.TextureLoader().load(TextureScene04);
 
-    texture01.wrapS = THREE.RepeatWrapping;
-    texture01.wrapT = THREE.RepeatWrapping;
+    texture04.wrapS = THREE.RepeatWrapping;
+    texture04.wrapT = THREE.RepeatWrapping;
     texture01.minFilter = THREE.LinearMipMapLinearFilter;
     texture01.magFilter = THREE.LinearFilter;
     texture01.magFilter = THREE.CubeUVReflectionMapping;
+
+    texture04.rotation = 45;
 
     loader.load( LaboGltf, ( gltf ) => {
 
@@ -77,7 +87,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         const fiveTone = new THREE.TextureLoader().load(fiveT)
 
         labo.traverse( (child) => {
-            //GET OLD COLOR AND USE IT WITH TOON MATERIAL
             if(child.material) {
                 mat = child.material;
 
@@ -109,7 +118,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     child.name == "Cube012" ||
                     child.name == "plume_1" ||
                     child.name == "toxic" ||
-                    child.name == "cordes_1"
+                    child.name == "cordes_1" ||
+                    child.name == "Plane2" ||
+                    child.name == "carte_dessus" ||
+                    child.name == "Cube_4"
                 ) {
 
                     if (child.name != "child.material" || child.name == "herbier-herbier") return;
@@ -229,7 +241,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
         });
 
-        document.querySelector('.back-labo').addEventListener('click', (event) => {
+        document.querySelector('.push-cab').addEventListener('click', (event) => {
             isClick = false;
             TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
             TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
@@ -244,6 +256,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const containerFocus = document.querySelector('.container-focus');
     const discover = document.querySelector('.btn-infos');
 
+    function resetCameraPosition() {
+        TweenLite.to(camera.position, 1, { x: 0, y: 2.2, z: 3.9, ease: EaseInOut });
+    }
+
     // Close info
     const onInfoClose = (callback) => {
         document.querySelector('.close-infos').addEventListener('click', function() {
@@ -253,7 +269,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             infos.classList.remove('visible');
             infos.classList.remove('full');
             containerFocus.classList.remove('full');
-            TweenLite.to(camera.position, 1, { x: 0, y: 2.7, z: 4.2, ease: EaseInOut });
+            
+            resetCameraPosition();
 
             callback();
         });
@@ -276,10 +293,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     }
 
     const onDiscover = (callback) => {
-        reset();
+
         discover.addEventListener('click', () => {
+
+            reset();
+
             infos.classList.add('full');
             document.querySelector('.container-focus').classList.add('full');
+            sound.pause();
+
             callback();
 
             // Remove tuto
@@ -288,21 +310,23 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                     TweenLite.to(tuto.style, .6, { opacity: 0 });
                 });
             }, 4000);
-        }, {
-            once: true,
-        });
+        }, false);
     }
 
     const onClose = (callback) => {
 
-        // reset();
-
         discover.addEventListener('click', callback, false);
-        document.querySelector('.back-labo').addEventListener('click', function() {
+        document.querySelector('.push-cab').addEventListener('click', function() {
             infos.classList.remove('visible');
             infos.classList.remove('full');
             containerFocus.classList.remove('full');
-            TweenLite.to(camera.position, 1, { x: 0, y: 2.7, z: 2.5, ease: EaseInOut });
+
+            resetCameraPosition();
+            sound.play();
+
+            setTimeout(() => {
+                reset();
+            }, 2000);
 
             callback();
         });
@@ -311,7 +335,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     // FOCUS
     const renaudFocus = new RenaudComponent(scene, camera);
     const gainsbourgFocus = new GainsbourgComponent(scene, camera);
-    const anavourFocus = new AznavourComponent(scene, camera);
+    const aznavourFocus = new AznavourComponent(scene, camera);
     const memoryFocus = new MemoryComponent(scene);
     const poloFocus = new PoloComponent(scene);
     const daftFocus = new DaftPunkComponent(scene, camera, interactionManager);
@@ -332,7 +356,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     
     function onClick (target, item, callback) {
 
-        // reset();
+        reset();
 
         // Assign content to info container
         document.querySelector('.title-infos').innerText = item.title;
@@ -352,7 +376,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             onStart: () => {
                 // camera.lookAt(event.target.position);
             },
-            onComplete: callback()
+            onComplete: callback
         });
 
         onInfoClose(() => {
@@ -365,17 +389,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
      */
     const aznavourPin = CreateSrpite(PinInactif, 0.37, 2, -0.21);
     aznavourPin.addEventListener("click", (event) => {
+        event.stopPropagation();
         onClick(event.target, {
             title: 'Aznavour',
-            subTitle: 'Music has no boarders',
-            description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
+            subTitle: 'Music has no borders',
+            description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”... who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
         }, () => {
 
             onDiscover(() => {
-                reset();
                 document.querySelector('.focus-aznavour').style.display = 'block';
-                onClose(() => {
+                
+                aznavourFocus.start();
 
+                onClose(() => {
+                    aznavourFocus.stop();
                 });
             })
         });
@@ -389,13 +416,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const britneyPin = CreateSrpite(Britney, -1.8, 3.2, -0.25);
 
     britneyPin.addEventListener("click", (event) => {
+        event.stopPropagation();
+
         onClick(event.target, {
             title: 'Britney',
             subTitle: 'From Bollywood to Hollywood',
             description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
         }, () => {
             onDiscover(() => {
-                reset();
+                
 
                 kaleidoscopeFocus.start();
 
@@ -415,13 +444,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const daftPunkPin = CreateSrpite(DaftPunk, 1.55, 2.5, -0.15);
 
     daftPunkPin.addEventListener("click", (event) => {
+        event.stopPropagation();
+
         onClick(event.target, {
-            title: 'DaftPunk',
+            title: 'Daft Punk',
             subTitle: 'French touch zooooone',
-            description: 'Flash back on the iconic french touch duo! It’s time to challenge yourself, how much do you you know about them two? Will you be able to link their influences to their songs...?'
+            description: 'Flash back on the iconic french touch duo ! It’s time to challenge yourself, how much do you you know about them two ? Will you be able to link their influences to their songs... ?'
         }, () => {
             onDiscover(() => {
-                reset();
                 document.querySelector('.focus-daftpunk').style.display = 'block';
                 daftFocus.start();
                 onClose(() => {
@@ -439,13 +469,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const gainsbourgPin = CreateSrpite(Gainsbourg, -0.04, 3.4, -0.4);
 
     gainsbourgPin.addEventListener("click", (event) => {
+        event.stopPropagation();
+
         onClick(event.target, {
             title: 'Gainsbourg',
             subTitle: 'A hint of classic behind an iconoclast spirit',
             description: 'Well known for his music, his romances but also because of his <b>scandalous</b> spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a <b>classical music lover<b/>?'
         }, () => {
             onDiscover(() => {
-                reset();
                 document.querySelector('.focus-gainsbourg').style.display = 'block';
 
                 gainsbourgFocus.start();
@@ -465,13 +496,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const memoPin = CreateSrpite(Memo, 0.065, 1.8, 0.25);
 
     memoPin.addEventListener("click", (event) => {
+        event.stopPropagation();
+
         onClick(event.target, {
             title: 'Memo',
             subTitle: 'Play around with some nice ex-samples',
             description: 'Weeeeeeell, are you now a great sample tracker? Try to match those card by two then! It works juste like a memory, really intuitivly, we promise!'
         }, () => {
             onDiscover(() => {
-                reset();
                 document.querySelector('.focus-memory').style.display = 'block';
                 memoryFocus.start();
                 onClose(() => {
@@ -489,13 +521,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const poloPin = CreateSrpite(Polo, 1.4, 3.5, -0.4);
 
     poloPin.addEventListener("click", (event) => {
+        event.stopPropagation();
+
         onClick(event.target, {
-            title: 'Polo et Pan',
+            title: 'Polo & Pan',
             subTitle: 'From tropics to hits!',
             description: 'Let go of the stress, we take you on a trip to explore Polo & Pan’s inspirations. To give you a little preview: a bresilian lullaby might get in your way.'
         }, () => {
             onDiscover(() => {
-                reset();
                 document.querySelector('.focus-polo').style.display = 'block';
                 poloFocus.start();
                 onClose(() => {
@@ -513,13 +546,14 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const renaudPin = CreateSrpite(Renaud, -0.95, 1.9, -0.67);
 
     renaudPin.addEventListener("click", (event) => {
+        event.stopPropagation();
+
         onClick(event.target, {
             title: 'Renaud',
             subTitle: 'Melody under muscles',
-            description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba! The rapper has proved it a few times... Take a look!',
+            description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba!',
         }, () => {
             onDiscover(() => {
-                reset();
                 document.querySelector('.focus-renaud').style.display = 'block';
                 renaudFocus.start();
                 console.log(renaudFocus);
@@ -539,6 +573,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const retourPin = CreateSrpite(Retour, -1, 2.5, -0.4);
 
     retourPin.addEventListener("click", (event) => {
+        event.stopPropagation();
         console.log("Retour");
     });
 
@@ -546,7 +581,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     // Move camera
     let tlCamera = new TimelineMax({ paused: true })
-        .to(camera.position, { x: 0, y: 2.7, z: 2.5, onComplete: () => {
+        .to(camera.position, { x: 0, y: 2.5, z: 2.5, onComplete: () => {
             new TimelineMax()
             .to(camera.position, 1, { x: 0, y: 2.7, z: 1.2, ease: EaseInOut })
             .to(scene.getObjectByName('Storage_group').scale, 1, {x:0.085, y:0.085, z:0.085 })// Scale Case
@@ -568,6 +603,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
         if (window.scrollY > bodyHeight - window.screen.height && !started) {
 
+            sound.play();
+
             document.querySelector('#canvas').style.pointerEvents = 'auto';
 
             // Move to position
@@ -577,7 +614,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             camera.position.set(-0.99, 2.565, -0.305);
 
             new TimelineMax({ delay: 0.3 })
-                .to(camera.position, 2, { x: 0, y: 2.7, z: 4.2, ease: EaseOut })
+                .to(camera.position, 2, { x: 0, y: 2.5, z: 4.2, ease: EaseOut })
                 .to(aznavourPin.material, 0.15, { opacity: 1, ease: EaseOut })
                 .to(britneyPin.material, 0.15, { opacity: 1, ease: EaseOut })
                 .to(daftPunkPin.material, 0.15, { opacity: 1, ease: EaseOut })
@@ -631,8 +668,9 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
     this.keyup = function(e) {
         if (e.key === 'Enter') {
+            sound.play();
             new TimelineMax()
-            .to(camera.position, 1, { x: 0, y: 2.7, z: 4.2, ease: EaseOut })
+            .to(camera.position, 1, { x: 0, y: 2.5, z: 4.2, ease: EaseOut })
             .to(aznavourPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(britneyPin.material, 0.25, { opacity: 1, ease: EaseOut })
             .to(daftPunkPin.material, 0.25, { opacity: 1, ease: EaseOut })
@@ -644,6 +682,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             document.querySelector('#canvas').style.pointerEvents = 'auto';
             document.querySelector('.container').style.display = 'none';
+
+            document.querySelector('.intro_timeline').style.display = 'none';
         }
     }
 

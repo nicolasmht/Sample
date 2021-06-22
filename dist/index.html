@@ -24,8 +24,8 @@
             <img class="part2-discover" src="/discover.520a5ba0.png" alt="discover img">
         </div>
         <div class="intro_timeline-part1">
-            <img class="part1-vinyle" src="/visuel_vinyl.5b9f9272.png" alt="vinyle img">
-            <img class="part1-logo" src="/intro_logo.d9d3646a.png" alt="logo img">
+            <!-- <img class="part1-vinyle" src="./images/intro/visuel_vinyl.png" alt="vinyle img"/> -->
+            <img class="part1-logo" src="/Logo.cedc4c69.svg" alt="logo img">
             <p class="part1-text">Get on board to discover the univers of sampling<br>music & go over some iconic tracks!</p>
             <img class="part1-sound" src="/son.f88d891c.gif" alt="sound img">
             <p class="part1-text">Turn the sound on</p>
@@ -285,9 +285,19 @@
                     </section>
             
                     <section id="ile4">
-            
-                        <div class="sample" data-parallax="0.1">
-                        </div>
+                        <div class="original crawley" id="sound_04" data-parallax=".01/.02">
+                            <img data-parallax="-.01/-.02" src="/04_original_title.274882f2.png" class="title" alt="">
+                         </div>
+         
+                         <div class="sample crawley" id="sample_04" data-parallax="-.01/.01">
+                             <img loading="lazy" data-parallax="-.01/-.02" src="/04_sample_title.858c010f.png" class="title" alt="">
+                         </div>
+         
+                         <img loading="lazy" data-parallax=".01/.01" src="/04_text_01.32a3cfd7.png" class="deco d1" alt="">
+                         <img loading="lazy" data-parallax=".01/.01" src="/04_text_02.47e89668.png" class="deco d2" alt="">
+                         <img loading="lazy" data-parallax=".01/.01" src="/04_text_03.4a2af0dc.png" class="deco d3" alt="">
+        
+                         <img loading="lazy" data-parallax=".05/.05" src="/04_city.86e4ff81.png" class="city" alt="">
             
                     </section>
                 </div>
@@ -326,24 +336,27 @@
         <div class="focus-daftpunk">
             <div class="tuto daft"></div>
             <div class="win memory"></div>
-            <div class="push-cab">
-                <div class="text-container"><!-- text -->
-                </div>
-                <div class="circle-container"><!-- circle background to scale -->
-                    <img class="cirlce-img" src="/Push_Cabinet_Contours.16d2737d.png" alt="Img vynile"><!-- img -->
-                </div>
-            </div>
         </div>
 
         <div class="focus-kaleidoscope">
             <div class="tuto kaleidoscope"></div>
         </div>
 
-        <div class="back-labo">
+        <!-- <div class="back-labo">
             <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="27" cy="27" r="27" fill="#F2F1EC"></circle>
-                <path d="M11.9986 24.7046C11.6081 25.0952 11.6081 25.7283 11.9986 26.1188L18.3626 32.4828C18.7531 32.8733 19.3863 32.8733 19.7768 32.4828C20.1673 32.0923 20.1673 31.4591 19.7768 31.0686L14.1199 25.4117L19.7768 19.7549C20.1673 19.3644 20.1673 18.7312 19.7768 18.3407C19.3863 17.9502 18.7531 17.9502 18.3626 18.3407L11.9986 24.7046ZM41.2939 24.4117L12.7057 24.4117V26.4117L41.2939 26.4117V24.4117Z" fill="black"></path>
+                <circle cx="27" cy="27" r="27" fill="#F2F1EC"/>
+                <path d="M11.9986 24.7046C11.6081 25.0952 11.6081 25.7283 11.9986 26.1188L18.3626 32.4828C18.7531 32.8733 19.3863 32.8733 19.7768 32.4828C20.1673 32.0923 20.1673 31.4591 19.7768 31.0686L14.1199 25.4117L19.7768 19.7549C20.1673 19.3644 20.1673 18.7312 19.7768 18.3407C19.3863 17.9502 18.7531 17.9502 18.3626 18.3407L11.9986 24.7046ZM41.2939 24.4117L12.7057 24.4117V26.4117L41.2939 26.4117V24.4117Z" fill="black"/>
             </svg>             
+        </div> -->
+
+        <img src="/Logo.cedc4c69.svg" alt="logo" class="focus-logo">
+
+        <div class="push-cab">
+            <div class="text-container"><!-- text -->
+            </div>
+            <div class="circle-container"><!-- circle background to scale -->
+                <img class="cirlce-img" src="/Push_Cabinet_Contours.16d2737d.png" alt="Img vynile"><!-- img -->
+            </div>
         </div>
     </div>
     
@@ -383,8 +396,11 @@
 
       <!-- Disque -->
     <div id="disque">
-        <h3 id="soundTitle"></h3>
-        <h4 id="soundDate"></h4>
+        <div>
+            <h2 id="soundArtist"></h2>
+            <h3 id="soundTitle"></h3>
+            <h4 id="soundDate"></h4>
+        </div>
     </div>
 
     <div id="cursor">

@@ -32,9 +32,9 @@ export default class SoundAnalyser {
         this.soundBuffer = buffer;
         this.source = this.context.createBufferSource(); // Creates a sound source
         this.source.buffer = this.soundBuffer; // Source to play
-        this.source.connect(this.gainNode); //Connexion au enceinte
+        this.source.connect(this.gainNode); // Connexion au enceinte
         this.gainNode.gain.value = 1;
-        this.gainNode.connect(this.context.destination); //Connexion au enceinte
+        this.gainNode.connect(this.context.destination); // Connexion au enceinte
         this.source.connect(this.analyser); // relier a l'analyser sur une autre branche
 
         this.callback(this)
@@ -52,6 +52,7 @@ export default class SoundAnalyser {
         request.onload = function() {
             callback(request.response)
         }
+        
         request.send();
     }
 

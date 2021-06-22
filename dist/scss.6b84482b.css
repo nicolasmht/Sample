@@ -14,13 +14,15 @@
   font-family: "biotif-light";
   src: url("/Biotif-Light.adb0b3fc.ttf");
 }
-html, body {
+html,
+body {
   width: 100vw;
   height: 100vh;
   margin: 0;
   overflow-x: hidden;
   background-color: transparent;
   cursor: default;
+  user-select: none;
 }
 
 #disque {
@@ -37,6 +39,13 @@ html, body {
   transform: translate(-50%, 100%);
   transition: transform 400ms;
 }
+#disque > div {
+  width: 80%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  transform: translateX(12%);
+}
 #disque.show {
   transform: translate(-50%, 50%);
   transition: transform 400ms;
@@ -52,6 +61,22 @@ html, body {
     transform: translate(-50%, 50%) rotateZ(360deg);
   }
 }
+#disque h2,
+#disque h3,
+#disque h4 {
+  white-space: nowrap;
+}
+#disque h2 {
+  margin: 0;
+  position: absolute;
+  color: white;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-family: "biotif";
+  color: #EBD3BA;
+}
 #disque h3 {
   margin: 0;
   position: absolute;
@@ -60,7 +85,19 @@ html, body {
   width: 100%;
   text-align: center;
   font-size: 18px;
-  font-family: "biotif-b";
+  font-family: "biotif-l";
+  color: #EBD3BA;
+}
+#disque h3.long {
+  animation: toTheMars 5s linear infinite;
+}
+@keyframes toTheMars {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-120%);
+  }
 }
 #disque h4 {
   margin: 0;
@@ -183,7 +220,7 @@ html, body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(/background.0063873b.png);
+  background-image: url(/background-info.f8229202.png);
   background-size: cover;
   background-position: center center;
   background-repeat: repeat;
@@ -202,19 +239,24 @@ html, body {
 .container-infos .title-infos {
   margin: 0;
   margin-bottom: 2.5vh;
-  font-size: 4vw;
+  font-size: 3vw;
+  font-family: "bely-display";
+  text-align: center;
+  font-weight: 400;
 }
 .container-infos .subTitle-infos {
   text-align: center;
   margin: 0;
-  margin-bottom: 3vh;
-  font-size: 2vw;
+  margin-bottom: 2.2vh;
+  font-size: 1.9vw;
+  font-family: "biotif";
 }
 .container-infos .description-infos {
-  margin-bottom: 10vh;
+  margin-bottom: 2.5vh;
   text-align: left;
   font-size: 1.2vw;
   line-height: 2vw;
+  font-family: "biotif-light";
 }
 .container-infos .btn-infos {
   width: 13vw;
@@ -227,16 +269,16 @@ html, body {
 .container-infos .close-infos {
   position: absolute;
   top: 2.5vh;
-  right: 2.5vw;
-  width: 4vw;
-  height: 4vw;
+  right: 1.5vw;
+  width: 2.5vw;
+  height: 2.5vw;
   cursor: pointer;
 }
 
 .gui {
   position: fixed;
   right: 0;
-  z-index: 999;
+  z-index: 99999;
 }
 
 .box {
@@ -290,6 +332,7 @@ html, body {
   transition: 400ms;
   z-index: 10000;
   pointer-events: none;
+  background-size: 28%;
 }
 .tuto.hide {
   opacity: 0;
@@ -507,8 +550,17 @@ html, body {
   height: 100vh;
   background-color: #fff;
   display: none;
+  overflow: hidden;
 }
 .focus-aznavour::-webkit-scrollbar {
+  display: none;
+}
+.focus-aznavour #ct-map {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.focus-aznavour #ct-map::-webkit-scrollbar {
   display: none;
 }
 .focus-aznavour #map {
@@ -729,6 +781,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   cursor: move;
+  display: none;
   background-image: url(/Fond_4.a3bb98b7.jpg);
   background-size: cover;
   background-position: center center;
@@ -864,6 +917,32 @@ html, body {
   transform: translate(100%, 100%);
   background-color: pink;
 }
+.focus-aznavour section#ile4 .deco {
+  position: absolute;
+  width: 14vw;
+}
+.focus-aznavour section#ile4 .d1 {
+  top: 40vh;
+  left: 9vw;
+  width: 14vw;
+}
+.focus-aznavour section#ile4 .d2 {
+  top: 70vh;
+  left: 18vw;
+  width: 13vw;
+}
+.focus-aznavour section#ile4 .d3 {
+  top: 70vh;
+  left: 80vw;
+  width: 12vw;
+}
+.focus-aznavour section#ile4 .city {
+  width: 26vw;
+  position: absolute;
+  top: 6vh;
+  left: 30vw;
+  pointer-events: none;
+}
 .focus-aznavour section .sample {
   width: 40vw;
   height: 40vh;
@@ -899,6 +978,21 @@ html, body {
 .focus-aznavour section .sample.santiago .title {
   left: -7vw;
   top: -1vh;
+}
+.focus-aznavour section .sample.crawley {
+  background-image: url("/04_sample.09acdd58.png");
+  width: 50vw;
+  left: 20vw;
+  top: 40vh;
+  height: 45vh;
+}
+.focus-aznavour section .sample.crawley.played {
+  transform: translateX(-2px) rotate(-15deg) !important;
+}
+.focus-aznavour section .sample.crawley .title {
+  left: 39vw;
+  top: 34vh;
+  max-width: 18vw;
 }
 .focus-aznavour section .sample .title {
   max-width: 14vw;
@@ -943,6 +1037,20 @@ html, body {
 }
 .focus-aznavour section .original.santiago.played {
   transform: translateX(160px) rotate(-3deg) !important;
+}
+.focus-aznavour section .original.crawley {
+  background-image: url("/04_original.645e3504.png");
+  width: 47vw;
+  left: 40vw;
+  height: 50vh;
+}
+.focus-aznavour section .original.crawley .title {
+  left: 34vw;
+  top: 7vh;
+  max-width: 16vw;
+}
+.focus-aznavour section .original.crawley.played {
+  transform: translateX(160px) rotate(-3deg) translateY(-80px) !important;
 }
 .focus-aznavour section .original .title {
   max-width: 14vw;
@@ -993,16 +1101,17 @@ html, body {
 .container {
   position: absolute;
   width: 100vw;
+  background-image: url("/timeline_background.69c654b4.png");
   background-size: 100%;
   background-attachment: fixed;
-  padding-top: 250vh;
-  padding-bottom: 250vh;
+  padding-top: 300vh;
+  padding-bottom: 300vh;
   z-index: 998;
 }
 .container .cont_slider {
   position: fixed;
   top: 40%;
-  right: 60px;
+  right: 6vw;
   height: 200px;
   width: 20px;
   background-image: url("/Ligne.c14da6af.png");
@@ -1080,7 +1189,7 @@ html, body {
 .container .cta::before {
   content: "";
   position: absolute;
-  width: 85px;
+  width: 100px;
   background: url("/Underline.914d32f1.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -1173,12 +1282,12 @@ html, body {
 .container_artist-panel {
   background: red;
   height: 100vh;
-  width: 250px;
+  width: 450px;
   padding: 40px;
   padding-right: 100px;
   position: fixed;
   top: 0;
-  right: -390px;
+  right: -605px;
   background: url("/background-more.9a70676b.png");
   background-size: contain;
   color: white;
@@ -1231,91 +1340,22 @@ html, body {
 .focus-daftpunk {
   cursor: grab;
 }
-.focus-daftpunk .push-cab {
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  height: 120px;
-  width: 120px;
-}
-.focus-daftpunk .push-cab .text-container {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  height: 116px;
-  width: 116px;
-  background: url("/Back_Txt_Beige.237132ad.png");
-  background-size: contain;
-  animation: rotation 5s linear infinite;
-}
-.focus-daftpunk .push-cab .text-container.black {
-  filter: invert(1) contrast(2);
-}
-.focus-daftpunk .push-cab .circle-container {
-  position: absolute;
-  height: 120px;
-  width: 120px;
-  background: url("/push_cabinet.02cc12c3.png");
-  background-size: 120px;
-  background-position: center;
-  overflow: hidden;
-  top: 0px;
-  left: 0px;
-  transition: all 0.25s ease-out;
-  border-radius: 100%;
-}
-.focus-daftpunk .push-cab .circle-container .cirlce-img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 120px;
-  width: 120px;
-  overflow: hidden;
-  border-radius: 100%;
-  transition: all 0.25s ease-out;
-}
-.focus-daftpunk .push-cab .circle-container:hover {
-  height: 80px;
-  width: 80px;
-  top: 20px;
-  left: 20px;
-  overflow: hidden;
-  border-radius: 100%;
-  cursor: pointer;
-  transition: all 0.25s ease-out;
-}
-.focus-daftpunk .push-cab .circle-container:hover .cirlce-img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 80px;
-  width: 80px;
-  transition: all 0.25s ease-out;
-}
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 @keyframes removeIntro {
   0% {
-    opacity: 1;
+    transform: translateY(0);
   }
   99% {
-    opacity: 0;
+    transform: translateY(-100vh);
   }
   100% {
-    opacity: 0;
+    transform: translateY(-100vh);
     pointer-events: none;
     visibility: hidden;
   }
 }
 .intro_timeline {
-  animation: removeIntro 1s linear 12s forwards;
+  animation: removeIntro 0.3s ease-in 12s forwards;
   position: fixed;
   top: 0;
   left: 0;
@@ -1324,7 +1364,7 @@ html, body {
   z-index: 9999;
 }
 .intro_timeline-part1 {
-  animation: removeIntro 1s linear 5s forwards;
+  animation: removeIntro 0.3s ease-in 5s forwards;
   position: absolute;
   top: 0;
   left: 0;
@@ -1399,6 +1439,86 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   max-width: 400px;
+}
+
+.focus-logo {
+  position: fixed;
+  top: 45px;
+  left: 50px;
+  width: 120px;
+  z-index: 999;
+}
+
+.push-cab {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  height: 120px;
+  width: 120px;
+  z-index: 999;
+}
+.push-cab .text-container {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 116px;
+  width: 116px;
+  background: url("/Back_Txt_Beige.237132ad.png");
+  background-size: contain;
+  animation: rotation 5s linear infinite;
+}
+.push-cab .text-container.black {
+  filter: invert(1) contrast(2);
+}
+.push-cab .circle-container {
+  position: absolute;
+  height: 120px;
+  width: 120px;
+  background: url("/push_cabinet.02cc12c3.png");
+  background-size: 120px;
+  background-position: center;
+  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  transition: all 0.25s ease-out;
+  border-radius: 100%;
+}
+.push-cab .circle-container .cirlce-img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 120px;
+  width: 120px;
+  overflow: hidden;
+  border-radius: 100%;
+  transition: all 0.25s ease-out;
+}
+.push-cab .circle-container:hover {
+  height: 80px;
+  width: 80px;
+  top: 20px;
+  left: 20px;
+  overflow: hidden;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+.push-cab .circle-container:hover .cirlce-img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 80px;
+  width: 80px;
+  transition: all 0.25s ease-out;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*# sourceMappingURL=/scss.6b84482b.css.map */

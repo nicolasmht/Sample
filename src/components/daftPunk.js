@@ -484,6 +484,7 @@ function DaftPunk(sceneMain, cameraMain, interactionManagerMain) {
         if (isStart) return;
 
         ambiantSound1.play();
+
         render();
 
         isStart = true;

@@ -95470,11 +95470,13 @@ function ScrollTimeline(scene, camera) {
   var loader = new _GLTFLoader.GLTFLoader();
   var tape = new THREE.Object3D();
   var sound01 = new Howl({
-    src: [_sound.default]
+    src: [_sound.default],
+    loop: true
   });
   var sound02 = new Howl({
     src: [_sound2.default],
-    volume: 0
+    volume: 0,
+    loop: true
   });
   var initialPose = 0;
   var isBack = false;
@@ -99627,10 +99629,10 @@ var SoundAnalyser = /*#__PURE__*/function () {
 
       this.source.buffer = this.soundBuffer; // Source to play
 
-      this.source.connect(this.gainNode); //Connexion au enceinte
+      this.source.connect(this.gainNode); // Connexion au enceinte
 
       this.gainNode.gain.value = 1;
-      this.gainNode.connect(this.context.destination); //Connexion au enceinte
+      this.gainNode.connect(this.context.destination); // Connexion au enceinte
 
       this.source.connect(this.analyser); // relier a l'analyser sur une autre branche
 
@@ -99733,6 +99735,7 @@ var Player = /*#__PURE__*/function () {
     this.disc = document.querySelector('#disque');
     this.title = document.querySelector('#soundTitle');
     this.date = document.querySelector('#soundDate');
+    this.artist = document.querySelector('#soundArtist');
     this.toggle(true);
   }
 
@@ -99751,13 +99754,25 @@ var Player = /*#__PURE__*/function () {
 
       this.sound = sound; // Animate the vinyle
 
-      this.disc.classList.add('rotate'); // Affichage du titre
+      this.disc.classList.add('rotate');
+      console.log(this.title.length);
+
+      if (this.sound.title.length > 21) {
+        this.title.classList.add('long');
+      } else {
+        this.title.classList.remove('long');
+      } // Affichage du titre
+
 
       setTimeout(function () {
-        // Edit the title of vinyle
-        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
+        var _this$sound, _this$sound2, _this$sound3;
 
-        _this.date.innerText = _this.sound.date;
+        // Edit the artist of vinyle
+        _this.artist.innerText = (_this$sound = _this.sound) === null || _this$sound === void 0 ? void 0 : _this$sound.artist; // Edit the title of vinyle
+
+        _this.title.innerText = (_this$sound2 = _this.sound) === null || _this$sound2 === void 0 ? void 0 : _this$sound2.title; // Edit the date of the vinyle
+
+        _this.date.innerText = (_this$sound3 = _this.sound) === null || _this$sound3 === void 0 ? void 0 : _this$sound3.date;
       }, 600); // Stop animation
 
       setTimeout(function () {
@@ -101094,7 +101109,7 @@ function Component(scene, camera) {
   var timer = 0;
   var currentImage = 0; // Le temps de l'effet
 
-  var DURATION = 25;
+  var DURATION = 50;
   var videoFrames = null; // Interval
 
   intervalID = setInterval(function () {
@@ -101148,7 +101163,6 @@ function Component(scene, camera) {
 
   createVideo(100).then(function () {
     videoFrames = document.querySelectorAll('#video img');
-    console.log(videoFrames);
   });
 
   this.update = function (time) {};
@@ -101463,6 +101477,10 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _gsapCore = require("gsap/gsap-core");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -101480,6 +101498,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function Component(scene) {
+  var player = null;
   var map = document.querySelector('#map');
   var originals = document.querySelectorAll('.original');
   var samples = document.querySelectorAll('.sample');
@@ -101499,53 +101518,51 @@ function Component(scene) {
       original.classList.remove('played');
     });
   });
-  document.addEventListener('DOMContentLoaded', function () {
-    var ele = document.querySelector('#ct-map');
-    ele.scrollLeft = window.innerWidth / 2;
-    ele.scrollTop = window.innerHeight / 2;
+  var ele = document.querySelector('#ct-map');
+  ele.scrollLeft = window.innerWidth / 2;
+  ele.scrollTop = window.innerHeight / 2;
+  ele.style.cursor = 'grab';
+  var pos = {
+    top: 0,
+    left: 0,
+    x: 0,
+    y: 0
+  };
+
+  var mouseDownHandler = function mouseDownHandler(e) {
+    ele.style.cursor = 'grabbing';
+    ele.style.userSelect = 'none';
+    pos = {
+      left: ele.scrollLeft,
+      top: ele.scrollTop,
+      // Get the current mouse position
+      x: e.clientX,
+      y: e.clientY
+    };
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  };
+
+  var mouseMoveHandler = function mouseMoveHandler(e) {
+    // How far the mouse has been moved
+    var dx = e.clientX - pos.x;
+    var dy = e.clientY - pos.y; // Scroll the element
+
+    _gsapCore.TweenMax.to(ele, 1.2, {
+      scrollTop: pos.top - dy,
+      scrollLeft: pos.left - dx
+    });
+  };
+
+  var mouseUpHandler = function mouseUpHandler() {
     ele.style.cursor = 'grab';
-    var pos = {
-      top: 0,
-      left: 0,
-      x: 0,
-      y: 0
-    };
-
-    var mouseDownHandler = function mouseDownHandler(e) {
-      ele.style.cursor = 'grabbing';
-      ele.style.userSelect = 'none';
-      pos = {
-        left: ele.scrollLeft,
-        top: ele.scrollTop,
-        // Get the current mouse position
-        x: e.clientX,
-        y: e.clientY
-      };
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
-    };
-
-    var mouseMoveHandler = function mouseMoveHandler(e) {
-      // How far the mouse has been moved
-      var dx = e.clientX - pos.x;
-      var dy = e.clientY - pos.y; // Scroll the element
-
-      _gsapCore.TweenMax.to(ele, 1.2, {
-        scrollTop: pos.top - dy,
-        scrollLeft: pos.left - dx
-      });
-    };
-
-    var mouseUpHandler = function mouseUpHandler() {
-      ele.style.cursor = 'grab';
-      ele.style.removeProperty('user-select');
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
-    }; // Attach the handler
+    ele.style.removeProperty('user-select');
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+  }; // Attach the handler
 
 
-    ele.addEventListener('mousedown', mouseDownHandler);
-  }); //Get the position of element from top of the page
+  ele.addEventListener('mousedown', mouseDownHandler); //Get the position of element from top of the page
 
   function offsetTop(element) {
     var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -101648,6 +101665,7 @@ function Component(scene) {
     element.addEventListener('mouseover', function () {
       if (currentSound === sound) return;
       sound.seek(0);
+      player.playSound(newSound);
       sound.play();
       sound.fade(0, 1, 1300);
       currentSound = sound;
@@ -101685,10 +101703,39 @@ function Component(scene) {
     artist: 'Bad Balance',
     date: '2013'
   });
+  createSound(document.querySelector('#sound_03'), {
+    path: './sounds/03_Aznavour_A-ma-fille.mp3',
+    title: "A ma fille",
+    artist: 'Charles Aznavour',
+    date: '1964'
+  });
+  createSound(document.querySelector('#sample_03'), {
+    path: './sounds/03_Movimiento-original_En-reconocimiento.mp3',
+    title: "En Reconocimiento",
+    artist: 'Movimiento Original',
+    date: '2008'
+  });
+  createSound(document.querySelector('#sound_04'), {
+    path: './sounds/04_Aznavour_she.mp3',
+    title: "She",
+    artist: 'Charles Aznavour',
+    date: '1974'
+  });
+  createSound(document.querySelector('#sample_04'), {
+    path: './sounds/04_The-Cure_Hot-hot-hot.mp3',
+    title: "Hot hot hot !!!",
+    artist: 'The Cure',
+    date: '1987'
+  });
 
   this.start = function () {
     // Attach the handler
+    player = new _Player.default();
     ele.addEventListener('mousedown', mouseDownHandler);
+  };
+
+  this.stop = function () {
+    player.toggle(false);
   };
 
   this.update = function (time) {};
@@ -101704,7 +101751,7 @@ function Component(scene) {
 
 var _default = Component;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","gsap/gsap-core":"../node_modules/gsap/gsap-core.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","gsap/gsap-core":"../node_modules/gsap/gsap-core.js","./Player":"components/Player.js"}],"images/focus/memory/card-verso.jpeg":[function(require,module,exports) {
 module.exports = "/card-verso.f3e52cab.jpeg";
 },{}],"components/Memory.js":[function(require,module,exports) {
 "use strict";
@@ -101790,43 +101837,73 @@ function Component(sceneMain) {
   var data = [{
     id: 1,
     same: 2,
-    sound: asap
+    sound: asap,
+    artist: 'A$AP Rocky',
+    title: 'Praise the Lord',
+    date: '2018'
   }, {
     id: 2,
     same: 1,
-    sound: steve
+    sound: steve,
+    artist: 'Apple Inc.',
+    title: 'Andrean Stroll Panpipe 02',
+    date: '2006'
   }, {
     id: 3,
     same: 4,
-    sound: bowie
+    sound: bowie,
+    artist: 'David Bowie',
+    title: 'Space Oddity',
+    date: '1969'
   }, {
     id: 4,
     same: 3,
-    sound: lana
+    sound: lana,
+    artist: 'Lana Del Rey ',
+    title: 'Terrence Loves You',
+    date: '2015'
   }, {
     id: 5,
     same: 6,
-    sound: fanfare
+    sound: fanfare,
+    artist: 'Aaron Copland',
+    title: 'Fanfare for the Common Man',
+    date: '1942'
   }, {
     id: 6,
     same: 5,
-    sound: queen
+    sound: queen,
+    artist: 'Queen',
+    title: 'We will rock you',
+    date: '1977'
   }, {
     id: 7,
     same: 8,
-    sound: david
+    sound: david,
+    artist: 'David Gilmour',
+    title: 'Rattle That Lock',
+    date: '2015'
   }, {
     id: 8,
     same: 7,
-    sound: sncf
+    sound: sncf,
+    artist: 'Michaël Boumendil',
+    title: 'SNCF Jingle',
+    date: '2005'
   }, {
     id: 9,
     same: 10,
-    sound: ketchup
+    sound: ketchup,
+    artist: 'Las Ketchup',
+    title: 'The Ketchup Song',
+    date: '2002'
   }, {
     id: 10,
     same: 9,
-    sound: sugar
+    sound: sugar,
+    artist: 'Sugarhill Gang',
+    title: "Rapper's Delight",
+    date: '1979'
   }]; // Create sounds
 
   var positions = [{
@@ -101928,6 +102005,11 @@ function Component(sceneMain) {
               setTimeout(function () {
                 soundPlayed = object.parent.data.sound;
                 object.parent.data.sound.fade(0, 1, 300);
+                player.playSound({
+                  artist: object.parent.data.artist,
+                  title: object.parent.data.title,
+                  date: object.parent.data.date
+                });
                 object.parent.data.sound.play();
               }, 100);
               console.log('play');
@@ -102795,6 +102877,8 @@ var _GLTFLoader = require("three/examples/jsm/loaders/GLTFLoader");
 
 var _DRACOLoader = require("three/examples/jsm/loaders/DRACOLoader");
 
+var _howler = require("howler");
+
 var _gsap = require("gsap");
 
 var _mouse = _interopRequireDefault(require("../utils/mouse"));
@@ -102847,6 +102931,8 @@ var _daftPunk = _interopRequireDefault(require("./daftPunk"));
 
 var _Kaleidoscope = _interopRequireDefault(require("./Kaleidoscope"));
 
+var _tundraBeats = _interopRequireDefault(require("../audios/tundra-beats.mp3"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -102858,6 +102944,10 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // Gltf
 // Pin
 function LaboComponent(scene, camera, renderer, interactionManager) {
+  var sound = new Howl({
+    src: [_tundraBeats.default],
+    loop: true
+  });
   var mouse = new THREE.Vector2();
   var target = new THREE.Vector2();
   var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2); // Instantiate a loader
@@ -102872,18 +102962,18 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   var texture02 = new THREE.TextureLoader().load(_test.default);
   var texture03 = new THREE.TextureLoader().load(_scratch3.default);
   var texture04 = new THREE.TextureLoader().load(_test2.default);
-  texture01.wrapS = THREE.RepeatWrapping;
-  texture01.wrapT = THREE.RepeatWrapping;
+  texture04.wrapS = THREE.RepeatWrapping;
+  texture04.wrapT = THREE.RepeatWrapping;
   texture01.minFilter = THREE.LinearMipMapLinearFilter;
   texture01.magFilter = THREE.LinearFilter;
   texture01.magFilter = THREE.CubeUVReflectionMapping;
+  texture04.rotation = 45;
   loader.load(_Cabinet.default, function (gltf) {
     var mat;
     labo = gltf.scene;
     labo.name = "labo";
     var fiveTone = new THREE.TextureLoader().load(_fivetoner.default);
     labo.traverse(function (child) {
-      //GET OLD COLOR AND USE IT WITH TOON MATERIAL
       if (child.material) {
         mat = child.material;
         if (child.name == "plante") return;
@@ -102895,7 +102985,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             transparent: true,
             opacity: 0.08
           });
-        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1") {
+        } else if (child.name == 'cadran_solaire-cadran' || child.name == "herbier-herbier" || child.name == "map" || child.name == "Pochettes_Vinyle_Opti-vynils" || child.name == "mistral_gagnant-mistral" || child.name == "billet" || child.name == "Wings_wings" || child.name == "Cube012" || child.name == "plume_1" || child.name == "toxic" || child.name == "cordes_1" || child.name == "Plane2" || child.name == "carte_dessus" || child.name == "Cube_4") {
           if (child.name != "child.material" || child.name == "herbier-herbier") return;
           child.material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
@@ -103028,7 +103118,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         ease: _gsap.EaseOut
       });
     });
-    document.querySelector('.back-labo').addEventListener('click', function (event) {
+    document.querySelector('.push-cab').addEventListener('click', function (event) {
       isClick = false;
 
       _gsap.TweenLite.to(sprite.material, 0.2, {
@@ -103047,7 +103137,17 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var infos = document.querySelector('.container-infos');
   var containerFocus = document.querySelector('.container-focus');
-  var discover = document.querySelector('.btn-infos'); // Close info
+  var discover = document.querySelector('.btn-infos');
+
+  function resetCameraPosition() {
+    _gsap.TweenLite.to(camera.position, 1, {
+      x: 0,
+      y: 2.2,
+      z: 3.9,
+      ease: _gsap.EaseInOut
+    });
+  } // Close info
+
 
   var onInfoClose = function onInfoClose(callback) {
     document.querySelector('.close-infos').addEventListener('click', function () {
@@ -103055,14 +103155,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       infos.classList.remove('visible');
       infos.classList.remove('full');
       containerFocus.classList.remove('full');
-
-      _gsap.TweenLite.to(camera.position, 1, {
-        x: 0,
-        y: 2.7,
-        z: 4.2,
-        ease: _gsap.EaseInOut
-      });
-
+      resetCameraPosition();
       callback();
     });
   };
@@ -103083,10 +103176,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   }
 
   var onDiscover = function onDiscover(callback) {
-    reset();
     discover.addEventListener('click', function () {
+      reset();
       infos.classList.add('full');
       document.querySelector('.container-focus').classList.add('full');
+      sound.pause();
       callback(); // Remove tuto
 
       setTimeout(function () {
@@ -103096,26 +103190,20 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
           });
         });
       }, 4000);
-    }, {
-      once: true
-    });
+    }, false);
   };
 
   var onClose = function onClose(callback) {
-    // reset();
     discover.addEventListener('click', callback, false);
-    document.querySelector('.back-labo').addEventListener('click', function () {
+    document.querySelector('.push-cab').addEventListener('click', function () {
       infos.classList.remove('visible');
       infos.classList.remove('full');
       containerFocus.classList.remove('full');
-
-      _gsap.TweenLite.to(camera.position, 1, {
-        x: 0,
-        y: 2.7,
-        z: 2.5,
-        ease: _gsap.EaseInOut
-      });
-
+      resetCameraPosition();
+      sound.play();
+      setTimeout(function () {
+        reset();
+      }, 2000);
       callback();
     });
   }; // FOCUS
@@ -103123,7 +103211,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var renaudFocus = new _Renaud2.default(scene, camera);
   var gainsbourgFocus = new _Gainsbourg2.default(scene, camera);
-  var anavourFocus = new _Aznavour2.default(scene, camera);
+  var aznavourFocus = new _Aznavour2.default(scene, camera);
   var memoryFocus = new _Memory.default(scene);
   var poloFocus = new _Polo2.default(scene);
   var daftFocus = new _daftPunk.default(scene, camera, interactionManager);
@@ -103141,8 +103229,8 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   // daftFocus.start();
 
   function onClick(target, item, callback) {
-    // reset();
-    // Assign content to info container
+    reset(); // Assign content to info container
+
     document.querySelector('.title-infos').innerText = item.title;
     document.querySelector('.subTitle-infos').innerText = item.subTitle;
     document.querySelector('.description-infos').innerHTML = item.description;
@@ -103159,7 +103247,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       },
       onStart: function onStart() {// camera.lookAt(event.target.position);
       },
-      onComplete: callback()
+      onComplete: callback
     });
 
     onInfoClose(function () {
@@ -103173,15 +103261,18 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var aznavourPin = CreateSrpite(_Pin_Cab_Inactif.default, 0.37, 2, -0.21);
   aznavourPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Aznavour',
-      subTitle: 'Music has no boarders',
-      description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”...who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
+      subTitle: 'Music has no borders',
+      description: '“La Bohème”, “Emmenez-Moi”, “Hier Encore”... who has never heard of those classics of french music? Well, we found out that those hit have reach way more people than we tought, Aznavour’s songs still inspire people around the world.'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-aznavour').style.display = 'block';
-        onClose(function () {});
+        aznavourFocus.start();
+        onClose(function () {
+          aznavourFocus.stop();
+        });
       });
     });
   });
@@ -103192,13 +103283,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var britneyPin = CreateSrpite(_Britney.default, -1.8, 3.2, -0.25);
   britneyPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Britney',
       subTitle: 'From Bollywood to Hollywood',
       description: 'If you can find us something funnier than Britney Spears sampling some Bollywood, please reach us! Have a nice time. You are welcome.'
     }, function () {
       onDiscover(function () {
-        reset();
         kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
         onClose(function () {
@@ -103214,13 +103305,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var daftPunkPin = CreateSrpite(_DaftPunk.default, 1.55, 2.5, -0.15);
   daftPunkPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
-      title: 'DaftPunk',
+      title: 'Daft Punk',
       subTitle: 'French touch zooooone',
-      description: 'Flash back on the iconic french touch duo! It’s time to challenge yourself, how much do you you know about them two? Will you be able to link their influences to their songs...?'
+      description: 'Flash back on the iconic french touch duo ! It’s time to challenge yourself, how much do you you know about them two ? Will you be able to link their influences to their songs... ?'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-daftpunk').style.display = 'block';
         daftFocus.start();
         onClose(function () {
@@ -103236,13 +103327,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var gainsbourgPin = CreateSrpite(_Gainsbourg.default, -0.04, 3.4, -0.4);
   gainsbourgPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Gainsbourg',
       subTitle: 'A hint of classic behind an iconoclast spirit',
       description: 'Well known for his music, his romances but also because of his <b>scandalous</b> spirit. For instance, he burned a bill on TV in order to show how much taxes he had to pay. But are you aware that under this rebell singer’s mask hides a <b>classical music lover<b/>?'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-gainsbourg').style.display = 'block';
         gainsbourgFocus.start();
         onClose(function () {
@@ -103258,13 +103349,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var memoPin = CreateSrpite(_Memo.default, 0.065, 1.8, 0.25);
   memoPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Memo',
       subTitle: 'Play around with some nice ex-samples',
       description: 'Weeeeeeell, are you now a great sample tracker? Try to match those card by two then! It works juste like a memory, really intuitivly, we promise!'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-memory').style.display = 'block';
         memoryFocus.start();
         onClose(function () {
@@ -103280,13 +103371,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var poloPin = CreateSrpite(_Polo.default, 1.4, 3.5, -0.4);
   poloPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
-      title: 'Polo et Pan',
+      title: 'Polo & Pan',
       subTitle: 'From tropics to hits!',
       description: 'Let go of the stress, we take you on a trip to explore Polo & Pan’s inspirations. To give you a little preview: a bresilian lullaby might get in your way.'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-polo').style.display = 'block';
         poloFocus.start();
         onClose(function () {
@@ -103302,13 +103393,13 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var renaudPin = CreateSrpite(_Renaud.default, -0.95, 1.9, -0.67);
   renaudPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     onClick(event.target, {
       title: 'Renaud',
       subTitle: 'Melody under muscles',
-      description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba! The rapper has proved it a few times... Take a look!'
+      description: 'Renaud is well known for Mistral Gagnant in which he reminds himself of his childhood, the snacks, the words, a whole bunch of nice memories. Guess who’s the greatest fan of this song?  Booba!'
     }, function () {
       onDiscover(function () {
-        reset();
         document.querySelector('.focus-renaud').style.display = 'block';
         renaudFocus.start();
         console.log(renaudFocus);
@@ -103325,6 +103416,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   var retourPin = CreateSrpite(_Retour.default, -1, 2.5, -0.4);
   retourPin.addEventListener("click", function (event) {
+    event.stopPropagation();
     console.log("Retour");
   });
   interactionManager.add(retourPin); // Move camera
@@ -103333,7 +103425,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     paused: true
   }).to(camera.position, {
     x: 0,
-    y: 2.7,
+    y: 2.5,
     z: 2.5,
     onComplete: function onComplete() {
       new _gsap.TimelineMax().to(camera.position, 1, {
@@ -103379,6 +103471,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     var bodyHeight = document.documentElement.scrollHeight;
 
     if (window.scrollY > bodyHeight - window.screen.height && !started) {
+      sound.play();
       document.querySelector('#canvas').style.pointerEvents = 'auto'; // Move to position
 
       var tape = scene.getObjectByName('Storage_group');
@@ -103388,7 +103481,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         delay: 0.3
       }).to(camera.position, 2, {
         x: 0,
-        y: 2.7,
+        y: 2.5,
         z: 4.2,
         ease: _gsap.EaseOut
       }).to(aznavourPin.material, 0.15, {
@@ -103456,9 +103549,10 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
   this.keyup = function (e) {
     if (e.key === 'Enter') {
+      sound.play();
       new _gsap.TimelineMax().to(camera.position, 1, {
         x: 0,
-        y: 2.7,
+        y: 2.5,
         z: 4.2,
         ease: _gsap.EaseOut
       }).to(aznavourPin.material, 0.25, {
@@ -103488,6 +103582,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       });
       document.querySelector('#canvas').style.pointerEvents = 'auto';
       document.querySelector('.container').style.display = 'none';
+      document.querySelector('.intro_timeline').style.display = 'none';
     }
   };
 
@@ -103538,7 +103633,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
 var _default = LaboComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet.gltf":"objects/Cabinet.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/textures_gravure/test03.png":"textures/textures_gravure/test03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js"}],"noiseEffect.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/loaders/GLTFLoader":"../node_modules/three/examples/jsm/loaders/GLTFLoader.js","three/examples/jsm/loaders/DRACOLoader":"../node_modules/three/examples/jsm/loaders/DRACOLoader.js","howler":"../node_modules/howler/dist/howler.js","gsap":"../node_modules/gsap/index.js","../utils/mouse":"utils/mouse.js","../objects/Cabinet.gltf":"objects/Cabinet.gltf","../textures/Labo/Aznavour.png":"textures/Labo/Aznavour.png","../textures/Labo/Britney.png":"textures/Labo/Britney.png","../textures/Labo/Daft-Punk.png":"textures/Labo/Daft-Punk.png","../textures/Labo/Gainsbourg.png":"textures/Labo/Gainsbourg.png","../textures/Labo/Memo.png":"textures/Labo/Memo.png","../textures/Labo/Polo.png":"textures/Labo/Polo.png","../textures/Labo/Renaud.png":"textures/Labo/Renaud.png","../textures/Labo/Retour.png":"textures/Labo/Retour.png","../textures/Labo/Pin_Cab_Inactif.png":"textures/Labo/Pin_Cab_Inactif.png","../textures/Labo/Pin_Cab_Hover.png":"textures/Labo/Pin_Cab_Hover.png","../textures/scratch-01.png":"textures/scratch-01.png","../textures/scratch-02.png":"textures/scratch-02.png","../textures/scratch-03.png":"textures/scratch-03.png","../textures/textures_gravure/test02.png":"textures/textures_gravure/test02.png","../textures/textures_gravure/test03.png":"textures/textures_gravure/test03.png","../textures/fivetoner.jpg":"textures/fivetoner.jpg","./Renaud":"components/Renaud.js","./Gainsbourg":"components/Gainsbourg.js","./Aznavour":"components/Aznavour.js","./Memory":"components/Memory.js","./Polo":"components/Polo.js","./daftPunk":"components/daftPunk.js","./Kaleidoscope":"components/Kaleidoscope.js","../audios/tundra-beats.mp3":"audios/tundra-beats.mp3"}],"noiseEffect.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -104099,7 +104194,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54610" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53054" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
