@@ -43,7 +43,8 @@ body {
   height: 100%;
   overflow: hidden;
   position: relative;
-  transform: translateX(12%);
+  transform: translateX(11%);
+  border-radius: 101px;
 }
 #disque.show {
   transform: translate(-50%, 50%);
@@ -66,15 +67,17 @@ body {
   white-space: nowrap;
 }
 #disque h2 {
-  margin: 0;
+  margin: 0px;
   position: absolute;
-  color: white;
-  top: 40px;
+  top: 43px;
   width: 100%;
   text-align: center;
-  font-size: 18px;
-  font-family: "biotif";
-  color: #EBD3BA;
+  font-size: 16px;
+  font-family: biotif;
+  color: #ebd3ba;
+}
+#disque h2.long {
+  animation: toTheMars 5s linear infinite;
 }
 #disque h3 {
   margin: 0;
@@ -83,7 +86,7 @@ body {
   top: 65px;
   width: 100%;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-family: "biotif-l";
   color: #EBD3BA;
 }
@@ -500,8 +503,8 @@ body {
   left: 22%;
 }
 .focus-gainsbourg img.charlotte {
-  width: 10%;
-  bottom: 20vw;
+  width: 8vw;
+  bottom: 0vh;
   left: 10vw;
 }
 .focus-gainsbourg img.lemon {

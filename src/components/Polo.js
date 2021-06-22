@@ -95,20 +95,20 @@ function Component(scene) {
     let sireneSample = {path: OsTincoasCordeiroNanaOriginal, title: 'Cordeiro De Nanã', date: '1977', artist: 'Os Tincoãs'};
     createSound(document.querySelector('#sirene'), sireneSound, sireneSample);
 
-    let papillonSound = {path: ZumZumOriginal, title: 'Zoom zoom', date: '2017', artist: 'Polo & Pan'};
-    let papillonSample = {path: ZoomzoomSample, title: 'Zum-Zum', date: '1970', artist: 'Edu Lobo'};
+    let papillonSound = {path: ZoomzoomSample, title: 'Zoom zoom', date: '2017', artist: 'Polo & Pan'};
+    let papillonSample = {path: ZumZumOriginal, title: 'Zum-Zum', date: '1970', artist: 'Edu Lobo'};
     createSound(document.querySelector('#papillon'), papillonSound, papillonSample);
 
     let mainSound = {path: ClairedeluneOriginal, title: 'Pays imaginaire', date: '2017', artist: 'Polo & Pan'};
     let mainSample = {path: ImaginaireSample, title: 'Clair de lune', date: '1903', artist: 'Claude Debussy'};
     createSound(document.querySelector('#main'), mainSound, mainSample);
 
-    let carnivoreSound = {path: AniCouniOriginal, title: 'Ani Kuni', date: '2021', artist: 'Polo & Pan'};
-    let carnivoreSample = {path: AniKuniSample, title: 'Ani Kuni', date: '?', artist: 'Traditional Folk'};
+    let carnivoreSound = {path: AniKuniSample, title: 'Ani Kuni', date: '2021', artist: 'Polo & Pan'};
+    let carnivoreSample = {path: AniCouniOriginal, title: 'Ani Kuni', date: '?', artist: 'Traditional Folk'};
     createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
 
-    let poissonSound = {path: '/polo/sounds/poisson/Rivolta_Sample.mp3', title: 'Rivolta', date: '2013', artist: 'Polo & Pan'};
-    let poissonSample = {path: '/polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3', title: 'Crapa Pelada', date: '1945', artist: 'Quartetto Cetra'};
+    let poissonSound = {path: './polo/sounds/poisson/Rivolta_Sample.mp3', title: 'Rivolta', date: '2013', artist: 'Polo & Pan'};
+    let poissonSample = {path: './polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3', title: 'Crapa Pelada', date: '1945', artist: 'Quartetto Cetra'};
     createSound(document.querySelector('#poisson'), poissonSound, poissonSample);
 
 

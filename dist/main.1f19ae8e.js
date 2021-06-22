@@ -95510,6 +95510,10 @@ function ScrollTimeline(scene, camera) {
           // child.position.x = -10
           break;
 
+        case 'etiquette':
+          child.material.transparent = true;
+          break;
+
         case 'right':
           // console.log('MATERIAL',child.material);
           // child.material.lightMapIntensity = 2
@@ -99755,6 +99759,7 @@ var Player = /*#__PURE__*/function () {
       if (!show) this.disc.classList.remove('show');
       this.date.innerText = '';
       this.title.innerText = '';
+      this.artist.innerText = '';
     }
   }, {
     key: "playSound",
@@ -99769,6 +99774,12 @@ var Player = /*#__PURE__*/function () {
         this.title.classList.add('long');
       } else {
         this.title.classList.remove('long');
+      }
+
+      if (this.sound.artist.length > 18) {
+        this.artist.classList.add('long');
+      } else {
+        this.artist.classList.remove('long');
       } // Affichage du titre
 
 
@@ -101735,7 +101746,7 @@ function Component(scene) {
   createSound(document.querySelector('#sample_01'), {
     path: './aznavour/sounds/01_Dr-Dre_whats-the-difference.mp3',
     title: "What's the Difference",
-    artist: 'Dr. Dre feat. Eminem and Xzibit',
+    artist: 'Dr. Dre ft. Eminem',
     date: '1999'
   });
   createSound(document.querySelector('#sound_02'), {
@@ -102334,13 +102345,13 @@ function Component(scene) {
   };
   createSound(document.querySelector('#sirene'), sireneSound, sireneSample);
   var papillonSound = {
-    path: _ZumZum_Original.default,
+    path: _ZoomZoomSample.default,
     title: 'Zoom zoom',
     date: '2017',
     artist: 'Polo & Pan'
   };
   var papillonSample = {
-    path: _ZoomZoomSample.default,
+    path: _ZumZum_Original.default,
     title: 'Zum-Zum',
     date: '1970',
     artist: 'Edu Lobo'
@@ -102360,26 +102371,26 @@ function Component(scene) {
   };
   createSound(document.querySelector('#main'), mainSound, mainSample);
   var carnivoreSound = {
-    path: _Ani_Couni_Original.default,
+    path: _Ani_kuni_Sample.default,
     title: 'Ani Kuni',
     date: '2021',
     artist: 'Polo & Pan'
   };
   var carnivoreSample = {
-    path: _Ani_kuni_Sample.default,
+    path: _Ani_Couni_Original.default,
     title: 'Ani Kuni',
     date: '?',
     artist: 'Traditional Folk'
   };
   createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
   var poissonSound = {
-    path: '/polo/sounds/poisson/Rivolta_Sample.mp3',
+    path: './polo/sounds/poisson/Rivolta_Sample.mp3',
     title: 'Rivolta',
     date: '2013',
     artist: 'Polo & Pan'
   };
   var poissonSample = {
-    path: '/polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3',
+    path: './polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3',
     title: 'Crapa Pelada',
     date: '1945',
     artist: 'Quartetto Cetra'
@@ -102711,6 +102722,8 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var _howler = require("howler");
 
+var _Player = _interopRequireDefault(require("./Player"));
+
 var _Kaleidoscope = require("../utils/Kaleidoscope");
 
 var _Bollywood = _interopRequireDefault(require("../images/focus/kaleidoscope/Bollywood.png"));
@@ -102731,7 +102744,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // import FacadeTexture from '../textures/facade.png';
 // Audios
 function KaleidoscopeComponent(scene) {
-  var cursor = document.querySelector('#cursor .actions'); // Init kaleidoscope
+  var cursor = document.querySelector('#cursor .actions');
+  var player = null;
+  var isLeft = false; // Init kaleidoscope
 
   var image = new Image();
   var image2 = new Image();
@@ -102806,6 +102821,24 @@ function KaleidoscopeComponent(scene) {
 
     soundLeft.volume(1.2 * -mouseX);
     soundRight.volume(mouseX);
+    console.log(Math.sign(mouseX));
+
+    if (Math.sign(mouseX) === -1 && !isLeft) {
+      player.playSound({
+        title: 'Toxic',
+        date: '2003',
+        artist: 'Britney Spears'
+      });
+      isLeft = true;
+    } else if (Math.sign(mouseX) === 1 && isLeft) {
+      player.playSound({
+        title: 'Tere Mere Beech Mein',
+        date: '1981',
+        artist: 'Lata Mangeshkar'
+      });
+      isLeft = false;
+    }
+
     return tr = Math.atan2(hy, hx);
   });
 
@@ -102844,7 +102877,12 @@ function KaleidoscopeComponent(scene) {
   };
 
   this.start = function () {
-    // soundLeft.fade(0, 1, 1000);
+    player = new _Player.default();
+    player.playSound({
+      title: 'Tere Mere Beech Mein',
+      date: '1981',
+      artist: 'Lata Mangeshkar'
+    }); // soundLeft.fade(0, 1, 1000);
     // soundLeft.once("fade", () => {
     //     soundLeft.play();
     // });
@@ -102852,13 +102890,16 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     //     soundRight.play();
     // });
+
     cursor.classList.add('move', 'show');
     soundLeft.play();
     soundRight.play();
   };
 
   this.stop = function () {
-    // soundLeft.fade(1, 0, 1000);
+    var _player;
+
+    (_player = player) === null || _player === void 0 ? void 0 : _player.toggle(false); // soundLeft.fade(1, 0, 1000);
     // soundLeft.once("fade", () => {
     // soundLeft.stop();
     // });
@@ -102867,6 +102908,7 @@ function KaleidoscopeComponent(scene) {
     // soundRight.once("fade", () => {
     // soundRight.stop();
     // });
+
     cursor.classList.remove('show', 'move');
     soundLeft.stop();
     soundRight.stop();
@@ -102907,7 +102949,7 @@ function KaleidoscopeComponent(scene) {
 
 var _default = KaleidoscopeComponent;
 exports.default = _default;
-},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","howler":"../node_modules/howler/dist/howler.js","./Player":"components/Player.js","../utils/Kaleidoscope":"utils/Kaleidoscope.js","../images/focus/kaleidoscope/Bollywood.png":"images/focus/kaleidoscope/Bollywood.png","../images/focus/kaleidoscope/Britney.png":"images/focus/kaleidoscope/Britney.png","../audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3":"audios/focus/kaleidoscope/britney-spears-toxic-audio.mp3","../audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3":"audios/focus/kaleidoscope/lata-mangeshkar-sp-balasubrahmanyam-tere-mere-beech-mein_1.mp3"}],"components/Labo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -104252,7 +104294,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51033" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50100" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
