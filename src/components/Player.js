@@ -4,6 +4,7 @@ export default class Player {
         this.disc = document.querySelector('#disque');
         this.title = document.querySelector('#soundTitle');
         this.date =  document.querySelector('#soundDate');
+        this.artist = document.querySelector('#soundArtist');
 
         this.toggle(true);
     }
@@ -27,11 +28,15 @@ export default class Player {
         // Affichage du titre
         setTimeout(() => {
 
+
+            // Edit the artist of vinyle
+
+            this.artist.innerText = this.sound?.artist;
               // Edit the title of vinyle
-              this.title.innerText = this.sound.title;
+              this.title.innerText = this.sound?.title;
   
               // Edit the date of the vinyle
-             this.date.innerText = this.sound.date;
+             this.date.innerText = this.sound?.date;
 
         }, 600);
 

@@ -100923,6 +100923,7 @@ var Player = /*#__PURE__*/function () {
     this.disc = document.querySelector('#disque');
     this.title = document.querySelector('#soundTitle');
     this.date = document.querySelector('#soundDate');
+    this.artist = document.querySelector('#soundArtist');
     this.toggle(true);
   }
 
@@ -100944,10 +100945,14 @@ var Player = /*#__PURE__*/function () {
       this.disc.classList.add('rotate'); // Affichage du titre
 
       setTimeout(function () {
-        // Edit the title of vinyle
-        _this.title.innerText = _this.sound.title; // Edit the date of the vinyle
+        var _this$sound, _this$sound2, _this$sound3;
 
-        _this.date.innerText = _this.sound.date;
+        // Edit the artist of vinyle
+        _this.artist.innerText = (_this$sound = _this.sound) === null || _this$sound === void 0 ? void 0 : _this$sound.artist; // Edit the title of vinyle
+
+        _this.title.innerText = (_this$sound2 = _this.sound) === null || _this$sound2 === void 0 ? void 0 : _this$sound2.title; // Edit the date of the vinyle
+
+        _this.date.innerText = (_this$sound3 = _this.sound) === null || _this$sound3 === void 0 ? void 0 : _this$sound3.date;
       }, 600); // Stop animation
 
       setTimeout(function () {
@@ -101573,43 +101578,73 @@ function Component(sceneMain) {
   var data = [{
     id: 1,
     same: 2,
-    sound: asap
+    sound: asap,
+    artist: 'A$AP Rocky',
+    title: 'Praise the Lord',
+    date: '2018'
   }, {
     id: 2,
     same: 1,
-    sound: steve
+    sound: steve,
+    artist: 'Apple Inc.',
+    title: 'Andrean Stroll Panpipe 02',
+    date: '2006'
   }, {
     id: 3,
     same: 4,
-    sound: bowie
+    sound: bowie,
+    artist: 'David Bowie',
+    title: 'Space Oddity',
+    date: '1969'
   }, {
     id: 4,
     same: 3,
-    sound: lana
+    sound: lana,
+    artist: 'Lana Del Rey ',
+    title: 'Terrence Loves You',
+    date: '2015'
   }, {
     id: 5,
     same: 6,
-    sound: fanfare
+    sound: fanfare,
+    artist: 'Aaron Copland',
+    title: 'Fanfare for the Common Man',
+    date: '1942'
   }, {
     id: 6,
     same: 5,
-    sound: queen
+    sound: queen,
+    artist: 'Queen',
+    title: 'We will rock you',
+    date: '1977'
   }, {
     id: 7,
     same: 8,
-    sound: david
+    sound: david,
+    artist: 'David Gilmour',
+    title: 'Rattle That Lock',
+    date: '2015'
   }, {
     id: 8,
     same: 7,
-    sound: sncf
+    sound: sncf,
+    artist: 'Michaël Boumendil',
+    title: 'SNCF Jingle',
+    date: '2005'
   }, {
     id: 9,
     same: 10,
-    sound: ketchup
+    sound: ketchup,
+    artist: 'Las Ketchup',
+    title: 'The Ketchup Song',
+    date: '2002'
   }, {
     id: 10,
     same: 9,
-    sound: sugar
+    sound: sugar,
+    artist: 'Sugarhill Gang',
+    title: "Rapper's Delight",
+    date: '1979'
   }]; // Create sounds
 
   var positions = [{
@@ -101711,6 +101746,11 @@ function Component(sceneMain) {
               setTimeout(function () {
                 soundPlayed = object.parent.data.sound;
                 object.parent.data.sound.fade(0, 1, 300);
+                player.playSound({
+                  artist: object.parent.data.artist,
+                  title: object.parent.data.title,
+                  date: object.parent.data.date
+                });
                 object.parent.data.sound.play();
               }, 100);
               console.log('play');
@@ -103892,7 +103932,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61358" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62459" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
