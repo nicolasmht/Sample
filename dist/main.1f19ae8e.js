@@ -102334,13 +102334,13 @@ function Component(scene) {
   };
   createSound(document.querySelector('#sirene'), sireneSound, sireneSample);
   var papillonSound = {
-    path: _ZumZum_Original.default,
+    path: _ZoomZoomSample.default,
     title: 'Zoom zoom',
     date: '2017',
     artist: 'Polo & Pan'
   };
   var papillonSample = {
-    path: _ZoomZoomSample.default,
+    path: _ZumZum_Original.default,
     title: 'Zum-Zum',
     date: '1970',
     artist: 'Edu Lobo'
@@ -102360,26 +102360,26 @@ function Component(scene) {
   };
   createSound(document.querySelector('#main'), mainSound, mainSample);
   var carnivoreSound = {
-    path: _Ani_Couni_Original.default,
+    path: _Ani_kuni_Sample.default,
     title: 'Ani Kuni',
     date: '2021',
     artist: 'Polo & Pan'
   };
   var carnivoreSample = {
-    path: _Ani_kuni_Sample.default,
+    path: _Ani_Couni_Original.default,
     title: 'Ani Kuni',
     date: '?',
     artist: 'Traditional Folk'
   };
   createSound(document.querySelector('#carnivore'), carnivoreSound, carnivoreSample);
   var poissonSound = {
-    path: '/polo/sounds/poisson/Rivolta_Sample.mp3',
+    path: './polo/sounds/poisson/Rivolta_Sample.mp3',
     title: 'Rivolta',
     date: '2013',
     artist: 'Polo & Pan'
   };
   var poissonSample = {
-    path: '/polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3',
+    path: './polo/sounds/poisson/Cetra-crapa-pelada_Original.mp3',
     title: 'Crapa Pelada',
     date: '1945',
     artist: 'Quartetto Cetra'
@@ -104249,7 +104249,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54734" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58038" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
