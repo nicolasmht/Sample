@@ -103235,19 +103235,23 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         ease: _gsap.EaseOut
       });
     });
-    document.querySelector('.push-cab').addEventListener('click', function (event) {
-      isClick = false;
+    document.addEventListener('click', function (event) {
+      var className = event.target.className;
 
-      _gsap.TweenLite.to(sprite.material, 0.2, {
-        opacity: 1,
-        ease: _gsap.EaseOut
-      });
+      if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+        isClick = false;
 
-      _gsap.TweenLite.to(spriteHover.material, 0.2, {
-        opacity: 0,
-        ease: _gsap.EaseOut
-      });
-    });
+        _gsap.TweenLite.to(sprite.material, 0.2, {
+          opacity: 1,
+          ease: _gsap.EaseOut
+        });
+
+        _gsap.TweenLite.to(spriteHover.material, 0.2, {
+          opacity: 0,
+          ease: _gsap.EaseOut
+        });
+      }
+    }, false);
     interactionManager.add(sprite);
     return sprite;
   }
@@ -103321,31 +103325,34 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
   };
 
   var onClose = function onClose(callback) {
-    document.addEventListener('click', function (event) {// const className = event.target.className;
-      // if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
-      //     infos.classList.remove('visible');
-      //     infos.classList.remove('full');
-      //     containerFocus.classList.remove('full');
-      //     console.log('pass HERE');
-      //     resetCameraPosition();
-      //     sound.play();
-      //     setTimeout(() => {
-      //         reset();
-      //     }, 500);
-      //     callback();
-      // }
-    }, false); // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
+    document.addEventListener('click', function (event) {
+      var className = event.target.className;
+
+      if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+        infos.classList.remove('visible');
+        infos.classList.remove('full');
+        containerFocus.classList.remove('full');
+        resetCameraPosition();
+        sound.play();
+        setTimeout(function () {
+          reset();
+        }, 500);
+        callback();
+      }
+    }, false); // function close() {
     //     infos.classList.remove('visible');
     //     infos.classList.remove('full');
     //     containerFocus.classList.remove('full');
-    //     console.log('pass HERE');
     //     resetCameraPosition();
     //     sound.play();
     //     setTimeout(() => {
     //         reset();
     //     }, 500);
     //     callback();
-    // });
+    // }
+    // document.querySelector('.cirlce-img').addEventListener('click', close);
+    // document.querySelector('.push-cab').addEventListener('click', close);
+    // document.querySelector('.cirlce-img').addEventListener('click', close);
   }; // FOCUS
 
 
@@ -103433,7 +103440,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       onDiscover(function () {
         console.log('Britney');
         document.querySelector('.text-container').classList.add('beige');
-        console.log(document.querySelector('.text-container').classList);
         kaleidoscopeFocus.start();
         document.querySelector('.focus-kaleidoscope').style.display = 'block';
         onClose(function () {
@@ -103620,7 +103626,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
       document.querySelector('#canvas').style.pointerEvents = 'auto'; // Move to position
 
       var tape = scene.getObjectByName('Storage_group');
-      tape.position.set(-1, 2.515, -0.5);
+      tape.position.set(-1, 2.49, -0.65);
       camera.position.set(-0.99, 2.565, -0.305);
       new _gsap.TimelineMax({
         delay: 0.3
@@ -104308,8 +104314,8 @@ function render01() {
 }
 
 bindEventListeners01();
-render01();
-scene.helpers();
+render01(); // scene.helpers();
+
 scene.setStarted(true);
 },{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","three":"../node_modules/three/build/three.module.js","events":"../node_modules/events/events.js","./scene":"scene.js","stats-js":"../node_modules/stats-js/build/stats.min.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -104339,7 +104345,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51118" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49549" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

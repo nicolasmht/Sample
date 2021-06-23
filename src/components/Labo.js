@@ -242,11 +242,15 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
             TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
         });
 
-        document.querySelector('.push-cab').addEventListener('click', (event) => {
-            isClick = false;
-            TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
-            TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
-        });
+        document.addEventListener('click', (event) => {
+            const className = event.target.className;
+            
+            if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+                isClick = false;
+                TweenLite.to(sprite.material, 0.2, { opacity: 1, ease: EaseOut });
+                TweenLite.to(spriteHover.material, 0.2, { opacity: 0, ease: EaseOut });
+            }
+        }, false);
 
         interactionManager.add(sprite);
 
@@ -329,31 +333,28 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const onClose = (callback) => {
 
         document.addEventListener('click', (event) => {
-            // const className = event.target.className;
-            // if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
-            //     infos.classList.remove('visible');
-            //     infos.classList.remove('full');
-            //     containerFocus.classList.remove('full');
+            const className = event.target.className;
+            
+            if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+                infos.classList.remove('visible');
+                infos.classList.remove('full');
+                containerFocus.classList.remove('full');
 
-            //     console.log('pass HERE');
+                resetCameraPosition();
+                sound.play();
 
-            //     resetCameraPosition();
-            //     sound.play();
+                setTimeout(() => {
+                    reset();
+                }, 500);
 
-            //     setTimeout(() => {
-            //         reset();
-            //     }, 500);
-
-            //     callback();
-            // }
+                callback();
+            }
         }, false);
 
-        // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
+        // function close() {
         //     infos.classList.remove('visible');
         //     infos.classList.remove('full');
         //     containerFocus.classList.remove('full');
-
-        //     console.log('pass HERE');
 
         //     resetCameraPosition();
         //     sound.play();
@@ -363,7 +364,11 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
         //     }, 500);
 
         //     callback();
-        // });
+        // }
+
+        // document.querySelector('.cirlce-img').addEventListener('click', close);
+        // document.querySelector('.push-cab').addEventListener('click', close);
+        // document.querySelector('.cirlce-img').addEventListener('click', close);
     }
 
     // FOCUS
@@ -465,7 +470,6 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
                 console.log('Britney');
 
                 document.querySelector('.text-container').classList.add('beige');
-                console.log(document.querySelector('.text-container').classList);
 
                 kaleidoscopeFocus.start();
 
@@ -655,7 +659,7 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
 
             // Move to position
             const tape = scene.getObjectByName('Storage_group');
-            tape.position.set(-1, 2.515, -0.5);
+            tape.position.set(-1, 2.49, -0.65);
 
             camera.position.set(-0.99, 2.565, -0.305);
 

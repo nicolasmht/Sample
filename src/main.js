@@ -43,5 +43,5 @@ function render01() {
 bindEventListeners01();
 render01();
 
-scene.helpers();
+// scene.helpers();
 scene.setStarted(true);
