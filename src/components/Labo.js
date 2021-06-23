@@ -329,23 +329,23 @@ function LaboComponent(scene, camera, renderer, interactionManager) {
     const onClose = (callback) => {
 
         document.addEventListener('click', (event) => {
-            const className = event.target.className;
-            if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
-                infos.classList.remove('visible');
-                infos.classList.remove('full');
-                containerFocus.classList.remove('full');
+            // const className = event.target.className;
+            // if (className === "cirlce-img" || className === "text-container" || className === "push-cab") {
+            //     infos.classList.remove('visible');
+            //     infos.classList.remove('full');
+            //     containerFocus.classList.remove('full');
 
-                console.log('pass HERE');
+            //     console.log('pass HERE');
 
-                resetCameraPosition();
-                sound.play();
+            //     resetCameraPosition();
+            //     sound.play();
 
-                setTimeout(() => {
-                    reset();
-                }, 500);
+            //     setTimeout(() => {
+            //         reset();
+            //     }, 500);
 
-                callback();
-            }
+            //     callback();
+            // }
         }, false);
 
         // document.querySelector('.push-cab .cirlce-img').addEventListener('click', function() {
